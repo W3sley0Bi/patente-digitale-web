@@ -6,13 +6,13 @@ import { Button } from "@/components/ui/button";
 import { revealVariants, staggerContainer } from "@/lib/motion";
 
 export function Hero() {
-	const { t } = useTranslation();
+	const { t, i18n } = useTranslation();
 
 	return (
 		<section className="relative overflow-hidden pt-28 pb-16 md:pt-44 md:pb-28">
 			{/* Soft background bloom */}
-			<div className="absolute top-0 right-0 -z-10 h-[500px] w-[500px] rounded-full bg-brand-soft/40 blur-[100px]" />
-			<div className="absolute bottom-0 left-1/4 -z-10 h-[300px] w-[300px] rounded-full bg-accent-soft/20 blur-[80px]" />
+			<div className="absolute top-0 end-0 -z-10 h-[500px] w-[500px] rounded-full bg-brand-soft/40 blur-[100px]" />
+			<div className="absolute bottom-0 start-1/4 -z-10 h-[300px] w-[300px] rounded-full bg-accent-soft/20 blur-[80px]" />
 
 			<div className="mx-auto max-w-(--container-wide) px-4 lg:px-8">
 				<div className="grid items-center gap-8 lg:grid-cols-12 lg:gap-16">
@@ -77,7 +77,7 @@ export function Hero() {
 									className="h-13 w-full gap-2 rounded-pill text-ink-muted font-semibold hover:text-brand hover:bg-brand-soft/40 sm:w-auto"
 								>
 									{t("landing.hero.cta.secondary")}
-									<ArrowRight className="h-4 w-4" />
+									<ArrowRight className="h-4 w-4 rtl:rotate-180" />
 								</Button>
 							</a>
 						</motion.div>
@@ -86,7 +86,7 @@ export function Hero() {
 							variants={revealVariants}
 							className="mt-6 flex items-center gap-4"
 						>
-							<div className="flex -space-x-2">
+							<div className="flex -space-x-2 rtl:space-x-reverse">
 								{[1, 2, 3].map((i) => (
 									<div
 										key={i}
@@ -101,10 +101,10 @@ export function Hero() {
 								))}
 							</div>
 							<div className="flex flex-col">
-								<p className="font-sans text-xs font-bold text-ink leading-tight">
+								<p className="font-sans text-xs font-bold text-ink leading-tight rtl:text-right">
 									{t("landing.hero.trust.social")}
 								</p>
-								<p className="font-sans text-[10px] text-ink-faint uppercase tracking-wider">
+								<p className="font-sans text-[10px] text-ink-faint uppercase tracking-wider rtl:text-right">
 									P.IVA: 12345678901 · Milano
 								</p>
 							</div>
@@ -114,14 +114,14 @@ export function Hero() {
 					{/* Hero product mockup */}
 					<motion.div
 						className="relative hidden lg:flex lg:col-span-6 justify-end items-center"
-						initial={{ opacity: 0, x: 24 }}
+						initial={{ opacity: 0, x: i18n.language === "ar" ? -24 : 24 }}
 						animate={{ opacity: 1, x: 0 }}
 						transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: 0.15 }}
 					>
 						<img
 							src="/hero-map-mockup.png"
 							alt={t("landing.hero.mascotAlt")}
-							className="w-full max-w-[560px] object-contain drop-shadow-2xl"
+							className="w-full max-w-[560px] object-contain drop-shadow-2xl rtl:-scale-x-100"
 							fetchPriority="high"
 							loading="eager"
 						/>

@@ -62,3 +62,19 @@
 	/* Motion */
 	--ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }
+
+/* RTL / Arabic Overrides */
+[dir="rtl"] {
+	/* Use a dedicated Arabic font for better legibility */
+	--font-sans: "IBM Plex Sans Arabic", ui-sans-serif, system-ui, sans-serif;
+
+	/* Arabic script needs more vertical breathing room */
+	--line-height-tight: 1.25;
+	--line-height-relaxed: 1.8;
+
+	/* Slightly increase text scale for complex Arabic glyphs */
+	--text-xs: clamp(0.82rem, 0.79rem + 0.15vw, 0.9rem);
+	--text-sm: clamp(0.95rem, 0.92rem + 0.18vw, 1.025rem);
+	--text-base: clamp(1.075rem, 1.03rem + 0.2vw, 1.15rem);
+	--text-md: clamp(1.2rem, 1.15rem + 0.28vw, 1.325rem);
+}

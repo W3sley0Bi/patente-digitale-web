@@ -42,6 +42,12 @@ export function LangSwitch() {
 				>
 					English
 				</DropdownMenuItem>
+				<DropdownMenuItem
+					onClick={() => changeLanguage("ar")}
+					className="font-sans text-sm focus:bg-brand/10 focus:text-brand-ink"
+				>
+					العربية
+				</DropdownMenuItem>
 			</DropdownMenuContent>
 		</DropdownMenu>
 	);

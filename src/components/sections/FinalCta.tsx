@@ -30,12 +30,12 @@ export function FinalCta() {
 			</div>
 
 			{/* Decorative Mascot */}
-			<div className="absolute -bottom-4 right-8 opacity-15 md:opacity-90 pointer-events-none">
+			<div className="absolute -bottom-4 end-8 opacity-15 md:opacity-90 pointer-events-none">
 				<img
 					src="/mascot-backpack.png"
 					alt=""
 					aria-hidden="true"
-					className="h-56 w-56 md:h-72 md:w-72 drop-shadow-xl rotate-[8deg]"
+					className="h-56 w-56 md:h-72 md:w-72 drop-shadow-xl rotate-[8deg] rtl:-rotate-[8deg] rtl:-scale-x-100"
 					loading="lazy"
 				/>
 			</div>

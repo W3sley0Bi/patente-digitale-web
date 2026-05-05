@@ -11,7 +11,7 @@ Landing page and web app for [patentedigitale.it](https://patentedigitale.it) �
 | Styling | Tailwind CSS v4 |
 | UI components | shadcn/ui + Base UI |
 | Animations | Framer Motion |
-| i18n | i18next (IT / EN) |
+| i18n | i18next (IT / EN / AR) |
 | Linter/Formatter | Biome |
 | Package manager | pnpm |
 
@@ -41,7 +41,7 @@ src/
     sections/    # Landing page sections (Hero, FAQ, B2B, …)
     ui/          # shadcn/ui primitives
   i18n/
-    locales/     # en.json, it.json
+    locales/     # en.json, it.json, ar.json
   routes/        # Page-level components (Landing, Accedi, Cerca, …)
   styles/        # Tailwind entry, design tokens
 ```
@@ -65,3 +65,12 @@ Find the exact values in Vercel → project → **Settings → Domains** after a
 | `CNAME` | `www` | *(Vercel-provided CNAME target)* |
 
 SSL is provisioned automatically by Vercel once DNS resolves.
+
+## Roadmap
+
+### Next — Driving schools map
+Interactive map of all driving schools in Italy using:
+- **Data**: OpenStreetMap via Overpass API (`amenity=driving_school`), exported once as static GeoJSON and served from the repo/CDN
+- **Rendering**: Leaflet.js + OSM tiles (both free, no API key required)
+- **No backend needed** at this stage — data refreshed periodically via a local script
+- Future: "Add your school" submission form backed by Supabase, so schools can self-register and we own the dataset

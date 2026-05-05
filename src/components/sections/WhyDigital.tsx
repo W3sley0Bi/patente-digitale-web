@@ -19,7 +19,7 @@ const ROWS = [
 	{
 		id: 3,
 		image: "/why-quiz-app.png",
-		contain: true,
+		contain: false,
 	},
 	{
 		id: 4,
@@ -35,9 +35,9 @@ export function WhyDigital() {
 	return (
 		<section className="py-32 md:py-48 bg-bg overflow-hidden">
 			<div className="mx-auto max-w-(--container-default) px-4 lg:px-8">
-				<Reveal className="text-center lg:text-left">
+				<Reveal className="text-center lg:text-start">
 					<SectionEyebrow>{t("landing.whyDigital.eyebrow")}</SectionEyebrow>
-					<h2 className="font-sans text-xl font-bold text-ink md:text-2xl lg:max-w-[32ch] mx-auto lg:mx-0">
+					<h2 className="font-sans text-xl font-bold text-ink md:text-2xl lg:max-w-[32ch] mx-auto lg:ms-0">
 						{t("landing.whyDigital.heading")}
 					</h2>
 				</Reveal>

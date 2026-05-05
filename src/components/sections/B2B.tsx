@@ -13,8 +13,8 @@ export function B2B() {
 			className="bg-ink py-24 md:py-32 relative overflow-hidden"
 		>
 			{/* Decorative Red Lines */}
-			<div className="absolute top-0 left-0 w-full h-px bg-accent/30" />
-			<div className="absolute bottom-0 left-0 w-full h-px bg-accent/30" />
+			<div className="absolute top-0 start-0 w-full h-px bg-accent/30" />
+			<div className="absolute bottom-0 start-0 w-full h-px bg-accent/30" />
 
 			<div className="mx-auto max-w-(--container-wide) px-4 lg:px-8">
 				<div className="grid items-center gap-16 lg:grid-cols-12">
@@ -37,7 +37,7 @@ export function B2B() {
 										className="h-14 px-8 rounded-pill bg-white text-ink hover:bg-accent hover:text-white transition-all duration-300 font-bold group shadow-md"
 									>
 										{t("landing.b2b.cta")}
-										<ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+										<ArrowRight className="ms-2 h-4 w-4 transition-transform group-hover:translate-x-1 rtl:rotate-180 rtl:group-hover:-translate-x-1" />
 									</Button>
 								</Link>
 								<a

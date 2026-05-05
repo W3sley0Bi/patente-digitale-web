@@ -1,4 +1,5 @@
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router";
 import { Mascot, Wordmark } from "../brand/Brand";
 import { LangSwitch } from "../nav/LangSwitch";
 
@@ -79,18 +80,24 @@ export function Footer() {
 							Naviga
 						</h4>
 						<ul className="flex flex-col gap-4">
-							{["howItWorks", "autoscuole", "faq", "partners", "signIn"].map(
-								(item) => (
-									<li key={item}>
-										<a
-											href={`#${item}`}
-											className="font-sans text-sm text-ink-muted hover:text-brand transition-colors"
-										>
-											{t(`landing.nav.${item}`)}
-										</a>
-									</li>
-								),
-							)}
+							{["howItWorks", "faq", "partners", "findSchool"].map((item) => (
+								<li key={item}>
+									<a
+										href={item === "findSchool" ? "/cerca" : `#${item}`}
+										className="font-sans text-sm text-ink-muted hover:text-brand transition-colors"
+									>
+										{t(`landing.nav.${item}`)}
+									</a>
+								</li>
+							))}
+							<li>
+								<Link
+									to="/accedi"
+									className="font-sans text-sm text-ink-muted hover:text-brand transition-colors"
+								>
+									{t("landing.nav.signIn")}
+								</Link>
+							</li>
 						</ul>
 					</div>
 
@@ -127,7 +134,7 @@ export function Footer() {
 						<h4 className="font-sans text-xs font-bold uppercase tracking-widest text-brand-ink">
 							Seguici
 						</h4>
-						<div className="flex gap-4">
+						<div className="flex gap-6">
 							{[
 								{ Icon: InstagramIcon, href: "#instagram", label: "Instagram" },
 								{ Icon: TikTokIcon, href: "#tiktok", label: "TikTok" },
@@ -136,10 +143,10 @@ export function Footer() {
 								<a
 									key={label}
 									href={href}
-									className="flex h-10 w-10 items-center justify-center rounded-full border border-line bg-bg hover:bg-brand-soft hover:border-brand hover:text-brand transition-all"
+									className="text-ink-muted hover:text-brand transition-colors"
 									aria-label={label}
 								>
-									<Icon className="h-5 w-5" />
+									<Icon className="h-6 w-6" />
 								</a>
 							))}
 						</div>

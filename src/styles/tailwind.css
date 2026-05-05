@@ -72,6 +72,7 @@
 	/* Animation */
 	--animate-reveal: reveal var(--ease-out-expo) 0.6s both;
 	--animate-marquee: marquee 30s linear infinite;
+	--animate-marquee-rtl: marquee-rtl 30s linear infinite;
 	--animate-menu-in: menu-in 0.1s ease-out both;
 	--animate-menu-out: menu-out 0.1s ease-in both;
 
@@ -97,11 +98,12 @@
 	}
 
 	@keyframes marquee {
-		from {
-			transform: translateX(0);
-		}
-		to {
-			transform: translateX(-50%);
-		}
+		from { transform: translateX(0); }
+		to { transform: translateX(-50%); }
+	}
+
+	@keyframes marquee-rtl {
+		from { transform: translateX(0); }
+		to { transform: translateX(50%); }
 	}
 }

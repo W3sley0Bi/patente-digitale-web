@@ -23,6 +23,7 @@ export default function Landing() {
 
 	useEffect(() => {
 		document.documentElement.lang = i18n.language;
+		document.documentElement.dir = i18n.language === "ar" ? "rtl" : "ltr";
 	}, [i18n.language]);
 
 	return (
@@ -35,8 +36,8 @@ export default function Landing() {
 					<WhyDigital />
 					<Suspense fallback={<SectionPlaceholder />}>
 						<Trust />
-						<B2B />
 						<FAQ />
+						<B2B />
 						<Testimonials />
 						<FinalCta />
 					</Suspense>

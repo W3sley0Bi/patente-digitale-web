@@ -1,4 +1,4 @@
-import { MapPin, Menu, User } from "lucide-react";
+import { Menu, User, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router";
@@ -14,14 +14,15 @@ import { LangSwitch } from "./LangSwitch";
 
 const NAV_LINKS = [
 	{ href: "#how-it-works", label: "landing.nav.howItWorks" },
-	{ href: "#autoscuole", label: "landing.nav.autoscuole" },
 	{ href: "#partner", label: "landing.nav.partners" },
+	{ href: "/cerca", label: "landing.nav.findSchool" },
 	{ href: "#faq", label: "landing.nav.faq" },
 ];
 
 export function Nav() {
 	const { t } = useTranslation();
 	const [isScrolled, setIsScrolled] = useState(false);
+	const [isMenuOpen, setIsMenuOpen] = useState(false);
 
 	useEffect(() => {
 		// Use IntersectionObserver instead of scroll listener for performance
@@ -48,15 +49,65 @@ export function Nav() {
 		};
 	}, []);
 
+	const NavLink = ({ href, label }: { href: string; label: string }) => {
+		const isInternal = href.startsWith("/");
+		const className = "font-sans text-sm font-medium text-ink-muted transition-colors hover:text-brand";
+
+		if (isInternal) {
+			return (
+				<Link to={href} className={className}>
+					{t(label)}
+				</Link>
+			);
+		}
+
+		return (
+			<a href={href} className={className}>
+				{t(label)}
+			</a>
+		);
+	};
+
+	const MobileNavLink = ({ href, label }: { href: string; label: string }) => {
+		const isInternal = href.startsWith("/");
+		const className = "flex items-center px-5 py-4 font-sans text-base font-semibold text-ink border-b border-line/60 hover:bg-brand-soft/30 hover:text-brand transition-colors";
+
+		if (isInternal) {
+			return (
+				<Link
+					to={href}
+					onClick={() => setIsMenuOpen(false)}
+					className={className}
+				>
+					{t(label)}
+				</Link>
+			);
+		}
+
+		return (
+			<a
+				href={href}
+				onClick={() => setIsMenuOpen(false)}
+				className={className}
+			>
+				{t(label)}
+			</a>
+		);
+	};
+
 	return (
 		<header
-			className={`fixed top-0 z-50 w-full transition-all duration-300 ${
-				isScrolled ? "bg-bg/90 shadow-sm backdrop-blur-md" : "bg-transparent"
+			className={`fixed top-0 z-[60] w-full transition-all duration-300 ${
+				isScrolled || isMenuOpen ? "bg-bg/90 shadow-sm backdrop-blur-md" : "bg-transparent"
 			}`}
 		>
 			<nav className="mx-auto flex h-20 max-w-(--container-wide) items-center justify-between px-4 lg:px-8">
 				{/* Logo */}
-				<Link to="/" className="flex items-center gap-2.5">
+				<Link
+					to="/"
+					onClick={() => setIsMenuOpen(false)}
+					className="flex items-center gap-2.5"
+				>
 					<Mascot size="sm" />
 					<Wordmark />
 				</Link>
@@ -64,13 +115,7 @@ export function Nav() {
 				{/* Desktop links */}
 				<div className="hidden items-center gap-8 md:flex">
 					{NAV_LINKS.map((link) => (
-						<a
-							key={link.href}
-							href={link.href}
-							className="font-sans text-sm font-medium text-ink-muted transition-colors hover:text-brand"
-						>
-							{t(link.label)}
-						</a>
+						<NavLink key={link.href} {...link} />
 					))}
 				</div>
 
@@ -83,25 +128,22 @@ export function Nav() {
 							{t("landing.nav.signIn")}
 						</Button>
 					</Link>
-					<Link to="/cerca">
-						<Button
-							size="sm"
-							className="gap-1.5 rounded-pill bg-brand text-white hover:bg-brand-hover shadow-cta font-semibold"
-						>
-							<MapPin className="h-4 w-4" />
-							{t("landing.nav.findSchool")}
-						</Button>
-					</Link>
 				</div>
 
 				{/* Mobile burger */}
 				<div className="flex items-center md:hidden">
-					<Sheet>
+					<Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
 						<SheetTrigger
 							render={
-								<Button variant="ghost" size="icon">
-									<Menu className="h-5 w-5" />
-									<span className="sr-only">Apri menu</span>
+								<Button variant="ghost" size="icon" className="relative z-[60]">
+									{isMenuOpen ? (
+										<X className="h-5 w-5" />
+									) : (
+										<Menu className="h-5 w-5" />
+									)}
+									<span className="sr-only">
+										{isMenuOpen ? "Chiudi menu" : "Apri menu"}
+									</span>
 								</Button>
 							}
 						/>
@@ -114,8 +156,12 @@ export function Nav() {
 							<SheetTitle className="sr-only">Menu</SheetTitle>
 
 							{/* Drawer header */}
-							<div className="flex items-center justify-between border-b border-line px-5 py-4">
-								<Link to="/" className="flex items-center gap-2.5">
+							<div className="flex items-center justify-between border-b border-line px-5 py-4 h-20">
+								<Link
+									to="/"
+									onClick={() => setIsMenuOpen(false)}
+									className="flex items-center gap-2.5"
+								>
 									<Mascot size="sm" />
 									<Wordmark />
 								</Link>
@@ -124,13 +170,7 @@ export function Nav() {
 							{/* Nav links */}
 							<nav className="flex flex-col flex-1 overflow-y-auto">
 								{NAV_LINKS.map((link) => (
-									<a
-										key={link.href}
-										href={link.href}
-										className="flex items-center px-5 py-4 font-sans text-base font-semibold text-ink border-b border-line/60 hover:bg-brand-soft/30 hover:text-brand transition-colors"
-									>
-										{t(link.label)}
-									</a>
+									<MobileNavLink key={link.href} {...link} />
 								))}
 							</nav>
 
@@ -144,16 +184,11 @@ export function Nav() {
 								</div>
 								<Link
 									to="/accedi"
+									onClick={() => setIsMenuOpen(false)}
 									className="flex items-center gap-2 font-sans text-sm text-ink-muted hover:text-ink transition-colors py-1"
 								>
 									<User className="h-4 w-4" />
 									{t("landing.nav.signIn")}
-								</Link>
-								<Link to="/cerca">
-									<Button className="w-full gap-2 rounded-pill bg-brand text-white hover:bg-brand-hover shadow-cta h-12 font-bold text-base">
-										<MapPin className="h-4 w-4" />
-										{t("landing.nav.findSchool")}
-									</Button>
 								</Link>
 							</div>
 						</SheetContent>

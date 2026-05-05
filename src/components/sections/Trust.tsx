@@ -63,20 +63,20 @@ export function Trust() {
 					</Reveal>
 
 					<div className="relative flex overflow-x-hidden">
-						<div className="flex animate-marquee whitespace-nowrap gap-12 py-4">
+						<div className="flex animate-marquee rtl:animate-marquee-rtl whitespace-nowrap gap-12 py-4">
 							{MARQUEE_ITEMS.map((item) => (
 								<div
 									key={item.id}
 									className="flex items-center gap-3 font-sans text-sm font-bold text-ink-muted"
 								>
-									<Car className="h-5 w-5 text-brand/40" />
+									<Car className="h-5 w-5 text-brand/40 rtl:-scale-x-100" />
 									{item.name}
 								</div>
 							))}
 						</div>
 						{/* Gradient Mask */}
-						<div className="absolute inset-y-0 left-0 w-32 bg-linear-to-r from-brand-soft/50 to-transparent pointer-events-none" />
-						<div className="absolute inset-y-0 right-0 w-32 bg-linear-to-l from-brand-soft/50 to-transparent pointer-events-none" />
+						<div className="absolute inset-y-0 start-0 w-32 bg-linear-to-r rtl:bg-linear-to-l from-brand-soft/50 to-transparent pointer-events-none" />
+						<div className="absolute inset-y-0 end-0 w-32 bg-linear-to-l rtl:bg-linear-to-r from-brand-soft/50 to-transparent pointer-events-none" />
 					</div>
 				</div>
 			</div>

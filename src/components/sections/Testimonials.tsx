@@ -22,9 +22,10 @@ const TESTIMONIALS = [
 ];
 
 export function Testimonials() {
-	const { t } = useTranslation();
+	const { t, i18n } = useTranslation();
 	const [emblaRef] = useEmblaCarousel({
 		align: "start",
+		direction: i18n.language === "ar" ? "rtl" : "ltr",
 		breakpoints: {
 			"(min-width: 1024px)": { active: false },
 		},
@@ -43,7 +44,7 @@ export function Testimonials() {
 							<Reveal
 								key={item.id}
 								delay={index * 0.1}
-								className="embla__slide flex-[0_0_100%] min-w-0 pr-6 lg:flex-auto lg:pr-0"
+								className="embla__slide flex-[0_0_100%] min-w-0 pe-6 lg:flex-auto lg:pe-0"
 							>
 								<div className="flex flex-col gap-8 h-full bg-bg-raised p-8 rounded-xl border border-line">
 									<blockquote className="font-serif text-md italic leading-relaxed text-ink md:text-lg">
