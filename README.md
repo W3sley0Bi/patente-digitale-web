@@ -57,9 +57,11 @@ Hosted on **Vercel** with GitHub integration — every push to `main` triggers a
 
 ### Custom domain DNS (Aruba)
 
+Find the exact values in Vercel → project → **Settings → Domains** after adding your domain.
+
 | Type | Name | Value |
 |------|------|-------|
-| `A` | `@` | `216.198.79.1` |
-| `CNAME` | `www` | `da83483ca8cbe6c2.vercel-dns-017.com` |
+| `A` | `@` | *(Vercel-provided IP)* |
+| `CNAME` | `www` | *(Vercel-provided CNAME target)* |
 
 SSL is provisioned automatically by Vercel once DNS resolves.
