@@ -1,0 +1,163 @@
+{
+	"landing": {
+		"nav": {
+			"howItWorks": "For students",
+			"autoscuole": "Driving schools",
+			"partners": "For driving schools",
+			"faq": "FAQ",
+			"contact": "Contact",
+			"signIn": "Sign in",
+			"findSchool": "Find a driving school"
+		},
+		"hero": {
+			"headline": {
+				"line1": "Driving licence.",
+				"line2": "red tape.",
+				"emphasis": "Zero"
+			},
+			"subhead": "Find, choose and enrol in your driving school in minutes. All online, no queues.",
+			"cta": {
+				"primary": "Find your driving school",
+				"secondary": "How it works"
+			},
+			"trust": "Trusted by 12,000+ students across 14 regions. Secure payments via PayPal, Apple Pay and Google Pay.",
+			"trust.social": "12,000+ happy students",
+			"mascotAlt": "Patentino, the Patentedigitale.it mascot"
+		},
+		"howItWorks": {
+			"eyebrow": "For students",
+			"heading": "Three moves. Then you're on the road.",
+			"steps": {
+				"1": {
+					"title": "Find your school",
+					"description": "Browse the map, filter by region, pick the closest one."
+				},
+				"2": {
+					"title": "Enrol online",
+					"description": "Fill in your details once, pay with PayPal or Apple Pay, skip the queue."
+				},
+				"3": {
+					"title": "Study and book",
+					"description": "Quizzes on your phone, book lessons whenever you want."
+				}
+			}
+		},
+		"whyDigital": {
+			"eyebrow": "Why digital.",
+			"heading": "Why lose half a day at the desk when you can do it all from your couch?",
+			"rows": {
+				"1": {
+					"title": "No paper, no queues.",
+					"body": "Fully online enrolment: documents uploaded once, validated instantly. You only see the school in person for driving lessons.",
+					"imageAlt": "young person scanning document with phone"
+				},
+				"2": {
+					"title": "Payments you already use.",
+					"body": "PayPal, Apple Pay, Google Pay, card. Same flow as your everyday checkout, with an auto receipt for your parents.",
+					"imageAlt": "phone wallet payment closeup"
+				},
+				"3": {
+					"title": "Real quiz, no photocopies.",
+					"body": "Official Ministry quizzes, in your browser or app, with analytics on your weak topics. Practise in the 5 minutes between classes.",
+					"imageAlt": "student studying on phone in cafe"
+				},
+				"4": {
+					"title": "Deadlines you can't forget.",
+					"body": "Pink sheet, exams, licence renewal dates — one timeline that pings you via email and WhatsApp.",
+					"imageAlt": "calendar reminder phone notification"
+				}
+			}
+		},
+		"trust": {
+			"eyebrow": "Not just words.",
+			"stats": {
+				"1": {
+					"number": "12,300+",
+					"caption": "students enrolled",
+					"subCaption": "since Jan 2024"
+				},
+				"2": {
+					"number": "187",
+					"caption": "partner schools",
+					"subCaption": "across 14 regions"
+				},
+				"3": {
+					"number": "4.8 / 5",
+					"caption": "average rating",
+					"subCaption": "from 2,400 reviews"
+				},
+				"4": {
+					"number": "96%",
+					"caption": "first-time pass rate",
+					"subCaption": "among 2024 students"
+				}
+			},
+			"partners": { "title": "Some of our partners" }
+		},
+		"b2b": {
+			"eyebrow": "Are you a driving school?",
+			"heading": "Bring your driving school into 2026.",
+			"body": "Manage enrolments, payments, quizzes and lesson bookings from a single dashboard. No paper forms, no systems that speak two different languages. The first 50 partners in your province join free for the first year.",
+			"cta": "Become a partner",
+			"linkSecondary": "See how the dashboard works"
+		},
+		"faq": {
+			"eyebrow": "Honest questions, clear answers.",
+			"heading": "The things you're wondering.",
+			"subline": "Didn't find yours? Contact us.",
+			"items": {
+				"1": {
+					"q": "How much does it cost to enrol via Patentedigitale.it?",
+					"a": "Enrolment is free. You pay only the price of the school you choose, identical to what you'd pay walking in. Our fee is on the partner school."
+				},
+				"2": {
+					"q": "What documents do I need to start?",
+					"a": "ID, codice fiscale, medical certificate (uploaded after the visit), one digital ID photo. We ask one at a time, not all at once."
+				},
+				"3": {
+					"q": "Can I switch schools after enrolling?",
+					"a": "Yes. You have a 14-day cooling-off period from your first payment, during which you can cancel and choose another partner school at no extra cost."
+				},
+				"4": {
+					"q": "Is my data secure?",
+					"a": "Yes. Your data is GDPR-compliant, stored on European servers, encrypted at rest and in transit. Payments go through PCI-DSS certified providers (PayPal, Stripe)."
+				}
+			}
+		},
+		"testimonials": {
+			"eyebrow": "Voices from the road.",
+			"items": {
+				"1": {
+					"quote": "I did the whole thing from bed, in pyjamas, in half an hour. My mum couldn't believe it.",
+					"name": "Sofia, 18 — Milan"
+				},
+				"2": {
+					"quote": "I paid, but he did everything. First time I didn't have to go to the school office.",
+					"name": "Cristina, 47 — Bologna"
+				},
+				"3": {
+					"quote": "I switched my Romanian licence to an Italian one without speaking Italian once. The English support saved me.",
+					"name": "Andrei, 29 — Roma"
+				}
+			}
+		},
+		"finalCta": {
+			"heading": "Ready to drive?",
+			"subhead": "Find your driving school in 30 seconds. No account, no email, no commitment.",
+			"cta": "Find a driving school"
+		},
+		"footer": {
+			"brandDescription": "The platform digitalising Italian driving schools. Students, schools, admin — all online.",
+			"legal": {
+				"privacy": "Privacy policy",
+				"terms": "Terms of service",
+				"cookie": "Cookie policy"
+			}
+		},
+		"placeholders": {
+			"title": "We're building this page",
+			"subtitle": "Check back soon to discover all the latest from Patentedigitale.it",
+			"backHome": "Back to home"
+		}
+	}
+}

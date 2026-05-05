@@ -1,0 +1,64 @@
+:root {
+	/* OKLCH Palette */
+	--color-bg: oklch(0.985 0.005 160);
+	--color-bg-raised: oklch(0.998 0.003 160);
+	--color-bg-sunken: oklch(0.965 0.008 160);
+	--color-ink: oklch(0.22 0.015 160);
+	--color-ink-muted: oklch(0.42 0.012 160);
+	--color-ink-faint: oklch(0.62 0.01 160);
+	--color-line: oklch(0.92 0.008 160);
+	--color-line-strong: oklch(0.84 0.012 160);
+	--color-brand: oklch(0.62 0.16 152);
+	--color-brand-hover: oklch(0.56 0.17 152);
+	--color-brand-soft: oklch(0.94 0.05 152);
+	--color-brand-ink: oklch(0.32 0.1 152);
+	--color-accent: oklch(0.62 0.2 25);
+	--color-accent-soft: oklch(0.94 0.05 25);
+	--color-accent-ink: oklch(0.42 0.18 25);
+	--color-success: var(--color-brand);
+	--color-warning: oklch(0.78 0.16 75);
+	--color-info: oklch(0.62 0.12 230);
+	--color-focus-ring: oklch(0.62 0.16 152 / 45%);
+
+	/* Typography Scale (fluid, modular, ratio 1.28) */
+	--text-xs: clamp(0.75rem, 0.72rem + 0.15vw, 0.82rem);
+	--text-sm: clamp(0.875rem, 0.84rem + 0.18vw, 0.95rem);
+	--text-base: clamp(1rem, 0.96rem + 0.2vw, 1.075rem);
+	--text-md: clamp(1.125rem, 1.07rem + 0.28vw, 1.25rem);
+	--text-lg: clamp(1.375rem, 1.28rem + 0.48vw, 1.625rem);
+	--text-xl: clamp(1.75rem, 1.55rem + 1vw, 2.25rem);
+	--text-2xl: clamp(2.25rem, 1.85rem + 2vw, 3rem);
+	--text-3xl: clamp(2.875rem, 2.1rem + 3.8vw, 4.25rem);
+	--text-display: clamp(3.5rem, 2.5rem + 5vw, 5.75rem);
+
+	/* Spacing Scale */
+	--space-1: 0.25rem;
+	--space-2: 0.5rem;
+	--space-3: 0.75rem;
+	--space-4: 1rem;
+	--space-5: 1.5rem;
+	--space-6: 2rem;
+	--space-7: 3rem;
+	--space-8: 4rem;
+	--space-9: 6rem;
+	--space-10: 8rem;
+	--space-11: 12rem;
+
+	/* Radii */
+	--radius-sm: 0.5rem;
+	--radius-md: 0.875rem;
+	--radius-lg: 1.5rem;
+	--radius-xl: 2.25rem;
+	--radius-pill: 999px;
+
+	/* Elevation */
+	--shadow-sm: 0 1px 2px 0 oklch(0.6 0.04 160 / 0.06);
+	--shadow-md:
+		0 6px 18px -4px oklch(0.55 0.05 160 / 0.1),
+		0 2px 4px -2px oklch(0.55 0.05 160 / 0.06);
+	--shadow-lg: 0 20px 40px -12px oklch(0.5 0.06 160 / 0.18);
+	--shadow-cta: 0 8px 24px -8px oklch(0.62 0.16 152 / 0.45);
+
+	/* Motion */
+	--ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}

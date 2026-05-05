@@ -1,0 +1,163 @@
+{
+	"landing": {
+		"nav": {
+			"howItWorks": "Per gli studenti",
+			"autoscuole": "Autoscuole",
+			"partners": "Per le autoscuole",
+			"faq": "FAQ",
+			"contact": "Contatti",
+			"signIn": "Accedi",
+			"findSchool": "Trova autoscuola"
+		},
+		"hero": {
+			"headline": {
+				"line1": "Patente.",
+				"line2": "burocrazia.",
+				"emphasis": "Senza"
+			},
+			"subhead": "Trova, scegli e iscriviti alla tua autoscuola in pochi minuti. Tutto online, senza file.",
+			"cta": {
+				"primary": "Trova la tua autoscuola",
+				"secondary": "Come funziona"
+			},
+			"trust": "Già scelto da oltre 12.000 studenti in 14 regioni. Pagamenti sicuri con PayPal, Apple Pay e Google Pay.",
+			"trust.social": "12.000+ studenti felici",
+			"mascotAlt": "Patentino, la mascotte di Patentedigitale.it"
+		},
+		"howItWorks": {
+			"eyebrow": "Per gli studenti",
+			"heading": "Tre mosse. Poi sei in pista.",
+			"steps": {
+				"1": {
+					"title": "Trova la tua scuola",
+					"description": "Esplora la mappa, filtra per regione, scegli la più vicina."
+				},
+				"2": {
+					"title": "Iscriviti online",
+					"description": "Compila i dati una volta, paga con PayPal o Apple Pay, salta la fila."
+				},
+				"3": {
+					"title": "Studia e prenota",
+					"description": "Quiz dal tuo telefono, prenoti le guide quando vuoi tu."
+				}
+			}
+		},
+		"whyDigital": {
+			"eyebrow": "Perché digitale.",
+			"heading": "Perché perdere mezza giornata in segreteria, quando puoi fare tutto dal divano?",
+			"rows": {
+				"1": {
+					"title": "Niente carta, niente fila.",
+					"body": "Iscrizione completa online: documenti caricati una volta, validati istantaneamente. La segreteria della tua autoscuola la vedi solo per le guide.",
+					"imageAlt": "giovane che scansiona un documento con il telefono"
+				},
+				"2": {
+					"title": "Pagamenti come li conosci.",
+					"body": "PayPal, Apple Pay, Google Pay, carta. Stessa esperienza dei tuoi acquisti quotidiani, con ricevuta automatica per i tuoi genitori.",
+					"imageAlt": "dettaglio pagamento con portafoglio digitale su telefono"
+				},
+				"3": {
+					"title": "Quiz veri, non fotocopie.",
+					"body": "I quiz ufficiali del Ministero, dal browser o dall'app, con statistiche sui tuoi punti deboli. Ti prepari quando hai 5 minuti tra una lezione e l'altra.",
+					"imageAlt": "studente che studia sul telefono in un caffè"
+				},
+				"4": {
+					"title": "Scadenze, mai più dimenticate.",
+					"body": "Foglio rosa, esami, scadenze patente — tutto in un'unica timeline che ti avvisa via email e WhatsApp.",
+					"imageAlt": "notifica calendario su telefono"
+				}
+			}
+		},
+		"trust": {
+			"eyebrow": "Non solo parole.",
+			"stats": {
+				"1": {
+					"number": "12.300+",
+					"caption": "studenti iscritti",
+					"subCaption": "da gennaio 2024"
+				},
+				"2": {
+					"number": "187",
+					"caption": "autoscuole partner",
+					"subCaption": "in 14 regioni"
+				},
+				"3": {
+					"number": "4,8 / 5",
+					"caption": "rating medio",
+					"subCaption": "su 2.400 recensioni"
+				},
+				"4": {
+					"number": "96%",
+					"caption": "esami superati al primo colpo",
+					"subCaption": "tra gli iscritti del 2024"
+				}
+			},
+			"partners": { "title": "Alcuni dei nostri partner" }
+		},
+		"b2b": {
+			"eyebrow": "Sei un'autoscuola?",
+			"heading": "Porta la tua autoscuola nel 2026.",
+			"body": "Gestisci iscrizioni, pagamenti, quiz e prenotazioni guide da un'unica dashboard. Niente moduli cartacei, niente sistemi che parlano due lingue diverse. I primi 50 partner della tua provincia entrano gratis per il primo anno.",
+			"cta": "Diventa partner",
+			"linkSecondary": "Scopri come funziona la dashboard"
+		},
+		"faq": {
+			"eyebrow": "Domande sincere, risposte chiare.",
+			"heading": "Le cose che ti stai chiedendo.",
+			"subline": "Non hai trovato la tua? Scrivici.",
+			"items": {
+				"1": {
+					"q": "Quanto costa iscriversi tramite Patentedigitale.it?",
+					"a": "L'iscrizione è gratis. Paghi solo il prezzo dell'autoscuola che scegli, identico a quello che pagheresti andando direttamente in segreteria. La nostra commissione è a carico dell'autoscuola partner."
+				},
+				"2": {
+					"q": "Quali documenti mi servono per iniziare?",
+					"a": "Carta d'identità, codice fiscale, certificato medico (lo carichi dopo aver fatto la visita), una foto tessera digitale. Te li chiediamo uno alla volta, non tutti in una volta."
+				},
+				"3": {
+					"q": "Posso cambiare autoscuola dopo l'iscrizione?",
+					"a": "Sì. Hai 14 giorni di ripensamento dal primo pagamento, durante i quali puoi annullare e scegliere un'altra autoscuola partner senza costi aggiuntivi."
+				},
+				"4": {
+					"q": "I miei dati sono al sicuro?",
+					"a": "Sì. I tuoi dati sono trattati secondo il GDPR, salvati su server europei, cifrati a riposo e in transito. I pagamenti passano da provider certificati PCI-DSS (PayPal, Stripe)."
+				}
+			}
+		},
+		"testimonials": {
+			"eyebrow": "Voci dalla strada.",
+			"items": {
+				"1": {
+					"quote": "L'ho fatta tutta dal letto, in pigiama, in mezz'ora. Mia madre non ci credeva.",
+					"name": "Sofia, 18 — Milano"
+				},
+				"2": {
+					"quote": "Ho potuto pagare io, ma è stato lui a fare tutto. Per la prima volta non sono dovuta andare in segreteria.",
+					"name": "Cristina, 47 — Bologna"
+				},
+				"3": {
+					"quote": "Ho convertito la mia patente romena senza parlare una parola di italiano. Il supporto in inglese mi ha salvato.",
+					"name": "Andrei, 29 — Roma"
+				}
+			}
+		},
+		"finalCta": {
+			"heading": "Pronto a guidare?",
+			"subhead": "Trova la tua autoscuola in 30 secondi. Senza account, senza email, senza impegno.",
+			"cta": "Trova autoscuola"
+		},
+		"footer": {
+			"brandDescription": "La piattaforma che digitalizza le autoscuole italiane. Studenti, scuole, segreteria — tutto online.",
+			"legal": {
+				"privacy": "Privacy policy",
+				"terms": "Termini di servizio",
+				"cookie": "Cookie policy"
+			}
+		},
+		"placeholders": {
+			"title": "Stiamo costruendo questa pagina",
+			"subtitle": "Torna presto per scoprire tutte le novità di Patentedigitale.it",
+			"backHome": "Torna alla home"
+		}
+	}
+}

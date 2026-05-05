@@ -1,0 +1,107 @@
+@import "tailwindcss";
+@import "./tokens.css";
+
+@theme {
+	/* Colors */
+	--color-bg: var(--color-bg);
+	--color-bg-raised: var(--color-bg-raised);
+	--color-bg-sunken: var(--color-bg-sunken);
+	--color-ink: var(--color-ink);
+	--color-ink-muted: var(--color-ink-muted);
+	--color-ink-faint: var(--color-ink-faint);
+	--color-line: var(--color-line);
+	--color-line-strong: var(--color-line-strong);
+	--color-brand: var(--color-brand);
+	--color-brand-hover: var(--color-brand-hover);
+	--color-brand-soft: var(--color-brand-soft);
+	--color-brand-ink: var(--color-brand-ink);
+	--color-accent: var(--color-accent);
+	--color-accent-soft: var(--color-accent-soft);
+	--color-accent-ink: var(--color-accent-ink);
+	--color-success: var(--color-success);
+	--color-warning: var(--color-warning);
+	--color-info: var(--color-info);
+	--color-focus-ring: var(--color-focus-ring);
+
+	/* Typography */
+	--font-sans: "Outfit Variable", ui-sans-serif, system-ui, sans-serif;
+	--font-serif: "Playfair Display Variable", ui-serif, Georgia, serif;
+	--font-mono:
+		"JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+		monospace;
+
+	--text-xs: var(--text-xs);
+	--text-sm: var(--text-sm);
+	--text-base: var(--text-base);
+	--text-md: var(--text-md);
+	--text-lg: var(--text-lg);
+	--text-xl: var(--text-xl);
+	--text-2xl: var(--text-2xl);
+	--text-3xl: var(--text-3xl);
+	--text-display: var(--text-display);
+
+	--line-height-tight: 1.1;
+	--line-height-relaxed: 1.6;
+
+	/* Spacing */
+	--spacing-1: var(--space-1);
+	--spacing-2: var(--space-2);
+	--spacing-3: var(--space-3);
+	--spacing-4: var(--space-4);
+	--spacing-5: var(--space-5);
+	--spacing-6: var(--space-6);
+	--spacing-7: var(--space-7);
+	--spacing-8: var(--space-8);
+	--spacing-9: var(--space-9);
+	--spacing-10: var(--space-10);
+	--spacing-11: var(--space-11);
+
+	/* Radius */
+	--radius-sm: var(--radius-sm);
+	--radius-md: var(--radius-md);
+	--radius-lg: var(--radius-lg);
+	--radius-xl: var(--radius-xl);
+	--radius-pill: var(--radius-pill);
+
+	/* Shadow */
+	--shadow-sm: var(--shadow-sm);
+	--shadow-md: var(--shadow-md);
+	--shadow-lg: var(--shadow-lg);
+	--shadow-cta: var(--shadow-cta);
+
+	/* Animation */
+	--animate-reveal: reveal var(--ease-out-expo) 0.6s both;
+	--animate-marquee: marquee 30s linear infinite;
+	--animate-menu-in: menu-in 0.1s ease-out both;
+	--animate-menu-out: menu-out 0.1s ease-in both;
+
+	@keyframes menu-in {
+		from { opacity: 0; transform: scale(0.95) translateY(-4px); }
+		to { opacity: 1; transform: scale(1) translateY(0); }
+	}
+
+	@keyframes menu-out {
+		from { opacity: 1; transform: scale(1) translateY(0); }
+		to { opacity: 0; transform: scale(0.95) translateY(-4px); }
+	}
+
+	@keyframes reveal {
+		from {
+			opacity: 0;
+			transform: translateY(12px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	@keyframes marquee {
+		from {
+			transform: translateX(0);
+		}
+		to {
+			transform: translateX(-50%);
+		}
+	}
+}
