@@ -1,4 +1,16 @@
 {
+	"cerca": {
+		"title": "ابحث عن مدرسة قيادتك",
+		"searchPlaceholder": "ابحث بالمدينة أو اسم المدرسة أو الرمز البريدي أو المنطقة...",
+		"resultsCount": "{{count}} مدرسة قيادة",
+		"noResults": "لا توجد مدارس قيادة",
+		"loading": "جارٍ التحميل...",
+		"error": "تعذّر تحميل المدارس. حاول مجددًا.",
+		"card": {
+			"callLabel": "اتصل",
+			"websiteLabel": "الموقع"
+		}
+	},
 	"landing": {
 		"nav": {
 			"howItWorks": "للطلاب",

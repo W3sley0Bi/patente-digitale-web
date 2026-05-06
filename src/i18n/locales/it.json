@@ -1,4 +1,16 @@
 {
+	"cerca": {
+		"title": "Trova la tua autoscuola",
+		"searchPlaceholder": "Cerca per città, autoscuola, CAP o regione...",
+		"resultsCount": "{{count}} autoscuole trovate",
+		"noResults": "Nessuna autoscuola trovata",
+		"loading": "Caricamento autoscuole...",
+		"error": "Impossibile caricare le autoscuole. Riprova.",
+		"card": {
+			"callLabel": "Chiama",
+			"websiteLabel": "Sito web"
+		}
+	},
 	"landing": {
 		"nav": {
 			"howItWorks": "Per gli studenti",
@@ -100,7 +112,7 @@
 		"faq": {
 			"eyebrow": "Domande sincere, risposte chiare.",
 			"heading": "Le cose che ti stai chiedendo.",
-			"subline": "Non hai trovato la tua? Scrivici.",
+			"subline": "Non hai trovato la tua? <0>Scrivici</0>.",
 			"items": {
 				"1": {
 					"q": "Quanto costa iscriversi tramite Patentedigitale.it?",

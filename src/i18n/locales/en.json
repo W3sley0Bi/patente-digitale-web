@@ -1,4 +1,16 @@
 {
+	"cerca": {
+		"title": "Find your driving school",
+		"searchPlaceholder": "Search by city, school name, postcode or region...",
+		"resultsCount": "{{count}} driving schools found",
+		"noResults": "No driving schools found",
+		"loading": "Loading driving schools...",
+		"error": "Could not load driving schools. Please try again.",
+		"card": {
+			"callLabel": "Call",
+			"websiteLabel": "Website"
+		}
+	},
 	"landing": {
 		"nav": {
 			"howItWorks": "For students",
@@ -100,7 +112,7 @@
 		"faq": {
 			"eyebrow": "Honest questions, clear answers.",
 			"heading": "The things you're wondering.",
-			"subline": "Didn't find yours? Contact us.",
+			"subline": "Didn't find yours? <0>Contact us</0>.",
 			"items": {
 				"1": {
 					"q": "How much does it cost to enrol via Patentedigitale.it?",
