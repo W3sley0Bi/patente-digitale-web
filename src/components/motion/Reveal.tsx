@@ -8,7 +8,11 @@ interface RevealProps {
 	className?: string;
 }
 
+const isSSR = typeof window === "undefined";
+
 export function Reveal({ children, delay = 0, className }: RevealProps) {
+	if (isSSR) return <div className={className}>{children}</div>;
+
 	return (
 		<motion.div
 			initial="hidden"
