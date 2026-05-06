@@ -1,4 +1,5 @@
-import { PlaceholderPage } from "@/components/layout/PlaceholderPage";
+import { CercaPage } from "@/components/cerca/CercaPage";
+
 export default function Cerca() {
-	return <PlaceholderPage />;
+  return <CercaPage />;
 }
