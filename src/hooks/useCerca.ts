@@ -1,8 +1,8 @@
-import Fuse from "fuse.js";
+import Fuse, { type IFuseOptions } from "fuse.js";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { type NormalizedSchool, type SchoolsGeoJSON, normalizeSchool } from "@/lib/geojson";
 
-const FUSE_OPTIONS: Fuse.IFuseOptions<NormalizedSchool> = {
+const FUSE_OPTIONS: IFuseOptions<NormalizedSchool> = {
   keys: ["name", "city", "zip", "region", "address"],
   threshold: 0.35,
   includeScore: true,

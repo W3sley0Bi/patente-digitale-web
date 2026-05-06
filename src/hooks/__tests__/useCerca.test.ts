@@ -35,10 +35,10 @@ const MOCK_GEOJSON = {
 };
 
 beforeEach(() => {
-  global.fetch = vi.fn().mockResolvedValue({
+  vi.stubGlobal("fetch", vi.fn().mockResolvedValue({
     ok: true,
     json: async () => MOCK_GEOJSON,
-  } as Response);
+  } as Response));
 });
 
 describe("useCerca", () => {
@@ -68,7 +68,7 @@ describe("useCerca", () => {
   });
 
   it("sets error when fetch fails", async () => {
-    global.fetch = vi.fn().mockResolvedValue({ ok: false, status: 500 } as Response);
+    vi.stubGlobal("fetch", vi.fn().mockResolvedValue({ ok: false, status: 500 } as Response));
     const { result } = renderHook(() => useCerca());
     await waitFor(() => expect(result.current.error).toBeTruthy());
   });
