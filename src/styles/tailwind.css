@@ -75,6 +75,12 @@
 	--animate-marquee-rtl: marquee-rtl 30s linear infinite;
 	--animate-menu-in: menu-in 0.1s ease-out both;
 	--animate-menu-out: menu-out 0.1s ease-in both;
+	--animate-float: float 3s ease-in-out infinite;
+
+	@keyframes float {
+		0%, 100% { transform: translateY(0); }
+		50% { transform: translateY(-10px); }
+	}
 
 	@keyframes menu-in {
 		from { opacity: 0; transform: scale(0.95) translateY(-4px); }

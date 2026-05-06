@@ -6,15 +6,8 @@ import { Reveal } from "../motion/Reveal";
 const ROWS = [
 	{
 		id: 1,
-		image:
-			"https://images.unsplash.com/photo-1512428559087-560fa5ceab42?auto=format&fit=crop&w=800&q=80",
-		contain: false,
-	},
-	{
-		id: 2,
-		image:
-			"https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=800&q=80",
-		contain: false,
+		image: "/foglio-rosa-icon.png",
+		contain: true,
 	},
 	{
 		id: 3,

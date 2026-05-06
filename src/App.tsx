@@ -1,8 +1,8 @@
 import { Suspense, lazy } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router";
+import Landing from "./routes/Landing";
 
-// Lazy load routes
-const Landing = lazy(() => import("./routes/Landing"));
+// Lazy load other routes
 const Cerca = lazy(() => import("./routes/Cerca"));
 const Iscrizione = lazy(() => import("./routes/Iscrizione"));
 const Partner = lazy(() => import("./routes/Partner"));

@@ -58,7 +58,7 @@ For each section: purpose · layout · copy (IT default + EN equivalent) · key 
 **Layout:** 88px tall, full-bleed, `--color-bg` background with `--shadow-sm` only after 8px scroll. Three columns: brand lockup (left), nav links (center, desktop only), actions (right).
 
 **Brand lockup (left):**
-- Mascot image (`logo.jpg`) at 48px, `border-radius: 999px`, `border: 2px solid var(--color-brand)`.
+- Mascot image (`logo.jpg`) at 48px, `border-radius: 999px`.
 - Wordmark next to it: `Patentedigitale.it` in Satoshi 700, `--color-ink`, no all-caps, no green tint.
 
 **Nav links (center, desktop only):** *Come funziona · Autoscuole · Per le autoscuole · FAQ · Contatti*. Anchor links to in-page sections. Active state: brand-color underline 2px below text, animated on scroll into matching section.
@@ -87,47 +87,41 @@ landing.nav.findSchool      → "Trova autoscuola" / "Find a driving school"
 
 ### 2. Hero
 
-**Purpose:** Hook + value proposition + primary CTA in the first 100vh on mobile.
+**Purpose:** Hook + value proposition + primary conversion via search in the first fold.
 
-**Layout (desktop):** Two-column, 5/12 text-left, 7/12 mascot-right. Vertical padding `--space-10`. Background: subtle radial gradient from `--color-brand-soft` (top-right) fading to `--color-bg` (bottom-left), softly hinted not flat.
+**Layout:** Centered single-column. Vertical padding `--space-10`. Background: subtle radial gradient bloom centered behind the text, fading to `--color-bg`.
 
-**Layout (mobile):** Mascot full-width on top (60vh max-height), text below, CTAs stacked.
+**Trust micro-line (above headline):** Pill-shaped badge containing 3 mini-avatars + "12,000+ studenti felici".
 
-**Headline (Satoshi 800, `--text-display`, line-height 0.95, tracking -0.02em):**
+**Headline (Satoshi 800, `--text-display`, line-height 1.05, centered):**
 - IT: *Patente. Senza burocrazia.* (with *Senza* underlined in `--color-accent` red, 3px wave underline)
-- EN: *Driving licence. Zero red tape.* (with *Zero* underlined in `--color-accent`)
+- EN: *Driving licence. Zero red tape.*
 
-Alt: Boska-italic accent on one word (`burocrazia.` / `red tape`) instead of underline. Implementation chooses one approach, not both. Default is red wave underline.
-
-**Sub-headline (Satoshi 400, `--text-md`, max-width `52ch`, `--color-ink-muted`):**
+**Sub-headline (Satoshi 400, `--text-md`, max-width `50ch`, centered, `--color-ink-muted`):**
 - IT: *Trova la tua autoscuola, iscriviti in 5 minuti, paga in sicurezza. Tutto online, niente fila in segreteria.*
-- EN: *Find your driving school, enrol in 5 minutes, pay securely. Fully online, no queue at the desk.*
 
-**CTAs (horizontal on desktop, stacked on mobile):**
-- Primary: *Trova autoscuola* (primary variant, lucide `MapPin`, large size, `--shadow-cta`).
-- Secondary: *Come funziona* (ghost variant, anchor scrolls to section #3).
+**Search Bar (Primary Conversion):**
+- Centered pill input (max-width 600px).
+- White background, `--shadow-cta`.
+- Lucide `Search` icon on left, primary `Button` on right ("Trova la tua autoscuola").
 
-**Trust micro-line (below CTAs, `--text-sm`, `--color-ink-faint`):**
-- IT: *Già scelto da oltre 12.000 studenti in 14 regioni. Pagamenti sicuri con PayPal, Apple Pay, Google Pay.*
-- EN: *Trusted by 12,000+ students across 14 regions. Secure payments via PayPal, Apple Pay, Google Pay.*
-
-(Numbers are placeholders flagged in the i18n file with a `// TODO: real metric` comment.)
-
-**Mascot column:** `nuovo-banner.png` is the master asset BUT cropped to mascot-only inside a custom curved frame (border-radius `--radius-xl`, shadow `--shadow-lg`). The original banner already includes the headline text rendered inside it; the implementation MUST extract just the mascot+road portion and not re-display the embedded copy. (If extraction is non-trivial, fall back to using `logo.jpg` at hero scale with a custom green road backdrop SVG.)
+**Secondary Link (below search):**
+- "Come funziona" with `ArrowRight` icon. Smooth scroll to section #3.
 
 **i18n keys:**
 ```
 landing.hero.headline.line1     → "Patente." / "Driving licence."
-landing.hero.headline.line2     → "Senza burocrazia." / "Zero red tape."
+landing.hero.headline.line2     → "burocrazia." / "red tape."
 landing.hero.headline.emphasis  → "Senza" / "Zero"  (key for the underlined word)
 landing.hero.subhead            → as above
+landing.hero.searchPlaceholder  → "Cerca la tua città..." / "Search by city..."
 landing.hero.cta.primary        → "Trova autoscuola" / "Find a driving school"
 landing.hero.cta.secondary      → "Come funziona" / "How it works"
-landing.hero.trust              → as above
+landing.hero.trust.social       → "12,000+ studenti felici"
 landing.hero.mascotAlt          → "Patentino, la mascotte di Patentedigitale.it" / "Patentino, the Patentedigitale.it mascot"
 ```
 
-**Entrance motion:** Per DESIGN.md "page entrance" rule. Word-by-word headline reveal, mascot fades + 12px translateY, subhead and CTAs stagger in. Once.
+**Entrance motion:** Per DESIGN.md "page entrance" rule. Centered stagger reveal.
 
 ---
 
@@ -171,7 +165,7 @@ landing.hero.mascotAlt          → "Patentino, la mascotte di Patentedigitale.i
 
 **Section eyebrow:** *Perché digitale.* / *Why digital.*
 
-**Section heading:** *Perché perdere mezza giornata in segreteria, quando puoi fare tutto dal divano?* / *Why lose half a day at the desk when you can do it all from your couch?*
+**Section heading:** *Perché aspettare un anno per guidare? Ottieni il foglio rosa in 2 mesi, non in 12.* / *Why wait a year to drive? Get your pink slip in 2 months, not 12.*
 
 **Rows:**
 
@@ -221,21 +215,24 @@ landing.hero.mascotAlt          → "Patentino, la mascotte di Patentedigitale.i
 
 **Layout:** Full-bleed band with a different visual register: dark-ink background (`--color-ink`), cream text, single Italian-red accent stripe (1px, full-bleed) above and below the band. This is the only place the page goes "dark" — by design — and the only place red gets a structural role.
 
-**Inner layout:** 7/12 left column with text + CTA, 5/12 right column with a stylized illustration (line-art SVG of a classroom seen from above, brand-green stroke, no fill).
+**Inner layout:** 7/12 left column with text + CTA, 5/12 right column with the product preview.
 
-**Eyebrow (cream):** *Sei un'autoscuola?* / *Are you a driving school?*
+**Eyebrow (accent):** *Sei un'autoscuola?* / *Are you a driving school?*
 
-**Heading (Satoshi 800, `--text-2xl`, cream):**
-- IT: *Porta la tua autoscuola nel 2026.*
-- EN: *Bring your driving school into 2026.*
+**Heading (Satoshi 800, `--text-2xl`, white):**
+- IT: *Porta la tua autoscuola nel futuro.*
+- EN: *Bring your driving school into the future.*
 
-**Body (`--text-base`, cream-muted at 70% opacity, max 56ch):**
-- IT: *Gestisci iscrizioni, pagamenti, quiz e prenotazioni guide da un'unica dashboard. Niente moduli cartacei, niente sistemi che parlano due lingue diverse. I primi 50 partner della tua provincia entrano gratis per il primo anno.*
-- EN: *Manage enrolments, payments, quizzes and lesson bookings from a single dashboard. No paper forms, no systems that speak two different languages. The first 50 partners in your province join free for the first year.*
+**Body (`--text-base`, white at 70% opacity, max 56ch):**
+- IT: *Gestisci iscrizioni, pagamenti, quiz e prenotazioni guide da un'unica dashboard. Con l'app ti prendi cura del tuo business e dei tuoi studenti dove e quando vuoi. Unisciti a noi! Iscrivi la tua autoscuola e contattaci per attivare la tua prova gratuita.*
 
-**CTA:** Primary button, but on dark ground: cream fill, ink text. Label: *Diventa partner* / *Become a partner*. Routes to `/partner` placeholder.
+**Imagery:** 
+- `autoscuola-manager-image.jpg` inside a rounded-3xl container with a subtle border and shadow.
+- `verified-autoscuola.png` floating in the top-left corner as a trust badge with a floating animation (`animate-float`).
 
-**Secondary link:** *Scopri come funziona la dashboard* / *See how the dashboard works* — text link, brand-green color even on dark, lucide `ArrowRight` icon.
+**CTA:** Primary button, but on dark ground: white fill, ink text. Label: *Diventa partner* / *Become a partner*. Routes to `/partner` placeholder.
+
+**Secondary link:** *Scopri come funziona* / *See how it works* — text link, brand-green color even on dark, lucide `ArrowRight` icon.
 
 **i18n keys:** `landing.b2b.eyebrow`, `.heading`, `.body`, `.cta`, `.linkSecondary`.
 

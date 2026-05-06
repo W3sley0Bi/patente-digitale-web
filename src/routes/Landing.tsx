@@ -35,7 +35,7 @@ export default function Landing() {
 					<HowItWorks />
 					<WhyDigital />
 					<Suspense fallback={<SectionPlaceholder />}>
-						<Trust />
+						{/* <Trust /> */}
 						<FAQ />
 						<B2B />
 						<Testimonials />

@@ -11,11 +11,12 @@
 		},
 		"hero": {
 			"headline": {
-				"line1": "Driving licence.",
-				"line2": "red tape.",
-				"emphasis": "Zero"
+				"line1": "The license",
+				"line2": "red tape",
+				"emphasis": "zero"
 			},
 			"subhead": "Find, choose and enrol in your driving school in minutes. All online, no queues.",
+			"searchPlaceholder": "Search by city, school or zip code...",
 			"cta": {
 				"primary": "Find your driving school",
 				"secondary": "How it works"
@@ -30,11 +31,11 @@
 			"steps": {
 				"1": {
 					"title": "Find your school",
-					"description": "Browse the map, filter by region, pick the closest one."
+					"description": "Explore the map, filter by region, choose your school and you're all set"
 				},
 				"2": {
 					"title": "Enrol online",
-					"description": "Fill in your details once, pay with PayPal or Apple Pay, skip the queue."
+					"description": "Fill in, pay, and get driving in less than 2 months!"
 				},
 				"3": {
 					"title": "Study and book",
@@ -44,20 +45,15 @@
 		},
 		"whyDigital": {
 			"eyebrow": "Why digital.",
-			"heading": "Why lose half a day at the desk when you can do it all from your couch?",
+			"heading": "Why wait a year to drive? Get your pink slip in 2 months, not 12.",
 			"rows": {
 				"1": {
-					"title": "No paper, no queues.",
-					"body": "Fully online enrolment: documents uploaded once, validated instantly. You only see the school in person for driving lessons.",
+					"title": "Do everything online",
+					"body": "Complete online enrollment: everything is digital, the only sheet you'll need is your learner's permit!",
 					"imageAlt": "young person scanning document with phone"
 				},
-				"2": {
-					"title": "Payments you already use.",
-					"body": "PayPal, Apple Pay, Google Pay, card. Same flow as your everyday checkout, with an auto receipt for your parents.",
-					"imageAlt": "phone wallet payment closeup"
-				},
 				"3": {
-					"title": "Real quiz, no photocopies.",
+					"title": "Official Quizzes",
 					"body": "Official Ministry quizzes, in your browser or app, with analytics on your weak topics. Practise in the 5 minutes between classes.",
 					"imageAlt": "student studying on phone in cafe"
 				},
@@ -96,10 +92,10 @@
 		},
 		"b2b": {
 			"eyebrow": "Are you a driving school?",
-			"heading": "Bring your driving school into 2026.",
-			"body": "Manage enrolments, payments, quizzes and lesson bookings from a single dashboard. No paper forms, no systems that speak two different languages. The first 50 partners in your province join free for the first year.",
+			"heading": "Bring your driving school into the future.",
+			"body": "Manage enrolments, payments, quizzes and lesson bookings from a single dashboard. With our app, you take care of your business and your students whenever and wherever you want. Join us! Register your school and contact us to activate your free trial.",
 			"cta": "Become a partner",
-			"linkSecondary": "See how the dashboard works"
+			"linkSecondary": "See how it works"
 		},
 		"faq": {
 			"eyebrow": "Honest questions, clear answers.",

@@ -11,11 +11,12 @@
 		},
 		"hero": {
 			"headline": {
-				"line1": "Patente.",
-				"line2": "burocrazia.",
-				"emphasis": "Senza"
+				"line1": "La patente",
+				"line2": "burocrazia",
+				"emphasis": "senza"
 			},
 			"subhead": "Trova, scegli e iscriviti alla tua autoscuola in pochi minuti. Tutto online, senza file.",
+			"searchPlaceholder": "Cerca la tua città, autoscuola o CAP...",
 			"cta": {
 				"primary": "Trova la tua autoscuola",
 				"secondary": "Come funziona"
@@ -30,11 +31,11 @@
 			"steps": {
 				"1": {
 					"title": "Trova la tua scuola",
-					"description": "Esplora la mappa, filtra per regione, scegli la più vicina."
+					"description": "Esplora la mappa, filtra per regione, scegli l'autoscuola ed il gioco e' fatto"
 				},
 				"2": {
 					"title": "Iscriviti online",
-					"description": "Compila i dati una volta, paga con PayPal o Apple Pay, salta la fila."
+					"description": "Compila, paga e mettiti alla guida in meno di 2 mesi!"
 				},
 				"3": {
 					"title": "Studia e prenota",
@@ -44,20 +45,15 @@
 		},
 		"whyDigital": {
 			"eyebrow": "Perché digitale.",
-			"heading": "Perché perdere mezza giornata in segreteria, quando puoi fare tutto dal divano?",
+			"heading": "Perché aspettare un anno per guidare? Ottieni il foglio rosa in 2 mesi, non in 12.",
 			"rows": {
 				"1": {
-					"title": "Niente carta, niente fila.",
-					"body": "Iscrizione completa online: documenti caricati una volta, validati istantaneamente. La segreteria della tua autoscuola la vedi solo per le guide.",
+					"title": "Fai tutto online",
+					"body": "Iscrizione completa online: tutto in digitale, l'unico foglio sarà quello rosa!",
 					"imageAlt": "giovane che scansiona un documento con il telefono"
 				},
-				"2": {
-					"title": "Pagamenti come li conosci.",
-					"body": "PayPal, Apple Pay, Google Pay, carta. Stessa esperienza dei tuoi acquisti quotidiani, con ricevuta automatica per i tuoi genitori.",
-					"imageAlt": "dettaglio pagamento con portafoglio digitale su telefono"
-				},
 				"3": {
-					"title": "Quiz veri, non fotocopie.",
+					"title": "Quiz Ufficiali",
 					"body": "I quiz ufficiali del Ministero, dal browser o dall'app, con statistiche sui tuoi punti deboli. Ti prepari quando hai 5 minuti tra una lezione e l'altra.",
 					"imageAlt": "studente che studia sul telefono in un caffè"
 				},
@@ -96,10 +92,10 @@
 		},
 		"b2b": {
 			"eyebrow": "Sei un'autoscuola?",
-			"heading": "Porta la tua autoscuola nel 2026.",
-			"body": "Gestisci iscrizioni, pagamenti, quiz e prenotazioni guide da un'unica dashboard. Niente moduli cartacei, niente sistemi che parlano due lingue diverse. I primi 50 partner della tua provincia entrano gratis per il primo anno.",
+			"heading": "Porta la tua autoscuola nel futuro.",
+			"body": "Gestisci iscrizioni, pagamenti, quiz e prenotazioni guide da un'unica dashboard. Con l'app ti prendi cura del tuo business e dei tuoi studenti dove e quando vuoi. Unisciti a noi! Iscrivi la tua autoscuola e contattaci per attivare la tua prova gratuita.",
 			"cta": "Diventa partner",
-			"linkSecondary": "Scopri come funziona la dashboard"
+			"linkSecondary": "Scopri come funziona"
 		},
 		"faq": {
 			"eyebrow": "Domande sincere, risposte chiare.",

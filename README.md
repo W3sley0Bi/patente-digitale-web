@@ -68,6 +68,9 @@ SSL is provisioned automatically by Vercel once DNS resolves.
 
 ## Roadmap
 
+- [ ] Interactive map of driving schools (see detail below)
+- [ ] Section "Non solo parole" (Trust) is currently **commented out** in `src/routes/Landing.tsx` (awaiting real data).
+
 ### Next — Driving schools map
 Interactive map of all driving schools in Italy using:
 - **Data**: OpenStreetMap via Overpass API (`amenity=driving_school`), exported once as static GeoJSON and served from the repo/CDN

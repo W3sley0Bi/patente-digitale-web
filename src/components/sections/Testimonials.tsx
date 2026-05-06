@@ -1,4 +1,5 @@
 import useEmblaCarousel from "embla-carousel-react";
+import Autoplay from "embla-carousel-autoplay";
 import { useTranslation } from "react-i18next";
 import { SectionEyebrow } from "../layout/SectionEyebrow";
 import { Reveal } from "../motion/Reveal";
@@ -23,13 +24,17 @@ const TESTIMONIALS = [
 
 export function Testimonials() {
 	const { t, i18n } = useTranslation();
-	const [emblaRef] = useEmblaCarousel({
-		align: "start",
-		direction: i18n.language === "ar" ? "rtl" : "ltr",
-		breakpoints: {
-			"(min-width: 1024px)": { active: false },
+	const [emblaRef] = useEmblaCarousel(
+		{
+			align: "start",
+			loop: true,
+			direction: i18n.language === "ar" ? "rtl" : "ltr",
+			breakpoints: {
+				"(min-width: 1024px)": { active: false },
+			},
 		},
-	});
+		[Autoplay({ delay: 4000, stopOnInteraction: false })],
+	);
 
 	return (
 		<section className="py-24 md:py-32 bg-bg overflow-hidden">
