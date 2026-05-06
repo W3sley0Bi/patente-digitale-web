@@ -8,7 +8,6 @@ import "./i18n/config";
 // Fonts
 import "@fontsource-variable/outfit";
 import "@fontsource-variable/playfair-display";
-import "@fontsource/jetbrains-mono";
 
 const rootElement = document.getElementById("root");
 if (rootElement) {
