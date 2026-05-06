@@ -9,7 +9,6 @@ import { HowItWorks } from "@/components/sections/HowItWorks";
 import { WhyDigital } from "@/components/sections/WhyDigital";
 
 // Lazy load deep sections
-const Trust = lazy(() => import("@/components/sections/Trust").then(m => ({ default: m.Trust })));
 const B2B = lazy(() => import("@/components/sections/B2B").then(m => ({ default: m.B2B })));
 const FAQ = lazy(() => import("@/components/sections/FAQ").then(m => ({ default: m.FAQ })));
 const Testimonials = lazy(() => import("@/components/sections/Testimonials").then(m => ({ default: m.Testimonials })));

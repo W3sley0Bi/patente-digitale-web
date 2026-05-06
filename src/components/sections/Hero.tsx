@@ -3,7 +3,6 @@ import { ArrowRight, Search } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
 import { revealVariants, staggerContainer } from "@/lib/motion";
 
 export function Hero() {
