@@ -12,17 +12,18 @@ export function Hero() {
 
 	const handleSearch = (e: React.FormEvent) => {
 		e.preventDefault();
-		if (searchQuery.trim()) {
-			navigate(`/cerca?q=${encodeURIComponent(searchQuery)}`);
-		}
+		const trimmed = searchQuery.trim();
+		if (!trimmed) return;
+		const isZip = /^\d+$/.test(trimmed);
+		navigate(isZip
+			? `/cerca?zip=${encodeURIComponent(trimmed)}`
+			: `/cerca?city=${encodeURIComponent(trimmed)}`
+		);
 	};
 
 	return (
-		<section className="relative overflow-hidden pt-28 pb-16 md:pt-44 md:pb-28">
-			{/* Soft background bloom */}
-			<div className="absolute top-0 left-1/2 -translate-x-1/2 -z-10 h-[600px] w-full max-w-[900px] rounded-full bg-brand-soft/10 blur-[120px]" />
-			
-			<div className="mx-auto max-w-(--container-wide) px-6 lg:px-8">
+		<section className="relative overflow-hidden pt-24 pb-12 md:pt-40 md:pb-24">
+			<div className="mx-auto max-w-(--container-wide) px-4 lg:px-8">
 				<motion.div
 					className="flex flex-col items-center text-center"
 					initial="hidden"
@@ -90,7 +91,7 @@ export function Hero() {
 						onSubmit={handleSearch}
 						className="mt-12 w-full max-w-[400px] relative"
 					>
-						<div className="group relative flex items-center bg-white rounded-full border border-line-strong/20 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] focus-within:border-brand/30 focus-within:shadow-[0_4px_20px_-4px_rgba(0,0,0,0.1),0_10px_25px_-5px_rgba(0,0,0,0.08)] transition-all duration-500">
+						<div className="group relative flex items-center bg-white rounded-full border border-line-strong/10 shadow-sm focus-within:border-line-strong/30 transition-all duration-300">
 							<input
 								type="text"
 								placeholder={t("landing.hero.searchPlaceholder")}
@@ -100,7 +101,7 @@ export function Hero() {
 							/>
 							<button
 								type="submit"
-								className="absolute right-1.5 flex items-center justify-center h-9 w-9 md:h-10 md:w-10 rounded-full text-ink-faint hover:text-brand hover:bg-brand-soft/40 active:scale-90 transition-all duration-300"
+								className="absolute right-1.5 flex items-center justify-center h-9 w-9 md:h-10 md:w-10 rounded-full text-ink-faint hover:text-ink active:scale-95 transition-all duration-300"
 								aria-label={t("landing.hero.cta.primary")}
 							>
 								<Search className="h-5 w-5 md:h-5.5 md:w-5.5" />

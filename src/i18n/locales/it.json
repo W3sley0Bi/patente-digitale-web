@@ -6,8 +6,20 @@
 		"noResults": "Nessuna autoscuola trovata",
 		"loading": "Caricamento autoscuole...",
 		"error": "Impossibile caricare le autoscuole. Riprova.",
+		"mobileMore": "e altri {{count}} risultati — usa la ricerca per affinare",
+		"filters": {
+			"locationBtn": "Usa la mia posizione",
+			"locationError": "Posizione non disponibile",
+			"cityPlaceholder": "Città...",
+			"zipPlaceholder": "CAP...",
+			"regionPlaceholder": "Tutte le regioni",
+			"namePlaceholder": "Cerca per nome autoscuola...",
+			"clearAll": "Rimuovi filtri"
+		},
 		"card": {
 			"callLabel": "Chiama",
+			"callNow": "Chiama ora",
+			"closeModal": "Chiudi",
 			"websiteLabel": "Sito web"
 		}
 	},
@@ -28,7 +40,7 @@
 				"emphasis": "senza"
 			},
 			"subhead": "Trova, scegli e iscriviti alla tua autoscuola in pochi minuti. Tutto online, senza file.",
-			"searchPlaceholder": "Cerca la tua città, autoscuola o CAP...",
+			"searchPlaceholder": "Cerca per città o CAP...",
 			"cta": {
 				"primary": "Trova la tua autoscuola",
 				"secondary": "Come funziona"

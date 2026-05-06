@@ -1,4 +1,4 @@
-import { Menu, User, X } from "lucide-react";
+import { Headset, Menu, User, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router";
@@ -13,10 +13,10 @@ import { Mascot, Wordmark } from "../brand/Brand";
 import { LangSwitch } from "./LangSwitch";
 
 const NAV_LINKS = [
-	{ href: "#how-it-works", label: "landing.nav.howItWorks" },
-	{ href: "#partner", label: "landing.nav.partners" },
+	{ href: "/#how-it-works", label: "landing.nav.howItWorks" },
+	{ href: "/#partner", label: "landing.nav.partners" },
 	{ href: "/cerca", label: "landing.nav.findSchool" },
-	{ href: "#faq", label: "landing.nav.faq" },
+	{ href: "/#faq", label: "landing.nav.faq" },
 ];
 
 export function Nav() {
@@ -25,7 +25,6 @@ export function Nav() {
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
 
 	useEffect(() => {
-		// Use IntersectionObserver instead of scroll listener for performance
 		const observer = new IntersectionObserver(
 			([entry]) => {
 				setIsScrolled(!entry.isIntersecting);
@@ -50,32 +49,34 @@ export function Nav() {
 	}, []);
 
 	const NavLink = ({ href, label }: { href: string; label: string }) => {
-		const isInternal = href.startsWith("/");
+		const isAnchor = href.includes("#");
 		const className = "font-sans text-sm font-medium text-ink-muted transition-colors hover:text-brand";
 
-		if (isInternal) {
+		if (isAnchor) {
+			const [path, hash] = href.split("#");
 			return (
-				<Link to={href} className={className}>
+				<Link to={{ pathname: path, hash: `#${hash}` }} className={className}>
 					{t(label)}
 				</Link>
 			);
 		}
 
 		return (
-			<a href={href} className={className}>
+			<Link to={href} className={className}>
 				{t(label)}
-			</a>
+			</Link>
 		);
 	};
 
 	const MobileNavLink = ({ href, label }: { href: string; label: string }) => {
-		const isInternal = href.startsWith("/");
+		const isAnchor = href.includes("#");
 		const className = "flex items-center px-5 py-4 font-sans text-base font-semibold text-ink border-b border-line/60 hover:bg-brand-soft/30 hover:text-brand transition-colors";
 
-		if (isInternal) {
+		if (isAnchor) {
+			const [path, hash] = href.split("#");
 			return (
 				<Link
-					to={href}
+					to={{ pathname: path, hash: `#${hash}` }}
 					onClick={() => setIsMenuOpen(false)}
 					className={className}
 				>
@@ -85,13 +86,13 @@ export function Nav() {
 		}
 
 		return (
-			<a
-				href={href}
+			<Link
+				to={href}
 				onClick={() => setIsMenuOpen(false)}
 				className={className}
 			>
 				{t(label)}
-			</a>
+			</Link>
 		);
 	};
 
@@ -128,25 +129,30 @@ export function Nav() {
 							{t("landing.nav.signIn")}
 						</Button>
 					</Link>
+					<a
+						href="mailto:supporto@patentedigitale.it"
+						className="ml-1 flex items-center justify-center p-2 text-ink-muted hover:text-brand transition-colors"
+						title={t("landing.nav.contact")}
+					>
+						<Headset className="h-5 w-5" />
+					</a>
 				</div>
 
-				{/* Mobile burger */}
-				<div className="flex items-center md:hidden">
+				{/* Mobile actions */}
+				<div className="flex items-center gap-1 md:hidden">
 					<Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
-						<SheetTrigger
-							render={
-								<Button variant="ghost" size="icon" className="relative z-[60]">
-									{isMenuOpen ? (
-										<X className="h-5 w-5" />
-									) : (
-										<Menu className="h-5 w-5" />
-									)}
-									<span className="sr-only">
-										{isMenuOpen ? "Chiudi menu" : "Apri menu"}
-									</span>
-								</Button>
-							}
-						/>
+						<SheetTrigger asChild>
+							<Button variant="ghost" size="icon" className="relative z-[60]">
+								{isMenuOpen ? (
+									<X className="h-5 w-5" />
+								) : (
+									<Menu className="h-5 w-5" />
+								)}
+								<span className="sr-only">
+									{isMenuOpen ? "Chiudi menu" : "Apri menu"}
+								</span>
+							</Button>
+						</SheetTrigger>
 
 						<SheetContent
 							side="right"
@@ -193,6 +199,13 @@ export function Nav() {
 							</div>
 						</SheetContent>
 					</Sheet>
+					<a
+						href="mailto:supporto@patentedigitale.it"
+						className="flex items-center justify-center p-2 text-ink-muted hover:text-brand transition-colors"
+						title={t("landing.nav.contact")}
+					>
+						<Headset className="h-5 w-5" />
+					</a>
 				</div>
 			</nav>
 		</header>

@@ -1,5 +1,7 @@
 import { act, renderHook, waitFor } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
+import { MemoryRouter } from "react-router";
+import { createElement } from "react";
 import { useCerca } from "@/hooks/useCerca";
 
 const MOCK_GEOJSON = {
@@ -12,7 +14,7 @@ const MOCK_GEOJSON = {
         name: "Autoscuola Roma Centro",
         city: "Roma",
         zip: "00100",
-        region: "Lazio",
+        region: "",
         address: "Via Nazionale 1",
         phone: "",
         website: "",
@@ -25,7 +27,7 @@ const MOCK_GEOJSON = {
         name: "Autoscuola Milano Nord",
         city: "Milano",
         zip: "20100",
-        region: "Lombardia",
+        region: "",
         address: "Corso Buenos Aires 5",
         phone: "",
         website: "",
@@ -33,6 +35,9 @@ const MOCK_GEOJSON = {
     },
   ],
 };
+
+const wrapper = ({ children }: { children: React.ReactNode }) =>
+  createElement(MemoryRouter, null, children);
 
 beforeEach(() => {
   vi.stubGlobal("fetch", vi.fn().mockResolvedValue({
@@ -42,17 +47,17 @@ beforeEach(() => {
 });
 
 describe("useCerca", () => {
-  it("starts loading, then returns all schools when query is empty", async () => {
-    const { result } = renderHook(() => useCerca());
+  it("starts loading, then returns all schools when no filters", async () => {
+    const { result } = renderHook(() => useCerca(), { wrapper });
     expect(result.current.loading).toBe(true);
     await waitFor(() => expect(result.current.loading).toBe(false));
     expect(result.current.results).toHaveLength(2);
   });
 
   it("filters by city name", async () => {
-    const { result } = renderHook(() => useCerca());
+    const { result } = renderHook(() => useCerca(), { wrapper });
     await waitFor(() => expect(result.current.loading).toBe(false));
-    act(() => result.current.setQuery("Milano"));
+    act(() => result.current.setCity("Milano"));
     await waitFor(() =>
       expect(result.current.results.some((s) => s.city === "Milano")).toBe(true)
     );
@@ -60,7 +65,7 @@ describe("useCerca", () => {
   });
 
   it("setSelected updates selected", async () => {
-    const { result } = renderHook(() => useCerca());
+    const { result } = renderHook(() => useCerca(), { wrapper });
     await waitFor(() => expect(result.current.loading).toBe(false));
     const first = result.current.results[0];
     act(() => result.current.setSelected(first));
@@ -69,7 +74,7 @@ describe("useCerca", () => {
 
   it("sets error when fetch fails", async () => {
     vi.stubGlobal("fetch", vi.fn().mockResolvedValue({ ok: false, status: 500 } as Response));
-    const { result } = renderHook(() => useCerca());
+    const { result } = renderHook(() => useCerca(), { wrapper });
     await waitFor(() => expect(result.current.error).toBeTruthy());
   });
 });

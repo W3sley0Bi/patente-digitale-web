@@ -1,6 +1,7 @@
 import { Suspense, lazy } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router";
 import Landing from "./routes/Landing";
+import { ScrollToHash } from "./hooks/useScrollToHash";
 
 // Lazy load other routes
 const Cerca = lazy(() => import("./routes/Cerca"));
@@ -18,6 +19,7 @@ const LoadingFallback = () => (
 function App() {
 	return (
 		<BrowserRouter>
+			<ScrollToHash />
 			<Suspense fallback={<LoadingFallback />}>
 				<Routes>
 					<Route path="/" element={<Landing />} />

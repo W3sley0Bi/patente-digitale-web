@@ -1,4 +1,4 @@
-import { useTranslation } from "react-i18next";
+import { Trans, useTranslation } from "react-i18next";
 import {
 	Accordion,
 	AccordionContent,
@@ -25,7 +25,16 @@ export function FAQ() {
 								{t("landing.faq.heading")}
 							</h2>
 							<p className="mt-4 font-sans text-sm text-ink-muted">
-								{t("landing.faq.subline")}
+								<Trans
+									i18nKey="landing.faq.subline"
+									components={[
+										<a
+											key="0"
+											href="mailto:supporto@patentedigitale.it"
+											className="font-medium text-brand hover:underline"
+										/>,
+									]}
+								/>
 							</p>
 						</Reveal>
 					</div>

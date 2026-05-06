@@ -6,8 +6,20 @@
 		"noResults": "No driving schools found",
 		"loading": "Loading driving schools...",
 		"error": "Could not load driving schools. Please try again.",
+		"mobileMore": "and {{count}} more — refine with search",
+		"filters": {
+			"locationBtn": "Use my location",
+			"locationError": "Location unavailable",
+			"cityPlaceholder": "City...",
+			"zipPlaceholder": "Postcode...",
+			"regionPlaceholder": "All regions",
+			"namePlaceholder": "Search by school name...",
+			"clearAll": "Clear filters"
+		},
 		"card": {
 			"callLabel": "Call",
+			"callNow": "Call now",
+			"closeModal": "Close",
 			"websiteLabel": "Website"
 		}
 	},
@@ -28,7 +40,7 @@
 				"emphasis": "zero"
 			},
 			"subhead": "Find, choose and enrol in your driving school in minutes. All online, no queues.",
-			"searchPlaceholder": "Search by city, school or zip code...",
+			"searchPlaceholder": "Search by city or postcode...",
 			"cta": {
 				"primary": "Find your driving school",
 				"secondary": "How it works"

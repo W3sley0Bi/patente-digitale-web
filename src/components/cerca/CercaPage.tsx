@@ -1,23 +1,49 @@
 import { useTranslation } from "react-i18next";
 import { useCerca } from "@/hooks/useCerca";
+import { FilterBar } from "./FilterBar";
 import { ResultsList } from "./ResultsList";
 import { SchoolMap } from "./SchoolMap";
-import { SearchBar } from "./SearchBar";
 
 export function CercaPage() {
   const { t } = useTranslation();
-  const { query, results, selected, loading, error, setQuery, setSelected } = useCerca();
+  const {
+    city, region, zip,
+    results, cityOptions,
+    selected, loading, error,
+    setCity, setRegion, setZip, setSelected, clearFilters,
+  } = useCerca();
+
+  const filterKey = [city, region, zip].filter(Boolean).join("|");
+
+  const resultsCountLabel = !loading && !error
+    ? t("cerca.resultsCount", { count: results.length })
+    : null;
 
   return (
-    <div className="flex min-h-screen flex-col bg-bg px-4 pb-8 pt-6 md:px-8">
-      <h1 className="mb-4 text-2xl font-bold text-fg">{t("cerca.title")}</h1>
-      <div className="mb-4">
-        <SearchBar value={query} onChange={setQuery} />
+    <div className="flex h-full flex-col overflow-hidden px-4 md:px-8">
+      {/* Header */}
+      <div className="shrink-0 pt-6 pb-4">
+        <h1 className="mb-4 font-sans text-xl font-black tracking-tight text-ink md:text-2xl">
+          {t("cerca.title")}
+        </h1>
+        <FilterBar
+          city={city}
+          region={region}
+          zip={zip}
+          cityOptions={cityOptions}
+          onCityChange={setCity}
+          onRegionChange={setRegion}
+          onZipChange={setZip}
+          onClear={clearFilters}
+        />
+        {resultsCountLabel && (
+          <p className="mt-2 font-sans text-xs text-ink-faint">{resultsCountLabel}</p>
+        )}
       </div>
 
-      {/* Desktop: side by side */}
-      <div className="hidden flex-1 gap-4 md:flex" style={{ minHeight: "calc(100vh - 180px)" }}>
-        <div className="flex w-80 shrink-0 flex-col overflow-hidden">
+      {/* Desktop: side by side, viewport-locked */}
+      <div className="hidden flex-1 gap-4 overflow-hidden pb-6 md:flex">
+        <div className="flex w-80 shrink-0 flex-col overflow-hidden rounded-xl border border-line bg-bg-raised shadow-sm">
           <ResultsList
             schools={results}
             selected={selected}
@@ -30,6 +56,7 @@ export function CercaPage() {
           {!loading && (
             <SchoolMap
               schools={results}
+              filterKey={filterKey}
               selected={selected}
               onSelect={setSelected}
             />
@@ -37,26 +64,26 @@ export function CercaPage() {
         </div>
       </div>
 
-      {/* Mobile: stacked */}
-      <div className="flex flex-col gap-4 md:hidden">
-        <div className="h-[50vh] overflow-hidden rounded-xl">
+      {/* Mobile: stacked, natural scroll */}
+      <div className="flex flex-col gap-4 overflow-y-auto pb-6 md:hidden">
+        <div className="h-[45vh] shrink-0 overflow-hidden rounded-xl">
           {!loading && (
             <SchoolMap
               schools={results}
+              filterKey={filterKey}
               selected={selected}
               onSelect={setSelected}
             />
           )}
         </div>
-        <div className="flex flex-col" style={{ minHeight: "50vh" }}>
-          <ResultsList
-            schools={results}
-            selected={selected}
-            onSelect={setSelected}
-            loading={loading}
-            error={error}
-          />
-        </div>
+        <ResultsList
+          schools={results}
+          selected={selected}
+          onSelect={setSelected}
+          loading={loading}
+          error={error}
+          stacked
+        />
       </div>
     </div>
   );

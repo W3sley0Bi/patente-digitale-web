@@ -77,3 +77,23 @@ Interactive map of all driving schools in Italy using:
 - **Rendering**: Leaflet.js + OSM tiles (both free, no API key required)
 - **No backend needed** at this stage — data refreshed periodically via a local script
 - Future: "Add your school" submission form backed by Supabase, so schools can self-register and we own the dataset
+
+## TODO — to be discussed
+
+### Dataset quality: should we use Google Maps as source?
+
+Current dataset comes from OpenStreetMap (Overpass API, ~1,375 schools). OSM has incomplete data: many schools missing phone, website, region, and CAP.
+
+**Google Maps Places API would give better data** (more schools, structured phone/website/hours). Cost to build the dataset once:
+
+| Step | Calls | Unit price | Cost |
+|------|-------|-----------|------|
+| Nearby Search (~300–500 grid points, 3 pages each) | ~1,000 | $0.032 | ~$32 |
+| Place Details — Contact tier (phone + website) | ~3,000 | $0.003 | ~$9 |
+| **Total** | | | **~$40–60** |
+
+Google gives $200 free credit/month → **one-time build would cost $0** if done in a single billing period. No per-user cost since it's a static GeoJSON file served from the repo.
+
+**⚠️ Legal risk**: Google Maps ToS (§3.2.3) prohibits storing Places API data beyond 30-day caching or building a static offline dataset. Using it this way risks API key termination if the project grows.
+
+**Better alternative**: The *Ministero delle Infrastrutture e dei Trasporti* (MIT) holds the official registry of licensed autoscuole in Italy. Worth filing a FOIA/open-data request at `mit.gov.it`. Combining official MIT data with OSM coordinates would give authoritative coverage with no licensing risk.
