@@ -5,7 +5,7 @@ import type { CircleMarker as LCircleMarker, LatLngBoundsExpression } from "leaf
 import type { NormalizedSchool } from "@/lib/geojson";
 
 const ITALY_CENTER: [number, number] = [41.87, 12.57];
-const ITALY_ZOOM = 6;
+const ITALY_ZOOM = 8;
 
 // Brand colours as hex (Leaflet can't use OKLCH/CSS vars)
 const COLOR_DEFAULT = "#2a9e6a";
@@ -21,7 +21,7 @@ function FitBounds({ schools, filterKey }: { schools: NormalizedSchool[], filter
     if (schools.length === 0 || lastKey.current === filterKey) return;
     lastKey.current = filterKey;
     const bounds: LatLngBoundsExpression = schools.map((s) => s.latlng);
-    map.fitBounds(bounds, { padding: [40, 40], maxZoom: filterKey ? 13 : 7 });
+    map.fitBounds(bounds, { padding: [40, 40], maxZoom: filterKey ? 13 : 9 });
   }, [schools, filterKey, map]);
 
   return null;

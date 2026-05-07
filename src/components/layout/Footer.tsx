@@ -80,14 +80,19 @@ export function Footer() {
 							Naviga
 						</h4>
 						<ul className="flex flex-col gap-4">
-							{["howItWorks", "faq", "partners", "findSchool"].map((item) => (
-								<li key={item}>
-									<a
-										href={item === "findSchool" ? "/cerca" : `#${item}`}
+							{[
+								{ id: "how-it-works", label: "howItWorks" },
+								{ id: "faq", label: "faq" },
+								{ id: "partner", label: "partners" },
+								{ href: "/cerca", label: "findSchool" },
+							].map((item) => (
+								<li key={item.label}>
+									<Link
+										to={item.href || `/#${item.id}`}
 										className="font-sans text-sm text-ink-muted hover:text-brand transition-colors"
 									>
-										{t(`landing.nav.${item}`)}
-									</a>
+										{t(`landing.nav.${item.label}`)}
+									</Link>
 								</li>
 							))}
 							<li>

@@ -13,10 +13,10 @@ import { Mascot, Wordmark } from "../brand/Brand";
 import { LangSwitch } from "./LangSwitch";
 
 const NAV_LINKS = [
-	{ href: "#how-it-works", label: "landing.nav.howItWorks" },
-	{ href: "#partner", label: "landing.nav.partners" },
+	{ href: "/#how-it-works", label: "landing.nav.howItWorks" },
+	{ href: "/#partner", label: "landing.nav.partners" },
 	{ href: "/cerca", label: "landing.nav.findSchool" },
-	{ href: "#faq", label: "landing.nav.faq" },
+	{ href: "/#faq", label: "landing.nav.faq" },
 ];
 
 export function Nav() {
