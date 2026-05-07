@@ -183,17 +183,15 @@ export function Nav() {
 				{/* Mobile actions */}
 				<div className="flex items-center gap-1 md:hidden">
 					<Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
-						<SheetTrigger asChild>
-							<Button variant="ghost" size="icon" className="relative z-[60]">
-								{isMenuOpen ? (
-									<X className="h-5 w-5" />
-								) : (
-									<Menu className="h-5 w-5" />
-								)}
-								<span className="sr-only">
-									{isMenuOpen ? "Chiudi menu" : "Apri menu"}
-								</span>
-							</Button>
+						<SheetTrigger render={<Button variant="ghost" size="icon" className="relative z-[60]" />}>
+							{isMenuOpen ? (
+								<X className="h-5 w-5" />
+							) : (
+								<Menu className="h-5 w-5" />
+							)}
+							<span className="sr-only">
+								{isMenuOpen ? "Chiudi menu" : "Apri menu"}
+							</span>
 						</SheetTrigger>
 
 						<SheetContent
