@@ -125,7 +125,7 @@ export function Hero() {
 					</motion.p>
 
 					{/* Search Bar */}
-					<motion.div variants={revealVariants} className="mt-12 w-full max-w-[400px]">
+					<motion.div variants={revealVariants} className="mt-12 w-full max-w-[400px] relative">
 						<form onSubmit={handleSearch} className="relative">
 							<div className="group relative flex items-center bg-white rounded-full border border-line-strong/10 shadow-sm focus-within:border-line-strong/30 transition-all duration-300">
 								<button
@@ -175,6 +175,42 @@ export function Hero() {
 							<ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
 						</a>
 					</motion.div>
+				</motion.div>
+
+				{/* Floating Mascot - Does not affect layout flow */}
+				<motion.div
+					initial={{ opacity: 0, x: 50, scale: 0.8 }}
+					animate={{ opacity: 1, x: 0, scale: 1 }}
+					transition={{ delay: 1, duration: 0.8, ease: "easeOut" }}
+					className="pointer-events-none absolute bottom-0 right-0 hidden items-end justify-center lg:flex"
+				>
+					<div className="relative mr-8 mb-8">
+						<img
+							src="/mascot-backpack.png"
+							alt=""
+							className="h-auto w-[240px] object-contain drop-shadow-2xl"
+							draggable={false}
+						/>
+						
+						{/* Mascot Speech Bubble */}
+						<motion.div
+							initial={{ opacity: 0, scale: 0.5, x: 20 }}
+							animate={{ opacity: 1, scale: 1, x: 0 }}
+							transition={{ delay: 1.8, duration: 0.5, type: "spring" }}
+							className="pointer-events-auto absolute -top-16 -left-32 z-20 w-48"
+						>
+							<div className="relative">
+								<div className="bg-white px-4 py-2.5 rounded-2xl shadow-xl border border-line-strong/10">
+									<p 
+										className="font-sans text-xs font-bold text-ink leading-tight"
+										dangerouslySetInnerHTML={{ __html: t("landing.hero.mascotNote") }}
+									/>
+								</div>
+								{/* Speech bubble tail */}
+								<div className="absolute -bottom-1.5 right-10 h-3 w-3 rotate-45 border-r border-b border-line-strong/10 bg-white" />
+							</div>
+						</motion.div>
+					</div>
 				</motion.div>
 			</div>
 		</section>
