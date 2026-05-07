@@ -61,7 +61,7 @@ export function Hero() {
 	}
 
 	return (
-		<section className="relative overflow-hidden pt-24 pb-12 md:pt-40 md:pb-24">
+		<section className="relative overflow-hidden pt-24 pb-48 md:pt-40 md:pb-32">
 			<div className="mx-auto max-w-(--container-wide) px-4 lg:px-8">
 				<motion.div
 					className="flex flex-col items-center text-center"
@@ -179,37 +179,37 @@ export function Hero() {
 
 				{/* Floating Mascot - Does not affect layout flow */}
 				<motion.div
-					initial={{ opacity: 0, x: 50, scale: 0.8 }}
-					animate={{ opacity: 1, x: 0, scale: 1 }}
+					initial={{ opacity: 0, y: 20, scale: 0.8 }}
+					animate={{ opacity: 1, y: 0, scale: 1 }}
 					transition={{ delay: 1, duration: 0.8, ease: "easeOut" }}
-					className="pointer-events-none absolute bottom-0 right-0 hidden items-end justify-center lg:flex"
+					className="pointer-events-none absolute bottom-0 right-0 flex items-end justify-end p-4 md:p-8"
 				>
-					<div className="relative mr-8 mb-8">
-						<img
-							src="/mascot-backpack.png"
-							alt=""
-							className="h-auto w-[240px] object-contain drop-shadow-2xl"
-							draggable={false}
-						/>
-						
+					<div className="relative flex flex-col items-center">
 						{/* Mascot Speech Bubble */}
 						<motion.div
-							initial={{ opacity: 0, scale: 0.5, x: 20 }}
-							animate={{ opacity: 1, scale: 1, x: 0 }}
+							initial={{ opacity: 0, scale: 0.5, y: 10 }}
+							animate={{ opacity: 1, scale: 1, y: 0 }}
 							transition={{ delay: 1.8, duration: 0.5, type: "spring" }}
-							className="pointer-events-auto absolute -top-16 -left-32 z-20 w-48"
+							className="pointer-events-auto mb-2 w-32 md:mb-4 md:w-56"
 						>
 							<div className="relative">
-								<div className="bg-white px-4 py-2.5 rounded-2xl shadow-xl border border-line-strong/10">
+								<div className="bg-white px-3 py-2 md:px-4 md:py-3 rounded-2xl shadow-xl border border-line-strong/10 text-center">
 									<p 
-										className="font-sans text-xs font-bold text-ink leading-tight"
+										className="font-sans text-[9px] md:text-sm font-bold text-ink leading-tight"
 										dangerouslySetInnerHTML={{ __html: t("landing.hero.mascotNote") }}
 									/>
 								</div>
-								{/* Speech bubble tail */}
-								<div className="absolute -bottom-1.5 right-10 h-3 w-3 rotate-45 border-r border-b border-line-strong/10 bg-white" />
+								{/* Speech bubble tail - Centered */}
+								<div className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 h-2 w-2 md:h-3 md:w-3 rotate-45 border-r border-b border-line-strong/10 bg-white" />
 							</div>
 						</motion.div>
+
+						<img
+							src="/mascot-backpack.png"
+							alt=""
+							className="h-auto w-[100px] md:w-[180px] lg:w-[240px] object-contain drop-shadow-2xl"
+							draggable={false}
+						/>
 					</div>
 				</motion.div>
 			</div>
