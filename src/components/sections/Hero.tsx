@@ -1,14 +1,19 @@
 import { motion } from "framer-motion";
-import { ArrowRight, Search } from "lucide-react";
+import { ArrowRight, Search, Locate, Loader2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 import { useState } from "react";
 import { revealVariants, staggerContainer } from "@/lib/motion";
+import { reverseGeocode } from "@/lib/geocode";
+import { getRegionForCoords } from "@/lib/italyGeo";
 
 export function Hero() {
 	const { t } = useTranslation();
 	const navigate = useNavigate();
 	const [searchQuery, setSearchQuery] = useState("");
+	const [locating, setLocating] = useState(false);
+	const [locError, setLocError] = useState(false);
+	const [locOutsideItaly, setLocOutsideItaly] = useState(false);
 
 	const handleSearch = (e: React.FormEvent) => {
 		e.preventDefault();
@@ -20,6 +25,40 @@ export function Hero() {
 			: `/cerca?city=${encodeURIComponent(trimmed)}`
 		);
 	};
+
+	function handleLocate() {
+		if (!navigator.geolocation) return;
+		setLocating(true);
+		setLocError(false);
+		setLocOutsideItaly(false);
+		navigator.geolocation.getCurrentPosition(
+			async (pos) => {
+				const { latitude: lat, longitude: lng } = pos.coords;
+				try {
+					const { city, zip, countryCode } = await reverseGeocode(lat, lng);
+					if (countryCode !== "it") {
+						setLocOutsideItaly(true);
+						return;
+					}
+					const region = getRegionForCoords(lat, lng);
+					const params = new URLSearchParams();
+					if (city) params.set("city", city);
+					if (zip) params.set("zip", zip);
+					if (region) params.set("region", region);
+					navigate(`/cerca?${params.toString()}`);
+				} catch {
+					setLocError(true);
+				} finally {
+					setLocating(false);
+				}
+			},
+			() => {
+				setLocating(false);
+				setLocError(true);
+			},
+			{ timeout: 8000 },
+		);
+	}
 
 	return (
 		<section className="relative overflow-hidden pt-24 pb-12 md:pt-40 md:pb-24">
@@ -85,29 +124,44 @@ export function Hero() {
 						{t("landing.hero.subhead")}
 					</motion.p>
 
-					{/* Elegant Minimalist Search Bar */}
-					<motion.form
-						variants={revealVariants}
-						onSubmit={handleSearch}
-						className="mt-12 w-full max-w-[400px] relative"
-					>
-						<div className="group relative flex items-center bg-white rounded-full border border-line-strong/10 shadow-sm focus-within:border-line-strong/30 transition-all duration-300">
-							<input
-								type="text"
-								placeholder={t("landing.hero.searchPlaceholder")}
-								value={searchQuery}
-								onChange={(e) => setSearchQuery(e.target.value)}
-								className="w-full bg-transparent border-none outline-none pl-6 pr-12 font-sans text-sm md:text-base text-ink placeholder:text-ink-faint h-12 md:h-13"
-							/>
-							<button
-								type="submit"
-								className="absolute right-1.5 flex items-center justify-center h-9 w-9 md:h-10 md:w-10 rounded-full text-ink-faint hover:text-ink active:scale-95 transition-all duration-300"
-								aria-label={t("landing.hero.cta.primary")}
-							>
-								<Search className="h-5 w-5 md:h-5.5 md:w-5.5" />
-							</button>
-						</div>
-					</motion.form>
+					{/* Search Bar */}
+					<motion.div variants={revealVariants} className="mt-12 w-full max-w-[400px]">
+						<form onSubmit={handleSearch} className="relative">
+							<div className="group relative flex items-center bg-white rounded-full border border-line-strong/10 shadow-sm focus-within:border-line-strong/30 transition-all duration-300">
+								<button
+									type="button"
+									onClick={handleLocate}
+									disabled={locating}
+									title={locError ? t("cerca.filters.locationError") : t("cerca.filters.locationBtn")}
+									className="absolute left-3.5 flex items-center justify-center text-ink-faint hover:text-brand disabled:opacity-50 transition-colors"
+								>
+									{locating
+										? <Loader2 className="h-4 w-4 animate-spin text-brand" />
+										: <Locate className={`h-4 w-4 ${locError ? "text-accent" : ""}`} />
+									}
+								</button>
+								<input
+									type="text"
+									placeholder={t("landing.hero.searchPlaceholder")}
+									value={searchQuery}
+									onChange={(e) => setSearchQuery(e.target.value)}
+									className="w-full bg-transparent border-none outline-none pl-10 pr-12 font-sans text-sm md:text-base text-ink placeholder:text-ink-faint h-12 md:h-13"
+								/>
+								<button
+									type="submit"
+									className="absolute right-1.5 flex items-center justify-center h-9 w-9 md:h-10 md:w-10 rounded-full text-ink-faint hover:text-ink active:scale-95 transition-all duration-300"
+									aria-label={t("landing.hero.cta.primary")}
+								>
+									<Search className="h-5 w-5 md:h-5.5 md:w-5.5" />
+								</button>
+							</div>
+						</form>
+						{locOutsideItaly && (
+							<p className="mt-2 text-center font-sans text-xs text-accent">
+								{t("cerca.filters.outsideItaly")}
+							</p>
+						)}
+					</motion.div>
 
 					<motion.div
 						variants={revealVariants}

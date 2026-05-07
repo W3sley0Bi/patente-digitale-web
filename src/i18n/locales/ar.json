@@ -14,13 +14,23 @@
 			"zipPlaceholder": "الرمز البريدي...",
 			"regionPlaceholder": "كل المناطق",
 			"namePlaceholder": "ابحث باسم المدرسة...",
-			"clearAll": "مسح الفلاتر"
+			"clearAll": "مسح الفلاتر",
+			"outsideItaly": "عذراً، لا توجد مدارس قيادة في منطقتك.",
+			"allSchools": "كل المدارس",
+			"partnerOnly": "مدارس الشركاء"
 		},
 		"card": {
 			"callLabel": "اتصل",
 			"callNow": "اتصل الآن",
 			"closeModal": "إغلاق",
 			"websiteLabel": "الموقع"
+		},
+		"ownerCallout": {
+			"label": "لا تجد مدرستك؟ تواصل معنا:"
+		},
+		"detail": {
+			"partnerVerified": "مدرسة معتمدة",
+			"enroll": "سجل الآن"
 		}
 	},
 	"landing": {

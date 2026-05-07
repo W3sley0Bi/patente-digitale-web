@@ -14,13 +14,23 @@
 			"zipPlaceholder": "Postcode...",
 			"regionPlaceholder": "All regions",
 			"namePlaceholder": "Search by school name...",
-			"clearAll": "Clear filters"
+			"clearAll": "Clear filters",
+			"outsideItaly": "Sorry, there are no driving schools in your area.",
+			"allSchools": "All schools",
+			"partnerOnly": "Partner schools"
 		},
 		"card": {
 			"callLabel": "Call",
 			"callNow": "Call now",
 			"closeModal": "Close",
 			"websiteLabel": "Website"
+		},
+		"ownerCallout": {
+			"label": "Can't find your school? Contact us:"
+		},
+		"detail": {
+			"partnerVerified": "Verified School",
+			"enroll": "Enrol now"
 		}
 	},
 	"landing": {
@@ -128,15 +138,11 @@
 			"items": {
 				"1": {
 					"q": "How much does it cost to enrol via Patentedigitale.it?",
-					"a": "Enrolment is free. You pay only the price of the school you choose, identical to what you'd pay walking in. Our fee is on the partner school."
+					"a": "Enrolment is free. You pay only the price of the school you choose, which is discounted compared to what you'd pay walking in."
 				},
 				"2": {
 					"q": "What documents do I need to start?",
 					"a": "ID, codice fiscale, medical certificate (uploaded after the visit), one digital ID photo. We ask one at a time, not all at once."
-				},
-				"3": {
-					"q": "Can I switch schools after enrolling?",
-					"a": "Yes. You have a 14-day cooling-off period from your first payment, during which you can cancel and choose another partner school at no extra cost."
 				},
 				"4": {
 					"q": "Is my data secure?",

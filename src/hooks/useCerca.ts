@@ -8,6 +8,7 @@ interface UseCercaReturn {
   city: string;
   region: string;
   zip: string;
+  partnerOnly: boolean;
   results: NormalizedSchool[];
   cityOptions: string[];
   selected: NormalizedSchool | null;
@@ -16,6 +17,7 @@ interface UseCercaReturn {
   setCity: (v: string) => void;
   setRegion: (v: string) => void;
   setZip: (v: string) => void;
+  setPartnerOnly: (v: boolean) => void;
   setSelected: (school: NormalizedSchool | null) => void;
   clearFilters: () => void;
 }
@@ -23,9 +25,15 @@ interface UseCercaReturn {
 export function useCerca(): UseCercaReturn {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const city = searchParams.get("city") ?? "";
-  const region = searchParams.get("region") ?? "";
-  const zip = searchParams.get("zip") ?? "";
+  // Primary state for instant feedback
+  const [filters, setFilters] = useState({
+    city: searchParams.get("city") ?? "",
+    region: searchParams.get("region") ?? "",
+    zip: searchParams.get("zip") ?? "",
+    partnerOnly: searchParams.get("partner") === "1",
+  });
+
+  const { city, region, zip, partnerOnly } = filters;
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -41,7 +49,15 @@ export function useCerca(): UseCercaReturn {
         return res.json() as Promise<SchoolsGeoJSON>;
       })
       .then((data) => {
-        allSchoolsRef.current = data.features.map(normalizeSchool);
+        // Pre-calculate region for ALL schools once on load
+        allSchoolsRef.current = data.features.map((f) => {
+          const s = normalizeSchool(f);
+          return {
+            ...s,
+            // If the data doesn't have a reliable region, calculate it
+            region: s.region || getRegionForCoords(s.latlng[0], s.latlng[1]) || "",
+          };
+        });
         setLoading(false);
         setLoadTick((t) => t + 1);
       })
@@ -51,6 +67,25 @@ export function useCerca(): UseCercaReturn {
       });
   }, []);
 
+  // Sync state TO URL — debounced for text, immediate for toggles
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setSearchParams(
+        (p) => {
+          const n = new URLSearchParams(p);
+          filters.city ? n.set("city", filters.city) : n.delete("city");
+          filters.region ? n.set("region", filters.region) : n.delete("region");
+          filters.zip ? n.set("zip", filters.zip) : n.delete("zip");
+          filters.partnerOnly ? n.set("partner", "1") : n.delete("partner");
+          return n;
+        },
+        { replace: true },
+      );
+    }, 300); // Small debounce to avoid thrashing URL bar
+
+    return () => clearTimeout(timer);
+  }, [filters, setSearchParams]);
+
   // Filtered results — used for both the list and the map
   const results = useMemo(() => {
     const all = allSchoolsRef.current;
@@ -59,7 +94,7 @@ export function useCerca(): UseCercaReturn {
     let schools = all;
 
     if (region) {
-      schools = schools.filter((s) => getRegionForCoords(s.latlng[0], s.latlng[1]) === region);
+      schools = schools.filter((s) => s.region === region);
     }
 
     if (city) {
@@ -71,66 +106,51 @@ export function useCerca(): UseCercaReturn {
       schools = schools.filter((s) => s.zip.startsWith(zip));
     }
 
-    return schools;
+    if (partnerOnly) {
+      schools = schools.filter((s) => s.partner === true);
+    }
+
+    return [...schools].sort((a, b) => (b.partner ? 1 : 0) - (a.partner ? 1 : 0));
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [city, region, zip, loadTick]);
+  }, [city, region, zip, partnerOnly, loadTick]);
 
   // City options for autocomplete — filtered by selected region and zip
   const cityOptions = useMemo(() => {
     let source = allSchoolsRef.current;
-    if (region) source = source.filter((s) => getRegionForCoords(s.latlng[0], s.latlng[1]) === region);
+    if (region) source = source.filter((s) => s.region === region);
     if (zip) source = source.filter((s) => s.zip.startsWith(zip));
     return [...new Set(source.map((s) => s.city).filter(Boolean))].sort();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [region, zip, loadTick]);
 
-  const setCity = useCallback(
-    (v: string) => {
-      setSearchParams(
-        (p) => { const n = new URLSearchParams(p); v ? n.set("city", v) : n.delete("city"); return n; },
-        { replace: true },
-      );
-    },
-    [setSearchParams],
-  );
+  const setCity = useCallback((v: string) => {
+    setFilters((f) => ({ ...f, city: v }));
+  }, []);
 
-  const setRegion = useCallback(
-    (v: string) => {
-      setSearchParams(
-        (p) => {
-          const n = new URLSearchParams(p);
-          v ? n.set("region", v) : n.delete("region");
-          n.delete("city");
-          return n;
-        },
-        { replace: true },
-      );
-    },
-    [setSearchParams],
-  );
+  const setRegion = useCallback((v: string) => {
+    setFilters((f) => ({ ...f, region: v, city: "" }));
+  }, []);
 
-  const setZip = useCallback(
-    (v: string) => {
-      setSearchParams(
-        (p) => { const n = new URLSearchParams(p); v ? n.set("zip", v) : n.delete("zip"); return n; },
-        { replace: true },
-      );
-    },
-    [setSearchParams],
-  );
+  const setZip = useCallback((v: string) => {
+    setFilters((f) => ({ ...f, zip: v }));
+  }, []);
 
   const setSelected = useCallback((school: NormalizedSchool | null) => {
     setSelectedState(school);
   }, []);
 
+  const setPartnerOnly = useCallback((v: boolean) => {
+    setFilters((f) => ({ ...f, partnerOnly: v }));
+  }, []);
+
   const clearFilters = useCallback(() => {
-    setSearchParams({}, { replace: true });
-  }, [setSearchParams]);
+    setFilters({ city: "", region: "", zip: "", partnerOnly: false });
+  }, []);
 
   return {
-    city, region, zip,
+    city, region, zip, partnerOnly,
     results, cityOptions,
     selected, loading, error,
-    setCity, setRegion, setZip, setSelected, clearFilters,
+    setCity, setRegion, setZip, setPartnerOnly, setSelected, clearFilters,
   };
 }

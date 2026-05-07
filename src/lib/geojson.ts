@@ -6,6 +6,12 @@ export interface SchoolProperties {
   address: string;
   phone: string;
   website: string;
+  partner?: boolean;
+  rating?: number | null;
+  userRatingCount?: number | null;
+  businessStatus?: string;
+  googleMapsUri?: string;
+  openingHours?: string[];
 }
 
 export interface SchoolFeature {

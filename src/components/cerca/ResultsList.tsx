@@ -28,7 +28,7 @@ export function ResultsList({
   const virtualizer = useVirtualizer({
     count: schools.length,
     getScrollElement: () => parentRef.current,
-    estimateSize: () => 116,
+    estimateSize: () => 132,
     overscan: 5,
   });
 

@@ -1,7 +1,7 @@
 import "leaflet/dist/leaflet.css";
 import { useEffect, useRef } from "react";
-import { CircleMarker, MapContainer, Popup, TileLayer, useMap } from "react-leaflet";
-import type { LatLngBoundsExpression } from "leaflet";
+import { CircleMarker, MapContainer, Popup, TileLayer, ZoomControl, useMap } from "react-leaflet";
+import type { CircleMarker as LCircleMarker, LatLngBoundsExpression } from "leaflet";
 import type { NormalizedSchool } from "@/lib/geojson";
 
 const ITALY_CENTER: [number, number] = [41.87, 12.57];
@@ -9,7 +9,9 @@ const ITALY_ZOOM = 6;
 
 // Brand colours as hex (Leaflet can't use OKLCH/CSS vars)
 const COLOR_DEFAULT = "#2a9e6a";
-const COLOR_SELECTED = "#e85d26";
+const COLOR_SELECTED = "#2563eb";
+const COLOR_PARTNER = "#f59e0b";
+const COLOR_PARTNER_SELECTED = "#d97706";
 
 function FitBounds({ schools, filterKey }: { schools: NormalizedSchool[], filterKey: string }) {
   const map = useMap();
@@ -38,6 +40,51 @@ function PanToSelected({ selected }: { selected: NormalizedSchool | null }) {
   return null;
 }
 
+interface SchoolMarkerProps {
+  school: NormalizedSchool;
+  isSelected: boolean;
+  onSelect: (school: NormalizedSchool) => void;
+}
+
+function SchoolMarker({ school, isSelected, onSelect }: SchoolMarkerProps) {
+  const markerRef = useRef<LCircleMarker | null>(null);
+  const isPartner = school.partner === true;
+
+  useEffect(() => {
+    if (isSelected && markerRef.current) {
+      markerRef.current.openPopup();
+    }
+  }, [isSelected]);
+
+  const fillColor = isPartner
+    ? (isSelected ? COLOR_PARTNER_SELECTED : COLOR_PARTNER)
+    : (isSelected ? COLOR_SELECTED : COLOR_DEFAULT);
+
+  return (
+    <CircleMarker
+      ref={markerRef}
+      center={school.latlng}
+      radius={isPartner ? 7 : isSelected ? 8 : 5}
+      pathOptions={{
+        color: "white",
+        fillColor,
+        fillOpacity: 1,
+        weight: isPartner ? 2.5 : 2,
+      }}
+      eventHandlers={{ click: () => onSelect(school) }}
+    >
+      <Popup closeButton={false} offset={[0, -5]} autoPan={false}>
+        <div className="flex flex-col gap-1">
+          <span className="font-bold text-ink text-sm leading-tight">{school.name}</span>
+          <span className="text-ink-muted text-xs leading-snug">
+            {[school.address, school.city].filter(Boolean).join(", ")}
+          </span>
+        </div>
+      </Popup>
+    </CircleMarker>
+  );
+}
+
 interface SchoolMapProps {
   schools: NormalizedSchool[];
   filterKey: string;
@@ -47,46 +94,82 @@ interface SchoolMapProps {
 
 export function SchoolMap({ schools, filterKey, selected, onSelect }: SchoolMapProps) {
   return (
-    <MapContainer
-      center={ITALY_CENTER}
-      zoom={ITALY_ZOOM}
-      className="h-full w-full"
-      scrollWheelZoom
-    >
-      <TileLayer
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-      />
-      <FitBounds schools={schools} filterKey={filterKey} />
-      <PanToSelected selected={selected} />
-      {schools.map((school) => {
-        const isSelected = selected?.id === school.id;
-        return (
-          <CircleMarker
+    <div className="h-full w-full relative overflow-hidden isolate">
+      {/* Custom CSS to clean up Leaflet UI and refine map feel */}
+      <style>{`
+        .leaflet-container {
+          background: #f8f9fa !important;
+          font-family: Satoshi, sans-serif !important;
+        }
+        .leaflet-bar {
+          border: 1px solid oklch(0.92 0.008 160) !important;
+          box-shadow: 0 4px 12px oklch(0.55 0.05 160 / 0.08) !important;
+          border-radius: 12px !important;
+          overflow: hidden;
+          margin-top: 20px !important;
+          margin-right: 20px !important;
+        }
+        .leaflet-bar a {
+          background-color: white !important;
+          color: oklch(0.22 0.015 160) !important;
+          border: none !important;
+          width: 36px !important;
+          height: 36px !important;
+          line-height: 36px !important;
+          font-size: 16px !important;
+        }
+        .leaflet-bar a:hover {
+          background-color: oklch(0.985 0.005 160) !important;
+          color: oklch(0.62 0.16 152) !important;
+        }
+        .leaflet-popup-content-wrapper {
+          border-radius: 12px !important;
+          padding: 4px !important;
+          box-shadow: 0 10px 25px -5px oklch(0.55 0.05 160 / 0.15) !important;
+          border: 1px solid oklch(0.92 0.008 160);
+        }
+        .leaflet-popup-tip {
+          box-shadow: 0 10px 25px -5px oklch(0.55 0.05 160 / 0.15) !important;
+          border: 1px solid oklch(0.92 0.008 160);
+        }
+        .leaflet-popup-content {
+          margin: 12px 16px !important;
+          font-family: Satoshi, sans-serif !important;
+          line-height: 1.4 !important;
+        }
+        .leaflet-control-attribution {
+          background: rgba(255, 255, 255, 0.7) !important;
+          backdrop-filter: blur(4px);
+          font-size: 9px !important;
+          border-top-left-radius: 4px;
+        }
+      `}</style>
+      
+      <MapContainer
+        center={ITALY_CENTER}
+        zoom={ITALY_ZOOM}
+        className="h-full w-full z-0"
+        scrollWheelZoom
+        zoomControl={false}
+      >
+        <TileLayer
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
+          url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
+          subdomains="abcd"
+          maxZoom={20}
+        />
+        <ZoomControl position="topright" />
+        <FitBounds schools={schools} filterKey={filterKey} />
+        <PanToSelected selected={selected} />
+        {schools.map((school) => (
+          <SchoolMarker
             key={school.id}
-            center={school.latlng}
-            radius={isSelected ? 9 : 6}
-            pathOptions={{
-              color: isSelected ? COLOR_SELECTED : COLOR_DEFAULT,
-              fillColor: isSelected ? COLOR_SELECTED : COLOR_DEFAULT,
-              fillOpacity: isSelected ? 1 : 0.75,
-              weight: isSelected ? 2.5 : 1.5,
-            }}
-            eventHandlers={{ click: () => onSelect(school) }}
-          >
-            <Popup>
-              <strong>{school.name}</strong>
-              {[school.address, school.city].filter(Boolean).length > 0 && (
-                <>
-                  <br />
-                  {[school.address, school.city].filter(Boolean).join(", ")}
-                  {school.zip && <> — {school.zip}</>}
-                </>
-              )}
-            </Popup>
-          </CircleMarker>
-        );
-      })}
-    </MapContainer>
+            school={school}
+            isSelected={selected?.id === school.id}
+            onSelect={onSelect}
+          />
+        ))}
+      </MapContainer>
+    </div>
   );
 }

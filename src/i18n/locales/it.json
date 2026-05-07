@@ -14,13 +14,23 @@
 			"zipPlaceholder": "CAP...",
 			"regionPlaceholder": "Tutte le regioni",
 			"namePlaceholder": "Cerca per nome autoscuola...",
-			"clearAll": "Rimuovi filtri"
+			"clearAll": "Rimuovi filtri",
+			"outsideItaly": "Spiacenti, non ci sono autoscuole nella tua area.",
+			"allSchools": "Tutte le autoscuole",
+			"partnerOnly": "Autoscuole partner"
 		},
 		"card": {
 			"callLabel": "Chiama",
 			"callNow": "Chiama ora",
 			"closeModal": "Chiudi",
 			"websiteLabel": "Sito web"
+		},
+		"ownerCallout": {
+			"label": "Non vedi la tua autoscuola? Contattaci:"
+		},
+		"detail": {
+			"partnerVerified": "Autoscuola Verificata",
+			"enroll": "Iscriviti ora"
 		}
 	},
 	"landing": {
@@ -128,19 +138,15 @@
 			"items": {
 				"1": {
 					"q": "Quanto costa iscriversi tramite Patentedigitale.it?",
-					"a": "L'iscrizione è gratis. Paghi solo il prezzo dell'autoscuola che scegli, identico a quello che pagheresti andando direttamente in segreteria. La nostra commissione è a carico dell'autoscuola partner."
+					"a": "L'iscrizione è gratis. Paghi solo il prezzo dell'autoscuola che scegli, scontato rispetto a quello che pagheresti andando direttamente in segreteria."
 				},
 				"2": {
 					"q": "Quali documenti mi servono per iniziare?",
 					"a": "Carta d'identità, codice fiscale, certificato medico (lo carichi dopo aver fatto la visita), una foto tessera digitale. Te li chiediamo uno alla volta, non tutti in una volta."
 				},
-				"3": {
-					"q": "Posso cambiare autoscuola dopo l'iscrizione?",
-					"a": "Sì. Hai 14 giorni di ripensamento dal primo pagamento, durante i quali puoi annullare e scegliere un'altra autoscuola partner senza costi aggiuntivi."
-				},
 				"4": {
 					"q": "I miei dati sono al sicuro?",
-					"a": "Sì. I tuoi dati sono trattati secondo il GDPR, salvati su server europei, cifrati a riposo e in transito. I pagamenti passano da provider certificati PCI-DSS (PayPal, Stripe)."
+					"a": "Sì. I tuoi dati sono trattati secondo il GDPR, salvati su server europei, cifrati a riposo e in transito. I pagamenti passano da provider certificati PCI-DSS."
 				}
 			}
 		},

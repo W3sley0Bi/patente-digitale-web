@@ -58,29 +58,55 @@ interface SchoolCardProps {
 export function SchoolCard({ school, isSelected, onClick }: SchoolCardProps) {
   const { t } = useTranslation();
   const [showPhone, setShowPhone] = useState(false);
+  const isPartner = school.partner === true;
+
+  let cardClass = "relative flex min-h-[6.75rem] w-full flex-col rounded-xl border p-4 text-left shadow-sm transition-all overflow-hidden";
+  if (isPartner && !isSelected) {
+    cardClass += " border-amber-400 bg-gradient-to-br from-white to-amber-50 shadow-[0_0_0_1px_theme(colors.amber.300)] hover:shadow-md";
+  } else if (isSelected) {
+    cardClass += isPartner
+      ? " border-amber-500 bg-amber-50 shadow-md"
+      : " border-brand bg-brand-soft shadow-md";
+  } else {
+    cardClass += " border-line bg-bg-raised hover:border-line-strong hover:shadow-md";
+  }
 
   return (
     <>
       <button
         type="button"
         onClick={onClick}
-        className={[
-          "flex h-[6.75rem] w-full flex-col rounded-xl border p-4 text-left shadow-sm transition-all",
-          isSelected
-            ? "border-brand bg-brand-soft shadow-md"
-            : "border-line bg-bg-raised hover:border-line-strong hover:shadow-md",
-        ].join(" ")}
+        className={cardClass}
       >
+        {/* Partner: gold top accent bar */}
+        {isPartner && (
+          <span className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-amber-300 via-amber-400 to-amber-300" />
+        )}
+
         {/* Top: name + address + region */}
         <div className="flex-1 overflow-hidden">
-          <p className="font-sans text-sm font-semibold leading-snug text-ink line-clamp-1">
-            {school.name}
+          <div className="flex items-center gap-1.5">
+            <p className="font-sans text-sm font-semibold leading-snug text-ink line-clamp-1">
+              {school.name}
+            </p>
+            {isPartner && (
+              <span className="shrink-0 rounded-full bg-amber-100 px-1.5 py-0.5 font-sans text-[10px] font-bold uppercase tracking-wide text-amber-700">
+                Partner
+              </span>
+            )}
+          </div>
+          <p className="mt-0.5 font-sans text-xs leading-relaxed text-ink-muted line-clamp-1">
+            {[school.city, school.zip, school.region].filter(Boolean).join(", ")}
           </p>
-          <p className="mt-0.5 font-sans text-xs leading-relaxed text-ink-muted line-clamp-2">
-            {[school.address, school.city, school.zip, school.region]
-              .filter(Boolean)
-              .join(", ")}
-          </p>
+          {school.rating != null && (
+            <p className="mt-0.5 flex items-center gap-1 font-sans text-xs text-ink-muted">
+              <span className="text-amber-400">★</span>
+              <span className="font-semibold text-ink">{school.rating.toFixed(1)}</span>
+              {school.userRatingCount != null && (
+                <span className="text-ink-faint">({school.userRatingCount})</span>
+              )}
+            </p>
+          )}
         </div>
 
         {/* Bottom: action links — always present to anchor card height */}
@@ -111,6 +137,16 @@ export function SchoolCard({ school, isSelected, onClick }: SchoolCardProps) {
             </a>
           )}
         </div>
+
+        {/* Partner: verified badge — bottom-right */}
+        {isPartner && (
+          <img
+            src="/verified-autoscuola.png"
+            alt="Autoscuola verificata"
+            className="absolute bottom-2 right-2 h-7 w-7 object-contain drop-shadow-sm"
+            draggable={false}
+          />
+        )}
       </button>
 
       {showPhone &&

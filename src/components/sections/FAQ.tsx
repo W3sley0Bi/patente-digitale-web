@@ -8,7 +8,7 @@ import {
 import { SectionEyebrow } from "../layout/SectionEyebrow";
 import { Reveal } from "../motion/Reveal";
 
-const FAQ_ITEMS = [1, 2, 3, 4];
+const FAQ_ITEMS = [1, 2, 4];
 
 export function FAQ() {
 	const { t } = useTranslation();
