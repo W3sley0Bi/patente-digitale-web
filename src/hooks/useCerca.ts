@@ -2,6 +2,8 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useSearchParams } from "react-router";
 import { getRegionForCoords } from "@/lib/italyGeo";
 import { type NormalizedSchool, type SchoolsGeoJSON, normalizeSchool } from "@/lib/geojson";
+import { mergeDelta } from "@/lib/mergeDelta";
+import { supabase } from "@/lib/supabase";
 
 
 interface UseCercaReturn {
@@ -55,21 +57,26 @@ export function useCerca(): UseCercaReturn {
   const allSchoolsRef = useRef<NormalizedSchool[]>([]);
 
   useEffect(() => {
-    fetch("/data/autoscuole.geojson")
-      .then((res) => {
-        if (!res.ok) throw new Error(`Failed to load schools: ${res.status}`);
-        return res.json() as Promise<SchoolsGeoJSON>;
-      })
-      .then((data) => {
-        // Pre-calculate region for ALL schools once on load
-        allSchoolsRef.current = data.features.map((f) => {
+    Promise.all([
+      fetch("/data/autoscuole.geojson")
+        .then((res) => {
+          if (!res.ok) throw new Error(`Failed to load schools: ${res.status}`);
+          return res.json() as Promise<SchoolsGeoJSON>;
+        }),
+      supabase
+        .from("claimed_schools")
+        .select("*")
+        .then(({ data }) => data ?? []),
+    ])
+      .then(([geojson, delta]) => {
+        const normalized = geojson.features.map((f) => {
           const s = normalizeSchool(f);
           return {
             ...s,
-            // If the data doesn't have a reliable region, calculate it
             region: s.region || getRegionForCoords(s.latlng[0], s.latlng[1]) || "",
           };
         });
+        allSchoolsRef.current = mergeDelta(normalized, delta);
         setLoading(false);
         setLoadTick((t) => t + 1);
       })
