@@ -4,7 +4,7 @@ import { supabase } from "@/lib/supabase";
 import { useAuth } from "@/hooks/useAuth";
 import { useProfile } from "@/hooks/useProfile";
 import { DashboardPending } from "@/components/driving-school/DashboardPending";
-import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 
 interface ClaimRow {
   status: "pending" | "approved" | "rejected";
@@ -44,9 +44,9 @@ export default function DrivingSchoolDashboard() {
       <h1 className="text-2xl font-bold">{claim?.school_name ?? "Your driving school"}</h1>
       <p className="text-ink-muted mt-1 text-sm">Manage your listing on patentedigitale.it</p>
       <div className="mt-6">
-        <Button asChild>
-          <Link to="/driving-school/dashboard/edit">Edit my listing</Link>
-        </Button>
+        <Link to="/driving-school/dashboard/edit" className={buttonVariants()}>
+          Edit my listing
+        </Link>
       </div>
     </div>
   );
