@@ -7,7 +7,6 @@ import { useProfile } from "@/hooks/useProfile";
 import { Nav } from "@/components/nav/Nav";
 import { DashboardPending } from "@/components/driving-school/DashboardPending";
 import { DrivingSchoolLayout } from "@/components/driving-school/DrivingSchoolLayout";
-import { buttonVariants } from "@/components/ui/button";
 
 interface ClaimRow {
   status: "pending" | "approved" | "rejected";
