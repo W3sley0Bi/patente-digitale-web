@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { supabase } from "@/lib/supabase";
 import { Button } from "@/components/ui/button";
 
@@ -8,10 +9,13 @@ interface AuthFormProps {
   mode: AuthMode;
   role?: "student" | "autoscuola";
   fullName?: string;
+  emailRedirectTo?: string;
   onSuccess?: () => void;
+  onForgotPassword?: () => void;
 }
 
-export function AuthForm({ mode, role = "student", fullName, onSuccess }: AuthFormProps) {
+export function AuthForm({ mode, role = "student", fullName, emailRedirectTo, onSuccess, onForgotPassword }: AuthFormProps) {
+  const { t } = useTranslation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -28,7 +32,7 @@ export function AuthForm({ mode, role = "student", fullName, onSuccess }: AuthFo
     if (mode === "magic-link") {
       const { error: err } = await supabase.auth.signInWithOtp({
         email,
-        options: { data: metadata },
+        options: { data: metadata, ...(emailRedirectTo ? { emailRedirectTo } : {}) },
       });
       if (err) setError(err.message);
       else setMagicSent(true);
@@ -58,55 +62,77 @@ export function AuthForm({ mode, role = "student", fullName, onSuccess }: AuthFo
 
   if (magicSent) {
     return (
-      <p className="text-center text-sm text-ink-muted">
-        Magic link sent to <strong>{email}</strong>. Check your inbox.
-      </p>
+      <p
+        className="text-center text-sm text-ink-muted"
+        dangerouslySetInnerHTML={{ __html: t("auth.form.magicSent", { email }) }}
+      />
     );
   }
 
   return (
     <div className="flex flex-col gap-4">
-      {error && <p className="text-red-600 text-sm" role="alert">{error}</p>}
+      {error && (
+        <p className="text-red-600 text-xs bg-red-50 border border-red-200 rounded-lg px-3 py-2" role="alert">
+          {error}
+        </p>
+      )}
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-3">
         <label className="flex flex-col gap-1 text-sm">
-          Email
+          <span className="text-xs font-medium text-ink-muted uppercase tracking-wide">
+            {t("auth.form.email")}
+          </span>
           <input
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
             autoComplete="email"
-            className="border rounded px-3 py-2 text-sm"
+            className="border rounded-lg px-3 py-2.5 text-sm bg-bg focus:outline-none focus:ring-2 focus:ring-ink/20 transition"
           />
         </label>
         {mode !== "magic-link" && (
           <label className="flex flex-col gap-1 text-sm">
-            Password
+            <span className="text-xs font-medium text-ink-muted uppercase tracking-wide">
+              {t("auth.form.password")}
+            </span>
             <input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
               autoComplete={mode === "signup" ? "new-password" : "current-password"}
-              className="border rounded px-3 py-2 text-sm"
+              className="border rounded-lg px-3 py-2.5 text-sm bg-bg focus:outline-none focus:ring-2 focus:ring-ink/20 transition"
             />
           </label>
         )}
-        <Button type="submit" disabled={loading}>
+        <Button type="submit" disabled={loading} className="mt-1">
           {loading
-            ? "..."
+            ? t("auth.form.loading")
             : mode === "magic-link"
-            ? "Send magic link"
+            ? t("auth.form.sendMagicLink")
             : mode === "signup"
-            ? "Create account"
-            : "Log in"}
+            ? t("auth.form.createAccount")
+            : t("auth.form.login")}
         </Button>
+        {mode === "login" && onForgotPassword && (
+          <button
+            type="button"
+            onClick={onForgotPassword}
+            className="text-xs text-ink-muted hover:text-ink self-end transition-colors"
+          >
+            {t("auth.forgotPassword")}
+          </button>
+        )}
       </form>
 
       {role === "student" && (
         <>
-          <div className="text-center text-xs text-ink-muted">or continue with</div>
+          <div className="flex items-center gap-3">
+            <div className="flex-1 h-px bg-border" />
+            <span className="text-xs text-ink-muted">{t("auth.form.orWith")}</span>
+            <div className="flex-1 h-px bg-border" />
+          </div>
           <div className="flex flex-col gap-2">
             <Button variant="outline" onClick={() => handleOAuth("google")} type="button">
               Google

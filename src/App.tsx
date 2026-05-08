@@ -8,11 +8,14 @@ const Cerca = lazy(() => import("./routes/Cerca"));
 const Iscrizione = lazy(() => import("./routes/Iscrizione"));
 const Partner = lazy(() => import("./routes/Partner"));
 const Login = lazy(() => import("./routes/Login"));
-const Signup = lazy(() => import("./routes/Signup"));
+const QuizOnline = lazy(() => import("./routes/QuizOnline"));
+const ResetPassword = lazy(() => import("./routes/ResetPassword"));
 const SignupDrivingSchool = lazy(() => import("./routes/SignupDrivingSchool"));
 const StudentDashboard = lazy(() => import("./routes/StudentDashboard"));
 const DrivingSchoolDashboard = lazy(() => import("./routes/DrivingSchoolDashboard"));
 const DrivingSchoolEdit = lazy(() => import("./routes/DrivingSchoolEdit"));
+const SetPassword = lazy(() => import("./routes/SetPassword"));
+const DrivingSchoolSettings = lazy(() => import("./routes/DrivingSchoolSettings"));
 
 const LoadingFallback = () => (
 	<div className="flex min-h-screen items-center justify-center bg-bg">
@@ -32,7 +35,13 @@ function App() {
 					<Route path="/iscrizione" element={<Iscrizione />} />
 					<Route path="/partner" element={<Partner />} />
 					<Route path="/login" element={<Login />} />
-					<Route path="/signup" element={<Signup />} />
+					<Route path="/reset-password" element={<ResetPassword />} />
+					<Route path="/quiz" element={
+						<ProtectedRoute requiredRole="student">
+							<QuizOnline />
+						</ProtectedRoute>
+					} />
+					<Route path="/signup" element={<Navigate to="/login?tab=signup" replace />} />
 					<Route path="/signup/driving-school" element={<SignupDrivingSchool />} />
 					<Route
 						path="/student/dashboard"
@@ -58,6 +67,19 @@ function App() {
 							</ProtectedRoute>
 						}
 					/>
+					<Route
+						path="/driving-school/dashboard/settings"
+						element={
+							<ProtectedRoute requiredRole="autoscuola">
+								<DrivingSchoolSettings />
+							</ProtectedRoute>
+						}
+					/>
+					<Route path="/set-password" element={
+						<ProtectedRoute>
+							<SetPassword />
+						</ProtectedRoute>
+					} />
 					<Route path="*" element={<Navigate to="/" replace />} />
 				</Routes>
 			</Suspense>

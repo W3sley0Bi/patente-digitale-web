@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 export interface SchoolMatch {
   _placeId: string;
@@ -12,6 +13,7 @@ interface ClaimSearchProps {
 }
 
 export function ClaimSearch({ onSelect }: ClaimSearchProps) {
+  const { t } = useTranslation();
   const [query, setQuery] = useState("");
   const [all, setAll] = useState<SchoolMatch[]>([]);
   const [results, setResults] = useState<SchoolMatch[]>([]);
@@ -48,7 +50,7 @@ export function ClaimSearch({ onSelect }: ClaimSearchProps) {
     <div className="flex flex-col gap-2">
       <input
         type="text"
-        placeholder="Search school name or city..."
+        placeholder={t("school.search.placeholder")}
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         className="border rounded px-3 py-2 text-sm"

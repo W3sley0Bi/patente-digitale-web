@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { supabase } from "@/lib/supabase";
 import { Button } from "@/components/ui/button";
 
@@ -27,6 +28,7 @@ const ALL_LICENSES = ["AM", "A1", "A2", "A", "B1", "B", "BE", "C1", "C", "CE", "
 const TEXT_FIELDS = ["name", "address", "city", "zip", "region", "phone", "website"] as const;
 
 export function SchoolEditor({ initial, userId, onSaved }: SchoolEditorProps) {
+  const { t } = useTranslation();
   const [form, setForm] = useState<SchoolEditorData>(initial);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -58,26 +60,32 @@ export function SchoolEditor({ initial, userId, onSaved }: SchoolEditorProps) {
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-5">
-      {error && <p className="text-red-600 text-sm" role="alert">{error}</p>}
+      {error && (
+        <p className="text-red-600 text-xs bg-red-50 border border-red-200 rounded-lg px-3 py-2" role="alert">
+          {error}
+        </p>
+      )}
       {saved && (
-        <p className="text-green-700 text-sm">
-          Saved. Changes visible on the map within minutes.
+        <p className="text-green-700 text-xs bg-green-50 border border-green-200 rounded-lg px-3 py-2">
+          {t("school.editor.saved")}
         </p>
       )}
 
       {TEXT_FIELDS.map((field) => (
-        <label key={field} className="flex flex-col gap-1 text-sm capitalize">
-          {field}
+        <label key={field} className="flex flex-col gap-1 text-sm">
+          <span className="text-xs font-medium text-ink-muted uppercase tracking-wide">
+            {t(`school.editor.fields.${field}`)}
+          </span>
           <input
             value={(form[field] as string) ?? ""}
             onChange={(e) => setField(field, e.target.value)}
-            className="border rounded px-3 py-2 text-sm"
+            className="border rounded-lg px-3 py-2.5 text-sm bg-bg focus:outline-none focus:ring-2 focus:ring-ink/20 transition"
           />
         </label>
       ))}
 
       <fieldset>
-        <legend className="text-sm font-medium mb-2">Licenses offered</legend>
+        <legend className="text-sm font-medium mb-2">{t("school.editor.licenses")}</legend>
         <div className="flex flex-wrap gap-x-4 gap-y-2">
           {ALL_LICENSES.map((l) => (
             <label key={l} className="flex items-center gap-1.5 text-sm cursor-pointer">
@@ -93,17 +101,19 @@ export function SchoolEditor({ initial, userId, onSaved }: SchoolEditorProps) {
       </fieldset>
 
       <label className="flex flex-col gap-1 text-sm">
-        Opening hours (one per line, e.g. "Lunedì: 9:00–19:00")
+        <span className="text-xs font-medium text-ink-muted uppercase tracking-wide">
+          {t("school.editor.openingHours")}
+        </span>
         <textarea
           rows={7}
           value={(form.opening_hours ?? []).join("\n")}
           onChange={(e) => setField("opening_hours", e.target.value.split("\n"))}
-          className="border rounded px-3 py-2 text-sm font-mono"
+          className="border rounded-lg px-3 py-2.5 text-sm font-mono bg-bg focus:outline-none focus:ring-2 focus:ring-ink/20 transition"
         />
       </label>
 
       <Button type="submit" disabled={loading}>
-        {loading ? "Saving..." : "Save changes"}
+        {loading ? t("school.editor.saving") : t("school.editor.save")}
       </Button>
     </form>
   );

@@ -1,8 +1,7 @@
-import { Headset, Menu, User, X, Mail, MessageCircle } from "lucide-react";
+import { Headset, Menu, X, Mail, MessageCircle } from "lucide-react";
 import { useEffect, useState, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router";
-import { Button } from "@/components/ui/button";
 import {
 	Sheet,
 	SheetContent,
@@ -11,13 +10,16 @@ import {
 } from "@/components/ui/sheet";
 import { Mascot, Wordmark } from "../brand/Brand";
 import { LangSwitch } from "./LangSwitch";
+import { UserMenu } from "./UserMenu";
+import { Button } from "@/components/ui/button";
 
 const NAV_LINKS = [
 	{ href: "/#how-it-works", label: "landing.nav.howItWorks" },
 	{ href: "/#partner", label: "landing.nav.partners" },
-	{ href: "/cerca", label: "landing.nav.findSchool" },
+	{ href: "/search", label: "landing.nav.findSchool" },
 	{ href: "/#faq", label: "landing.nav.faq" },
 ];
+
 
 export function Nav() {
 	const { t } = useTranslation();
@@ -171,12 +173,7 @@ export function Nav() {
 				{/* Desktop actions */}
 				<div className="hidden items-center gap-3 md:flex">
 					<LangSwitch />
-					<Link to="/accedi">
-						<Button variant="ghost" size="sm" className="gap-1.5">
-							<User className="h-4 w-4" />
-							{t("landing.nav.signIn")}
-						</Button>
-					</Link>
+					<UserMenu />
 					<ContactDropdown />
 				</div>
 
@@ -228,14 +225,7 @@ export function Nav() {
 									</span>
 									<LangSwitch />
 								</div>
-								<Link
-									to="/accedi"
-									onClick={() => setIsMenuOpen(false)}
-									className="flex items-center gap-2 font-sans text-sm text-ink-muted hover:text-ink transition-colors py-1"
-								>
-									<User className="h-4 w-4" />
-									{t("landing.nav.signIn")}
-								</Link>
+								<UserMenu onClose={() => setIsMenuOpen(false)} />
 							</div>
 						</SheetContent>
 					</Sheet>

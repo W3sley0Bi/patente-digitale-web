@@ -33,6 +33,130 @@
 			"enroll": "Enrol now"
 		}
 	},
+	"student": {
+		"dashboard": {
+			"title": "Student dashboard",
+			"desc": "Quiz, enrolled school, and progress tracking — coming soon."
+		},
+		"quiz": {
+			"title": "Quiz online",
+			"desc": "Official Ministry quizzes and progress tracking — coming soon."
+		}
+	},
+	"school": {
+		"claim": {
+			"title": "Claim your driving school",
+			"searchHint": "Search for your school to get started.",
+			"notListed": "My school isn't listed",
+			"foundSchool": "We found <strong>{{name}}</strong>. To get verified automatically, use a <strong>@{{domain}}</strong> email address.",
+			"noDomainEmail": "I don't have a @{{domain}} email",
+			"manualReview": "<strong>{{name}}</strong> — your claim will be reviewed manually, usually within 48 hours.",
+			"notFound": "Your school isn't in our system yet. Submit a claim and we'll add it.",
+			"submitted": "Claim submitted!",
+			"submittedDesc": "You'll hear from us within 48 hours.",
+			"goToDashboard": "Go to your dashboard",
+			"alreadyClaimed": "<strong>{{name}}</strong> has already been claimed. <a href='/login' class='underline'>Log in</a> to your account or contact <a href='mailto:supporto@patentedigitale.it' class='underline'>supporto@patentedigitale.it</a>.",
+			"backToSearch": "← Search again"
+		},
+		"pending": {
+			"rejectedTitle": "Claim rejected",
+			"rejectedDesc": "Your ownership claim was not approved.",
+			"rejectedContact": "Contact us",
+			"rejectedReason": "to understand why.",
+			"pendingTitle": "Claim in review",
+			"pendingDesc": "We're reviewing your ownership claim. Usually within 48 hours."
+		},
+		"claimForm": {
+			"createAccount": "First, create your account:",
+			"hasAccount": "Already have an account?",
+			"login": "Log in",
+			"fullName": "Your full name",
+			"schoolName": "School name",
+			"piva": "P.IVA (optional, helps speed up review)",
+			"submitting": "Submitting...",
+			"submit": "Submit claim",
+			"notAuthenticated": "Not authenticated."
+		},
+		"search": {
+			"placeholder": "Search school name or city..."
+		},
+		"editor": {
+			"fields": {
+				"name": "School name",
+				"address": "Address",
+				"city": "City",
+				"zip": "Postcode",
+				"region": "Region",
+				"phone": "Phone",
+				"website": "Website"
+			},
+			"licenses": "Licenses offered",
+			"openingHours": "Opening hours (one per line, e.g. \"Lunedì: 9:00–19:00\")",
+			"saving": "Saving...",
+			"save": "Save changes",
+			"saved": "Saved. Changes visible on the map within minutes."
+		},
+		"dashboard": {
+			"defaultName": "Your driving school",
+			"subtitle": "Manage your listing on patentedigitale.it",
+			"editListing": "Edit listing",
+			"editListingDesc": "Update address, hours, licences and prices",
+			"nav": {
+				"overview": "Overview",
+				"editListing": "Listing",
+				"settings": "Settings"
+			}
+		},
+		"edit": {
+			"backToDashboard": "← Dashboard",
+			"title": "Edit your listing",
+			"noData": "No school data found. Contact",
+			"support": "support"
+		}
+	},
+	"auth": {
+		"login": "Log in",
+		"signup": "Sign up",
+		"noAccount": "No account?",
+		"hasAccount": "Already have an account?",
+		"signupLink": "Sign up",
+		"loginLink": "Log in",
+		"back": "← Back",
+		"magicLinkTitle": "Sign in with a link",
+		"magicLinkDesc": "We'll email you a sign-in link — no password needed.",
+		"magicLinkOption": "No password? Sign in with a link",
+		"forgotPassword": "Forgot password?",
+		"forgotTitle": "Reset password",
+		"forgotDesc": "Enter your email and we'll send you a reset link.",
+		"forgotSent": "Check your email for a reset link.",
+		"sendResetLink": "Send reset link",
+		"newPassword": "New password",
+		"updatePassword": "Update password",
+		"passwordUpdated": "Password updated. You can now log in.",
+		"setPasswordTitle": "Set a password",
+		"setPasswordDesc": "Set a password so you can sign in with email and password next time.",
+		"setPasswordSave": "Save password",
+		"backToDashboard": "← Back to dashboard",
+		"whoAreYou": "Who are you?",
+		"student": {
+			"title": "I'm a student",
+			"desc": "Find an autoscuola and prepare for your exam"
+		},
+		"school": {
+			"title": "I run a driving school",
+			"desc": "Claim your listing and manage your profile"
+		},
+		"form": {
+			"email": "Email",
+			"password": "Password",
+			"loading": "...",
+			"sendMagicLink": "Send magic link",
+			"createAccount": "Create account",
+			"login": "Log in",
+			"orWith": "or continue with",
+			"magicSent": "Magic link sent to <strong>{{email}}</strong>. Check your inbox."
+		}
+	},
 	"landing": {
 		"nav": {
 			"howItWorks": "For students",
@@ -41,7 +165,11 @@
 			"faq": "FAQ",
 			"contact": "Contact",
 			"signIn": "Sign in",
-			"findSchool": "Find a driving school"
+			"findSchool": "Find a driving school",
+			"dashboard": "Dashboard",
+			"quizOnline": "Quiz online",
+			"logout": "Log out",
+			"setPassword": "Set password"
 		},
 		"hero": {
 			"headline": {
@@ -123,7 +251,10 @@
 					"subCaption": "among 2024 students"
 				}
 			},
-			"partners": { "title": "Some of our partners" }
+			"partners": { 
+				"title": "Some of our partners",
+				"strategic": "Ecosystem & Collaborations"
+			}
 		},
 		"b2b": {
 			"eyebrow": "Are you a driving school?",

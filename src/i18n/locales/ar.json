@@ -33,6 +33,130 @@
 			"enroll": "سجل الآن"
 		}
 	},
+	"student": {
+		"dashboard": {
+			"title": "لوحة تحكم الطالب",
+			"desc": "الاختبارات والمدرسة المسجلة وتتبع التقدم — قريباً."
+		},
+		"quiz": {
+			"title": "اختبار أونلاين",
+			"desc": "الاختبارات الرسمية من الوزارة وتتبع التقدم — قريباً."
+		}
+	},
+	"school": {
+		"claim": {
+			"title": "المطالبة بمدرسة القيادة الخاصة بك",
+			"searchHint": "ابحث عن مدرستك للبدء.",
+			"notListed": "مدرستي غير مدرجة",
+			"foundSchool": "وجدنا <strong>{{name}}</strong>. للتحقق التلقائي، استخدم بريداً إلكترونياً <strong>@{{domain}}</strong>.",
+			"noDomainEmail": "ليس لدي بريد @{{domain}}",
+			"manualReview": "<strong>{{name}}</strong> — ستتم مراجعة طلبك يدوياً، عادةً خلال 48 ساعة.",
+			"notFound": "مدرستك ليست في نظامنا بعد. أرسل طلباً وسنضيفها.",
+			"submitted": "تم إرسال الطلب!",
+			"submittedDesc": "ستسمع منا خلال 48 ساعة.",
+			"goToDashboard": "اذهب إلى لوحة التحكم",
+			"alreadyClaimed": "تمت المطالبة بـ <strong>{{name}}</strong> مسبقاً. <a href='/login' class='underline'>سجّل دخولك</a> أو تواصل مع <a href='mailto:supporto@patentedigitale.it' class='underline'>supporto@patentedigitale.it</a>.",
+			"backToSearch": "→ البحث مجدداً"
+		},
+		"pending": {
+			"rejectedTitle": "تم رفض الطلب",
+			"rejectedDesc": "لم يتم الموافقة على طلب ملكيتك.",
+			"rejectedContact": "تواصل معنا",
+			"rejectedReason": "لمعرفة السبب.",
+			"pendingTitle": "الطلب قيد المراجعة",
+			"pendingDesc": "نحن نراجع طلب ملكيتك. عادةً خلال 48 ساعة."
+		},
+		"claimForm": {
+			"createAccount": "أولاً، أنشئ حسابك:",
+			"hasAccount": "لديك حساب بالفعل؟",
+			"login": "تسجيل الدخول",
+			"fullName": "اسمك الكامل",
+			"schoolName": "اسم المدرسة",
+			"piva": "P.IVA (اختياري، يسرّع المراجعة)",
+			"submitting": "جارٍ الإرسال...",
+			"submit": "إرسال الطلب",
+			"notAuthenticated": "غير مصادق عليك."
+		},
+		"search": {
+			"placeholder": "ابحث باسم المدرسة أو المدينة..."
+		},
+		"editor": {
+			"fields": {
+				"name": "اسم المدرسة",
+				"address": "العنوان",
+				"city": "المدينة",
+				"zip": "الرمز البريدي",
+				"region": "المنطقة",
+				"phone": "الهاتف",
+				"website": "الموقع الإلكتروني"
+			},
+			"licenses": "التراخيص المتاحة",
+			"openingHours": "ساعات العمل (سطر واحد لكل يوم، مثال: \"Lunedì: 9:00–19:00\")",
+			"saving": "جارٍ الحفظ...",
+			"save": "حفظ التغييرات",
+			"saved": "تم الحفظ. ستظهر التغييرات على الخريطة خلال دقائق."
+		},
+		"dashboard": {
+			"defaultName": "مدرسة قيادتك",
+			"subtitle": "أدر قائمتك على patentedigitale.it",
+			"editListing": "تعديل القائمة",
+			"editListingDesc": "تحديث العنوان والمواعيد والرخص والأسعار",
+			"nav": {
+				"overview": "نظرة عامة",
+				"editListing": "القائمة",
+				"settings": "الإعدادات"
+			}
+		},
+		"edit": {
+			"backToDashboard": "→ لوحة التحكم",
+			"title": "تعديل قائمتك",
+			"noData": "لا توجد بيانات. تواصل مع",
+			"support": "الدعم"
+		}
+	},
+	"auth": {
+		"login": "تسجيل الدخول",
+		"signup": "إنشاء حساب",
+		"noAccount": "ليس لديك حساب؟",
+		"hasAccount": "لديك حساب بالفعل؟",
+		"signupLink": "سجّل",
+		"loginLink": "ادخل",
+		"back": "→ رجوع",
+		"magicLinkTitle": "تسجيل الدخول برابط",
+		"magicLinkDesc": "سنرسل لك رابط دخول عبر البريد الإلكتروني — بدون كلمة مرور.",
+		"magicLinkOption": "لا كلمة مرور؟ ادخل برابط",
+		"forgotPassword": "نسيت كلمة المرور؟",
+		"forgotTitle": "إعادة تعيين كلمة المرور",
+		"forgotDesc": "أدخل بريدك الإلكتروني وسنرسل لك رابط إعادة التعيين.",
+		"forgotSent": "تحقق من بريدك الإلكتروني للحصول على رابط إعادة التعيين.",
+		"sendResetLink": "إرسال رابط إعادة التعيين",
+		"newPassword": "كلمة المرور الجديدة",
+		"updatePassword": "تحديث كلمة المرور",
+		"passwordUpdated": "تم تحديث كلمة المرور. يمكنك الآن تسجيل الدخول.",
+		"setPasswordTitle": "تعيين كلمة مرور",
+		"setPasswordDesc": "عيّن كلمة مرور لتتمكن من الدخول بالبريد الإلكتروني وكلمة المرور في المرة القادمة.",
+		"setPasswordSave": "حفظ كلمة المرور",
+		"backToDashboard": "→ العودة إلى لوحة التحكم",
+		"whoAreYou": "من أنت؟",
+		"student": {
+			"title": "أنا طالب",
+			"desc": "ابحث عن مدرسة قيادة وتحضر للامتحان"
+		},
+		"school": {
+			"title": "أدير مدرسة قيادة",
+			"desc": "المطالبة بقائمتك وإدارة ملفك الشخصي"
+		},
+		"form": {
+			"email": "البريد الإلكتروني",
+			"password": "كلمة المرور",
+			"loading": "...",
+			"sendMagicLink": "أرسل رابط الدخول",
+			"createAccount": "إنشاء حساب",
+			"login": "تسجيل الدخول",
+			"orWith": "أو تابع مع",
+			"magicSent": "تم إرسال رابط الدخول إلى <strong>{{email}}</strong>. تحقق من بريدك الوارد."
+		}
+	},
 	"landing": {
 		"nav": {
 			"howItWorks": "للطلاب",
@@ -41,7 +165,11 @@
 			"faq": "الأسئلة الشائعة",
 			"contact": "اتصل بنا",
 			"signIn": "تسجيل الدخول",
-			"findSchool": "ابحث عن مدرسة"
+			"findSchool": "ابحث عن مدرسة",
+			"dashboard": "لوحة التحكم",
+			"quizOnline": "اختبار أونلاين",
+			"logout": "تسجيل الخروج",
+			"setPassword": "تعيين كلمة مرور"
 		},
 		"hero": {
 			"headline": {

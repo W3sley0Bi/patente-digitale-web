@@ -4,7 +4,7 @@ import { useProfile } from "@/hooks/useProfile";
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
-  requiredRole: "student" | "autoscuola";
+  requiredRole?: "student" | "autoscuola";
   requireApproved?: boolean;
 }
 
@@ -19,7 +19,7 @@ export function ProtectedRoute({ children, requiredRole, requireApproved = false
     return <Navigate to={`/login?next=${encodeURIComponent(location.pathname)}`} replace />;
   }
 
-  if (role !== requiredRole) {
+  if (requiredRole && role !== requiredRole) {
     return <Navigate to="/login" replace />;
   }
 

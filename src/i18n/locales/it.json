@@ -36,6 +36,130 @@
 			"noPrices": "Prezzi non disponibili online"
 		}
 	},
+	"student": {
+		"dashboard": {
+			"title": "Dashboard studente",
+			"desc": "Quiz, autoscuola iscritta e monitoraggio progressi — prossimamente."
+		},
+		"quiz": {
+			"title": "Quiz online",
+			"desc": "Quiz ufficiali del Ministero e monitoraggio progressi — prossimamente."
+		}
+	},
+	"school": {
+		"claim": {
+			"title": "Rivendica la tua autoscuola",
+			"searchHint": "Cerca la tua autoscuola per iniziare.",
+			"notListed": "La mia autoscuola non è in elenco",
+			"foundSchool": "Abbiamo trovato <strong>{{name}}</strong>. Per la verifica automatica usa un'email <strong>@{{domain}}</strong>.",
+			"noDomainEmail": "Non ho un'email @{{domain}}",
+			"manualReview": "<strong>{{name}}</strong> — la tua richiesta sarà revisionata manualmente, di solito entro 48 ore.",
+			"notFound": "La tua autoscuola non è ancora nel nostro sistema. Invia una richiesta e la aggiungeremo.",
+			"submitted": "Richiesta inviata!",
+			"submittedDesc": "Ti risponderemo entro 48 ore.",
+			"goToDashboard": "Vai alla tua dashboard",
+			"alreadyClaimed": "<strong>{{name}}</strong> è già stata rivendicata. <a href='/login' class='underline'>Accedi</a> al tuo account o contatta <a href='mailto:supporto@patentedigitale.it' class='underline'>supporto@patentedigitale.it</a>.",
+			"backToSearch": "← Cerca di nuovo"
+		},
+		"pending": {
+			"rejectedTitle": "Richiesta rifiutata",
+			"rejectedDesc": "La tua richiesta di proprietà non è stata approvata.",
+			"rejectedContact": "Contattaci",
+			"rejectedReason": "per capire il motivo.",
+			"pendingTitle": "Richiesta in revisione",
+			"pendingDesc": "Stiamo revisionando la tua richiesta di proprietà. Di solito entro 48 ore."
+		},
+		"claimForm": {
+			"createAccount": "Prima di tutto, crea il tuo account:",
+			"hasAccount": "Hai già un account?",
+			"login": "Accedi",
+			"fullName": "Il tuo nome completo",
+			"schoolName": "Nome autoscuola",
+			"piva": "P.IVA (opzionale, velocizza la revisione)",
+			"submitting": "Invio in corso...",
+			"submit": "Invia richiesta",
+			"notAuthenticated": "Non autenticato."
+		},
+		"search": {
+			"placeholder": "Cerca autoscuola o città..."
+		},
+		"editor": {
+			"fields": {
+				"name": "Nome autoscuola",
+				"address": "Indirizzo",
+				"city": "Città",
+				"zip": "CAP",
+				"region": "Regione",
+				"phone": "Telefono",
+				"website": "Sito web"
+			},
+			"licenses": "Patenti erogate",
+			"openingHours": "Orari di apertura (uno per riga, es. \"Lunedì: 9:00–19:00\")",
+			"saving": "Salvataggio...",
+			"save": "Salva modifiche",
+			"saved": "Salvato. Le modifiche saranno visibili sulla mappa entro pochi minuti."
+		},
+		"dashboard": {
+			"defaultName": "La tua autoscuola",
+			"subtitle": "Gestisci il tuo profilo su patentedigitale.it",
+			"editListing": "Modifica il profilo",
+			"editListingDesc": "Aggiorna indirizzo, orari, patenti e prezzi",
+			"nav": {
+				"overview": "Panoramica",
+				"editListing": "Profilo",
+				"settings": "Impostazioni"
+			}
+		},
+		"edit": {
+			"backToDashboard": "← Dashboard",
+			"title": "Modifica il tuo profilo",
+			"noData": "Nessun dato trovato. Contatta il",
+			"support": "supporto"
+		}
+	},
+	"auth": {
+		"login": "Accedi",
+		"signup": "Registrati",
+		"noAccount": "Non hai un account?",
+		"hasAccount": "Hai già un account?",
+		"signupLink": "Registrati",
+		"loginLink": "Accedi",
+		"back": "← Indietro",
+		"magicLinkTitle": "Accedi con un link",
+		"magicLinkDesc": "Ti mandiamo un link via email — nessuna password necessaria.",
+		"magicLinkOption": "Nessuna password? Accedi con un link",
+		"forgotPassword": "Password dimenticata?",
+		"forgotTitle": "Reimposta password",
+		"forgotDesc": "Inserisci la tua email e ti invieremo un link per reimpostare la password.",
+		"forgotSent": "Controlla la tua email per il link di reimpostazione.",
+		"sendResetLink": "Invia link di reset",
+		"newPassword": "Nuova password",
+		"updatePassword": "Aggiorna password",
+		"passwordUpdated": "Password aggiornata. Puoi accedere ora.",
+		"setPasswordTitle": "Imposta una password",
+		"setPasswordDesc": "Imposta una password per accedere con email e password la prossima volta.",
+		"setPasswordSave": "Salva password",
+		"backToDashboard": "← Torna alla dashboard",
+		"whoAreYou": "Chi sei?",
+		"student": {
+			"title": "Sono uno studente",
+			"desc": "Trova un'autoscuola e preparati all'esame"
+		},
+		"school": {
+			"title": "Ho un'autoscuola",
+			"desc": "Rivendica il tuo profilo e gestisci la tua autoscuola"
+		},
+		"form": {
+			"email": "Email",
+			"password": "Password",
+			"loading": "...",
+			"sendMagicLink": "Invia magic link",
+			"createAccount": "Crea account",
+			"login": "Accedi",
+			"orWith": "o continua con",
+			"magicSent": "Magic link inviato a <strong>{{email}}</strong>. Controlla la tua casella."
+		}
+	},
 	"landing": {
 		"nav": {
 			"howItWorks": "Per gli studenti",
@@ -44,7 +168,11 @@
 			"faq": "FAQ",
 			"contact": "Contatti",
 			"signIn": "Accedi",
-			"findSchool": "Cerca autoscuola"
+			"findSchool": "Cerca autoscuola",
+			"dashboard": "Dashboard",
+			"quizOnline": "Quiz online",
+			"logout": "Esci",
+			"setPassword": "Imposta password"
 		},
 		"hero": {
 			"headline": {
@@ -126,7 +254,10 @@
 					"subCaption": "tra gli iscritti del 2024"
 				}
 			},
-			"partners": { "title": "Alcuni dei nostri partner" }
+			"partners": { 
+				"title": "Alcuni dei nostri partner",
+				"strategic": "Ecosistema e Collaborazioni"
+			}
 		},
 		"b2b": {
 			"eyebrow": "Sei un'autoscuola?",

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { supabase } from "@/lib/supabase";
 import { Button } from "@/components/ui/button";
 import { AuthForm } from "@/components/auth/AuthForm";
@@ -12,6 +13,7 @@ interface ClaimFormProps {
 type Step = "auth" | "details";
 
 export function ClaimForm({ placeId, schoolName = "", onSuccess }: ClaimFormProps) {
+  const { t } = useTranslation();
   const [step, setStep] = useState<Step>("auth");
   const [fullName, setFullName] = useState("");
   const [piva, setPiva] = useState("");
@@ -27,7 +29,7 @@ export function ClaimForm({ placeId, schoolName = "", onSuccess }: ClaimFormProp
     setError(null);
 
     const { data: { user } } = await supabase.auth.getUser();
-    if (!user) { setError("Not authenticated."); setLoading(false); return; }
+    if (!user) { setError(t("school.claimForm.notAuthenticated")); setLoading(false); return; }
 
     const { error: err } = await supabase.from("pending_claims").insert({
       user_id: user.id,
@@ -46,11 +48,11 @@ export function ClaimForm({ placeId, schoolName = "", onSuccess }: ClaimFormProp
   if (step === "auth") {
     return (
       <div className="flex flex-col gap-4">
-        <p className="text-sm text-ink-muted">First, create your account:</p>
+        <p className="text-sm text-ink-muted">{t("school.claimForm.createAccount")}</p>
         <AuthForm mode="signup" role="autoscuola" onSuccess={handleAuthSuccess} />
         <p className="text-center text-sm text-ink-muted">
-          Already have an account?{" "}
-          <a href="/login" className="underline">Log in</a>
+          {t("school.claimForm.hasAccount")}{" "}
+          <a href="/login" className="underline">{t("school.claimForm.login")}</a>
         </p>
       </div>
     );
@@ -58,41 +60,51 @@ export function ClaimForm({ placeId, schoolName = "", onSuccess }: ClaimFormProp
 
   return (
     <form onSubmit={handleSubmitClaim} className="flex flex-col gap-4">
-      {error && <p className="text-red-600 text-sm" role="alert">{error}</p>}
+      {error && (
+        <p className="text-red-600 text-xs bg-red-50 border border-red-200 rounded-lg px-3 py-2" role="alert">
+          {error}
+        </p>
+      )}
 
       <label className="flex flex-col gap-1 text-sm">
-        Your full name
+        <span className="text-xs font-medium text-ink-muted uppercase tracking-wide">
+          {t("school.claimForm.fullName")}
+        </span>
         <input
           value={fullName}
           onChange={(e) => setFullName(e.target.value)}
           required
-          className="border rounded px-3 py-2 text-sm"
+          className="border rounded-lg px-3 py-2.5 text-sm bg-bg focus:outline-none focus:ring-2 focus:ring-ink/20 transition"
         />
       </label>
 
       {!placeId && (
         <label className="flex flex-col gap-1 text-sm">
-          School name
+          <span className="text-xs font-medium text-ink-muted uppercase tracking-wide">
+            {t("school.claimForm.schoolName")}
+          </span>
           <input
             value={manualName}
             onChange={(e) => setManualName(e.target.value)}
             required
-            className="border rounded px-3 py-2 text-sm"
+            className="border rounded-lg px-3 py-2.5 text-sm bg-bg focus:outline-none focus:ring-2 focus:ring-ink/20 transition"
           />
         </label>
       )}
 
       <label className="flex flex-col gap-1 text-sm">
-        P.IVA (optional, helps speed up review)
+        <span className="text-xs font-medium text-ink-muted uppercase tracking-wide">
+          {t("school.claimForm.piva")}
+        </span>
         <input
           value={piva}
           onChange={(e) => setPiva(e.target.value)}
-          className="border rounded px-3 py-2 text-sm"
+          className="border rounded-lg px-3 py-2.5 text-sm bg-bg focus:outline-none focus:ring-2 focus:ring-ink/20 transition"
         />
       </label>
 
       <Button type="submit" disabled={loading}>
-        {loading ? "Submitting..." : "Submit claim"}
+        {loading ? t("school.claimForm.submitting") : t("school.claimForm.submit")}
       </Button>
     </form>
   );

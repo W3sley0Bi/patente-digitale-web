@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router";
+import { useTranslation } from "react-i18next";
 import { supabase } from "@/lib/supabase";
 import { useAuth } from "@/hooks/useAuth";
+import { DrivingSchoolLayout } from "@/components/driving-school/DrivingSchoolLayout";
 import { SchoolEditor } from "@/components/driving-school/SchoolEditor";
 import type { SchoolEditorData } from "@/components/driving-school/SchoolEditor";
 
 export default function DrivingSchoolEdit() {
+  const { t } = useTranslation();
   const { user } = useAuth();
   const [data, setData] = useState<SchoolEditorData | null>(null);
   const [loading, setLoading] = useState(true);
@@ -24,26 +26,28 @@ export default function DrivingSchoolEdit() {
   }, [user]);
 
   if (loading) {
-    return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
+    return (
+      <DrivingSchoolLayout>
+        <div className="flex items-center justify-center py-20">
+          <div className="h-6 w-6 animate-pulse rounded-full bg-brand/20" />
+        </div>
+      </DrivingSchoolLayout>
+    );
   }
 
   return (
-    <div className="min-h-screen p-8 max-w-2xl mx-auto">
-      <div className="flex items-center gap-3 mb-6">
-        <Link to="/driving-school/dashboard" className="text-sm underline text-ink-muted">
-          &larr; Dashboard
-        </Link>
-        <h1 className="text-2xl font-bold">Edit your listing</h1>
-      </div>
-
+    <DrivingSchoolLayout>
+      <h1 className="text-2xl font-bold mb-6">{t("school.edit.title")}</h1>
       {user && data ? (
         <SchoolEditor initial={data} userId={user.id} />
       ) : (
         <p className="text-ink-muted text-sm">
-          No school data found. Contact{" "}
-          <a href="mailto:support@patentedigitale.it" className="underline">support</a>.
+          {t("school.edit.noData")}{" "}
+          <a href="mailto:support@patentedigitale.it" className="underline">
+            {t("school.edit.support")}
+          </a>.
         </p>
       )}
-    </div>
+    </DrivingSchoolLayout>
   );
 }

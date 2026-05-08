@@ -1,18 +1,22 @@
+import { useTranslation } from "react-i18next";
+
 interface DashboardPendingProps {
   status: "pending" | "rejected";
 }
 
 export function DashboardPending({ status }: DashboardPendingProps) {
+  const { t } = useTranslation();
+
   if (status === "rejected") {
     return (
       <div className="text-center flex flex-col gap-3">
-        <h2 className="text-xl font-semibold">Claim rejected</h2>
+        <h2 className="text-xl font-semibold">{t("school.pending.rejectedTitle")}</h2>
         <p className="text-ink-muted text-sm">
-          Your ownership claim was not approved.{" "}
+          {t("school.pending.rejectedDesc")}{" "}
           <a href="mailto:support@patentedigitale.it" className="underline">
-            Contact us
+            {t("school.pending.rejectedContact")}
           </a>{" "}
-          to understand why.
+          {t("school.pending.rejectedReason")}
         </p>
       </div>
     );
@@ -20,10 +24,8 @@ export function DashboardPending({ status }: DashboardPendingProps) {
 
   return (
     <div className="text-center flex flex-col gap-3">
-      <h2 className="text-xl font-semibold">Claim in review</h2>
-      <p className="text-ink-muted text-sm">
-        We're reviewing your ownership claim. Usually within 48 hours.
-      </p>
+      <h2 className="text-xl font-semibold">{t("school.pending.pendingTitle")}</h2>
+      <p className="text-ink-muted text-sm">{t("school.pending.pendingDesc")}</p>
     </div>
   );
 }

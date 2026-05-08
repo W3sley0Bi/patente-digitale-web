@@ -6,6 +6,7 @@ export interface SchoolProperties {
   region: string;
   address: string;
   phone: string;
+  email?: string;
   website: string;
   partner?: boolean;
   rating?: number | null;

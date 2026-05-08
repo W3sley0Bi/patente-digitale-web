@@ -8,6 +8,8 @@ import { Hero } from "@/components/sections/Hero";
 import { HowItWorks } from "@/components/sections/HowItWorks";
 import { WhyDigital } from "@/components/sections/WhyDigital";
 
+import { Trust } from "@/components/sections/Trust";
+
 // Lazy load deep sections
 const B2B = lazy(() => import("@/components/sections/B2B").then(m => ({ default: m.B2B })));
 const FAQ = lazy(() => import("@/components/sections/FAQ").then(m => ({ default: m.FAQ })));
@@ -34,7 +36,7 @@ export default function Landing() {
 					<HowItWorks />
 					<WhyDigital />
 					<Suspense fallback={<SectionPlaceholder />}>
-						{/* <Trust /> */}
+						<Trust />
 						<FAQ />
 						<B2B />
 						<Testimonials />
