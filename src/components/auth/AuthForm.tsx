@@ -37,12 +37,16 @@ export function AuthForm({ mode, role = "student", fullName, emailRedirectTo, on
       if (err) setError(err.message);
       else setMagicSent(true);
     } else if (mode === "signup") {
-      const { error: err } = await supabase.auth.signUp({
+      const { data: signUpData, error: err } = await supabase.auth.signUp({
         email,
         password,
-        options: { data: metadata },
+        options: {
+          data: metadata,
+          emailRedirectTo: emailRedirectTo ?? window.location.href,
+        },
       });
       if (err) setError(err.message);
+      else if (!signUpData.session) setMagicSent(true); // email confirmation pending
       else onSuccess?.();
     } else {
       const { error: err } = await supabase.auth.signInWithPassword({ email, password });

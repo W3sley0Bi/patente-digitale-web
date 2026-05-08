@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { supabase } from "@/lib/supabase";
+import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { AuthForm } from "@/components/auth/AuthForm";
 
@@ -14,7 +15,13 @@ type Step = "auth" | "details";
 
 export function ClaimForm({ placeId, schoolName = "", onSuccess }: ClaimFormProps) {
   const { t } = useTranslation();
+  const { user, loading: authLoading } = useAuth();
   const [step, setStep] = useState<Step>("auth");
+
+  // User returned from email confirmation link — skip the auth step
+  useEffect(() => {
+    if (!authLoading && user) setStep("details");
+  }, [user, authLoading]);
   const [fullName, setFullName] = useState("");
   const [piva, setPiva] = useState("");
   const [manualName, setManualName] = useState(schoolName);

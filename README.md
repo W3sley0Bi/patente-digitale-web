@@ -80,6 +80,25 @@ Interactive map of all driving schools in Italy using:
 
 ## TODO — to be discussed
 
+### App vs. website separation: `app.patentedigitale.it` subdomain
+
+Currently the authenticated product (dashboard, school management) lives under the same origin as the marketing site. As the product matures, consider migrating to a dedicated subdomain:
+
+- **Subdomain** `app.patentedigitale.it` — independent deploy, separate caching, clean brand boundary (standard SaaS pattern). Auth cookies set on `.patentedigitale.it` (root domain) work across both.
+- **Path** `/app` — simpler now (same origin, no DNS work), but shared bundle and harder to split later.
+
+**Recommendation**: migrate to subdomain. Add `app.patentedigitale.it` in Vercel → Settings → Domains, point DNS CNAME at Vercel, update auth cookie domain.
+
+### Claim form: pre-fill all available school data
+
+Currently the claim submission only sends the school name. The map dataset already has richer data (address, phone, website, region, CAP). This data should be included in the claim payload so the school owner doesn't have to re-type it after approval.
+
+- Pass the full school object (address, phone, website, city, CAP, region, coordinates) when the user initiates a claim from the map
+- Store it in the `claims` table alongside `school_name`
+- On approval, auto-populate the school profile from the claim data instead of starting blank
+
+
+
 ### Dataset quality: should we use Google Maps as source?
 
 Current dataset comes from OpenStreetMap (Overpass API, ~1,375 schools). OSM has incomplete data: many schools missing phone, website, region, and CAP.
