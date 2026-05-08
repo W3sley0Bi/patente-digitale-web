@@ -1,4 +1,5 @@
 export interface SchoolProperties {
+  _placeId?: string;
   name: string;
   city: string;
   zip: string;
