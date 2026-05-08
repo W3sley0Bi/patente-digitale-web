@@ -8,6 +8,8 @@ interface UseCercaReturn {
   city: string;
   region: string;
   zip: string;
+  name: string;
+  license: string;
   partnerOnly: boolean;
   results: NormalizedSchool[];
   cityOptions: string[];
@@ -17,6 +19,8 @@ interface UseCercaReturn {
   setCity: (v: string) => void;
   setRegion: (v: string) => void;
   setZip: (v: string) => void;
+  setName: (v: string) => void;
+  setLicense: (v: string) => void;
   setPartnerOnly: (v: boolean) => void;
   setSelected: (school: NormalizedSchool | null) => void;
   clearFilters: () => void;
@@ -30,10 +34,18 @@ export function useCerca(): UseCercaReturn {
     city: searchParams.get("city") ?? "",
     region: searchParams.get("region") ?? "",
     zip: searchParams.get("zip") ?? "",
+    name: searchParams.get("q") ?? "",
+    license: searchParams.get("license") ?? "",
     partnerOnly: searchParams.get("partner") === "1",
   });
 
-  const { city, region, zip, partnerOnly } = filters;
+  const { city, region, zip, name, license, partnerOnly } = filters;
+
+  /*
+  const selectedLicenses = useMemo(() => 
+    license ? license.split(",").filter(Boolean) : []
+  , [license]);
+  */
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -76,6 +88,8 @@ export function useCerca(): UseCercaReturn {
           filters.city ? n.set("city", filters.city) : n.delete("city");
           filters.region ? n.set("region", filters.region) : n.delete("region");
           filters.zip ? n.set("zip", filters.zip) : n.delete("zip");
+          filters.name ? n.set("q", filters.name) : n.delete("q");
+          filters.license ? n.set("license", filters.license) : n.delete("license");
           filters.partnerOnly ? n.set("partner", "1") : n.delete("partner");
           return n;
         },
@@ -106,22 +120,39 @@ export function useCerca(): UseCercaReturn {
       schools = schools.filter((s) => s.zip.startsWith(zip));
     }
 
+    if (name) {
+      const lower = name.toLowerCase();
+      schools = schools.filter((s) => s.name.toLowerCase().includes(lower));
+    }
+
+    /*
+    if (selectedLicenses.length > 0) {
+      schools = schools.filter((s) => 
+        s.licenses && selectedLicenses.every(l => s.licenses?.includes(l))
+      );
+    }
+    */
+
     if (partnerOnly) {
       schools = schools.filter((s) => s.partner === true);
     }
 
     return [...schools].sort((a, b) => (b.partner ? 1 : 0) - (a.partner ? 1 : 0));
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [city, region, zip, partnerOnly, loadTick]);
+  }, [city, region, zip, name, license, partnerOnly, loadTick]);
 
   // City options for autocomplete — filtered by selected region and zip
   const cityOptions = useMemo(() => {
     let source = allSchoolsRef.current;
     if (region) source = source.filter((s) => s.region === region);
     if (zip) source = source.filter((s) => s.zip.startsWith(zip));
+    if (name) {
+      const lower = name.toLowerCase();
+      source = source.filter((s) => s.name.toLowerCase().includes(lower));
+    }
     return [...new Set(source.map((s) => s.city).filter(Boolean))].sort();
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [region, zip, loadTick]);
+  }, [region, zip, name, loadTick]);
 
   const setCity = useCallback((v: string) => {
     setFilters((f) => ({ ...f, city: v }));
@@ -135,6 +166,14 @@ export function useCerca(): UseCercaReturn {
     setFilters((f) => ({ ...f, zip: v }));
   }, []);
 
+  const setName = useCallback((v: string) => {
+    setFilters((f) => ({ ...f, name: v }));
+  }, []);
+
+  const setLicense = useCallback((v: string) => {
+    setFilters((f) => ({ ...f, license: v }));
+  }, []);
+
   const setSelected = useCallback((school: NormalizedSchool | null) => {
     setSelectedState(school);
   }, []);
@@ -144,13 +183,13 @@ export function useCerca(): UseCercaReturn {
   }, []);
 
   const clearFilters = useCallback(() => {
-    setFilters({ city: "", region: "", zip: "", partnerOnly: false });
+    setFilters({ city: "", region: "", zip: "", name: "", license: "", partnerOnly: false });
   }, []);
 
   return {
-    city, region, zip, partnerOnly,
+    city, region, zip, name, license, partnerOnly,
     results, cityOptions,
     selected, loading, error,
-    setCity, setRegion, setZip, setPartnerOnly, setSelected, clearFilters,
+    setCity, setRegion, setZip, setName, setLicense, setPartnerOnly, setSelected, clearFilters,
   };
 }

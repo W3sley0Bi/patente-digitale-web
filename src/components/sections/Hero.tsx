@@ -133,7 +133,7 @@ export function Hero() {
 									onClick={handleLocate}
 									disabled={locating}
 									title={locError ? t("cerca.filters.locationError") : t("cerca.filters.locationBtn")}
-									className="absolute left-3.5 flex items-center justify-center text-ink-faint hover:text-brand disabled:opacity-50 transition-colors"
+									className="absolute left-2 flex items-center justify-center text-ink-faint hover:text-brand disabled:opacity-50 transition-colors"
 								>
 									{locating
 										? <Loader2 className="h-4 w-4 animate-spin text-brand" />
@@ -145,11 +145,11 @@ export function Hero() {
 									placeholder={t("landing.hero.searchPlaceholder")}
 									value={searchQuery}
 									onChange={(e) => setSearchQuery(e.target.value)}
-									className="w-full bg-transparent border-none outline-none pl-10 pr-12 font-sans text-sm md:text-base text-ink placeholder:text-ink-faint h-12 md:h-13"
+									className="w-full bg-transparent border-none outline-none pl-6 pr-12 font-sans text-sm md:text-base text-ink placeholder:text-ink-faint h-12 md:h-13"
 								/>
 								<button
 									type="submit"
-									className="absolute right-1.5 flex items-center justify-center h-9 w-9 md:h-10 md:w-10 rounded-full text-ink-faint hover:text-ink active:scale-95 transition-all duration-300"
+									className="absolute right-0 top-0 bottom-0 flex items-center justify-center px-3 md:px-4 rounded-r-full text-ink-faint hover:text-ink active:scale-95 transition-all duration-300"
 									aria-label={t("landing.hero.cta.primary")}
 								>
 									<Search className="h-5 w-5 md:h-5.5 md:w-5.5" />

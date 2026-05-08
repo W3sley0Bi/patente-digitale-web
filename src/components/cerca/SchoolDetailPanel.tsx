@@ -1,4 +1,5 @@
-import { X, MapPin, Phone, Globe, ExternalLink, Clock, Star } from "lucide-react";
+import { X, MapPin, Phone, Globe, ExternalLink, Clock, Star, ChevronDown, ChevronUp } from "lucide-react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import type { NormalizedSchool } from "@/lib/geojson";
 
@@ -55,6 +56,36 @@ interface PanelContentProps {
 }
 
 function PanelContent({ school, isPartner, onClose, t }: PanelContentProps) {
+  const [hoursExpanded, setHoursExpanded] = useState(false);
+
+  // Get current day of week (0-6, Sunday-Saturday)
+  // Our data uses: Lunedì, Martedì, Mercoledì, Giovedì, Venerdì, Sabato, Domenica
+  // OR: Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday
+  const todayIndex = new Date().getDay(); // 0 = Sunday, 1 = Monday...
+  
+  // Map JS getDay() to our typical data order (Monday-indexed for Italy usually)
+  // If data starts with Lunedì/Monday, index 1 is Monday.
+  const mappedIndex = todayIndex === 0 ? 6 : todayIndex - 1;
+
+  const getTodayHours = () => {
+    if (!school.openingHours) return null;
+    // Basic heuristic: check if line starts with today's day name in IT or EN
+    const dayNames = [
+      ["Lunedì", "Monday"],
+      ["Martedì", "Tuesday"],
+      ["Mercoledì", "Wednesday"],
+      ["Giovedì", "Thursday"],
+      ["Venerdì", "Friday"],
+      ["Sabato", "Saturday"],
+      ["Domenica", "Sunday"]
+    ];
+    
+    const [it, en] = dayNames[mappedIndex];
+    return school.openingHours.find(h => h.startsWith(it) || h.startsWith(en)) || school.openingHours[mappedIndex];
+  };
+
+  const todayHours = getTodayHours();
+
   return (
     <div className="flex h-full flex-col overflow-y-auto">
       {/* Partner gold top bar */}
@@ -151,14 +182,80 @@ function PanelContent({ school, isPartner, onClose, t }: PanelContentProps) {
         {/* Opening hours */}
         {school.openingHours && school.openingHours.length > 0 && (
           <InfoRow icon={<Clock size={14} className="mt-0.5 shrink-0 text-ink-faint" />}>
-            <div className="flex flex-col gap-0.5">
-              {school.openingHours.map((line) => (
-                <span key={line} className="font-sans text-xs text-ink-muted leading-snug">
-                  {line}
+            <div className="flex flex-col gap-1">
+              <button
+                type="button"
+                onClick={() => setHoursExpanded(!hoursExpanded)}
+                className="flex items-center gap-1.5 text-left transition-colors hover:text-ink"
+              >
+                <span className="font-sans text-sm font-bold text-ink">
+                  {todayHours || school.openingHours[0]}
+                </span>
+                {hoursExpanded ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
+              </button>
+
+              {hoursExpanded && (
+                <div className="mt-1 flex flex-col gap-1 rounded-lg bg-line/30 p-2">
+                  {school.openingHours.map((line) => {
+                    const isToday = todayHours === line;
+                    return (
+                      <span
+                        key={line}
+                        className={[
+                          "font-sans text-xs leading-snug",
+                          isToday ? "font-bold text-ink" : "text-ink-muted"
+                        ].join(" ")}
+                      >
+                        {line}
+                      </span>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          </InfoRow>
+        )}
+
+        {/* Licenses */}
+        {school.licenses && school.licenses.length > 0 && (
+          <div className="flex flex-col gap-2">
+            <h3 className="font-sans text-xs font-bold uppercase tracking-wider text-ink-faint">
+              {t("cerca.detail.licensesTitle")}
+            </h3>
+            <div className="flex flex-wrap gap-1.5">
+              {school.licenses.map((license) => (
+                <span
+                  key={license}
+                  className="rounded-md bg-line px-2 py-0.5 font-sans text-[11px] font-bold text-ink-muted"
+                >
+                  {license.replace("_", " ")}
                 </span>
               ))}
             </div>
-          </InfoRow>
+          </div>
+        )}
+
+        {/* Prices */}
+        {(school.prices || school.licenses) && (
+          <div className="flex flex-col gap-2">
+            <h3 className="font-sans text-xs font-bold uppercase tracking-wider text-ink-faint">
+              {t("cerca.detail.pricesTitle")}
+            </h3>
+            {school.prices ? (
+              <div className="flex flex-col gap-1.5">
+                {Object.entries(school.prices).map(([license, price]) => (
+                  <div key={license} className="flex items-center justify-between gap-2 border-b border-line pb-1.5 last:border-0 last:pb-0">
+                    <span className="font-sans text-sm font-medium text-ink-muted">{license.replace("_", " ")}</span>
+                    <span className="font-sans text-sm font-bold text-brand">{price}</span>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="font-sans text-xs italic text-ink-faint">
+                {t("cerca.detail.noPrices")}
+              </p>
+            )}
+          </div>
         )}
 
         {/* Google Maps link */}

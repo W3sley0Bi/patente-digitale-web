@@ -12,6 +12,8 @@ export interface SchoolProperties {
   businessStatus?: string;
   googleMapsUri?: string;
   openingHours?: string[];
+  licenses?: string[];
+  prices?: Record<string, string> | null;
 }
 
 export interface SchoolFeature {

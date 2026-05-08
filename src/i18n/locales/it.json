@@ -30,7 +30,10 @@
 		},
 		"detail": {
 			"partnerVerified": "Autoscuola Verificata",
-			"enroll": "Iscriviti ora"
+			"enroll": "Iscriviti ora",
+			"licensesTitle": "Patenti disponibili",
+			"pricesTitle": "Listino prezzi",
+			"noPrices": "Prezzi non disponibili online"
 		}
 	},
 	"landing": {
@@ -50,7 +53,7 @@
 				"emphasis": "senza"
 			},
 			"subhead": "Trova, scegli e iscriviti alla tua autoscuola in pochi minuti. Tutto online, senza file.",
-			"searchPlaceholder": "Cerca per città o CAP...",
+"searchPlaceholder": "Cerca per città o CAP...",
 			"cta": {
 				"primary": "Trova la tua autoscuola",
 				"secondary": "Come funziona"

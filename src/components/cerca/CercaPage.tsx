@@ -1,16 +1,21 @@
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { ChevronDown, ChevronUp, SlidersHorizontal } from "lucide-react";
 import { useCerca } from "@/hooks/useCerca";
 import { FilterBar } from "./FilterBar";
 import { ResultsList } from "./ResultsList";
 import { SchoolMap } from "./SchoolMap";
 import { SchoolDetailPanel } from "./SchoolDetailPanel";
+import { Button } from "@/components/ui/button";
 
 export function CercaPage() {
 	const { t } = useTranslation();
+	const [isFiltersVisible, setIsFiltersVisible] = useState(true);
 	const {
 		city,
 		region,
 		zip,
+		name,
 		partnerOnly,
 		results,
 		cityOptions,
@@ -20,36 +25,48 @@ export function CercaPage() {
 		setCity,
 		setRegion,
 		setZip,
+		setName,
 		setPartnerOnly,
 		setSelected,
 		clearFilters,
 	} = useCerca();
 
-	const filterKey = [city, region, zip].filter(Boolean).join("|");
+	const filterKey = [city, region, zip, name].filter(Boolean).join("|");
 
 	const resultsCountLabel =
 		!loading && !error ? t("cerca.resultsCount", { count: results.length }) : null;
 
 	return (
 		<div className="flex h-full flex-col overflow-hidden px-4 md:px-8">
-			{/* Header - Always Shrink-0 */}
+			{/* Header */}
 			<div className="shrink-0 pt-6 pb-4">
 				<div className="flex items-center justify-between mb-4">
 					<h1 className="font-sans text-xl font-black tracking-tight text-ink md:text-2xl">
 						{t("cerca.title")}
 					</h1>
+					<Button
+						variant="ghost"
+						size="sm"
+						onClick={() => setIsFiltersVisible(!isFiltersVisible)}
+						className="md:hidden flex items-center gap-2 text-ink-muted"
+					>
+						<SlidersHorizontal size={14} />
+						{isFiltersVisible ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+					</Button>
 				</div>
 
-				<div className="block">
+				<div className={isFiltersVisible ? "block" : "hidden md:block"}>
 					<FilterBar
 						city={city}
 						region={region}
 						zip={zip}
+						name={name}
 						partnerOnly={partnerOnly}
 						cityOptions={cityOptions}
 						onCityChange={setCity}
 						onRegionChange={setRegion}
 						onZipChange={setZip}
+						onNameChange={setName}
 						onPartnerOnlyChange={setPartnerOnly}
 						onClear={clearFilters}
 					/>
@@ -90,9 +107,8 @@ export function CercaPage() {
 				</div>
 			</div>
 
-			{/* Mobile: Managed Layout */}
+			{/* Mobile: map + scrollable results */}
 			<div className="flex flex-1 flex-col overflow-hidden md:hidden">
-				{/* Map Area - Always visible on mobile */}
 				<div className="h-[28vh] shrink-0 overflow-hidden rounded-xl mb-4 border border-line shadow-sm">
 					{!loading && (
 						<SchoolMap
@@ -104,7 +120,6 @@ export function CercaPage() {
 					)}
 				</div>
 
-				{/* Scrollable Results Area */}
 				<div className="flex-1 overflow-y-auto pb-6">
 					<ResultsList
 						schools={results}
@@ -116,7 +131,7 @@ export function CercaPage() {
 					/>
 					<OwnerCallout t={t} />
 				</div>
-				
+
 				<SchoolDetailPanel
 					school={selected}
 					onClose={() => setSelected(null)}
@@ -128,17 +143,17 @@ export function CercaPage() {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function OwnerCallout({ t }: { t: any }) {
-  return (
-    <div className="shrink-0 border-t border-line px-4 py-3 text-center">
-      <p className="font-sans text-xs text-ink-muted">
-        {t("cerca.ownerCallout.label")}{" "}
-        <a
-          href="mailto:supporto@patentedigitale.it"
-          className="font-semibold text-brand hover:text-brand-hover transition-colors"
-        >
-          supporto@patentedigitale.it
-        </a>
-      </p>
-    </div>
-  );
+	return (
+		<div className="shrink-0 border-t border-line px-4 py-3 text-center">
+			<p className="font-sans text-xs text-ink-muted">
+				{t("cerca.ownerCallout.label")}{" "}
+				<a
+					href="mailto:supporto@patentedigitale.it"
+					className="font-semibold text-brand hover:text-brand-hover transition-colors"
+				>
+					supporto@patentedigitale.it
+				</a>
+			</p>
+		</div>
+	);
 }
