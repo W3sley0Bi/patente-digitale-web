@@ -28,7 +28,7 @@ export default function DrivingSchoolDashboard() {
       .eq("user_id", user.id)
       .order("created_at", { ascending: false })
       .limit(1)
-      .single()
+      .maybeSingle()
       .then(({ data }) => {
         if (data) setClaim(data as ClaimRow);
       });
@@ -37,7 +37,10 @@ export default function DrivingSchoolDashboard() {
   useEffect(() => {
     if (!user || profileLoading || approved || domainClaimDone) return;
     const stored = localStorage.getItem("domain_claim");
-    if (!stored) return;
+    if (!stored) {
+      console.warn("[auto-claim] no domain_claim in localStorage — skipping. User likely clicked magic link in a different browser than where they entered their email.");
+      return;
+    }
 
     // Guard: if the user already has a manual pending claim, the domain_claim is stale — drop it.
     supabase
