@@ -48,11 +48,13 @@ export default function DrivingSchoolDashboard() {
       .maybeSingle()
       .then(({ data: existingClaim }) => {
         if (existingClaim) {
+          console.warn("[auto-claim] skipped: existing pending_claims row found", existingClaim);
           localStorage.removeItem("domain_claim");
           return;
         }
         const { _placeId, name, address, city, zip, region, phone, website, lat, lng, openingHours } = JSON.parse(stored);
         setDomainClaimDone(true);
+        console.info("[auto-claim] calling claim_school_via_domain", { _placeId, name });
         supabase.rpc("claim_school_via_domain", {
           p_place_id: _placeId,
           p_school_name: name,
@@ -65,11 +67,13 @@ export default function DrivingSchoolDashboard() {
           p_lat: lat ?? null,
           p_lng: lng ?? null,
           p_opening_hours: openingHours ? JSON.stringify(openingHours) : null,
-        }).then(({ error }) => {
+        }).then(({ data, error }) => {
           if (!error) {
+            console.info("[auto-claim] success", data);
             localStorage.removeItem("domain_claim");
             supabase.auth.refreshSession();
           } else {
+            console.error("[auto-claim] RPC failed:", error);
             setDomainClaimDone(false);
           }
         });
