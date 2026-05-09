@@ -351,6 +351,22 @@
 			"title": "We're building this page",
 			"subtitle": "Check back soon to discover all the latest from Patentedigitale.it",
 			"backHome": "Back to home"
+		},
+		"errors": {
+			"notFound": {
+				"title": "Page not found",
+				"desc": "The page you're looking for doesn't exist or has been moved.",
+				"cta": "Back to home",
+				"search": "Find a driving school"
+			},
+			"server": {
+				"title": "Something went wrong",
+				"desc": "We're working on it. Please try again in a moment.",
+				"reload": "Reload page",
+				"retry": "Try again",
+				"details": "Technical details",
+				"home": "Go to home"
+			}
 		}
 	}
 }

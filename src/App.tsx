@@ -4,6 +4,7 @@ import Landing from "./routes/Landing";
 import { ScrollToHash } from "./hooks/useScrollToHash";
 import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 import { AuthProvider } from "@/lib/AuthContext";
+import { ErrorBoundary } from "@/components/ErrorBoundary";
 
 const Cerca = lazy(() => import("./routes/Cerca"));
 const Iscrizione = lazy(() => import("./routes/Iscrizione"));
@@ -17,6 +18,8 @@ const DrivingSchoolDashboard = lazy(() => import("./routes/DrivingSchoolDashboar
 const DrivingSchoolEdit = lazy(() => import("./routes/DrivingSchoolEdit"));
 const SetPassword = lazy(() => import("./routes/SetPassword"));
 const DrivingSchoolSettings = lazy(() => import("./routes/DrivingSchoolSettings"));
+const NotFound = lazy(() => import("./routes/NotFound"));
+const ServerError = lazy(() => import("./routes/ServerError"));
 
 const LoadingFallback = () => (
 	<div className="flex min-h-screen items-center justify-center bg-bg">
@@ -29,7 +32,8 @@ function App() {
 		<BrowserRouter>
 			<AuthProvider>
 				<ScrollToHash />
-				<Suspense fallback={<LoadingFallback />}>
+				<ErrorBoundary fallback={<ServerError />}>
+			<Suspense fallback={<LoadingFallback />}>
 				<Routes>
 					<Route path="/" element={<Landing />} />
 					<Route path="/cerca" element={<Navigate to="/search" replace />} />
@@ -82,9 +86,10 @@ function App() {
 							<SetPassword />
 						</ProtectedRoute>
 					} />
-					<Route path="*" element={<Navigate to="/" replace />} />
+					<Route path="*" element={<NotFound />} />
 				</Routes>
 			</Suspense>
+			</ErrorBoundary>
 			</AuthProvider>
 		</BrowserRouter>
 	);

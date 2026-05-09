@@ -354,6 +354,22 @@
 			"title": "Stiamo costruendo questa pagina",
 			"subtitle": "Torna presto per scoprire tutte le novità di Patentedigitale.it",
 			"backHome": "Torna alla home"
+		},
+		"errors": {
+			"notFound": {
+				"title": "Pagina non trovata",
+				"desc": "La pagina che cerchi non esiste o è stata spostata.",
+				"cta": "Torna alla home",
+				"search": "Cerca un'autoscuola"
+			},
+			"server": {
+				"title": "Qualcosa è andato storto",
+				"desc": "Stiamo sistemando. Riprova tra un attimo.",
+				"reload": "Ricarica pagina",
+				"retry": "Riprova",
+				"details": "Dettagli tecnici",
+				"home": "Vai alla home"
+			}
 		}
 	}
 }
