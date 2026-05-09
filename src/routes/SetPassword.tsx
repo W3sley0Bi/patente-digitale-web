@@ -104,7 +104,7 @@ export default function SetPassword() {
   return (
     <div className="min-h-screen bg-bg text-ink">
       <Nav />
-      <div className="flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4">
+      <div className="flex flex-col items-center justify-center min-h-[calc(100vh-5rem)] px-4 pt-20 pb-8">
         <div className="w-full max-w-sm flex flex-col gap-6">
           <div className="flex flex-col gap-1">
             <h1 className="text-2xl font-bold tracking-tight">{t("auth.setPasswordTitle")}</h1>

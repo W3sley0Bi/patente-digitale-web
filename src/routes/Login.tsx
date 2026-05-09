@@ -72,7 +72,7 @@ export default function Login() {
     <div className="min-h-screen bg-bg text-ink">
       <Nav />
 
-      <div className="flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-16">
+      <div className="flex flex-col items-center justify-center min-h-[calc(100vh-5rem)] px-4 pt-20 pb-16">
         <div className="w-full max-w-sm flex flex-col gap-8">
 
           {hashErrorMessage && (

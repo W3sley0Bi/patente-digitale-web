@@ -93,7 +93,7 @@ export default function SignupDrivingSchool() {
   return (
     <div className="min-h-screen bg-bg text-ink">
       <Nav />
-      <div className="flex items-center justify-center min-h-[calc(100vh-4rem)] p-4">
+      <div className="flex items-center justify-center min-h-[calc(100vh-5rem)] pt-20 px-4 pb-4">
         <div className="w-full max-w-md flex flex-col gap-6">
           <h1 className="text-2xl font-bold">{t("school.claim.title")}</h1>
 
