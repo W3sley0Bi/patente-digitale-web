@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router";
 import { useTranslation } from "react-i18next";
 import { supabase } from "@/lib/supabase";
@@ -16,22 +16,30 @@ interface ClaimRow {
 export default function DrivingSchoolDashboard() {
   const { t } = useTranslation();
   const { user } = useAuth();
-  const { approved, loading: profileLoading } = useProfile();
+  const { approved, loading: profileLoading, refresh: refreshProfile } = useProfile();
   const [claim, setClaim] = useState<ClaimRow | null>(null);
+  const [claimLoading, setClaimLoading] = useState(true);
   const [domainClaimDone, setDomainClaimDone] = useState(false);
+  const [rpcError, setRpcError] = useState<string | null>(null);
+  const [refreshing, setRefreshing] = useState(false);
+  const retryCountRef = useRef(0);
+  const MAX_RETRIES = 1;
+
+  const fetchClaim = async (userId: string) => {
+    const { data } = await supabase
+      .from("pending_claims")
+      .select("status, school_name")
+      .eq("user_id", userId)
+      .order("created_at", { ascending: false })
+      .limit(1)
+      .maybeSingle();
+    setClaim(data ? (data as ClaimRow) : null);
+  };
 
   useEffect(() => {
     if (!user) return;
-    supabase
-      .from("pending_claims")
-      .select("status, school_name")
-      .eq("user_id", user.id)
-      .order("created_at", { ascending: false })
-      .limit(1)
-      .maybeSingle()
-      .then(({ data }) => {
-        if (data) setClaim(data as ClaimRow);
-      });
+    setClaimLoading(true);
+    fetchClaim(user.id).finally(() => setClaimLoading(false));
   }, [user]);
 
   useEffect(() => {
@@ -55,9 +63,17 @@ export default function DrivingSchoolDashboard() {
           localStorage.removeItem("domain_claim");
           return;
         }
+
+        if (retryCountRef.current >= MAX_RETRIES) {
+          console.warn("[auto-claim] max retries reached — giving up.");
+          setRpcError(t("school.dashboard.rpcError", { message: "max retries reached" }));
+          return;
+        }
+
         const { _placeId, name, address, city, zip, region, phone, website, lat, lng, openingHours } = JSON.parse(stored);
         setDomainClaimDone(true);
-        console.info("[auto-claim] calling claim_school_via_domain", { _placeId, name });
+        retryCountRef.current += 1;
+        console.info("[auto-claim] calling claim_school_via_domain", { _placeId, name, attempt: retryCountRef.current });
         supabase.rpc("claim_school_via_domain", {
           p_place_id: _placeId,
           p_school_name: name,
@@ -77,13 +93,24 @@ export default function DrivingSchoolDashboard() {
             supabase.auth.refreshSession();
           } else {
             console.error("[auto-claim] RPC failed:", error);
-            setDomainClaimDone(false);
+            if (retryCountRef.current >= MAX_RETRIES) {
+              setRpcError(t("school.dashboard.rpcError", { message: error.message }));
+            } else {
+              setDomainClaimDone(false);
+            }
           }
         });
       });
-  }, [user, profileLoading, approved, domainClaimDone]);
+  }, [user, profileLoading, approved, domainClaimDone, t]);
 
-  if (profileLoading) {
+  const handleRefresh = async () => {
+    if (!user) return;
+    setRefreshing(true);
+    await Promise.all([refreshProfile(), fetchClaim(user.id)]);
+    setRefreshing(false);
+  };
+
+  if (profileLoading || claimLoading) {
     return (
       <div className="min-h-screen bg-bg flex items-center justify-center">
         <div className="h-8 w-8 animate-pulse rounded-full bg-brand/20" />
@@ -92,12 +119,30 @@ export default function DrivingSchoolDashboard() {
   }
 
   if (!approved) {
-    const pendingStatus = claim?.status === "rejected" ? "rejected" : "pending";
+    let pendingStatus: "pending" | "rejected" | "no-claim";
+    if (claim?.status === "rejected") {
+      pendingStatus = "rejected";
+    } else if (claim?.status === "pending") {
+      pendingStatus = "pending";
+    } else {
+      // No claim row and no active domain_claim in localStorage
+      pendingStatus = "no-claim";
+    }
+
     return (
       <div className="min-h-screen bg-bg text-ink">
         <Nav />
-        <div className="flex items-center justify-center min-h-[calc(100vh-4rem)] p-8">
-          <DashboardPending status={pendingStatus} />
+        <div className="flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] p-8 gap-4">
+          {rpcError && (
+            <div className="w-full max-w-sm rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+              {rpcError}
+            </div>
+          )}
+          <DashboardPending
+            status={pendingStatus}
+            onRefresh={pendingStatus === "pending" ? handleRefresh : undefined}
+            refreshing={refreshing}
+          />
         </div>
       </div>
     );

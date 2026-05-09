@@ -21,21 +21,28 @@ export function ForgotPasswordForm({ onBack }: ForgotPasswordFormProps) {
     const { error: err } = await supabase.auth.resetPasswordForEmail(email, {
       redirectTo: `${window.location.origin}/reset-password`,
     });
-    if (err) setError(err.message);
-    else setSent(true);
+    if (err) {
+      const lower = err.message.toLowerCase();
+      setError(lower.includes("rate limit") || lower.includes("429") ? t("auth.errors.rateLimit") : err.message);
+    } else {
+      setSent(true);
+    }
     setLoading(false);
   };
 
   if (sent) {
     return (
       <div className="flex flex-col gap-4">
+        <p className="text-sm font-medium text-green-700 bg-green-50 border border-green-200 rounded-lg px-3 py-2">
+          {t("auth.forgotSentTitle")}
+        </p>
         <p className="text-sm text-ink-muted">{t("auth.forgotSent")}</p>
         <button
           type="button"
           onClick={onBack}
           className="text-xs text-ink-muted hover:text-ink self-start transition-colors"
         >
-          {t("auth.back")}
+          {t("auth.backToLogin")}
         </button>
       </div>
     );

@@ -34,9 +34,8 @@ export function AuthForm({ mode, role = "student", fullName, emailRedirectTo, on
         email,
         options: { data: metadata, ...(emailRedirectTo ? { emailRedirectTo } : {}) },
       });
-      console.info("[magic-link] signInWithOtp result:", { err, email, emailRedirectTo });
       if (err) setError(err.message);
-      else { setMagicSent(true); onSuccess?.(); console.info("[magic-link] onSuccess fired"); }
+      else { setMagicSent(true); onSuccess?.(); }
     } else if (mode === "signup") {
       const { data: signUpData, error: err } = await supabase.auth.signUp({
         email,
@@ -74,11 +73,19 @@ export function AuthForm({ mode, role = "student", fullName, emailRedirectTo, on
     );
   }
 
+  const errorMessage = (() => {
+    if (!error) return null;
+    const lower = error.toLowerCase();
+    if (lower.includes("rate limit") || lower.includes("429")) return t("auth.errors.rateLimit");
+    if (lower.includes("email not confirmed")) return t("auth.errors.emailNotConfirmed");
+    return error;
+  })();
+
   return (
     <div className="flex flex-col gap-4">
-      {error && (
+      {errorMessage && (
         <p className="text-red-600 text-xs bg-red-50 border border-red-200 rounded-lg px-3 py-2" role="alert">
-          {error}
+          {errorMessage}
         </p>
       )}
 

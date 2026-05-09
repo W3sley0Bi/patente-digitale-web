@@ -56,6 +56,9 @@ export default function SignupDrivingSchool() {
   const domain = selected?.website ? extractDomain(selected.website) : "";
 
   const handleSelect = async (school: SchoolMatch) => {
+    // Clear any stale claim data from a previous session before starting fresh
+    localStorage.removeItem(MANUAL_SCHOOL_KEY);
+    localStorage.removeItem("domain_claim");
     setSelected(school);
     const { data } = await supabase
       .from("claimed_schools")
@@ -169,26 +172,49 @@ export default function SignupDrivingSchool() {
 
           {step === "manual-claim" && (
             <>
-              {selected ? (
-                <p
-                  className="text-sm text-ink-muted"
-                  dangerouslySetInnerHTML={{
-                    __html: t("school.claim.manualReview", { name: selected.name }),
-                  }}
-                />
-              ) : (
-                <div className="flex flex-col gap-2">
-                  <p className="text-sm text-ink-muted">{t("school.claim.manualReviewReturn")}</p>
-                  <p className="text-xs text-ink-faint">{t("school.claim.manualReviewReturnHint")}</p>
+              {/* Recovery state: user arrived via email link but school data is gone */}
+              {!selected && !localStorage.getItem(MANUAL_SCHOOL_KEY) ? (
+                <div className="flex flex-col gap-4">
+                  <p className="text-sm text-ink-muted bg-amber-50 border border-amber-200 rounded-lg px-4 py-3">
+                    {t("school.claim.sessionLost")}
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      localStorage.removeItem("claim_manual_school");
+                      localStorage.removeItem("domain_claim");
+                      setSelected(null);
+                      setStep("search");
+                    }}
+                    className="text-sm underline text-ink-muted text-center self-start"
+                  >
+                    {t("school.claim.sessionLostCta")}
+                  </button>
                 </div>
+              ) : (
+                <>
+                  {selected ? (
+                    <p
+                      className="text-sm text-ink-muted"
+                      dangerouslySetInnerHTML={{
+                        __html: t("school.claim.manualReview", { name: selected.name }),
+                      }}
+                    />
+                  ) : (
+                    <div className="flex flex-col gap-2">
+                      <p className="text-sm text-ink-muted">{t("school.claim.manualReviewReturn")}</p>
+                      <p className="text-xs text-ink-faint">{t("school.claim.manualReviewReturnHint")}</p>
+                    </div>
+                  )}
+                  <ClaimForm
+                    placeId={selected?._placeId}
+                    schoolName={selected?.name}
+                    schoolData={selected ?? undefined}
+                    emailRedirectTo={`${BASE_URL}?step=manual-claim`}
+                    onSuccess={handleManualDone}
+                  />
+                </>
               )}
-              <ClaimForm
-                placeId={selected?._placeId}
-                schoolName={selected?.name}
-                schoolData={selected ?? undefined}
-                emailRedirectTo={`${BASE_URL}?step=manual-claim`}
-                onSuccess={handleManualDone}
-              />
             </>
           )}
 

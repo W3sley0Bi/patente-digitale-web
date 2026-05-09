@@ -61,7 +61,9 @@
 			"submittedDesc": "Ti risponderemo entro 48 ore.",
 			"goToDashboard": "Vai alla tua dashboard",
 			"alreadyClaimed": "<strong>{{name}}</strong> è già stata rivendicata. <a href='/login' class='underline'>Accedi</a> al tuo account o contatta <a href='mailto:supporto@patentedigitale.it' class='underline'>supporto@patentedigitale.it</a>.",
-			"backToSearch": "← Cerca di nuovo"
+			"backToSearch": "← Cerca di nuovo",
+			"sessionLost": "Non riusciamo a trovare la tua autoscuola in questa sessione. Cerca di nuovo.",
+			"sessionLostCta": "← Torna alla ricerca"
 		},
 		"pending": {
 			"rejectedTitle": "Richiesta rifiutata",
@@ -81,6 +83,12 @@
 			"submitting": "Invio in corso...",
 			"submit": "Invia richiesta",
 			"notAuthenticated": "Non autenticato.",
+				"errors": {
+					"websiteInvalid": "Inserisci un URL valido (es. https://www.esempio.it).",
+					"requiredField": "Questo campo è obbligatorio.",
+					"alreadyHavePending": "Hai già una richiesta in revisione.",
+					"alreadyHavePendingCta": "Vai alla dashboard →"
+				},
 				"addressPlaceholder": "Cerca indirizzo...",
 				"mapHint": "Clicca sulla mappa per posizionare il segnaposto della tua autoscuola",
 				"mapCoords": "Posizione: {{lat}}, {{lng}}"
@@ -113,7 +121,17 @@
 				"overview": "Panoramica",
 				"editListing": "Profilo",
 				"settings": "Impostazioni"
-			}
+			},
+			"noClaim": {
+				"title": "Completa la tua richiesta",
+				"desc": "Non abbiamo trovato una richiesta attiva per il tuo account. Completa il processo di rivendicazione per accedere alla dashboard.",
+				"cta": "Completa la richiesta"
+			},
+			"noClaimRejected": {
+				"cta": "Invia una nuova richiesta"
+			},
+			"refreshStatus": "Aggiorna stato",
+			"rpcError": "Errore durante la verifica automatica: {{message}}. Puoi riprovare dalla pagina di registrazione."
 		},
 		"edit": {
 			"backToDashboard": "← Dashboard",
@@ -163,7 +181,19 @@
 			"login": "Accedi",
 			"orWith": "o continua con",
 			"magicSent": "Magic link inviato a <strong>{{email}}</strong>. Controlla la tua casella."
-		}
+		},
+		"errors": {
+			"otpExpired": "Il link è scaduto. Richiedi un nuovo link.",
+			"accessDenied": "Link non valido o già utilizzato.",
+			"generic": "{{description}}",
+			"rateLimit": "Troppi tentativi. Attendi qualche minuto e riprova.",
+			"emailNotConfirmed": "Email non confermata. Controlla la tua casella e clicca il magic link, oppure usa \"Password dimenticata?\" per impostarne una.",
+			"sessionExpired": "La sessione è scaduta. Richiedi un nuovo link."
+		},
+		"forgotSentTitle": "Email inviata!",
+		"backToLogin": "← Torna al login",
+		"redirecting": "Reindirizzamento in {{seconds}}s...",
+		"requestNewLink": "Richiedi un nuovo link"
 	},
 	"landing": {
 		"nav": {

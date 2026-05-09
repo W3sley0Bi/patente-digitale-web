@@ -9,6 +9,21 @@ import { useProfile } from "@/hooks/useProfile";
 
 type View = "login" | "forgot-password" | "login-magic-link" | "signup-pick" | "signup-student";
 
+interface HashError {
+  code: string;
+  description: string;
+}
+
+function parseHashError(): HashError | null {
+  const hash = window.location.hash;
+  if (!hash.includes("error=")) return null;
+  const params = new URLSearchParams(hash.replace(/^#/, ""));
+  const code = params.get("error_code") ?? params.get("error") ?? "unknown";
+  const description = decodeURIComponent((params.get("error_description") ?? "").replace(/\+/g, " "));
+  window.history.replaceState(null, "", window.location.pathname + window.location.search);
+  return { code, description };
+}
+
 export default function Login() {
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -18,6 +33,7 @@ export default function Login() {
 
   const tabParam = searchParams.get("tab");
   const [view, setView] = useState<View>(tabParam === "signup" ? "signup-pick" : "login");
+  const [hashError] = useState<HashError | null>(() => parseHashError());
 
   useEffect(() => {
     if (!user || loading) return;
@@ -45,12 +61,34 @@ export default function Login() {
     ? t("auth.magicLinkTitle")
     : t("auth.signup");
 
+  const hashErrorMessage = (() => {
+    if (!hashError) return null;
+    if (hashError.code === "otp_expired") return t("auth.errors.otpExpired");
+    if (hashError.code === "access_denied") return t("auth.errors.accessDenied");
+    return t("auth.errors.generic", { description: hashError.description || hashError.code });
+  })();
+
   return (
     <div className="min-h-screen bg-bg text-ink">
       <Nav />
 
       <div className="flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-16">
         <div className="w-full max-w-sm flex flex-col gap-8">
+
+          {hashErrorMessage && (
+            <div className="flex flex-col gap-2 bg-amber-50 border border-amber-200 rounded-lg px-3 py-3" role="alert">
+              <p className="text-amber-800 text-sm">{hashErrorMessage}</p>
+              {hashError?.code === "otp_expired" && (
+                <button
+                  type="button"
+                  onClick={() => setView("login-magic-link")}
+                  className="text-xs font-medium text-amber-900 underline underline-offset-2 self-start hover:opacity-70 transition-opacity"
+                >
+                  {t("auth.requestNewLink")}
+                </button>
+              )}
+            </div>
+          )}
 
           <div className="flex flex-col gap-1">
             <h1 className="text-2xl font-bold tracking-tight">{heading}</h1>

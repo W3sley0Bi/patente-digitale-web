@@ -58,7 +58,9 @@
 			"submittedDesc": "You'll hear from us within 48 hours.",
 			"goToDashboard": "Go to your dashboard",
 			"alreadyClaimed": "<strong>{{name}}</strong> has already been claimed. <a href='/login' class='underline'>Log in</a> to your account or contact <a href='mailto:supporto@patentedigitale.it' class='underline'>supporto@patentedigitale.it</a>.",
-			"backToSearch": "← Search again"
+			"backToSearch": "← Search again",
+			"sessionLost": "We couldn't find your school in this session. Please search again.",
+			"sessionLostCta": "← Search again"
 		},
 		"pending": {
 			"rejectedTitle": "Claim rejected",
@@ -78,6 +80,12 @@
 			"submitting": "Submitting...",
 			"submit": "Submit claim",
 			"notAuthenticated": "Not authenticated.",
+				"errors": {
+					"websiteInvalid": "Please enter a valid URL (e.g. https://www.example.com).",
+					"requiredField": "This field is required.",
+					"alreadyHavePending": "You already have a claim in review.",
+					"alreadyHavePendingCta": "Go to your dashboard →"
+				},
 				"addressPlaceholder": "Search address...",
 				"mapHint": "Click on the map to pin your school's location",
 				"mapCoords": "Location: {{lat}}, {{lng}}"
@@ -110,7 +118,17 @@
 				"overview": "Overview",
 				"editListing": "Listing",
 				"settings": "Settings"
-			}
+			},
+			"noClaim": {
+				"title": "Complete your claim",
+				"desc": "We couldn't find an active claim for your account. Complete the claim process to access your dashboard.",
+				"cta": "Complete your claim"
+			},
+			"noClaimRejected": {
+				"cta": "File a new claim"
+			},
+			"refreshStatus": "Refresh status",
+			"rpcError": "Automatic verification failed: {{message}}. You can retry from the registration page."
 		},
 		"edit": {
 			"backToDashboard": "← Dashboard",
@@ -160,7 +178,19 @@
 			"login": "Log in",
 			"orWith": "or continue with",
 			"magicSent": "Magic link sent to <strong>{{email}}</strong>. Check your inbox."
-		}
+		},
+		"errors": {
+			"otpExpired": "The link has expired. Request a new one.",
+			"accessDenied": "Link is invalid or has already been used.",
+			"generic": "{{description}}",
+			"rateLimit": "Too many attempts. Please wait a few minutes and try again.",
+			"emailNotConfirmed": "Email not confirmed. Check your inbox and click the magic link, or use \"Forgot password?\" to set one.",
+			"sessionExpired": "Your session has expired. Please request a new link."
+		},
+		"forgotSentTitle": "Email sent!",
+		"backToLogin": "← Back to login",
+		"redirecting": "Redirecting in {{seconds}}s...",
+		"requestNewLink": "Request a new link"
 	},
 	"landing": {
 		"nav": {

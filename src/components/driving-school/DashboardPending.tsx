@@ -1,15 +1,33 @@
+import { Link } from "react-router";
 import { useTranslation } from "react-i18next";
 
 interface DashboardPendingProps {
-  status: "pending" | "rejected";
+  status: "pending" | "rejected" | "no-claim";
+  onRefresh?: () => void;
+  refreshing?: boolean;
 }
 
-export function DashboardPending({ status }: DashboardPendingProps) {
+export function DashboardPending({ status, onRefresh, refreshing }: DashboardPendingProps) {
   const { t } = useTranslation();
+
+  if (status === "no-claim") {
+    return (
+      <div className="text-center flex flex-col gap-4 max-w-sm">
+        <h2 className="text-xl font-semibold">{t("school.dashboard.noClaim.title")}</h2>
+        <p className="text-ink-muted text-sm">{t("school.dashboard.noClaim.desc")}</p>
+        <Link
+          to="/signup/driving-school"
+          className="inline-flex items-center justify-center rounded-lg bg-brand px-5 py-2.5 text-sm font-medium text-white hover:bg-brand/90 transition-colors"
+        >
+          {t("school.dashboard.noClaim.cta")}
+        </Link>
+      </div>
+    );
+  }
 
   if (status === "rejected") {
     return (
-      <div className="text-center flex flex-col gap-3">
+      <div className="text-center flex flex-col gap-4 max-w-sm">
         <h2 className="text-xl font-semibold">{t("school.pending.rejectedTitle")}</h2>
         <p className="text-ink-muted text-sm">
           {t("school.pending.rejectedDesc")}{" "}
@@ -18,14 +36,29 @@ export function DashboardPending({ status }: DashboardPendingProps) {
           </a>{" "}
           {t("school.pending.rejectedReason")}
         </p>
+        <Link
+          to="/signup/driving-school"
+          className="inline-flex items-center justify-center rounded-lg bg-brand px-5 py-2.5 text-sm font-medium text-white hover:bg-brand/90 transition-colors"
+        >
+          {t("school.dashboard.noClaimRejected.cta")}
+        </Link>
       </div>
     );
   }
 
   return (
-    <div className="text-center flex flex-col gap-3">
+    <div className="text-center flex flex-col gap-4 max-w-sm">
       <h2 className="text-xl font-semibold">{t("school.pending.pendingTitle")}</h2>
       <p className="text-ink-muted text-sm">{t("school.pending.pendingDesc")}</p>
+      {onRefresh && (
+        <button
+          onClick={onRefresh}
+          disabled={refreshing}
+          className="inline-flex items-center justify-center gap-1.5 rounded-lg border border-line px-4 py-2 text-sm text-ink hover:bg-bg-muted disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+        >
+          {refreshing ? "…" : t("school.dashboard.refreshStatus")}
+        </button>
+      )}
     </div>
   );
 }
