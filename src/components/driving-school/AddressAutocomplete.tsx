@@ -65,7 +65,9 @@ export function AddressAutocomplete({ value, onChange, onSelect }: Props) {
         );
         setSuggestions(features);
         setOpen(features.length > 0);
-      } catch { /* network error — ignore */ }
+      } catch (e) {
+        console.warn("[address-autocomplete] fetch failed", e);
+      }
     }, 350);
   };
 
@@ -91,7 +93,10 @@ export function AddressAutocomplete({ value, onChange, onSelect }: Props) {
       <input
         value={value}
         onChange={(e) => { onChange(e.target.value); search(e.target.value); }}
-        onFocus={() => suggestions.length > 0 && setOpen(true)}
+        onFocus={() => {
+          if (suggestions.length > 0) setOpen(true);
+          else if (value.length >= 3) search(value);
+        }}
         placeholder={t("school.claimForm.addressPlaceholder")}
         autoComplete="off"
         className="border rounded-lg px-3 py-2.5 text-sm bg-bg focus:outline-none focus:ring-2 focus:ring-ink/20 transition w-full"

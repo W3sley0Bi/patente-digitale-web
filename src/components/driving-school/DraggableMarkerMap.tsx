@@ -1,6 +1,6 @@
 import "leaflet/dist/leaflet.css";
-import { useRef, useEffect } from "react";
-import { MapContainer, TileLayer, Marker, ZoomControl, useMapEvents, useMap } from "react-leaflet";
+import { useEffect } from "react";
+import { MapContainer, TileLayer, Marker, ZoomControl, useMap } from "react-leaflet";
 import L from "leaflet";
 import { useTranslation } from "react-i18next";
 
@@ -16,12 +16,6 @@ const ITALY_CENTER: [number, number] = [41.87, 12.57];
 
 interface Props {
   position: [number, number] | null;
-  onChange: (lat: number, lng: number) => void;
-}
-
-function ClickHandler({ onClick }: { onClick: (lat: number, lng: number) => void }) {
-  useMapEvents({ click: (e) => onClick(e.latlng.lat, e.latlng.lng) });
-  return null;
 }
 
 function FlyTo({ position }: { position: [number, number] | null }) {
@@ -32,9 +26,8 @@ function FlyTo({ position }: { position: [number, number] | null }) {
   return null;
 }
 
-export function DraggableMarkerMap({ position, onChange }: Props) {
+export function DraggableMarkerMap({ position }: Props) {
   const { t } = useTranslation();
-  const markerRef = useRef<L.Marker>(null);
 
   return (
     <div className="flex flex-col gap-1.5">
@@ -83,21 +76,8 @@ export function DraggableMarkerMap({ position, onChange }: Props) {
             maxZoom={20}
           />
           <ZoomControl position="topright" />
-          <ClickHandler onClick={onChange} />
           <FlyTo position={position} />
-          {position && (
-            <Marker
-              position={position}
-              draggable
-              ref={markerRef}
-              eventHandlers={{
-                dragend: () => {
-                  const pos = markerRef.current?.getLatLng();
-                  if (pos) onChange(pos.lat, pos.lng);
-                },
-              }}
-            />
-          )}
+          {position && <Marker position={position} />}
         </MapContainer>
       </div>
       <p className="text-xs text-ink-faint">
@@ -106,7 +86,7 @@ export function DraggableMarkerMap({ position, onChange }: Props) {
               lat: position[0].toFixed(5),
               lng: position[1].toFixed(5),
             })
-          : t("school.claimForm.mapHint")}
+          : t("school.claimForm.mapHintReadonly", "Pick an address above to drop the pin.")}
       </p>
     </div>
   );

@@ -207,10 +207,7 @@ export function ClaimForm({ placeId, schoolName = "", schoolData, emailRedirectT
         />
       </label>
 
-      <DraggableMarkerMap
-        position={pinPosition}
-        onChange={(lat, lng) => setPinPosition([lat, lng])}
-      />
+      <DraggableMarkerMap position={pinPosition} />
 
       <label className="flex flex-col gap-1 text-sm">
         <span className="text-xs font-medium text-ink-muted uppercase tracking-wide">
