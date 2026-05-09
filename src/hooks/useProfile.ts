@@ -30,6 +30,7 @@ export function useProfile(): UseProfileReturn {
       setLoading(false);
       return;
     }
+    setLoading(true);
     supabase
       .from("profiles")
       .select("*")
