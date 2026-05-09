@@ -38,16 +38,42 @@ export default function DrivingSchoolDashboard() {
     if (!user || profileLoading || approved || domainClaimDone) return;
     const stored = localStorage.getItem("domain_claim");
     if (!stored) return;
-    const { _placeId, name } = JSON.parse(stored) as { _placeId: string; name: string };
-    setDomainClaimDone(true);
-    supabase.rpc("claim_school_via_domain", { p_place_id: _placeId, p_school_name: name }).then(({ error }) => {
-      if (!error) {
-        localStorage.removeItem("domain_claim");
-        supabase.auth.refreshSession();
-      } else {
-        setDomainClaimDone(false);
-      }
-    });
+
+    // Guard: if the user already has a manual pending claim, the domain_claim is stale — drop it.
+    supabase
+      .from("pending_claims")
+      .select("id")
+      .eq("user_id", user.id)
+      .eq("status", "pending")
+      .maybeSingle()
+      .then(({ data: existingClaim }) => {
+        if (existingClaim) {
+          localStorage.removeItem("domain_claim");
+          return;
+        }
+        const { _placeId, name, address, city, zip, region, phone, website, lat, lng, openingHours } = JSON.parse(stored);
+        setDomainClaimDone(true);
+        supabase.rpc("claim_school_via_domain", {
+          p_place_id: _placeId,
+          p_school_name: name,
+          p_address: address ?? null,
+          p_city: city ?? null,
+          p_zip: zip ?? null,
+          p_region: region ?? null,
+          p_phone: phone ?? null,
+          p_website: website ?? null,
+          p_lat: lat ?? null,
+          p_lng: lng ?? null,
+          p_opening_hours: openingHours ? JSON.stringify(openingHours) : null,
+        }).then(({ error }) => {
+          if (!error) {
+            localStorage.removeItem("domain_claim");
+            supabase.auth.refreshSession();
+          } else {
+            setDomainClaimDone(false);
+          }
+        });
+      });
   }, [user, profileLoading, approved, domainClaimDone]);
 
   if (profileLoading) {

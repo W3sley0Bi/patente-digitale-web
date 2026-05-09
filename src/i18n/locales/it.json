@@ -54,6 +54,8 @@
 			"foundSchool": "Abbiamo trovato <strong>{{name}}</strong>. Per la verifica automatica usa un'email <strong>@{{domain}}</strong>.",
 			"noDomainEmail": "Non ho un'email @{{domain}}",
 			"manualReview": "<strong>{{name}}</strong> — la tua richiesta sarà revisionata manualmente, di solito entro 48 ore.",
+			"manualReviewReturn": "Email confermata! Completa la richiesta per la tua autoscuola.",
+			"manualReviewReturnHint": "Inserisci il nome della tua autoscuola, il tuo nome completo e, se disponibile, la partita IVA. Verificheremo e approveremo entro 48 ore.",
 			"notFound": "La tua autoscuola non è ancora nel nostro sistema. Invia una richiesta e la aggiungeremo.",
 			"submitted": "Richiesta inviata!",
 			"submittedDesc": "Ti risponderemo entro 48 ore.",
@@ -78,7 +80,10 @@
 			"piva": "P.IVA (opzionale, velocizza la revisione)",
 			"submitting": "Invio in corso...",
 			"submit": "Invia richiesta",
-			"notAuthenticated": "Non autenticato."
+			"notAuthenticated": "Non autenticato.",
+				"addressPlaceholder": "Cerca indirizzo...",
+				"mapHint": "Clicca sulla mappa per posizionare il segnaposto della tua autoscuola",
+				"mapCoords": "Posizione: {{lat}}, {{lng}}"
 		},
 		"search": {
 			"placeholder": "Cerca autoscuola o città..."

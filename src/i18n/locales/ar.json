@@ -51,6 +51,8 @@
 			"foundSchool": "وجدنا <strong>{{name}}</strong>. للتحقق التلقائي، استخدم بريداً إلكترونياً <strong>@{{domain}}</strong>.",
 			"noDomainEmail": "ليس لدي بريد @{{domain}}",
 			"manualReview": "<strong>{{name}}</strong> — ستتم مراجعة طلبك يدوياً، عادةً خلال 48 ساعة.",
+			"manualReviewReturn": "تم تأكيد البريد الإلكتروني! أكمل طلب مدرستك.",
+			"manualReviewReturnHint": "أدخل اسم مدرستك واسمك الكامل ورقم ضريبة القيمة المضافة إن توفّر. سنراجع طلبك ونوافق عليه خلال 48 ساعة.",
 			"notFound": "مدرستك ليست في نظامنا بعد. أرسل طلباً وسنضيفها.",
 			"submitted": "تم إرسال الطلب!",
 			"submittedDesc": "ستسمع منا خلال 48 ساعة.",
@@ -75,7 +77,10 @@
 			"piva": "P.IVA (اختياري، يسرّع المراجعة)",
 			"submitting": "جارٍ الإرسال...",
 			"submit": "إرسال الطلب",
-			"notAuthenticated": "غير مصادق عليك."
+			"notAuthenticated": "غير مصادق عليك.",
+				"addressPlaceholder": "ابحث عن عنوان...",
+				"mapHint": "انقر على الخريطة لتحديد موقع مدرستك",
+				"mapCoords": "الموقع: {{lat}}, {{lng}}"
 		},
 		"search": {
 			"placeholder": "ابحث باسم المدرسة أو المدينة..."

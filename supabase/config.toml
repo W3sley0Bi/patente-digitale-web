@@ -1,0 +1,25 @@
+# Supabase project configuration
+# Linked to project: dodwkggrwlydimlbmvgk (patentedigitale.it)
+#
+# To apply email templates to the remote project:
+#   supabase link --project-ref dodwkggrwlydimlbmvgk
+#   supabase db push
+#
+# Or paste each template's HTML directly into:
+#   dashboard.supabase.com → Authentication → Email Templates
+
+[auth.email.template.magic_link]
+subject = "Il tuo link di accesso — Patentedigitale.it"
+content_path = "./templates/magic-link.html"
+
+[auth.email.template.confirmation]
+subject = "Conferma il tuo account — Patentedigitale.it"
+content_path = "./templates/confirm-signup.html"
+
+[auth.email.template.recovery]
+subject = "Reimposta la tua password — Patentedigitale.it"
+content_path = "./templates/reset-password.html"
+
+[auth.email.template.email_change]
+subject = "Conferma il nuovo indirizzo email — Patentedigitale.it"
+content_path = "./templates/change-email.html"

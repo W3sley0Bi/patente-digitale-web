@@ -6,6 +6,13 @@ export interface SchoolMatch {
   name: string;
   city: string;
   website: string | null;
+  address: string | null;
+  phone: string | null;
+  region: string | null;
+  zip: string | null;
+  lat: number | null;
+  lng: number | null;
+  openingHours: string[] | null;
 }
 
 interface ClaimSearchProps {
@@ -24,13 +31,20 @@ export function ClaimSearch({ onSelect }: ClaimSearchProps) {
     loaded.current = true;
     fetch("/data/autoscuole.geojson")
       .then((r) => r.json())
-      .then((data: { features: { properties: { _placeId?: string; name?: string; city?: string; website?: string | null } }[] }) => {
+      .then((data: { features: { geometry: { coordinates: [number, number] }; properties: { _placeId?: string; name?: string; city?: string; website?: string | null; address?: string | null; phone?: string | null; region?: string | null; zip?: string | null; openingHours?: string[] | null } }[] }) => {
         setAll(
           data.features.map((f) => ({
             _placeId: f.properties._placeId ?? "",
             name: f.properties.name ?? "",
             city: f.properties.city ?? "",
             website: f.properties.website ?? null,
+            address: f.properties.address ?? null,
+            phone: f.properties.phone ?? null,
+            region: f.properties.region ?? null,
+            zip: f.properties.zip ?? null,
+            lat: f.geometry?.coordinates[1] ?? null,
+            lng: f.geometry?.coordinates[0] ?? null,
+            openingHours: f.properties.openingHours ?? null,
           }))
         );
       });

@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useNavigate } from "react-router";
+import { useState, useEffect } from "react";
+import { useNavigate, useSearchParams } from "react-router";
 import { useTranslation } from "react-i18next";
 import { supabase } from "@/lib/supabase";
 import { Nav } from "@/components/nav/Nav";
@@ -7,7 +7,11 @@ import { ClaimSearch, type SchoolMatch } from "@/components/driving-school/Claim
 import { ClaimForm } from "@/components/driving-school/ClaimForm";
 import { AuthForm } from "@/components/auth/AuthForm";
 
-type Step = "search" | "already-claimed" | "domain-email" | "manual-claim" | "not-found" | "done";
+type Step = "search" | "already-claimed" | "domain-email" | "manual-claim" | "not-found" | "auth-error" | "done";
+
+// localStorage so it survives new-tab email link opens
+const MANUAL_SCHOOL_KEY = "claim_manual_school";
+const BASE_URL = `${window.location.origin}/signup/driving-school`;
 
 function extractDomain(website: string): string {
   try { return new URL(website).hostname.replace(/^www\./, ""); }
@@ -17,8 +21,37 @@ function extractDomain(website: string): string {
 export default function SignupDrivingSchool() {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const [step, setStep] = useState<Step>("search");
-  const [selected, setSelected] = useState<SchoolMatch | null>(null);
+  const [searchParams] = useSearchParams();
+
+  const [step, setStep] = useState<Step>(() => {
+    const hash = window.location.hash;
+    if (hash.includes("error=")) return "auth-error";
+    const param = searchParams.get("step");
+    if (param === "not-found") return "not-found";
+    if (param === "manual-claim") return "manual-claim";
+    return "search";
+  });
+
+  const [selected, setSelected] = useState<SchoolMatch | null>(() => {
+    if (searchParams.get("step") === "manual-claim") {
+      const stored = localStorage.getItem(MANUAL_SCHOOL_KEY);
+      if (stored) return JSON.parse(stored) as SchoolMatch;
+    }
+    return null;
+  });
+
+  const [authError, setAuthError] = useState<string | null>(() => {
+    const hash = window.location.hash;
+    if (!hash.includes("error=")) return null;
+    const params = new URLSearchParams(hash.replace(/^#/, ""));
+    return params.get("error_description")?.replace(/\+/g, " ") ?? "Link non valido o scaduto.";
+  });
+
+  useEffect(() => {
+    if (authError) {
+      window.history.replaceState(null, "", window.location.pathname + window.location.search);
+    }
+  }, [authError]);
 
   const domain = selected?.website ? extractDomain(selected.website) : "";
 
@@ -34,11 +67,22 @@ export default function SignupDrivingSchool() {
       return;
     }
     if (school.website) {
-      localStorage.setItem("domain_claim", JSON.stringify({ _placeId: school._placeId, name: school.name }));
       setStep("domain-email");
     } else {
+      localStorage.setItem(MANUAL_SCHOOL_KEY, JSON.stringify(school));
       setStep("manual-claim");
     }
+  };
+
+  const goToManualClaim = () => {
+    localStorage.removeItem("domain_claim");
+    if (selected) localStorage.setItem(MANUAL_SCHOOL_KEY, JSON.stringify(selected));
+    setStep("manual-claim");
+  };
+
+  const handleManualDone = () => {
+    localStorage.removeItem(MANUAL_SCHOOL_KEY);
+    setStep("done");
   };
 
   const handleDone = () => navigate("/driving-school/dashboard");
@@ -50,13 +94,28 @@ export default function SignupDrivingSchool() {
         <div className="w-full max-w-md flex flex-col gap-6">
           <h1 className="text-2xl font-bold">{t("school.claim.title")}</h1>
 
+          {step === "auth-error" && (
+            <div className="flex flex-col gap-4">
+              <p className="text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-4 py-3">
+                {authError}
+              </p>
+              <button
+                type="button"
+                onClick={() => { setAuthError(null); setStep("search"); }}
+                className="text-sm underline text-ink-muted text-center"
+              >
+                {t("school.claim.backToSearch")}
+              </button>
+            </div>
+          )}
+
           {step === "search" && (
             <>
               <p className="text-sm text-ink-muted">{t("school.claim.searchHint")}</p>
               <ClaimSearch onSelect={handleSelect} />
               <button
                 type="button"
-                onClick={() => setStep("not-found")}
+                onClick={() => { localStorage.removeItem("domain_claim"); setStep("not-found"); }}
                 className="text-sm underline text-ink-muted text-center mt-2"
               >
                 {t("school.claim.notListed")}
@@ -73,7 +132,7 @@ export default function SignupDrivingSchool() {
               />
               <button
                 type="button"
-                onClick={() => { setStep("search"); setSelected(null); }}
+                onClick={() => { localStorage.removeItem("domain_claim"); setStep("search"); setSelected(null); }}
                 className="text-xs text-ink-muted hover:text-ink transition-colors self-start underline"
               >
                 {t("school.claim.backToSearch")}
@@ -93,11 +152,13 @@ export default function SignupDrivingSchool() {
                 mode="magic-link"
                 role="autoscuola"
                 emailRedirectTo={`${window.location.origin}/set-password?next=/driving-school/dashboard`}
-                onSuccess={handleDone}
+                onSuccess={() => {
+                  localStorage.setItem("domain_claim", JSON.stringify(selected));
+                }}
               />
               <button
                 type="button"
-                onClick={() => setStep("manual-claim")}
+                onClick={goToManualClaim}
                 className="text-sm underline text-ink-muted text-center"
               >
                 {t("school.claim.noDomainEmail", { domain })}
@@ -105,18 +166,27 @@ export default function SignupDrivingSchool() {
             </>
           )}
 
-          {step === "manual-claim" && selected && (
+          {step === "manual-claim" && (
             <>
-              <p
-                className="text-sm text-ink-muted"
-                dangerouslySetInnerHTML={{
-                  __html: t("school.claim.manualReview", { name: selected.name }),
-                }}
-              />
+              {selected ? (
+                <p
+                  className="text-sm text-ink-muted"
+                  dangerouslySetInnerHTML={{
+                    __html: t("school.claim.manualReview", { name: selected.name }),
+                  }}
+                />
+              ) : (
+                <div className="flex flex-col gap-2">
+                  <p className="text-sm text-ink-muted">{t("school.claim.manualReviewReturn")}</p>
+                  <p className="text-xs text-ink-faint">{t("school.claim.manualReviewReturnHint")}</p>
+                </div>
+              )}
               <ClaimForm
-                placeId={selected._placeId}
-                schoolName={selected.name}
-                onSuccess={() => setStep("done")}
+                placeId={selected?._placeId}
+                schoolName={selected?.name}
+                schoolData={selected ?? undefined}
+                emailRedirectTo={`${BASE_URL}?step=manual-claim`}
+                onSuccess={handleManualDone}
               />
             </>
           )}
@@ -124,7 +194,11 @@ export default function SignupDrivingSchool() {
           {step === "not-found" && (
             <>
               <p className="text-sm text-ink-muted">{t("school.claim.notFound")}</p>
-              <ClaimForm onSuccess={() => setStep("done")} />
+              <ClaimForm
+                emailRedirectTo={`${BASE_URL}?step=not-found`}
+                onSuccess={() => setStep("done")}
+              />
+
             </>
           )}
 

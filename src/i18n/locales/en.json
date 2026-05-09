@@ -51,6 +51,8 @@
 			"foundSchool": "We found <strong>{{name}}</strong>. To get verified automatically, use a <strong>@{{domain}}</strong> email address.",
 			"noDomainEmail": "I don't have a @{{domain}} email",
 			"manualReview": "<strong>{{name}}</strong> — your claim will be reviewed manually, usually within 48 hours.",
+			"manualReviewReturn": "Email confirmed! Complete your driving school claim.",
+			"manualReviewReturnHint": "Enter your school name, your full name, and your VAT number if available. We'll review and approve within 48 hours.",
 			"notFound": "Your school isn't in our system yet. Submit a claim and we'll add it.",
 			"submitted": "Claim submitted!",
 			"submittedDesc": "You'll hear from us within 48 hours.",
@@ -75,7 +77,10 @@
 			"piva": "P.IVA (optional, helps speed up review)",
 			"submitting": "Submitting...",
 			"submit": "Submit claim",
-			"notAuthenticated": "Not authenticated."
+			"notAuthenticated": "Not authenticated.",
+				"addressPlaceholder": "Search address...",
+				"mapHint": "Click on the map to pin your school's location",
+				"mapCoords": "Location: {{lat}}, {{lng}}"
 		},
 		"search": {
 			"placeholder": "Search school name or city..."
