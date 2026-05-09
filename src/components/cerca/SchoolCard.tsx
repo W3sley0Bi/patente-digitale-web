@@ -3,7 +3,7 @@ import { useState } from "react";
 import { createPortal } from "react-dom";
 import { useTranslation } from "react-i18next";
 import type { NormalizedSchool } from "@/lib/geojson";
-import verifiedBadge from "@/assets/verified-autoscuola.png";
+import verifiedBadge from "@/assets/verified-autoscuola-green.png";
 
 interface PhoneModalProps {
   phone: string;

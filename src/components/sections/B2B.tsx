@@ -4,7 +4,7 @@ import { Link } from "react-router";
 import { Button } from "@/components/ui/button";
 import { Reveal } from "../motion/Reveal";
 import managerImage from "@/assets/autoscuola-manager-image.jpg";
-import verifiedBadge from "@/assets/verified-autoscuola.png";
+import verifiedBadge from "@/assets/verified-autoscuola-green.png";
 
 export function B2B() {
 	const { t } = useTranslation();

@@ -57,13 +57,6 @@ export function AuthForm({ mode, role = "student", fullName, emailRedirectTo, on
     setLoading(false);
   };
 
-  const handleOAuth = (provider: "google" | "apple") => {
-    supabase.auth.signInWithOAuth({
-      provider,
-      options: { queryParams: { role } },
-    });
-  };
-
   if (magicSent) {
     return (
       <p
@@ -137,24 +130,6 @@ export function AuthForm({ mode, role = "student", fullName, emailRedirectTo, on
           </button>
         )}
       </form>
-
-      {role === "student" && (
-        <>
-          <div className="flex items-center gap-3">
-            <div className="flex-1 h-px bg-border" />
-            <span className="text-xs text-ink-muted">{t("auth.form.orWith")}</span>
-            <div className="flex-1 h-px bg-border" />
-          </div>
-          <div className="flex flex-col gap-2">
-            <Button variant="outline" onClick={() => handleOAuth("google")} type="button">
-              Google
-            </Button>
-            <Button variant="outline" onClick={() => handleOAuth("apple")} type="button">
-              Apple
-            </Button>
-          </div>
-        </>
-      )}
     </div>
   );
 }

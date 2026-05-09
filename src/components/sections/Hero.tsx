@@ -178,38 +178,17 @@ export function Hero() {
 					</motion.div>
 				</motion.div>
 
-				{/* Floating Mascot - Does not affect layout flow */}
+				{/* License Type Watermark Sticker */}
 				<motion.div
-					initial={{ opacity: 0, y: 20, scale: 0.8 }}
-					animate={{ opacity: 1, y: 0, scale: 1 }}
-					transition={{ delay: 1, duration: 0.8, ease: "easeOut" }}
-					className="pointer-events-none absolute bottom-0 right-0 flex items-end justify-end p-4 md:p-8"
+					initial={{ opacity: 0, rotate: -20, scale: 0.5 }}
+					animate={{ opacity: 1, rotate: -12, scale: 1 }}
+					transition={{ delay: 1.2, duration: 0.6, ease: "easeOut" }}
+					className="absolute bottom-12 right-8 md:bottom-20 md:right-16 pointer-events-none select-none hidden sm:block"
 				>
-					<div className="relative flex flex-col items-center">
-						{/* Mascot Speech Bubble */}
-						<motion.div
-							initial={{ opacity: 0, scale: 0.5, y: 10 }}
-							animate={{ opacity: 1, scale: 1, y: 0 }}
-							transition={{ delay: 1.8, duration: 0.5, type: "spring" }}
-							className="pointer-events-auto mb-2 w-32 md:mb-4 md:w-56"
-						>
-							<div className="relative">
-								<div className="bg-white px-3 py-2 md:px-4 md:py-3 rounded-2xl shadow-xl border border-line-strong/10 text-center">
-									<p 
-										className="font-sans text-[9px] md:text-sm font-bold text-ink leading-tight"
-										dangerouslySetInnerHTML={{ __html: t("landing.hero.mascotNote") }}
-									/>
-								</div>
-								{/* Speech bubble tail - Centered */}
-								<div className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 h-2 w-2 md:h-3 md:w-3 rotate-45 border-r border-b border-line-strong/10 bg-white" />
-							</div>
-						</motion.div>
-
-						<img
-							src={mascotBackpack}
-							alt=""
-							className="h-auto w-[100px] md:w-[180px] lg:w-[240px] object-contain drop-shadow-2xl"
-							draggable={false}
+					<div className="relative px-4 py-2 md:px-6 md:py-3 bg-brand/10 backdrop-blur-xs border-2 border-brand/20 rounded-xl transform -rotate-12">
+						<p 
+							className="font-sans text-[11px] md:text-sm font-black uppercase tracking-[0.1em] text-brand-ink leading-tight whitespace-nowrap"
+							dangerouslySetInnerHTML={{ __html: t("landing.hero.mascotNote") }}
 						/>
 					</div>
 				</motion.div>

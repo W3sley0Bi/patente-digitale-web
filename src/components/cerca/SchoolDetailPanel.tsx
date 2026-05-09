@@ -2,7 +2,7 @@ import { X, MapPin, Phone, Globe, ExternalLink, Clock, Star, ChevronDown, Chevro
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import type { NormalizedSchool } from "@/lib/geojson";
-import verifiedBadge from "@/assets/verified-autoscuola.png";
+import verifiedBadge from "@/assets/verified-autoscuola-green.png";
 
 interface SchoolDetailPanelProps {
   school: NormalizedSchool | null;
@@ -215,48 +215,6 @@ function PanelContent({ school, isVerified, onClose, t }: PanelContentProps) {
               )}
             </div>
           </InfoRow>
-        )}
-
-        {/* Licenses */}
-        {school.licenses && school.licenses.length > 0 && (
-          <div className="flex flex-col gap-2">
-            <h3 className="font-sans text-xs font-bold uppercase tracking-wider text-ink-faint">
-              {t("cerca.detail.licensesTitle")}
-            </h3>
-            <div className="flex flex-wrap gap-1.5">
-              {school.licenses.map((license) => (
-                <span
-                  key={license}
-                  className="rounded-md bg-line px-2 py-0.5 font-sans text-[11px] font-bold text-ink-muted"
-                >
-                  {license.replace("_", " ")}
-                </span>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* Prices */}
-        {(school.prices || school.licenses) && (
-          <div className="flex flex-col gap-2">
-            <h3 className="font-sans text-xs font-bold uppercase tracking-wider text-ink-faint">
-              {t("cerca.detail.pricesTitle")}
-            </h3>
-            {school.prices ? (
-              <div className="flex flex-col gap-1.5">
-                {Object.entries(school.prices).map(([license, price]) => (
-                  <div key={license} className="flex items-center justify-between gap-2 border-b border-line pb-1.5 last:border-0 last:pb-0">
-                    <span className="font-sans text-sm font-medium text-ink-muted">{license.replace("_", " ")}</span>
-                    <span className="font-sans text-sm font-bold text-brand">{price}</span>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <p className="font-sans text-xs italic text-ink-faint">
-                {t("cerca.detail.noPrices")}
-              </p>
-            )}
-          </div>
         )}
 
         {/* Google Maps link */}

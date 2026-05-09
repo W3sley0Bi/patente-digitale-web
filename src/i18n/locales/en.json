@@ -177,7 +177,6 @@
 			"sendMagicLink": "Send magic link",
 			"createAccount": "Create account",
 			"login": "Log in",
-			"orWith": "or continue with",
 			"magicSent": "Magic link sent to <strong>{{email}}</strong>. Check your inbox."
 		},
 		"errors": {
@@ -216,12 +215,11 @@
 			"subhead": "Find, choose and enrol in your driving school in minutes. All online, no queues.",
 "searchPlaceholder": "Search by city or postcode...",
 			"cta": {
-				"primary": "Find your driving school",
-				"secondary": "How it works"
+			"primary": "Find your driving school",
+			"secondary": "How it works"
 			},
-			"mascotNote": "For all license types,<br />not just category B 😊",
-			"trust": "Trusted by 12,000+ students across 14 regions. Secure payments via PayPal, Apple Pay and Google Pay.",
-			"trust.social": "12,000+ happy students",
+			"mascotNote": "For all license types, not just category B",
+			"trust": "Trusted by 12,000+ students across 14 regions. Secure payments via PayPal, Apple Pay and Google Pay.",			"trust.social": "12,000+ happy students",
 			"mascotAlt": "Patentino, the Patentedigitale.it mascot"
 		},
 		"howItWorks": {

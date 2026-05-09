@@ -180,7 +180,6 @@
 			"sendMagicLink": "Invia magic link",
 			"createAccount": "Crea account",
 			"login": "Accedi",
-			"orWith": "o continua con",
 			"magicSent": "Magic link inviato a <strong>{{email}}</strong>. Controlla la tua casella."
 		},
 		"errors": {
@@ -219,12 +218,11 @@
 			"subhead": "Trova, scegli e iscriviti alla tua autoscuola in pochi minuti. Tutto online, senza file.",
 "searchPlaceholder": "Cerca per città o CAP...",
 			"cta": {
-				"primary": "Trova la tua autoscuola",
-				"secondary": "Come funziona"
+			"primary": "Trova la tua autoscuola",
+			"secondary": "Come funziona"
 			},
-			"mascotNote": "Per tutti i tipi di patenti,<br />non solo la B 😊",
-			"trust": "Già scelto da oltre 12.000 studenti in 14 regioni. Pagamenti sicuri con PayPal, Apple Pay e Google Pay.",
-			"trust.social": "12.000+ studenti felici",
+			"mascotNote": "Per tutti i tipi di patenti, non solo la B",
+			"trust": "Già scelto da oltre 12.000 studenti in 14 regioni. Pagamenti sicuri con PayPal, Apple Pay e Google Pay.",			"trust.social": "12.000+ studenti felici",
 			"mascotAlt": "Patentino, la mascotte di Patentedigitale.it"
 		},
 		"howItWorks": {
