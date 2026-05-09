@@ -15,13 +15,13 @@ export function useAuth(): UseAuthReturn {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data }) => {
-      setSession(data.session);
-      setLoading(false);
-    });
-
+    // onAuthStateChange fires immediately with the current session AND handles
+    // URL hash token exchange (magic links). Using it as the sole source of truth
+    // avoids the race where getSession() resolves null before the hash is exchanged,
+    // causing ProtectedRoute to redirect before the session is established.
     const { data: listener } = supabase.auth.onAuthStateChange((_event, s) => {
       setSession(s);
+      setLoading(false);
     });
 
     return () => listener.subscription.unsubscribe();
