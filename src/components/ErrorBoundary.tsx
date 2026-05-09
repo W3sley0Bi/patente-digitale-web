@@ -1,9 +1,14 @@
 import { Component, cloneElement } from "react";
 import type { ErrorInfo, ReactElement, ReactNode } from "react";
 
+interface FallbackProps {
+  error?: Error;
+  onReset?: () => void;
+}
+
 interface Props {
   fallback:
-    | ReactElement
+    | ReactElement<FallbackProps>
     | ((error: Error, reset: () => void) => ReactElement);
   children: ReactNode;
 }
