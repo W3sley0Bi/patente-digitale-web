@@ -40,7 +40,7 @@ export function AddressAutocomplete({ value, onChange, onSelect }: Props) {
   const { t } = useTranslation();
   const [suggestions, setSuggestions] = useState<PhotonFeature[]>([]);
   const [open, setOpen] = useState(false);
-  const timer = useRef<ReturnType<typeof setTimeout>>();
+  const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const wrapRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
