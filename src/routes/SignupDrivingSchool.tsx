@@ -153,6 +153,7 @@ export default function SignupDrivingSchool() {
                 role="autoscuola"
                 emailRedirectTo={`${window.location.origin}/set-password?next=/driving-school/dashboard`}
                 onSuccess={() => {
+                  console.info("[domain-email onSuccess] storing domain_claim:", selected);
                   localStorage.setItem("domain_claim", JSON.stringify(selected));
                 }}
               />

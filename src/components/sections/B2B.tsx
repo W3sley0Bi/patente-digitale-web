@@ -3,6 +3,8 @@ import { useTranslation } from "react-i18next";
 import { Link } from "react-router";
 import { Button } from "@/components/ui/button";
 import { Reveal } from "../motion/Reveal";
+import managerImage from "@/assets/autoscuola-manager-image.jpg";
+import verifiedBadge from "@/assets/verified-autoscuola.png";
 
 export function B2B() {
 	const { t } = useTranslation();
@@ -28,7 +30,7 @@ export function B2B() {
 							<div className="relative w-full max-w-[320px] sm:max-w-[400px] lg:max-w-[480px] mt-12 lg:mt-0">
 								<div className="aspect-square overflow-hidden rounded-3xl border border-white/10 bg-white/5 shadow-2xl">
 									<img
-										src="/autoscuola-manager-image.jpg"
+										src={managerImage}
 										alt="Autoscuola Manager Dashboard"
 										className="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
 										loading="lazy"
@@ -38,7 +40,7 @@ export function B2B() {
 								{/* Verified Badge Overlay - Adjusted for Mobile first */}
 								<div className="absolute -top-12 -left-12 sm:-top-16 sm:-left-16 md:-top-24 md:-left-20 lg:-top-32 lg:-left-28 w-40 h-40 sm:w-48 sm:h-48 md:w-64 md:h-64 drop-shadow-[0_20px_50px_rgba(0,0,0,0.5)] animate-float z-10">
 									<img
-										src="/verified-autoscuola.png"
+										src={verifiedBadge}
 										alt="Verified Premium Member"
 										className="w-full h-full object-contain"
 										loading="lazy"

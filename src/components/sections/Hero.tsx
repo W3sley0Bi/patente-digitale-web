@@ -6,6 +6,7 @@ import { useState } from "react";
 import { revealVariants, staggerContainer } from "@/lib/motion";
 import { reverseGeocode } from "@/lib/geocode";
 import { getRegionForCoords } from "@/lib/italyGeo";
+import mascotBackpack from "@/assets/mascot-backpack.png";
 
 export function Hero() {
 	const { t } = useTranslation();
@@ -205,7 +206,7 @@ export function Hero() {
 						</motion.div>
 
 						<img
-							src="/mascot-backpack.png"
+							src={mascotBackpack}
 							alt=""
 							className="h-auto w-[100px] md:w-[180px] lg:w-[240px] object-contain drop-shadow-2xl"
 							draggable={false}

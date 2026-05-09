@@ -51,6 +51,39 @@ export function UserMenu({ onClose }: { onClose?: () => void }) {
 
 	const seed = user.email ?? user.id;
 
+	// When rendered inside the mobile drawer, show menu items inline to avoid
+	// dropdown clipping caused by the Sheet's overflow-hidden container.
+	if (onClose) {
+		return (
+			<div className="flex flex-col">
+				<Link
+					to={dashboardHref}
+					onClick={onClose}
+					className="flex items-center gap-3 px-4 py-2.5 text-sm text-ink hover:bg-brand-soft/30 hover:text-brand transition-colors rounded-lg"
+				>
+					<LayoutDashboard size={15} className="text-ink-muted" />
+					{t("landing.nav.dashboard")}
+				</Link>
+				<Link
+					to="/quiz"
+					onClick={onClose}
+					className="flex items-center gap-3 px-4 py-2.5 text-sm text-ink hover:bg-brand-soft/30 hover:text-brand transition-colors rounded-lg"
+				>
+					<BookOpen size={15} className="text-ink-muted" />
+					{t("landing.nav.quizOnline")}
+				</Link>
+				<button
+					type="button"
+					onClick={handleLogout}
+					className="flex w-full items-center gap-3 px-4 py-2.5 text-sm text-ink hover:bg-red-50 hover:text-red-600 transition-colors rounded-lg"
+				>
+					<LogOut size={15} className="text-ink-muted" />
+					{t("landing.nav.logout")}
+				</button>
+			</div>
+		);
+	}
+
 	return (
 		<div className="relative" ref={ref}>
 			<button

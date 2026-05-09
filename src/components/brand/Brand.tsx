@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import mascotLogo from "@/assets/mascot-logo.png";
 
 interface MascotProps {
 	size?: "sm" | "md" | "lg";
@@ -21,7 +22,7 @@ export function Mascot({ size = "md", className }: MascotProps) {
 			)}
 		>
 			<img
-				src="/mascot-logo.png"
+				src={mascotLogo}
 				alt="Patentino"
 				className="h-full w-full object-contain"
 			/>

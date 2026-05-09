@@ -3,6 +3,7 @@ import { useState } from "react";
 import { createPortal } from "react-dom";
 import { useTranslation } from "react-i18next";
 import type { NormalizedSchool } from "@/lib/geojson";
+import verifiedBadge from "@/assets/verified-autoscuola.png";
 
 interface PhoneModalProps {
   phone: string;
@@ -141,7 +142,7 @@ export function SchoolCard({ school, isSelected, onClick }: SchoolCardProps) {
         {/* Partner: verified badge — bottom-right */}
         {isPartner && (
           <img
-            src="/verified-autoscuola.png"
+            src={verifiedBadge}
             alt="Autoscuola verificata"
             className="absolute bottom-2 right-2 h-7 w-7 object-contain drop-shadow-sm"
             draggable={false}

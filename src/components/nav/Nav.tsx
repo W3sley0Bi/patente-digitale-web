@@ -179,6 +179,7 @@ export function Nav() {
 
 				{/* Mobile actions */}
 				<div className="flex items-center gap-1 md:hidden">
+					<UserMenu />
 					<Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
 						<SheetTrigger render={<Button variant="ghost" size="icon" className="relative z-[60]" />}>
 							{isMenuOpen ? (

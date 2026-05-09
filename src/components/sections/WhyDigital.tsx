@@ -2,16 +2,18 @@ import { useTranslation } from "react-i18next";
 import { cn } from "@/lib/utils";
 import { SectionEyebrow } from "../layout/SectionEyebrow";
 import { Reveal } from "../motion/Reveal";
+import foglioRosaIcon from "@/assets/foglio-rosa-icon.png";
+import whyQuizApp from "@/assets/why-quiz-app.png";
 
 const ROWS = [
 	{
 		id: 1,
-		image: "/foglio-rosa-icon.png",
+		image: foglioRosaIcon,
 		contain: true,
 	},
 	{
 		id: 3,
-		image: "/why-quiz-app.png",
+		image: whyQuizApp,
 		contain: false,
 	},
 	{

@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { Link } from "react-router";
 import { Button } from "@/components/ui/button";
 import { Reveal } from "../motion/Reveal";
+import mascotBackpack from "@/assets/mascot-backpack.png";
 
 export function FinalCta() {
 	const { t } = useTranslation();
@@ -32,7 +33,7 @@ export function FinalCta() {
 			{/* Decorative Mascot */}
 			<div className="absolute -bottom-4 end-8 opacity-15 md:opacity-90 pointer-events-none">
 				<img
-					src="/mascot-backpack.png"
+					src={mascotBackpack}
 					alt=""
 					aria-hidden="true"
 					className="h-56 w-56 md:h-72 md:w-72 drop-shadow-xl rotate-[8deg] rtl:-rotate-[8deg] rtl:-scale-x-100"

@@ -34,8 +34,9 @@ export function AuthForm({ mode, role = "student", fullName, emailRedirectTo, on
         email,
         options: { data: metadata, ...(emailRedirectTo ? { emailRedirectTo } : {}) },
       });
+      console.info("[magic-link] signInWithOtp result:", { err, email, emailRedirectTo });
       if (err) setError(err.message);
-      else setMagicSent(true);
+      else { setMagicSent(true); onSuccess?.(); console.info("[magic-link] onSuccess fired"); }
     } else if (mode === "signup") {
       const { data: signUpData, error: err } = await supabase.auth.signUp({
         email,

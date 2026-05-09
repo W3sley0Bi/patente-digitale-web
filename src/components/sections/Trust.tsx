@@ -1,6 +1,12 @@
 import { useTranslation } from "react-i18next";
 import { Reveal } from "../motion/Reveal";
 
+// Import partner logos to ensure they are bundled correctly
+import politoLogo from "@/assets/partners/polito.png";
+import unitoLogo from "@/assets/partners/unito.png";
+import chemnitzLogo from "@/assets/partners/chemnitz.png";
+import metaLogo from "@/assets/partners/meta.png";
+
 const LogoGoogle = () => (
 	<svg viewBox="0 0 24 24" className="h-6 w-6 shrink-0" xmlns="http://www.w3.org/2000/svg">
 		<path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
@@ -11,10 +17,10 @@ const LogoGoogle = () => (
 );
 
 const STRATEGIC_PARTNERS = [
-	{ name: "Politecnico di Torino", type: "Academic", src: "/partners/polito.png" },
-	{ name: "UniTo", type: "Academic", src: "/partners/unito.png" },
-	{ name: "TU Chemnitz", type: "Technical University", src: "/partners/chemnitz.png" },
-	{ name: "Meta", type: "Technology", src: "/partners/meta.png" },
+	{ name: "Politecnico di Torino", type: "Academic", src: politoLogo },
+	{ name: "UniTo", type: "Academic", src: unitoLogo },
+	{ name: "TU Chemnitz", type: "Technical University", src: chemnitzLogo },
+	{ name: "Meta", type: "Technology", src: metaLogo },
 	{ name: "Google", type: "Infrastructure", logo: LogoGoogle },
 ];
 

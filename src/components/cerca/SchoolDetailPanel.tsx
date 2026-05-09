@@ -2,6 +2,7 @@ import { X, MapPin, Phone, Globe, ExternalLink, Clock, Star, ChevronDown, Chevro
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import type { NormalizedSchool } from "@/lib/geojson";
+import verifiedBadge from "@/assets/verified-autoscuola.png";
 
 interface SchoolDetailPanelProps {
   school: NormalizedSchool | null;
@@ -107,7 +108,7 @@ function PanelContent({ school, isPartner, onClose, t }: PanelContentProps) {
         {isPartner && (
           <div className="mb-2 flex items-center gap-1.5">
             <img
-              src="/verified-autoscuola.png"
+              src={verifiedBadge}
               alt="Autoscuola verificata"
               className="h-5 w-5 object-contain"
               draggable={false}
