@@ -6,7 +6,6 @@ import { useState } from "react";
 import { revealVariants, staggerContainer } from "@/lib/motion";
 import { reverseGeocode } from "@/lib/geocode";
 import { getRegionForCoords } from "@/lib/italyGeo";
-import mascotBackpack from "@/assets/mascot-backpack.png";
 
 export function Hero() {
 	const { t } = useTranslation();
