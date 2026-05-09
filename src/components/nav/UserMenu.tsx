@@ -100,7 +100,7 @@ export function UserMenu({ onClose }: { onClose?: () => void }) {
 					<div className="py-1">
 						<Link
 							to={dashboardHref}
-							onClick={() => { setOpen(false); onClose?.(); }}
+							onClick={() => setOpen(false)}
 							className="flex items-center gap-3 px-4 py-2.5 text-sm text-ink hover:bg-brand-soft/30 hover:text-brand transition-colors"
 						>
 							<LayoutDashboard size={15} className="text-ink-muted" />
@@ -108,7 +108,7 @@ export function UserMenu({ onClose }: { onClose?: () => void }) {
 						</Link>
 						<Link
 							to="/quiz"
-							onClick={() => { setOpen(false); onClose?.(); }}
+							onClick={() => setOpen(false)}
 							className="flex items-center gap-3 px-4 py-2.5 text-sm text-ink hover:bg-brand-soft/30 hover:text-brand transition-colors"
 						>
 							<BookOpen size={15} className="text-ink-muted" />
