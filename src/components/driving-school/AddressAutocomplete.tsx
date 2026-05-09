@@ -56,8 +56,11 @@ export function AddressAutocomplete({ value, onChange, onSelect }: Props) {
     if (q.length < 3) { setSuggestions([]); setOpen(false); return; }
     timer.current = setTimeout(async () => {
       try {
+        // NOTE: don't pass lang=it — it filters to entries with Italian translations
+        // and most street-level results have none, returning empty arrays for queries
+        // like "via dei mille". The bbox + countrycode filter is enough for Italy.
         const res = await fetch(
-          `https://photon.komoot.io/api/?q=${encodeURIComponent(q)}&limit=6&lang=it&bbox=6.75,36.62,18.48,47.09`
+          `https://photon.komoot.io/api/?q=${encodeURIComponent(q)}&limit=6&bbox=6.75,36.62,18.48,47.09`
         );
         const data = await res.json();
         const features: PhotonFeature[] = (data.features ?? []).filter(
