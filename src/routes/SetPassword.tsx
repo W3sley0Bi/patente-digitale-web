@@ -10,7 +10,7 @@ import { useProfile } from "@/hooks/useProfile";
 export default function SetPassword() {
   const { t } = useTranslation();
   const { user } = useAuth();
-  const { role } = useProfile();
+  const { role, refresh } = useProfile();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const next = searchParams.get("next");
@@ -26,20 +26,24 @@ export default function SetPassword() {
     e.preventDefault();
     setLoading(true);
     setError(null);
+
     const { error: err } = await supabase.auth.updateUser({ password });
     if (err) {
       setError(err.message);
       setLoading(false);
       return;
     }
-    // updateUser invalidates the OTP session — sign in immediately with the new password
-    const email = user?.email ?? "";
-    const { error: loginErr } = await supabase.auth.signInWithPassword({ email, password });
-    if (loginErr) {
-      setError(loginErr.message);
-      setLoading(false);
-      return;
+
+    // If the user came through the autoscuola claim flow but their profile.role
+    // is still "student" (existing user, or trigger metadata mismatch), upgrade it.
+    // The trigger already does this for new users; this handles the existing-user case.
+    const wantsAutoscuola =
+      (next?.includes("driving-school") ?? false) || !!localStorage.getItem("domain_claim");
+    if (wantsAutoscuola && user && role !== "autoscuola") {
+      await supabase.from("profiles").update({ role: "autoscuola", approved: false }).eq("id", user.id);
+      await refresh();
     }
+
     if (next) {
       navigate(next);
     } else {

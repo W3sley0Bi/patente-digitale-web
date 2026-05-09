@@ -24,7 +24,7 @@ function Wrap({ element }: { element: React.ReactNode }) {
 describe("ProtectedRoute", () => {
   beforeEach(() => {
     vi.mocked(useAuth).mockReturnValue({ user: null, session: null, loading: false, signOut: async () => {} });
-    vi.mocked(useProfile).mockReturnValue({ profile: null, role: null, approved: false, loading: false, error: null });
+    vi.mocked(useProfile).mockReturnValue({ profile: null, role: null, approved: false, loading: false, error: null, refresh: async () => {} });
   });
 
   it("redirects to /login when not authenticated", () => {
@@ -35,22 +35,23 @@ describe("ProtectedRoute", () => {
 
   it("renders children when role matches", () => {
     vi.mocked(useAuth).mockReturnValue({ user: { id: "u1" } as never, session: {} as never, loading: false, signOut: async () => {} });
-    vi.mocked(useProfile).mockReturnValue({ profile: null, role: "student", approved: true, loading: false, error: null });
+    vi.mocked(useProfile).mockReturnValue({ profile: null, role: "student", approved: true, loading: false, error: null, refresh: async () => {} });
     render(<Wrap element={<ProtectedRoute requiredRole="student"><div>Secret</div></ProtectedRoute>} />);
     expect(screen.getByText("Secret")).toBeInTheDocument();
   });
 
   it("redirects when authenticated but wrong role", () => {
     vi.mocked(useAuth).mockReturnValue({ user: { id: "u1" } as never, session: {} as never, loading: false, signOut: async () => {} });
-    vi.mocked(useProfile).mockReturnValue({ profile: null, role: "autoscuola", approved: true, loading: false, error: null });
+    vi.mocked(useProfile).mockReturnValue({ profile: null, role: "autoscuola", approved: true, loading: false, error: null, refresh: async () => {} });
     render(<Wrap element={<ProtectedRoute requiredRole="student"><div>Secret</div></ProtectedRoute>} />);
     expect(screen.queryByText("Secret")).not.toBeInTheDocument();
-    expect(screen.getByText("Login page")).toBeInTheDocument();
+    // wrong-role users now route to their actual dashboard, not /login
+    expect(screen.getByText("DS dashboard")).toBeInTheDocument();
   });
 
   it("redirects to /driving-school/dashboard when approved=false and requireApproved=true", () => {
     vi.mocked(useAuth).mockReturnValue({ user: { id: "u1" } as never, session: {} as never, loading: false, signOut: async () => {} });
-    vi.mocked(useProfile).mockReturnValue({ profile: null, role: "autoscuola", approved: false, loading: false, error: null });
+    vi.mocked(useProfile).mockReturnValue({ profile: null, role: "autoscuola", approved: false, loading: false, error: null, refresh: async () => {} });
     render(<Wrap element={<ProtectedRoute requiredRole="autoscuola" requireApproved><div>Editor</div></ProtectedRoute>} />);
     expect(screen.queryByText("Editor")).not.toBeInTheDocument();
     expect(screen.getByText("DS dashboard")).toBeInTheDocument();

@@ -1,6 +1,4 @@
-import { useEffect, useState } from "react";
-import { supabase } from "@/lib/supabase";
-import { useAuth } from "@/hooks/useAuth";
+import { useAuthContext } from "@/lib/AuthContext";
 
 interface Profile {
   id: string;
@@ -15,39 +13,17 @@ interface UseProfileReturn {
   approved: boolean;
   loading: boolean;
   error: string | null;
+  refresh: () => Promise<void>;
 }
 
 export function useProfile(): UseProfileReturn {
-  const { user, loading: authLoading } = useAuth();
-  const [profile, setProfile] = useState<Profile | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    if (authLoading) return;
-    if (!user) {
-      setProfile(null);
-      setLoading(false);
-      return;
-    }
-    setLoading(true);
-    supabase
-      .from("profiles")
-      .select("*")
-      .eq("id", user.id)
-      .single()
-      .then(({ data, error: e }) => {
-        if (e) setError(e.message);
-        else setProfile(data as Profile);
-        setLoading(false);
-      });
-  }, [user, authLoading]);
-
+  const { profile, role, approved, profileLoading, profileError, refreshProfile } = useAuthContext();
   return {
     profile,
-    role: profile?.role ?? null,
-    approved: profile?.approved ?? false,
-    loading: authLoading || loading,
-    error,
+    role,
+    approved,
+    loading: profileLoading,
+    error: profileError,
+    refresh: refreshProfile,
   };
 }

@@ -1,55 +1,46 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
-import { renderHook, waitFor } from "@testing-library/react";
+import { describe, it, expect, vi } from "vitest";
 
-const mockSingle = vi.hoisted(() => vi.fn());
-
-vi.mock("@/lib/supabase", () => ({
-  supabase: {
-    from: vi.fn().mockReturnValue({
-      select: vi.fn().mockReturnValue({
-        eq: vi.fn().mockReturnValue({ single: mockSingle }),
-      }),
-    }),
-  },
-}));
-
-vi.mock("@/hooks/useAuth", () => ({
-  useAuth: vi.fn(),
+vi.mock("@/lib/AuthContext", () => ({
+  useAuthContext: vi.fn(),
 }));
 
 import { useProfile } from "@/hooks/useProfile";
-import { useAuth } from "@/hooks/useAuth";
+import { useAuthContext } from "@/lib/AuthContext";
 
 describe("useProfile", () => {
-  beforeEach(() => {
-    mockSingle.mockResolvedValue({
-      data: { id: "u1", role: "student", approved: true, full_name: "Mario" },
-      error: null,
-    });
-    vi.mocked(useAuth).mockReturnValue({
-      user: { id: "u1" } as never,
-      session: {} as never,
-      loading: false,
-      signOut: async () => {},
-    });
-  });
-
-  it("returns role and approved from profiles table", async () => {
-    const { result } = renderHook(() => useProfile());
-    await waitFor(() => expect(result.current.loading).toBe(false));
-    expect(result.current.role).toBe("student");
-    expect(result.current.approved).toBe(true);
-  });
-
-  it("returns null role when no user is logged in", async () => {
-    vi.mocked(useAuth).mockReturnValue({
-      user: null,
+  it("returns role and approved from auth context", () => {
+    vi.mocked(useAuthContext).mockReturnValue({
       session: null,
-      loading: false,
+      user: { id: "u1" } as never,
+      authLoading: false,
+      profile: { id: "u1", role: "student", approved: true, full_name: "Mario" },
+      role: "student",
+      approved: true,
+      profileLoading: false,
+      profileError: null,
+      refreshProfile: async () => {},
       signOut: async () => {},
     });
-    const { result } = renderHook(() => useProfile());
-    await waitFor(() => expect(result.current.loading).toBe(false));
-    expect(result.current.role).toBeNull();
+    const r = useProfile();
+    expect(r.role).toBe("student");
+    expect(r.approved).toBe(true);
+    expect(r.loading).toBe(false);
+  });
+
+  it("returns null role when no user is logged in", () => {
+    vi.mocked(useAuthContext).mockReturnValue({
+      session: null,
+      user: null,
+      authLoading: false,
+      profile: null,
+      role: null,
+      approved: false,
+      profileLoading: false,
+      profileError: null,
+      refreshProfile: async () => {},
+      signOut: async () => {},
+    });
+    const r = useProfile();
+    expect(r.role).toBeNull();
   });
 });

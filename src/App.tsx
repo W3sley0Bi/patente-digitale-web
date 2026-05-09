@@ -3,6 +3,7 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router";
 import Landing from "./routes/Landing";
 import { ScrollToHash } from "./hooks/useScrollToHash";
 import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
+import { AuthProvider } from "@/lib/AuthContext";
 
 const Cerca = lazy(() => import("./routes/Cerca"));
 const Iscrizione = lazy(() => import("./routes/Iscrizione"));
@@ -26,8 +27,9 @@ const LoadingFallback = () => (
 function App() {
 	return (
 		<BrowserRouter>
-			<ScrollToHash />
-			<Suspense fallback={<LoadingFallback />}>
+			<AuthProvider>
+				<ScrollToHash />
+				<Suspense fallback={<LoadingFallback />}>
 				<Routes>
 					<Route path="/" element={<Landing />} />
 					<Route path="/cerca" element={<Navigate to="/search" replace />} />
@@ -70,7 +72,7 @@ function App() {
 					<Route
 						path="/driving-school/dashboard/settings"
 						element={
-							<ProtectedRoute requiredRole="autoscuola">
+							<ProtectedRoute requiredRole="autoscuola" requireApproved>
 								<DrivingSchoolSettings />
 							</ProtectedRoute>
 						}
@@ -83,6 +85,7 @@ function App() {
 					<Route path="*" element={<Navigate to="/" replace />} />
 				</Routes>
 			</Suspense>
+			</AuthProvider>
 		</BrowserRouter>
 	);
 }

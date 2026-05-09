@@ -20,6 +20,10 @@ export function ProtectedRoute({ children, requiredRole, requireApproved = false
   }
 
   if (requiredRole && role !== requiredRole) {
+    // Send the user to their actual dashboard rather than bouncing them to /login
+    // with no context. Null role => profile not yet provisioned; send to /login.
+    if (role === "autoscuola") return <Navigate to="/driving-school/dashboard" replace />;
+    if (role === "student") return <Navigate to="/student/dashboard" replace />;
     return <Navigate to="/login" replace />;
   }
 
