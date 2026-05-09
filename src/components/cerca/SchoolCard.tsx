@@ -59,14 +59,14 @@ interface SchoolCardProps {
 export function SchoolCard({ school, isSelected, onClick }: SchoolCardProps) {
   const { t } = useTranslation();
   const [showPhone, setShowPhone] = useState(false);
-  const isPartner = school.partner === true;
+  const isVerified = school.partner === true;
 
   let cardClass = "relative flex min-h-[6.75rem] w-full flex-col rounded-xl border p-4 text-left shadow-sm transition-all overflow-hidden";
-  if (isPartner && !isSelected) {
-    cardClass += " border-amber-400 bg-gradient-to-br from-white to-amber-50 shadow-[0_0_0_1px_theme(colors.amber.300)] hover:shadow-md";
+  if (isVerified && !isSelected) {
+    cardClass += " border-emerald-400 bg-gradient-to-br from-white to-emerald-50 shadow-[0_0_0_1px_theme(colors.emerald.300)] hover:shadow-md";
   } else if (isSelected) {
-    cardClass += isPartner
-      ? " border-amber-500 bg-amber-50 shadow-md"
+    cardClass += isVerified
+      ? " border-emerald-500 bg-emerald-50 shadow-md"
       : " border-brand bg-brand-soft shadow-md";
   } else {
     cardClass += " border-line bg-bg-raised hover:border-line-strong hover:shadow-md";
@@ -79,9 +79,9 @@ export function SchoolCard({ school, isSelected, onClick }: SchoolCardProps) {
         onClick={onClick}
         className={cardClass}
       >
-        {/* Partner: gold top accent bar */}
-        {isPartner && (
-          <span className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-amber-300 via-amber-400 to-amber-300" />
+        {/* Verified: green top accent bar */}
+        {isVerified && (
+          <span className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-emerald-300 via-emerald-400 to-emerald-300" />
         )}
 
         {/* Top: name + address + region */}
@@ -90,9 +90,9 @@ export function SchoolCard({ school, isSelected, onClick }: SchoolCardProps) {
             <p className="font-sans text-sm font-semibold leading-snug text-ink line-clamp-1">
               {school.name}
             </p>
-            {isPartner && (
-              <span className="shrink-0 rounded-full bg-amber-100 px-1.5 py-0.5 font-sans text-[10px] font-bold uppercase tracking-wide text-amber-700">
-                Partner
+            {isVerified && (
+              <span className="shrink-0 rounded-full bg-emerald-100 px-1.5 py-0.5 font-sans text-[10px] font-bold uppercase tracking-wide text-emerald-700">
+                {t("cerca.detail.partnerVerified")}
               </span>
             )}
           </div>
@@ -140,7 +140,7 @@ export function SchoolCard({ school, isSelected, onClick }: SchoolCardProps) {
         </div>
 
         {/* Partner: verified badge — bottom-right */}
-        {isPartner && (
+        {isVerified && (
           <img
             src={verifiedBadge}
             alt="Autoscuola verificata"

@@ -11,7 +11,7 @@ interface SchoolDetailPanelProps {
 
 export function SchoolDetailPanel({ school, onClose }: SchoolDetailPanelProps) {
   const { t } = useTranslation();
-  const isPartner = school?.partner === true;
+  const isVerified = school?.partner === true;
   const visible = school !== null;
 
   return (
@@ -23,7 +23,7 @@ export function SchoolDetailPanel({ school, onClose }: SchoolDetailPanelProps) {
           visible ? "translate-x-0" : "-translate-x-full",
         ].join(" ")}
       >
-        {school && <PanelContent school={school} isPartner={isPartner} onClose={onClose} t={t} />}
+        {school && <PanelContent school={school} isVerified={isVerified} onClose={onClose} t={t} />}
       </div>
 
       {/* Mobile: slides up from bottom */}
@@ -34,7 +34,7 @@ export function SchoolDetailPanel({ school, onClose }: SchoolDetailPanelProps) {
         ].join(" ")}
         style={{ maxHeight: "60vh" }}
       >
-        {school && <PanelContent school={school} isPartner={isPartner} onClose={onClose} t={t} />}
+        {school && <PanelContent school={school} isVerified={isVerified} onClose={onClose} t={t} />}
       </div>
 
       {/* Mobile backdrop */}
@@ -50,13 +50,13 @@ export function SchoolDetailPanel({ school, onClose }: SchoolDetailPanelProps) {
 
 interface PanelContentProps {
   school: NormalizedSchool;
-  isPartner: boolean;
+  isVerified: boolean;
   onClose: () => void;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   t: any;
 }
 
-function PanelContent({ school, isPartner, onClose, t }: PanelContentProps) {
+function PanelContent({ school, isVerified, onClose, t }: PanelContentProps) {
   const [hoursExpanded, setHoursExpanded] = useState(false);
 
   // Get current day of week (0-6, Sunday-Saturday)
@@ -89,13 +89,13 @@ function PanelContent({ school, isPartner, onClose, t }: PanelContentProps) {
 
   return (
     <div className="flex h-full flex-col overflow-y-auto">
-      {/* Partner gold top bar */}
-      {isPartner && (
-        <div className="h-[3px] w-full shrink-0 bg-gradient-to-r from-amber-300 via-amber-400 to-amber-300" />
+      {/* Verified green top bar */}
+      {isVerified && (
+        <div className="h-[3px] w-full shrink-0 bg-gradient-to-r from-emerald-300 via-emerald-400 to-emerald-300" />
       )}
 
       {/* Header */}
-      <div className={["relative shrink-0 px-5 pt-5 pb-4", isPartner ? "bg-gradient-to-b from-amber-50 to-transparent" : ""].join(" ")}>
+      <div className={["relative shrink-0 px-5 pt-5 pb-4", isVerified ? "bg-gradient-to-b from-emerald-50 to-transparent" : ""].join(" ")}>
         <button
           type="button"
           onClick={onClose}
@@ -105,7 +105,7 @@ function PanelContent({ school, isPartner, onClose, t }: PanelContentProps) {
           <X size={16} />
         </button>
 
-        {isPartner && (
+        {isVerified && (
           <div className="mb-2 flex items-center gap-1.5">
             <img
               src={verifiedBadge}
@@ -113,7 +113,7 @@ function PanelContent({ school, isPartner, onClose, t }: PanelContentProps) {
               className="h-5 w-5 object-contain"
               draggable={false}
             />
-            <span className="font-sans text-[11px] font-bold uppercase tracking-wide text-amber-600">
+            <span className="font-sans text-[11px] font-bold uppercase tracking-wide text-emerald-600">
               {t("cerca.detail.partnerVerified")}
             </span>
           </div>
@@ -274,12 +274,12 @@ function PanelContent({ school, isPartner, onClose, t }: PanelContentProps) {
       </div>
 
       {/* Partner CTA */}
-      {isPartner && (
+      {isVerified && (
         <div className="mt-auto shrink-0 px-5 pb-5">
-          <div className="border-t border-amber-200 pt-4">
+          <div className="border-t border-emerald-200 pt-4">
             <button
               type="button"
-              className="w-full rounded-xl bg-amber-400 px-4 py-3 font-sans text-sm font-bold text-amber-900 shadow-sm transition-colors hover:bg-amber-300 active:scale-95"
+              className="w-full rounded-xl bg-emerald-400 px-4 py-3 font-sans text-sm font-bold text-emerald-900 shadow-sm transition-colors hover:bg-emerald-300 active:scale-95"
             >
               {t("cerca.detail.enroll")}
             </button>

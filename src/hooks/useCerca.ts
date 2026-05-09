@@ -12,7 +12,7 @@ interface UseCercaReturn {
   zip: string;
   name: string;
   license: string;
-  partnerOnly: boolean;
+  verifiedOnly: boolean;
   results: NormalizedSchool[];
   cityOptions: string[];
   selected: NormalizedSchool | null;
@@ -23,7 +23,7 @@ interface UseCercaReturn {
   setZip: (v: string) => void;
   setName: (v: string) => void;
   setLicense: (v: string) => void;
-  setPartnerOnly: (v: boolean) => void;
+  setVerifiedOnly: (v: boolean) => void;
   setSelected: (school: NormalizedSchool | null) => void;
   clearFilters: () => void;
 }
@@ -38,10 +38,10 @@ export function useCerca(): UseCercaReturn {
     zip: searchParams.get("zip") ?? "",
     name: searchParams.get("q") ?? "",
     license: searchParams.get("license") ?? "",
-    partnerOnly: searchParams.get("partner") === "1",
+    verifiedOnly: searchParams.get("verified") === "1",
   });
 
-  const { city, region, zip, name, license, partnerOnly } = filters;
+  const { city, region, zip, name, license, verifiedOnly } = filters;
 
   /*
   const selectedLicenses = useMemo(() => 
@@ -97,7 +97,7 @@ export function useCerca(): UseCercaReturn {
           filters.zip ? n.set("zip", filters.zip) : n.delete("zip");
           filters.name ? n.set("q", filters.name) : n.delete("q");
           filters.license ? n.set("license", filters.license) : n.delete("license");
-          filters.partnerOnly ? n.set("partner", "1") : n.delete("partner");
+          filters.verifiedOnly ? n.set("verified", "1") : n.delete("verified");
           return n;
         },
         { replace: true },
@@ -140,13 +140,13 @@ export function useCerca(): UseCercaReturn {
     }
     */
 
-    if (partnerOnly) {
+    if (verifiedOnly) {
       schools = schools.filter((s) => s.partner === true);
     }
 
     return [...schools].sort((a, b) => (b.partner ? 1 : 0) - (a.partner ? 1 : 0));
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [city, region, zip, name, license, partnerOnly, loadTick]);
+  }, [city, region, zip, name, license, verifiedOnly, loadTick]);
 
   // City options for autocomplete — filtered by selected region and zip
   const cityOptions = useMemo(() => {
@@ -185,18 +185,18 @@ export function useCerca(): UseCercaReturn {
     setSelectedState(school);
   }, []);
 
-  const setPartnerOnly = useCallback((v: boolean) => {
-    setFilters((f) => ({ ...f, partnerOnly: v }));
+  const setVerifiedOnly = useCallback((v: boolean) => {
+    setFilters((f) => ({ ...f, verifiedOnly: v }));
   }, []);
 
   const clearFilters = useCallback(() => {
-    setFilters({ city: "", region: "", zip: "", name: "", license: "", partnerOnly: false });
+    setFilters({ city: "", region: "", zip: "", name: "", license: "", verifiedOnly: false });
   }, []);
 
   return {
-    city, region, zip, name, license, partnerOnly,
+    city, region, zip, name, license, verifiedOnly,
     results, cityOptions,
     selected, loading, error,
-    setCity, setRegion, setZip, setName, setLicense, setPartnerOnly, setSelected, clearFilters,
+    setCity, setRegion, setZip, setName, setLicense, setVerifiedOnly, setSelected, clearFilters,
   };
 }

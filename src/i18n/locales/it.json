@@ -17,7 +17,7 @@
 			"clearAll": "Rimuovi filtri",
 			"outsideItaly": "Spiacenti, non ci sono autoscuole nella tua area.",
 			"allSchools": "Tutte le autoscuole",
-			"partnerOnly": "Autoscuole partner"
+			"partnerOnly": "Autoscuole verificate"
 		},
 		"card": {
 			"callLabel": "Chiama",
@@ -26,7 +26,8 @@
 			"websiteLabel": "Sito web"
 		},
 		"ownerCallout": {
-			"label": "Non vedi la tua autoscuola? Contattaci:"
+			"label": "Non vedi la tua autoscuola?",
+			"link": "Registrala"
 		},
 		"detail": {
 			"partnerVerified": "Autoscuola Verificata",
@@ -275,7 +276,7 @@
 				},
 				"2": {
 					"number": "187",
-					"caption": "autoscuole partner",
+					"caption": "autoscuole verificate",
 					"subCaption": "in 14 regioni"
 				},
 				"3": {
@@ -298,7 +299,7 @@
 			"eyebrow": "Sei un'autoscuola?",
 			"heading": "Porta la tua autoscuola nel futuro.",
 			"body": "Gestisci iscrizioni, pagamenti, quiz e prenotazioni guide da un'unica dashboard. Con l'app ti prendi cura del tuo business e dei tuoi studenti dove e quando vuoi. Unisciti a noi! Iscrivi la tua autoscuola e contattaci per attivare la tua prova gratuita.",
-			"cta": "Diventa partner",
+			"cta": "Iscrivi la tua autoscuola",
 			"linkSecondary": "Scopri come funziona"
 		},
 		"faq": {

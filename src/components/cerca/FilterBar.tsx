@@ -10,13 +10,13 @@ interface FilterBarProps {
 	region: string;
 	zip: string;
 	name: string;
-	partnerOnly: boolean;
+	verifiedOnly: boolean;
 	cityOptions: string[];
 	onCityChange: (v: string) => void;
 	onRegionChange: (v: string) => void;
 	onZipChange: (v: string) => void;
 	onNameChange: (v: string) => void;
-	onPartnerOnlyChange: (v: boolean) => void;
+	onVerifiedOnlyChange: (v: boolean) => void;
 	onClear: () => void;
 }
 
@@ -42,13 +42,13 @@ export function FilterBar({
 	region,
 	zip,
 	name,
-	partnerOnly,
+	verifiedOnly,
 	cityOptions,
 	onCityChange,
 	onRegionChange,
 	onZipChange,
 	onNameChange,
-	onPartnerOnlyChange,
+	onVerifiedOnlyChange,
 	onClear,
 }: FilterBarProps) {
 	const { t } = useTranslation();
@@ -61,7 +61,7 @@ export function FilterBar({
 	const cityDropdownRef = useRef<HTMLDivElement>(null);
 	const regionDropdownRef = useRef<HTMLDivElement>(null);
 
-	const hasFilters = city || region || zip || name || partnerOnly;
+	const hasFilters = city || region || zip || name || verifiedOnly;
 
 	const filteredCities = cityOptions.filter((c) =>
 		c.toLowerCase().includes(city.toLowerCase()),
@@ -269,13 +269,13 @@ export function FilterBar({
 				<label className="flex cursor-pointer items-center gap-2 select-none">
 					<Checkbox
 						id="partner-filter"
-						checked={partnerOnly}
-						onCheckedChange={(checked) => onPartnerOnlyChange(!!checked)}
+						checked={verifiedOnly}
+						onCheckedChange={(checked) => onVerifiedOnlyChange(!!checked)}
 						className="data-[state=checked]:bg-brand data-[state=checked]:border-brand"
 					/>
 					<span className={cn(
 						"font-sans text-sm font-semibold tracking-tight transition-colors",
-						partnerOnly ? "text-brand" : "text-ink-muted",
+						verifiedOnly ? "text-brand" : "text-ink-muted",
 					)}>
 						{t("cerca.filters.partnerOnly")}
 					</span>

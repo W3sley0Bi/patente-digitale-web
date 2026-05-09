@@ -17,7 +17,7 @@
 			"clearAll": "Clear filters",
 			"outsideItaly": "Sorry, there are no driving schools in your area.",
 			"allSchools": "All schools",
-			"partnerOnly": "Partner schools"
+			"partnerOnly": "Verified schools"
 		},
 		"card": {
 			"callLabel": "Call",
@@ -26,7 +26,8 @@
 			"websiteLabel": "Website"
 		},
 		"ownerCallout": {
-			"label": "Can't find your school? Contact us:"
+			"label": "Can't find your school?",
+			"link": "Register it"
 		},
 		"detail": {
 			"partnerVerified": "Verified School",
@@ -272,7 +273,7 @@
 				},
 				"2": {
 					"number": "187",
-					"caption": "partner schools",
+					"caption": "verified schools",
 					"subCaption": "across 14 regions"
 				},
 				"3": {
@@ -295,7 +296,7 @@
 			"eyebrow": "Are you a driving school?",
 			"heading": "Bring your driving school into the future.",
 			"body": "Manage enrolments, payments, quizzes and lesson bookings from a single dashboard. With our app, you take care of your business and your students whenever and wherever you want. Join us! Register your school and contact us to activate your free trial.",
-			"cta": "Become a partner",
+			"cta": "Register your school",
 			"linkSecondary": "See how it works"
 		},
 		"faq": {

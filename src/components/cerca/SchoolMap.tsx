@@ -8,10 +8,10 @@ const ITALY_CENTER: [number, number] = [41.87, 12.57];
 const ITALY_ZOOM = 8;
 
 // Brand colours as hex (Leaflet can't use OKLCH/CSS vars)
-const COLOR_DEFAULT = "#2a9e6a";
-const COLOR_SELECTED = "#2563eb";
-const COLOR_PARTNER = "#f59e0b";
-const COLOR_PARTNER_SELECTED = "#d97706";
+const COLOR_DEFAULT = "#94a3b8"; // Slate 400 (Grey)
+const COLOR_SELECTED = "#334155"; // Slate 700 (Darker Grey for selected)
+const COLOR_VERIFIED = "#10b981"; // Emerald 500 (Greenish)
+const COLOR_VERIFIED_SELECTED = "#059669"; // Emerald 600 (Darker Green for selected)
 
 function FitBounds({ schools, filterKey }: { schools: NormalizedSchool[], filterKey: string }) {
   const map = useMap();
@@ -48,7 +48,7 @@ interface SchoolMarkerProps {
 
 function SchoolMarker({ school, isSelected, onSelect }: SchoolMarkerProps) {
   const markerRef = useRef<LCircleMarker | null>(null);
-  const isPartner = school.partner === true;
+  const isVerified = school.partner === true;
 
   useEffect(() => {
     if (isSelected && markerRef.current) {
@@ -56,20 +56,20 @@ function SchoolMarker({ school, isSelected, onSelect }: SchoolMarkerProps) {
     }
   }, [isSelected]);
 
-  const fillColor = isPartner
-    ? (isSelected ? COLOR_PARTNER_SELECTED : COLOR_PARTNER)
+  const fillColor = isVerified
+    ? (isSelected ? COLOR_VERIFIED_SELECTED : COLOR_VERIFIED)
     : (isSelected ? COLOR_SELECTED : COLOR_DEFAULT);
 
   return (
     <CircleMarker
       ref={markerRef}
       center={school.latlng}
-      radius={isPartner ? 7 : isSelected ? 8 : 5}
+      radius={isVerified ? (isSelected ? 10 : 8) : (isSelected ? 7 : 4.5)}
       pathOptions={{
         color: "white",
         fillColor,
         fillOpacity: 1,
-        weight: isPartner ? 2.5 : 2,
+        weight: isVerified ? 3 : 1.5,
       }}
       eventHandlers={{ click: () => onSelect(school) }}
     >
@@ -93,6 +93,13 @@ interface SchoolMapProps {
 }
 
 export function SchoolMap({ schools, filterKey, selected, onSelect }: SchoolMapProps) {
+  const sortedSchools = [...schools].sort((a, b) => {
+    const aV = a.partner === true ? 1 : 0;
+    const bV = b.partner === true ? 1 : 0;
+    // Verified schools last so they are drawn on top
+    return aV - bV;
+  });
+
   return (
     <div className="h-full w-full relative overflow-hidden isolate">
       {/* Custom CSS to clean up Leaflet UI and refine map feel */}
@@ -161,7 +168,7 @@ export function SchoolMap({ schools, filterKey, selected, onSelect }: SchoolMapP
         <ZoomControl position="topright" />
         <FitBounds schools={schools} filterKey={filterKey} />
         <PanToSelected selected={selected} />
-        {schools.map((school) => (
+        {sortedSchools.map((school) => (
           <SchoolMarker
             key={school.id}
             school={school}

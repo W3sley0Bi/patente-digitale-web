@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router";
 import { ChevronDown, ChevronUp, SlidersHorizontal } from "lucide-react";
 import { useCerca } from "@/hooks/useCerca";
 import { FilterBar } from "./FilterBar";
@@ -16,7 +17,7 @@ export function CercaPage() {
 		region,
 		zip,
 		name,
-		partnerOnly,
+		verifiedOnly,
 		results,
 		cityOptions,
 		selected,
@@ -26,7 +27,7 @@ export function CercaPage() {
 		setRegion,
 		setZip,
 		setName,
-		setPartnerOnly,
+		setVerifiedOnly,
 		setSelected,
 		clearFilters,
 	} = useCerca();
@@ -61,13 +62,13 @@ export function CercaPage() {
 						region={region}
 						zip={zip}
 						name={name}
-						partnerOnly={partnerOnly}
+						verifiedOnly={verifiedOnly}
 						cityOptions={cityOptions}
 						onCityChange={setCity}
 						onRegionChange={setRegion}
 						onZipChange={setZip}
 						onNameChange={setName}
-						onPartnerOnlyChange={setPartnerOnly}
+						onVerifiedOnlyChange={setVerifiedOnly}
 						onClear={clearFilters}
 					/>
 				</div>
@@ -147,12 +148,12 @@ function OwnerCallout({ t }: { t: any }) {
 		<div className="shrink-0 border-t border-line px-4 py-3 text-center">
 			<p className="font-sans text-xs text-ink-muted">
 				{t("cerca.ownerCallout.label")}{" "}
-				<a
-					href="mailto:supporto@patentedigitale.it"
+				<Link
+					to="/signup/driving-school"
 					className="font-semibold text-brand hover:text-brand-hover transition-colors"
 				>
-					supporto@patentedigitale.it
-				</a>
+					{t("cerca.ownerCallout.link")} →
+				</Link>
 			</p>
 		</div>
 	);
