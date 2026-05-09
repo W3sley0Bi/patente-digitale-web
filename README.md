@@ -46,6 +46,22 @@ src/
   styles/        # Tailwind entry, design tokens
 ```
 
+## Auth & Claim Flows
+
+Canonical naming used across code, commits and conversation:
+
+| Flow | Persona | Trigger | Path |
+|------|---------|---------|------|
+| **Flow 0** | Student | Signup as student | `/login?tab=signup` → `/student/dashboard` |
+| **Flow 1** | Autoscuola — **auto-claim** | School in DB, has website, user has matching `@domain` email | `/signup/driving-school` → `step=domain-email` → magic link → `/set-password?next=/driving-school/dashboard` → RPC `claim_school_via_domain` → `approved=true` |
+| **Flow 2** | Autoscuola — **manual claim, school in DB** | School in DB, no website OR user lacks `@domain` email | `/signup/driving-school` → `step=manual-claim` (placeId set, schoolData prefilled) → `pending_claims` row → admin review |
+| **Flow 3** | Autoscuola — **manual claim, school not in DB** | School absent from DB | `/signup/driving-school` → `step=not-found` → `pending_claims` row (no placeId) → admin review |
+
+`localStorage` flags driving routing:
+- `domain_claim` — set in Flow 1 when email is sent; consumed by `DrivingSchoolDashboard` auto-claim effect
+- `claim_manual_school` — set in Flow 2 when school is selected; survives email round-trip
+- `claim_form_draft` (sessionStorage) — Flow 2 + Flow 3 in-progress field values
+
 ## Deployment
 
 Hosted on **Vercel** with GitHub integration — every push to `main` triggers a production deploy.
