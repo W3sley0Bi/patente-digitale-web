@@ -48,7 +48,7 @@ export function SchoolEditor({ initial, userId, onSaved }: SchoolEditorProps) {
     setError(null);
     setSaved(false);
 
-    const { error: err } = await supabase.from("claimed_schools").upsert(
+    const { error: err } = await supabase.from("driving_schools").upsert(
       { ...form, user_id: userId, updated_at: new Date().toISOString() },
       { onConflict: "place_id" }
     );

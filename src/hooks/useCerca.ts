@@ -64,8 +64,9 @@ export function useCerca(): UseCercaReturn {
           return res.json() as Promise<SchoolsGeoJSON>;
         }),
       supabase
-        .from("claimed_schools")
+        .from("driving_schools")
         .select("*")
+        .eq("status", "accepted")
         .then(({ data }) => data ?? []),
     ])
       .then(([geojson, delta]) => {

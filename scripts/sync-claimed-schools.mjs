@@ -11,7 +11,7 @@ const supabase = createClient(
 );
 
 async function main() {
-  const { data: claimed, error } = await supabase.from("claimed_schools").select("*");
+  const { data: claimed, error } = await supabase.from("driving_schools").select("*").eq("status", "accepted");
   if (error) { console.error("Supabase error:", error.message); process.exit(1); }
   if (!claimed || claimed.length === 0) {
     console.log("No claimed schools — nothing to sync.");

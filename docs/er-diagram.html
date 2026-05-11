@@ -1,0 +1,382 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>patente-digitale — ER diagram</title>
+    <style>
+      :root {
+        --bg: #0e1116;
+        --panel: #161b22;
+        --border: #2a313c;
+        --ink: #e6e9ef;
+        --ink-muted: #9ba3ae;
+        --accent: #4ade80;
+        --accent-soft: #15321f;
+        --warn: #f5b700;
+      }
+
+      * { box-sizing: border-box; }
+
+      html, body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, sans-serif;
+        font-feature-settings: "ss01", "cv11";
+      }
+
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 14px 22px;
+        border-bottom: 1px solid var(--border);
+        background: var(--panel);
+        position: sticky;
+        top: 0;
+        z-index: 10;
+      }
+
+      header h1 {
+        font-size: 14px;
+        font-weight: 600;
+        margin: 0;
+        letter-spacing: 0.01em;
+      }
+
+      header .meta {
+        font-size: 12px;
+        color: var(--ink-muted);
+        font-family: ui-monospace, SFMono-Regular, "JetBrains Mono", monospace;
+      }
+
+      .legend {
+        display: flex;
+        gap: 14px;
+        padding: 10px 22px;
+        border-bottom: 1px solid var(--border);
+        background: var(--panel);
+        font-size: 12px;
+        color: var(--ink-muted);
+        flex-wrap: wrap;
+      }
+
+      .legend .chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 3px 8px;
+        background: var(--bg);
+        border: 1px solid var(--border);
+        border-radius: 4px;
+      }
+
+      .legend .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--accent);
+      }
+
+      .legend .dot.new { background: var(--accent); }
+      .legend .dot.existing { background: var(--ink-muted); }
+      .legend .dot.view { background: var(--warn); }
+
+      main {
+        padding: 24px;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        gap: 18px;
+      }
+
+      .card {
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 18px;
+      }
+
+      .card h2 {
+        font-size: 13px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--ink-muted);
+        margin: 0 0 12px;
+      }
+
+      .mermaid {
+        background: #fbfbfd;
+        border-radius: 6px;
+        padding: 14px;
+        overflow: auto;
+      }
+
+      footer {
+        padding: 18px 22px;
+        border-top: 1px solid var(--border);
+        font-size: 12px;
+        color: var(--ink-muted);
+      }
+
+      a { color: var(--accent); text-decoration: none; }
+      a:hover { text-decoration: underline; }
+
+      code {
+        font-family: ui-monospace, SFMono-Regular, "JetBrains Mono", monospace;
+        background: var(--bg);
+        padding: 1px 6px;
+        border-radius: 3px;
+        font-size: 12px;
+      }
+
+      details {
+        margin-top: 12px;
+        font-size: 13px;
+        color: var(--ink-muted);
+      }
+
+      details summary {
+        cursor: pointer;
+        color: var(--ink);
+        font-weight: 500;
+      }
+
+      details ul {
+        margin: 8px 0 0;
+        padding-left: 20px;
+        line-height: 1.7;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>patente-digitale — ER diagram (v2.0 draft)</h1>
+      <span class="meta">supabase · public schema · 2026-05-11</span>
+    </header>
+
+    <div class="legend">
+      <span class="chip"><span class="dot existing"></span>existing table</span>
+      <span class="chip"><span class="dot new"></span>new in v1</span>
+      <span class="chip"><span class="dot view"></span>view</span>
+      <span class="chip">FK = foreign key</span>
+      <span class="chip">PK = primary key</span>
+    </div>
+
+    <main>
+      <section class="card">
+        <h2>Schema overview</h2>
+        <div class="mermaid">
+erDiagram
+  AUTH_USERS ||--o| PROFILES : "1:1"
+  AUTH_USERS ||--o{ DRIVING_SCHOOLS : "owns (role=autoscuola)"
+
+  DRIVING_SCHOOLS ||--o{ DRIVING_LICENCES : "offers"
+  DRIVING_SCHOOLS ||--o{ SCHOOL_VEHICLES : "operates"
+  DRIVING_LICENCES ||--o{ SCHOOL_VEHICLES : "is taught with"
+  DRIVING_SCHOOLS ||--o{ SCHOOL_PHOTOS : "has"
+  DRIVING_SCHOOLS ||--|| SCHOOL_COMPLETION : "computed"
+
+  AUTH_USERS {
+    uuid id PK
+    text email
+  }
+
+  PROFILES {
+    uuid id PK_FK
+    text role "student|autoscuola|admin"
+    boolean approved
+    text full_name
+    timestamptz created_at
+  }
+
+  DRIVING_SCHOOLS {
+    uuid id PK
+    text place_id "UK partial: where status=accepted"
+    uuid user_id FK
+    text status "pending|accepted|rejected"
+    text claim_notes
+    timestamptz decided_at
+    uuid decided_by FK
+    text name
+    text address
+    text city
+    text zip
+    text region
+    float lat
+    float lng
+    text phone
+    text mobile
+    text email
+    text website
+    text whatsapp_business
+    text piva
+    text fiscal_code
+    text chamber_of_commerce_no
+    text ministerial_authorization
+    int founded_year
+    int avg_exam_wait_days
+    int instructor_count
+    boolean has_female_instructor
+    text_array instructor_specializations
+    jsonb proprietary_app
+    jsonb opening_hours
+    text_array languages_spoken "enum: it|en|fr|es|ar|ro|de|sq|zh|ru"
+    text_array documents_required
+    jsonb accessibility
+    jsonb medical_visit
+    jsonb exam_fees
+    jsonb pass_rates
+    jsonb social
+    text description
+    boolean verified
+    timestamptz verified_at
+    boolean founding_partner
+    timestamptz claimed_at
+    timestamptz updated_at
+  }
+
+  DRIVING_LICENCES {
+    uuid id PK
+    uuid school_id FK
+    text licence_code "AM|A1|A2|A|B|B96|BE|C1|C|CE|D1|D|DE"
+    float price
+    timestamptz created_at
+    timestamptz updated_at
+  }
+
+  SCHOOL_VEHICLES {
+    uuid id PK
+    uuid school_id FK
+    uuid licence_id FK "→ driving_licences"
+    text category "car|motorcycle|scooter|truck|bus"
+    text transmission "manual|automatic|na"
+    text fuel "petrol|diesel|electric|hybrid|lpg|methane"
+    int engine_cc
+    int count
+    int year
+    text notes
+    timestamptz created_at
+  }
+
+  SCHOOL_PHOTOS {
+    uuid id PK
+    uuid school_id FK
+    text storage_path
+    text alt_text
+    int sort_order
+    timestamptz created_at
+  }
+
+  SCHOOL_COMPLETION {
+    uuid school_id PK_FK
+    int completion_pct "0..100"
+  }
+        </div>
+
+        <details open>
+          <summary>What's in this diagram</summary>
+          <ul>
+            <li><strong>3 existing entities</strong> (with renames/extensions): <code>auth.users</code>, <code>profiles</code>, <code>driving_schools</code> (renamed from <code>claimed_schools</code>; absorbs the old <code>pending_claims</code> via a <code>status</code> column).</li>
+            <li><strong>3 new tables</strong>: <code>driving_licences</code>, <code>school_vehicles</code> (FK'd to <code>driving_licences.licence_id</code>), <code>school_photos</code>.</li>
+            <li><strong>Claim lifecycle</strong>: every school is one row whose <code>status</code> transitions <code>pending → accepted | rejected</code>. <code>place_id</code> uniqueness is a partial index — multiple pending claims allowed, only one accepted.</li>
+            <li><strong>Role enforcement</strong>: SQL trigger gates <code>driving_schools.user_id</code> to <code>autoscuola|admin</code>.</li>
+            <li><strong>Deferred</strong>: <code>reviews</code>, <code>school_memberships</code>, <code>membership_invitations</code>. Re-add together when there's an enrolled-student UI surface.</li>
+            <li><strong>Cardinality:</strong> 1 owner → many schools (franchise/chain supported via <code>user_id</code> FK).</li>
+            <li><strong>1 view</strong>: <code>school_completion</code> — derived, never written to. Founding Partner gate = <code>completion_pct >= 80 AND verified</code>.</li>
+            <li><strong>Filterable tag arrays</strong> on <code>driving_schools</code> (<code>languages_spoken</code> — enum-constrained, <code>documents_required</code>, <code>instructor_specializations</code>) → <code>text[]</code> + GIN. Items with per-row state (licenses, vehicles, services) → normalized tables.</li>
+            <li><strong>Money</strong> stored as <code>float8</code> (e.g. <code>driving_licences.price</code>). EUR-only — no <code>currency</code> column. UI renders via <code>Intl.NumberFormat('it-IT', { style: 'currency', currency: 'EUR' })</code> to enforce 2-decimal rounding. Float math is not exact — apply rounding before sums or commissions.</li>
+            <li><strong>Photos</strong>: bytes in Supabase Storage; only <code>storage_path</code> in DB. Never store bytes in Postgres <code>bytea</code>.</li>
+          </ul>
+        </details>
+      </section>
+
+      <section class="card">
+        <h2>Claim lifecycle</h2>
+        <div class="mermaid">
+flowchart LR
+  V[Visitor]:::p
+  V --> SU{Sign up<br/>as autoscuola}
+  SU --> F1[Flow 1<br/>auto-claim<br/>via @domain]
+  SU --> F2[Flow 2<br/>manual claim<br/>school in DB]
+  SU --> F3[Flow 3<br/>manual claim<br/>school not in DB]
+
+  F1 --> CS[(driving_schools<br/>row)]:::ok
+  F2 --> PC[(pending_claims<br/>row)]:::pending
+  F3 --> PC
+
+  PC --> ADMIN[/admin/dashboard<br/>review/]:::admin
+  ADMIN -->|approve_claim| CS
+  ADMIN -->|reject| RJ[(status=rejected)]:::reject
+
+  CS --> COMPLETE[Owner enriches profile<br/>via dashboard cards]
+  COMPLETE --> SCORE{completion<br/>>= 80% ?}
+  SCORE -->|yes + verified| FP[founding_partner = true]:::badge
+  SCORE -->|no| NUDGE[dashboard banners +<br/>email reminders]:::nudge
+  NUDGE --> COMPLETE
+
+  classDef p fill:#eef,stroke:#4a6;
+  classDef ok fill:#e8f7ee,stroke:#16a34a;
+  classDef pending fill:#fff7e6,stroke:#f5b700;
+  classDef admin fill:#eef,stroke:#3b82f6;
+  classDef reject fill:#fde8e8,stroke:#ef4444;
+  classDef badge fill:#dcfce7,stroke:#16a34a,stroke-width:2px;
+  classDef nudge fill:#f3f4f6,stroke:#9ba3ae;
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>JSONB shapes (quick reference)</h2>
+        <details>
+          <summary><code>opening_hours</code> — segreteria + lezioni</summary>
+          <pre style="white-space: pre-wrap; color: var(--ink); margin-top: 12px;">
+{
+  "segreteria":      { "mon": [{"open":"09:00","close":"12:30"}], ... },
+  "lezioni_teoria":  { "mon": [...], ... },
+  "lezioni_pratica": { "mon": [...], ... },
+  "tz": "Europe/Rome"
+}
+          </pre>
+        </details>
+        <details>
+          <summary><code>pass_rates</code> — self-declared, label as such in UI</summary>
+          <pre style="white-space: pre-wrap; color: var(--ink); margin-top: 12px;">
+{ "year": 2025, "theory_pct": 92, "practice_pct": 88, "source": "self_declared" }
+          </pre>
+        </details>
+        <details>
+          <summary>Pricing &amp; vehicles — no longer JSONB</summary>
+          <p style="color: var(--ink); margin-top: 12px;">
+            <code>prices</code>, <code>vehicles</code>, and <code>time_to_license</code> are now first-class rows in
+            <code>driving_licences</code> and <code>school_vehicles</code>. Money is <code>float8</code>
+            on <code>driving_licences.price</code> — apply UI rounding before display.
+          </p>
+        </details>
+      </section>
+    </main>
+
+    <footer>
+      Source of truth: <a href="./data-model.md"><code>docs/data-model.md</code></a> ·
+      Interactive: <a href="./er-diagram-interactive.html"><code>er-diagram-interactive.html</code></a> ·
+      Decisions: <a href="../MEMORY.md"><code>MEMORY.md</code></a> ·
+      Migration target: <code>supabase/migrations/002_data_model_v1.sql</code>
+    </footer>
+
+    <script type="module">
+      import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+      mermaid.initialize({
+        startOnLoad: true,
+        theme: "default",
+        er: { useMaxWidth: true, layoutDirection: "LR" },
+        flowchart: { useMaxWidth: true, htmlLabels: true },
+        themeVariables: {
+          fontFamily: "ui-monospace, SFMono-Regular, JetBrains Mono, monospace",
+          fontSize: "13px"
+        }
+      });
+    </script>
+  </body>
+</html>

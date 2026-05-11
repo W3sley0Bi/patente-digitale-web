@@ -185,7 +185,8 @@
 			"generic": "{{description}}",
 			"rateLimit": "Too many attempts. Please wait a few minutes and try again.",
 			"emailNotConfirmed": "Email not confirmed. Check your inbox and click the magic link, or use \"Forgot password?\" to set one.",
-			"sessionExpired": "Your session has expired. Please request a new link."
+			"sessionExpired": "Your session has expired. Please request a new link.",
+			"domainMismatch": "للتحقق التلقائي يجب استخدام بريد إلكتروني من النطاق @{{domain}}."
 		},
 		"forgotSentTitle": "Email sent!",
 		"backToLogin": "← Back to login",

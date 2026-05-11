@@ -6,6 +6,7 @@ import { useState } from "react";
 import { revealVariants, staggerContainer } from "@/lib/motion";
 import { reverseGeocode } from "@/lib/geocode";
 import { getRegionForCoords } from "@/lib/italyGeo";
+import nonSoloBSlogan from "@/assets/non-solo-b-slogan.png";
 
 export function Hero() {
 	const { t } = useTranslation();
@@ -61,8 +62,8 @@ export function Hero() {
 	}
 
 	return (
-		<section className="relative overflow-hidden pt-24 pb-48 md:pt-40 md:pb-32">
-			<div className="mx-auto max-w-(--container-wide) px-4 lg:px-8">
+		<section className="relative flex min-h-[100dvh] items-center overflow-hidden pt-[12dvh] pb-[8dvh] bg-linear-to-b from-bg to-bg-sunken/20">
+			<div className="mx-auto w-full max-w-(--container-wide) px-4 lg:px-8 relative">
 				<motion.div
 					className="flex flex-col items-center text-center"
 					initial="hidden"
@@ -176,22 +177,21 @@ export function Hero() {
 						</a>
 					</motion.div>
 				</motion.div>
-
-				{/* License Type Watermark Sticker */}
-				<motion.div
-					initial={{ opacity: 0, rotate: -20, scale: 0.5 }}
-					animate={{ opacity: 1, rotate: -12, scale: 1 }}
-					transition={{ delay: 1.2, duration: 0.6, ease: "easeOut" }}
-					className="absolute bottom-12 right-8 md:bottom-20 md:right-16 pointer-events-none select-none hidden sm:block"
-				>
-					<div className="relative px-4 py-2 md:px-6 md:py-3 bg-brand/10 backdrop-blur-xs border-2 border-brand/20 rounded-xl transform -rotate-12">
-						<p 
-							className="font-sans text-[11px] md:text-sm font-black uppercase tracking-[0.1em] text-brand-ink leading-tight whitespace-nowrap"
-							dangerouslySetInnerHTML={{ __html: t("landing.hero.mascotNote") }}
-						/>
-					</div>
-				</motion.div>
 			</div>
+
+			{/* License Type Slogan Image - Absolute Viewport Corner */}
+			<motion.div
+				initial={{ opacity: 0, x: 20 }}
+				animate={{ opacity: 1, x: 0 }}
+				transition={{ delay: 1.2, duration: 0.8, ease: "easeOut" }}
+				className="absolute bottom-0 right-0 pointer-events-none select-none w-[60vw] sm:w-[35vw] max-w-[240px] sm:max-w-[320px] md:max-w-[420px] lg:max-w-[560px] z-10"
+			>
+				<img 
+					src={nonSoloBSlogan} 
+					alt={t("landing.hero.mascotNote")}
+					className="w-full h-auto drop-shadow-sm opacity-95 sm:opacity-100"
+				/>
+			</motion.div>
 		</section>
 	);
 }

@@ -188,7 +188,8 @@
 			"generic": "{{description}}",
 			"rateLimit": "Troppi tentativi. Attendi qualche minuto e riprova.",
 			"emailNotConfirmed": "Email non confermata. Controlla la tua casella e clicca il magic link, oppure usa \"Password dimenticata?\" per impostarne una.",
-			"sessionExpired": "La sessione è scaduta. Richiedi un nuovo link."
+			"sessionExpired": "La sessione è scaduta. Richiedi un nuovo link.",
+			"domainMismatch": "Per la verifica automatica devi usare un'email del dominio @{{domain}}."
 		},
 		"forgotSentTitle": "Email inviata!",
 		"backToLogin": "← Torna al login",

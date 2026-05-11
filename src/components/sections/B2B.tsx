@@ -64,7 +64,7 @@ export function B2B() {
 							</p>
 
 							<div className="mt-10 flex flex-col items-stretch gap-4 sm:flex-row sm:items-center sm:gap-6">
-								<Link to="/partner" className="w-full sm:w-auto">
+								<Link to="/signup/driving-school" className="w-full sm:w-auto">
 									<Button
 										size="lg"
 										className="h-14 w-full px-8 rounded-pill bg-white text-ink hover:bg-brand hover:text-white transition-all duration-300 font-bold group shadow-md"

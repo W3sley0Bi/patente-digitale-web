@@ -61,9 +61,10 @@ export default function SignupDrivingSchool() {
     localStorage.removeItem("domain_claim");
     setSelected(school);
     const { data } = await supabase
-      .from("claimed_schools")
+      .from("driving_schools")
       .select("place_id")
       .eq("place_id", school._placeId)
+      .eq("status", "accepted")
       .maybeSingle();
     if (data) {
       setStep("already-claimed");
@@ -154,6 +155,7 @@ export default function SignupDrivingSchool() {
               <AuthForm
                 mode="magic-link"
                 role="autoscuola"
+                requireEmailDomain={domain}
                 emailRedirectTo={`${window.location.origin}/set-password?next=/driving-school/dashboard`}
                 onSuccess={() => {
                   console.info("[domain-email onSuccess] storing domain_claim:", selected);

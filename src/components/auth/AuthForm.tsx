@@ -10,11 +10,12 @@ interface AuthFormProps {
   role?: "student" | "autoscuola";
   fullName?: string;
   emailRedirectTo?: string;
+  requireEmailDomain?: string;
   onSuccess?: () => void;
   onForgotPassword?: () => void;
 }
 
-export function AuthForm({ mode, role = "student", fullName, emailRedirectTo, onSuccess, onForgotPassword }: AuthFormProps) {
+export function AuthForm({ mode, role = "student", fullName, emailRedirectTo, requireEmailDomain, onSuccess, onForgotPassword }: AuthFormProps) {
   const { t } = useTranslation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -28,6 +29,16 @@ export function AuthForm({ mode, role = "student", fullName, emailRedirectTo, on
     e.preventDefault();
     setLoading(true);
     setError(null);
+
+    if (requireEmailDomain) {
+      const entered = email.trim().split("@")[1]?.toLowerCase() ?? "";
+      const expected = requireEmailDomain.toLowerCase();
+      if (entered !== expected) {
+        setError(t("auth.errors.domainMismatch", { domain: requireEmailDomain }));
+        setLoading(false);
+        return;
+      }
+    }
 
     if (mode === "magic-link") {
       const { error: err } = await supabase.auth.signInWithOtp({

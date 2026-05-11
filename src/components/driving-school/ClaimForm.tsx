@@ -183,7 +183,7 @@ export function ClaimForm({ placeId, schoolName = "", schoolData, emailRedirectT
 
     // ── Duplicate-claim guard ─────────────────────────────────────────────
     const { data: existing } = await supabase
-      .from("pending_claims")
+      .from("driving_schools")
       .select("id")
       .eq("user_id", authUser.id)
       .eq("status", "pending")
@@ -195,13 +195,13 @@ export function ClaimForm({ placeId, schoolName = "", schoolData, emailRedirectT
       return;
     }
 
-    const { error: err } = await supabase.from("pending_claims").insert({
+    const { error: err } = await supabase.from("driving_schools").insert({
       user_id: authUser.id,
+      status: "pending",
       email: authUser.email ?? "",
-      full_name: fullName.trim(),
       piva: piva.trim() || null,
       place_id: placeId ?? null,
-      school_name: manualName.trim() || schoolName,
+      name: manualName.trim() || schoolName,
       address: manualAddress || null,
       city: manualCity || null,
       zip: manualZip || null,

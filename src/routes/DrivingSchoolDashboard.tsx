@@ -9,8 +9,8 @@ import { DashboardPending } from "@/components/driving-school/DashboardPending";
 import { DrivingSchoolLayout } from "@/components/driving-school/DrivingSchoolLayout";
 
 interface ClaimRow {
-  status: "pending" | "approved" | "rejected";
-  school_name: string;
+  status: "pending" | "accepted" | "rejected";
+  name: string;
 }
 
 export default function DrivingSchoolDashboard() {
@@ -27,8 +27,9 @@ export default function DrivingSchoolDashboard() {
 
   const fetchClaim = async (userId: string) => {
     const { data } = await supabase
-      .from("pending_claims")
-      .select("status, school_name")
+      .from("driving_schools")
+      .select("status, name")
+      .eq("status", "pending")
       .eq("user_id", userId)
       .order("created_at", { ascending: false })
       .limit(1)
@@ -52,14 +53,14 @@ export default function DrivingSchoolDashboard() {
 
     // Guard: if the user already has a manual pending claim, the domain_claim is stale — drop it.
     supabase
-      .from("pending_claims")
+      .from("driving_schools")
       .select("id")
       .eq("user_id", user.id)
       .eq("status", "pending")
       .maybeSingle()
       .then(({ data: existingClaim }) => {
         if (existingClaim) {
-          console.warn("[auto-claim] skipped: existing pending_claims row found", existingClaim);
+          console.warn("[auto-claim] skipped: existing driving_schools row found", existingClaim);
           localStorage.removeItem("domain_claim");
           return;
         }
@@ -73,8 +74,8 @@ export default function DrivingSchoolDashboard() {
         const { _placeId, name, address, city, zip, region, phone, website, lat, lng, openingHours } = JSON.parse(stored);
         setDomainClaimDone(true);
         retryCountRef.current += 1;
-        console.info("[auto-claim] calling claim_school_via_domain", { _placeId, name, attempt: retryCountRef.current });
-        supabase.rpc("claim_school_via_domain", {
+        console.info("[auto-claim] calling claim_driving_school_via_domain", { _placeId, name, attempt: retryCountRef.current });
+        supabase.rpc("claim_driving_school_via_domain", {
           p_place_id: _placeId,
           p_school_name: name,
           p_address: address ?? null,
@@ -148,7 +149,7 @@ export default function DrivingSchoolDashboard() {
     );
   }
 
-  const schoolName = claim?.school_name ?? t("school.dashboard.defaultName");
+  const schoolName = claim?.name ?? t("school.dashboard.defaultName");
 
   return (
     <DrivingSchoolLayout schoolName={schoolName}>

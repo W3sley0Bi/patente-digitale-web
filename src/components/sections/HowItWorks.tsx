@@ -14,7 +14,7 @@ export function HowItWorks() {
 	const { t } = useTranslation();
 
 	return (
-		<section id="how-it-works" className="py-24 md:py-32 bg-bg-sunken/40">
+		<section id="how-it-works" className="py-24 md:py-32 bg-bg-sunken/20">
 			<div className="mx-auto max-w-(--container-default) px-4 lg:px-8">
 				<Reveal>
 					<SectionEyebrow>{t("landing.howItWorks.eyebrow")}</SectionEyebrow>

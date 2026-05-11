@@ -15,7 +15,7 @@ export default function DrivingSchoolEdit() {
   useEffect(() => {
     if (!user) return;
     supabase
-      .from("claimed_schools")
+      .from("driving_schools")
       .select("*")
       .eq("user_id", user.id)
       .single()

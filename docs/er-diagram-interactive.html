@@ -1,0 +1,533 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>patente-digitale — interactive ER diagram</title>
+    <style>
+      :root {
+        --bg: #0e1116;
+        --panel: #161b22;
+        --panel-2: #1c232c;
+        --border: #2a313c;
+        --ink: #e6e9ef;
+        --ink-muted: #9ba3ae;
+        --ink-dim: #6b7480;
+        --accent: #4ade80;
+        --warn: #f5b700;
+        --rel-line: #4b5563;
+        --rel-soft: #2a313c;
+      }
+      * { box-sizing: border-box; }
+      html, body {
+        margin: 0; padding: 0; height: 100%; overflow: hidden;
+        background: var(--bg); color: var(--ink);
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, sans-serif;
+      }
+      header {
+        display: flex; align-items: center; justify-content: space-between;
+        padding: 12px 18px; border-bottom: 1px solid var(--border);
+        background: var(--panel); position: relative; z-index: 30;
+      }
+      header h1 { font-size: 13px; font-weight: 600; margin: 0; }
+      header .meta { font-size: 11px; color: var(--ink-muted); font-family: ui-monospace, monospace; }
+      .toolbar { display: flex; gap: 8px; align-items: center; }
+      .toolbar button {
+        background: var(--panel-2); color: var(--ink); border: 1px solid var(--border);
+        padding: 6px 10px; border-radius: 5px; font-size: 12px; cursor: pointer;
+        font-family: inherit;
+      }
+      .toolbar button:hover { background: #232b35; border-color: #3a414c; }
+      .toolbar .hint { font-size: 11px; color: var(--ink-dim); margin-left: 6px; }
+
+      .legend {
+        display: flex; gap: 10px; padding: 8px 18px;
+        border-bottom: 1px solid var(--border); background: var(--panel);
+        font-size: 11px; color: var(--ink-muted); flex-wrap: wrap;
+        position: relative; z-index: 20;
+      }
+      .chip { display: inline-flex; align-items: center; gap: 6px;
+        padding: 2px 8px; background: var(--bg);
+        border: 1px solid var(--border); border-radius: 4px; }
+      .dot { width: 8px; height: 8px; border-radius: 2px; }
+      .dot.existing { background: #3b82f6; }
+      .dot.new { background: var(--accent); }
+      .dot.view { background: var(--warn); }
+      .dot.external { background: var(--ink-dim); }
+
+      .canvas-wrap {
+        position: absolute; inset: 88px 0 0 0; overflow: hidden;
+        cursor: grab; user-select: none;
+      }
+      .canvas-wrap.panning { cursor: grabbing; }
+
+      .canvas {
+        position: absolute; top: 0; left: 0;
+        width: 4000px; height: 3000px;
+        transform-origin: 0 0;
+        background-image:
+          radial-gradient(circle, #1f262f 1px, transparent 1px);
+        background-size: 24px 24px;
+      }
+
+      svg.edges {
+        position: absolute; top: 0; left: 0;
+        width: 100%; height: 100%;
+        pointer-events: none;
+      }
+
+      svg.edges path { fill: none; stroke: var(--rel-line); stroke-width: 1.5; }
+      svg.edges path.dashed { stroke-dasharray: 5 4; stroke: var(--warn); }
+      svg.edges text { fill: var(--ink-muted); font-size: 10px;
+        font-family: ui-monospace, monospace; }
+
+      .node {
+        position: absolute;
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        min-width: 220px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.35);
+        font-size: 12px;
+        z-index: 2;
+      }
+      .node.existing { border-color: #3b82f6; }
+      .node.new { border-color: var(--accent); }
+      .node.view { border-color: var(--warn); border-style: dashed; }
+      .node.external { border-color: var(--ink-dim); opacity: 0.85; }
+      .node.dragging { z-index: 10; box-shadow: 0 8px 24px rgba(0,0,0,0.6); }
+
+      .node-head {
+        padding: 8px 12px;
+        background: var(--panel-2);
+        border-radius: 7px 7px 0 0;
+        font-weight: 600;
+        cursor: move;
+        display: flex; align-items: center; gap: 8px;
+        border-bottom: 1px solid var(--border);
+        font-family: ui-monospace, SFMono-Regular, "JetBrains Mono", monospace;
+        font-size: 12px;
+      }
+      .node-head .pill {
+        font-size: 9px; padding: 1px 6px; border-radius: 3px;
+        background: var(--bg); color: var(--ink-muted);
+        text-transform: uppercase; letter-spacing: 0.06em;
+        margin-left: auto; font-weight: 600;
+      }
+      .node.existing .node-head .pill { color: #3b82f6; }
+      .node.new      .node-head .pill { color: var(--accent); }
+      .node.view     .node-head .pill { color: var(--warn); }
+
+      .node-body { padding: 6px 0; max-height: 320px; overflow: auto; }
+      .col {
+        display: grid;
+        grid-template-columns: 18px 1fr auto;
+        gap: 8px; align-items: center;
+        padding: 3px 12px;
+        font-family: ui-monospace, monospace;
+        font-size: 11px;
+        line-height: 1.5;
+      }
+      .col:hover { background: var(--bg); }
+      .col .key { color: var(--accent); font-weight: 700; width: 18px; text-align: left; }
+      .col .key.fk { color: #3b82f6; }
+      .col .name { color: var(--ink); }
+      .col .type { color: var(--ink-dim); font-size: 10px; }
+
+      .node-foot {
+        padding: 6px 12px; font-size: 10px; color: var(--ink-dim);
+        border-top: 1px solid var(--border);
+        font-style: italic;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>patente-digitale — interactive ER diagram</h1>
+      <div class="toolbar">
+        <button id="reset">Reset layout</button>
+        <button id="save">Save layout</button>
+        <span class="hint">drag headers · drag empty space to pan · wheel to zoom</span>
+      </div>
+      <span class="meta">supabase · public · v2.0 draft</span>
+    </header>
+
+    <div class="legend">
+      <span class="chip"><span class="dot external"></span>external (auth)</span>
+      <span class="chip"><span class="dot existing"></span>existing</span>
+      <span class="chip"><span class="dot new"></span>new in v1</span>
+      <span class="chip"><span class="dot view"></span>view</span>
+      <span class="chip"><span class="dot" style="background:var(--warn)"></span>dashed = RPC, not FK</span>
+    </div>
+
+    <div class="canvas-wrap" id="wrap">
+      <div class="canvas" id="canvas">
+        <svg class="edges" id="edges" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5"
+                    markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--rel-line)" />
+            </marker>
+            <marker id="arrow-warn" viewBox="0 0 10 10" refX="9" refY="5"
+                    markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--warn)" />
+            </marker>
+          </defs>
+        </svg>
+      </div>
+    </div>
+
+    <script>
+      // -----------------------------------------------------------
+      // Schema definition — single source of truth for the diagram.
+      // -----------------------------------------------------------
+      const STORAGE_KEY = "pd-er-layout-v10"; // v2.0 simplification: -pending_claims, -reviews, -memberships, -invitations
+
+      const tables = [
+        {
+          id: "auth.users", kind: "external", x: 1400, y: 40,
+          cols: [
+            { k: "PK", name: "id", type: "uuid" },
+            { k: "",   name: "email", type: "text" },
+          ],
+          note: "managed by Supabase Auth"
+        },
+        {
+          id: "profiles", kind: "existing", x: 700, y: 280,
+          cols: [
+            { k: "PK", name: "id", type: "uuid → auth.users", fk: true },
+            { k: "",   name: "role", type: "student|autoscuola|admin" },
+            { k: "",   name: "approved", type: "boolean" },
+            { k: "",   name: "full_name", type: "text" },
+            { k: "",   name: "created_at", type: "timestamptz" },
+          ],
+          note: "1:1 with auth.users"
+        },
+        {
+          id: "driving_schools", kind: "existing", x: 700, y: 540,
+          cols: [
+            { k: "PK", name: "id", type: "uuid" },
+            { k: "",   name: "place_id", type: "text · UK where status=accepted" },
+            { k: "FK", name: "user_id", type: "uuid → auth.users", fk: true },
+            { k: "",   name: "status", type: "pending|accepted|rejected" },
+            { k: "",   name: "claim_notes", type: "text" },
+            { k: "",   name: "decided_at", type: "timestamptz" },
+            { k: "FK", name: "decided_by", type: "→ auth.users (admin)", fk: true },
+            { k: "",   name: "name", type: "text" },
+            { k: "",   name: "address", type: "text" },
+            { k: "",   name: "city", type: "text" },
+            { k: "",   name: "zip", type: "text" },
+            { k: "",   name: "region", type: "text" },
+            { k: "",   name: "lat", type: "float8" },
+            { k: "",   name: "lng", type: "float8" },
+            { k: "",   name: "phone", type: "text" },
+            { k: "",   name: "mobile", type: "text" },
+            { k: "",   name: "email", type: "text" },
+            { k: "",   name: "website", type: "text" },
+            { k: "",   name: "whatsapp_business", type: "text" },
+            { k: "",   name: "piva", type: "text" },
+            { k: "",   name: "fiscal_code", type: "text" },
+            { k: "",   name: "chamber_of_commerce_no", type: "text" },
+            { k: "",   name: "ministerial_authorization", type: "text" },
+            { k: "",   name: "founded_year", type: "int" },
+            { k: "",   name: "avg_exam_wait_days", type: "int" },
+            { k: "",   name: "instructor_count", type: "int" },
+            { k: "",   name: "has_female_instructor", type: "boolean" },
+            { k: "",   name: "instructor_specializations", type: "text[]" },
+            { k: "",   name: "proprietary_app", type: "jsonb" },
+            { k: "",   name: "opening_hours", type: "jsonb" },
+            { k: "",   name: "languages_spoken", type: "enum text[]" },
+            { k: "",   name: "documents_required", type: "text[]" },
+            { k: "",   name: "accessibility", type: "jsonb" },
+            { k: "",   name: "medical_visit", type: "jsonb" },
+            { k: "",   name: "exam_fees", type: "jsonb" },
+            { k: "",   name: "pass_rates", type: "jsonb" },
+            { k: "",   name: "social", type: "jsonb" },
+            { k: "",   name: "description", type: "text" },
+            { k: "",   name: "verified", type: "boolean" },
+            { k: "",   name: "founding_partner", type: "boolean" },
+            { k: "",   name: "verified_at", type: "timestamptz" },
+            { k: "",   name: "claimed_at", type: "timestamptz" },
+            { k: "",   name: "updated_at", type: "timestamptz" },
+          ],
+          note: "renamed from claimed_schools · owner-edited, public-read"
+        },
+        {
+          id: "driving_licences", kind: "new", x: 2050, y: 200,
+          cols: [
+            { k: "PK", name: "id", type: "uuid" },
+            { k: "FK", name: "school_id", type: "→ driving_schools", fk: true },
+            { k: "",   name: "licence_code", type: "B, A2, C, ..." },
+            { k: "",   name: "price", type: "float8 · EUR" },
+            { k: "",   name: "created_at", type: "timestamptz" },
+            { k: "",   name: "updated_at", type: "timestamptz" },
+          ],
+          note: "unique (school_id, licence_code) · simplified for v1"
+        },
+        {
+          id: "school_vehicles", kind: "new", x: 2050, y: 620,
+          cols: [
+            { k: "PK", name: "id", type: "uuid" },
+            { k: "FK", name: "school_id", type: "→ driving_schools", fk: true },
+            { k: "FK", name: "licence_id", type: "→ driving_licences", fk: true },
+            { k: "",   name: "category", type: "car|motorcycle|scooter|truck|bus" },
+            { k: "",   name: "transmission", type: "manual|automatic|na" },
+            { k: "",   name: "fuel", type: "petrol|diesel|electric|hybrid|lpg|methane" },
+            { k: "",   name: "engine_cc", type: "int (motorcycle)" },
+            { k: "",   name: "count", type: "int > 0" },
+            { k: "",   name: "year", type: "int" },
+            { k: "",   name: "notes", type: "text" },
+            { k: "",   name: "created_at", type: "timestamptz" },
+          ],
+          note: "licence_id FK: 1 licence : many vehicles"
+        },
+        {
+          id: "school_photos", kind: "new", x: 2050, y: 980,
+          cols: [
+            { k: "PK", name: "id", type: "uuid" },
+            { k: "FK", name: "school_id", type: "→ driving_schools", fk: true },
+            { k: "",   name: "storage_path", type: "text · bucket key" },
+            { k: "",   name: "alt_text", type: "text" },
+            { k: "",   name: "sort_order", type: "int" },
+            { k: "",   name: "created_at", type: "timestamptz" },
+          ],
+          note: "Supabase Storage · 5/school · 2MB max · NOT bytea in DB"
+        },
+        {
+          id: "school_completion", kind: "view", x: 2700, y: 540,
+          cols: [
+            { k: "PK", name: "school_id", type: "→ driving_schools", fk: true },
+            { k: "",   name: "completion_pct", type: "int 0..100" },
+          ],
+          note: "VIEW · founding partner gate ≥80"
+        },
+      ];
+
+      // edges: { from, to, label, dashed }
+      const edges = [
+        { from: "auth.users",      to: "profiles",         label: "1:1" },
+        { from: "auth.users",      to: "driving_schools",  label: "1:M user_id · franchise OK" },
+        { from: "driving_schools", to: "driving_licences",  label: "1:M" },
+        { from: "driving_schools", to: "school_vehicles",   label: "1:M" },
+        { from: "driving_licences", to: "school_vehicles",  label: "1:M licence_id" },
+        { from: "driving_schools", to: "school_photos",     label: "1:M" },
+        { from: "driving_schools", to: "school_completion", label: "view" },
+      ];
+
+      // -----------------------------------------------------------
+      // Rendering
+      // -----------------------------------------------------------
+      const canvas = document.getElementById("canvas");
+      const wrap = document.getElementById("wrap");
+      const svg = document.getElementById("edges");
+
+      const nodeEls = new Map(); // id -> el
+
+      function loadLayout() {
+        try {
+          const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
+          for (const t of tables) if (saved[t.id]) {
+            t.x = saved[t.id].x; t.y = saved[t.id].y;
+          }
+        } catch {}
+      }
+
+      function saveLayout() {
+        const out = {};
+        for (const t of tables) out[t.id] = { x: t.x, y: t.y };
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(out));
+      }
+
+      function renderNode(t) {
+        const el = document.createElement("div");
+        el.className = `node ${t.kind}`;
+        el.style.left = t.x + "px";
+        el.style.top  = t.y + "px";
+        el.dataset.id = t.id;
+
+        const head = document.createElement("div");
+        head.className = "node-head";
+        head.innerHTML = `<span>${t.id}</span><span class="pill">${t.kind}</span>`;
+        el.appendChild(head);
+
+        const body = document.createElement("div");
+        body.className = "node-body";
+        for (const c of t.cols) {
+          const row = document.createElement("div");
+          row.className = "col";
+          row.innerHTML =
+            `<span class="key ${c.fk ? "fk" : ""}">${c.k}</span>` +
+            `<span class="name">${c.name}</span>` +
+            `<span class="type">${c.type}</span>`;
+          body.appendChild(row);
+        }
+        el.appendChild(body);
+
+        if (t.note) {
+          const foot = document.createElement("div");
+          foot.className = "node-foot";
+          foot.textContent = t.note;
+          el.appendChild(foot);
+        }
+
+        canvas.appendChild(el);
+        nodeEls.set(t.id, el);
+
+        // drag
+        let dragging = false, dx = 0, dy = 0;
+        head.addEventListener("mousedown", (e) => {
+          e.preventDefault();
+          dragging = true;
+          el.classList.add("dragging");
+          const rect = el.getBoundingClientRect();
+          dx = (e.clientX - rect.left) / scale;
+          dy = (e.clientY - rect.top) / scale;
+        });
+        window.addEventListener("mousemove", (e) => {
+          if (!dragging) return;
+          const wrapRect = wrap.getBoundingClientRect();
+          const x = (e.clientX - wrapRect.left - pan.x) / scale - dx;
+          const y = (e.clientY - wrapRect.top  - pan.y) / scale - dy;
+          t.x = x; t.y = y;
+          el.style.left = x + "px";
+          el.style.top  = y + "px";
+          drawEdges();
+        });
+        window.addEventListener("mouseup", () => {
+          if (dragging) { dragging = false; el.classList.remove("dragging"); }
+        });
+      }
+
+      // pan + zoom on the canvas-wrap
+      let scale = 0.8;
+      const pan = { x: 0, y: 0 };
+
+      function applyTransform() {
+        canvas.style.transform = `translate(${pan.x}px, ${pan.y}px) scale(${scale})`;
+      }
+
+      wrap.addEventListener("mousedown", (e) => {
+        if (e.target.closest(".node")) return;
+        wrap.classList.add("panning");
+        const sx = e.clientX, sy = e.clientY;
+        const ox = pan.x, oy = pan.y;
+        const move = (ev) => { pan.x = ox + (ev.clientX - sx); pan.y = oy + (ev.clientY - sy); applyTransform(); };
+        const up   = () => { wrap.classList.remove("panning"); window.removeEventListener("mousemove", move); window.removeEventListener("mouseup", up); };
+        window.addEventListener("mousemove", move);
+        window.addEventListener("mouseup", up);
+      });
+
+      wrap.addEventListener("wheel", (e) => {
+        e.preventDefault();
+        const delta = -e.deltaY * 0.001;
+        const next = Math.max(0.3, Math.min(1.6, scale + delta));
+        // zoom toward cursor
+        const wrapRect = wrap.getBoundingClientRect();
+        const mx = e.clientX - wrapRect.left;
+        const my = e.clientY - wrapRect.top;
+        pan.x = mx - (mx - pan.x) * (next / scale);
+        pan.y = my - (my - pan.y) * (next / scale);
+        scale = next;
+        applyTransform();
+      }, { passive: false });
+
+      // -----------------------------------------------------------
+      // Edge rendering: connect closest sides of source/target boxes.
+      // -----------------------------------------------------------
+      function rectOf(id) {
+        const el = nodeEls.get(id);
+        if (!el) return null;
+        const x = parseFloat(el.style.left);
+        const y = parseFloat(el.style.top);
+        return { x, y, w: el.offsetWidth, h: el.offsetHeight };
+      }
+
+      function anchorPoints(a, b) {
+        // Pick the pair of side-midpoints with smallest distance.
+        const sides = (r) => ({
+          left:   { x: r.x,           y: r.y + r.h / 2 },
+          right:  { x: r.x + r.w,     y: r.y + r.h / 2 },
+          top:    { x: r.x + r.w / 2, y: r.y },
+          bottom: { x: r.x + r.w / 2, y: r.y + r.h },
+        });
+        const sa = sides(a), sb = sides(b);
+        let best = null;
+        for (const ka of Object.keys(sa)) for (const kb of Object.keys(sb)) {
+          const dx = sa[ka].x - sb[kb].x, dy = sa[ka].y - sb[kb].y;
+          const d = dx*dx + dy*dy;
+          if (!best || d < best.d) best = { d, a: sa[ka], b: sb[kb], ka, kb };
+        }
+        return best;
+      }
+
+      function drawEdges() {
+        // clear edges except defs
+        const defs = svg.querySelector("defs");
+        svg.innerHTML = "";
+        svg.appendChild(defs);
+
+        // grow svg to canvas size
+        svg.setAttribute("width", canvas.offsetWidth);
+        svg.setAttribute("height", canvas.offsetHeight);
+
+        for (const e of edges) {
+          const ra = rectOf(e.from), rb = rectOf(e.to);
+          if (!ra || !rb) continue;
+          const { a, b } = anchorPoints(ra, rb);
+          // bezier control points pulled along the side normals for smooth curve
+          const dx = b.x - a.x, dy = b.y - a.y;
+          const k = Math.min(140, Math.max(40, Math.hypot(dx, dy) / 3));
+          const c1 = { x: a.x + (Math.abs(dx) > Math.abs(dy) ? Math.sign(dx) * k : 0),
+                       y: a.y + (Math.abs(dy) > Math.abs(dx) ? Math.sign(dy) * k : 0) };
+          const c2 = { x: b.x + (Math.abs(dx) > Math.abs(dy) ? -Math.sign(dx) * k : 0),
+                       y: b.y + (Math.abs(dy) > Math.abs(dx) ? -Math.sign(dy) * k : 0) };
+
+          const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+          path.setAttribute("d", `M ${a.x} ${a.y} C ${c1.x} ${c1.y}, ${c2.x} ${c2.y}, ${b.x} ${b.y}`);
+          if (e.dashed) path.classList.add("dashed");
+          path.setAttribute("marker-end", e.dashed ? "url(#arrow-warn)" : "url(#arrow)");
+          svg.appendChild(path);
+
+          if (e.label) {
+            const tx = (a.x + b.x) / 2, ty = (a.y + b.y) / 2 - 6;
+            const label = document.createElementNS("http://www.w3.org/2000/svg", "text");
+            label.setAttribute("x", tx);
+            label.setAttribute("y", ty);
+            label.setAttribute("text-anchor", "middle");
+            label.textContent = e.label;
+            svg.appendChild(label);
+          }
+        }
+      }
+
+      // -----------------------------------------------------------
+      // Boot
+      // -----------------------------------------------------------
+      loadLayout();
+      for (const t of tables) renderNode(t);
+
+      // initial center: pan canvas so its midpoint is in viewport center
+      requestAnimationFrame(() => {
+        const wrapRect = wrap.getBoundingClientRect();
+        pan.x = wrapRect.width  / 2 - 1200 * scale;
+        pan.y = 40;
+        applyTransform();
+        drawEdges();
+      });
+
+      document.getElementById("reset").addEventListener("click", () => {
+        localStorage.removeItem(STORAGE_KEY);
+        location.reload();
+      });
+      document.getElementById("save").addEventListener("click", () => {
+        saveLayout();
+        const btn = document.getElementById("save");
+        const orig = btn.textContent;
+        btn.textContent = "Saved ✓";
+        setTimeout(() => { btn.textContent = orig; }, 1200);
+      });
+
+      window.addEventListener("resize", drawEdges);
+    </script>
+  </body>
+</html>
