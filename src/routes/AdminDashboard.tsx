@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { supabase } from "@/lib/supabase";
-import { useAuth } from "@/hooks/useAuth";
 import { Nav } from "@/components/nav/Nav";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -17,8 +15,6 @@ interface PendingSchool {
 }
 
 export default function AdminDashboard() {
-  const { t } = useTranslation();
-  const { user } = useAuth();
   const [schools, setSchools] = useState<PendingSchool[]>([]);
   const [loading, setLoading] = useState(true);
   const [processingId, setProcessingId] = useState<string | null>(null);

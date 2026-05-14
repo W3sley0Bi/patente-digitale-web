@@ -1,4 +1,4 @@
-import { ArrowRight, BadgeCheck, Globe, Phone, X } from "lucide-react";
+import { ArrowRight, BadgeCheck, Phone, X } from "lucide-react";
 import { useState } from "react";
 import { createPortal } from "react-dom";
 import { useTranslation } from "react-i18next";
