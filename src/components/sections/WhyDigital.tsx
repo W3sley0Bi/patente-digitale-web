@@ -3,24 +3,12 @@ import { cn } from "@/lib/utils";
 import { SectionEyebrow } from "../layout/SectionEyebrow";
 import { Reveal } from "../motion/Reveal";
 import foglioRosaIcon from "@/assets/foglio-rosa-icon.png";
-import whyQuizApp from "@/assets/why-quiz-app.png";
 
 const ROWS = [
 	{
 		id: 1,
 		image: foglioRosaIcon,
 		contain: true,
-	},
-	{
-		id: 3,
-		image: whyQuizApp,
-		contain: false,
-	},
-	{
-		id: 4,
-		image:
-			"https://images.unsplash.com/photo-1506784983877-45594efa4cbe?auto=format&fit=crop&w=800&q=80",
-		contain: false,
 	},
 ];
 

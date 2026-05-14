@@ -23,18 +23,22 @@
 			"callLabel": "Chiama",
 			"callNow": "Chiama ora",
 			"closeModal": "Chiudi",
-			"websiteLabel": "Sito web"
+			"websiteLabel": "Sito web",
+			"openLabel": "Apri",
+			"claimCta": "È la tua? Rivendicala"
 		},
 		"ownerCallout": {
 			"label": "Non vedi la tua autoscuola?",
 			"link": "Registrala"
 		},
 		"detail": {
-			"partnerVerified": "Autoscuola Verificata",
-			"enroll": "Iscriviti ora",
+			"partnerVerified": "Verificata",
+			"enroll": "Scopri l'autoscuola",
 			"licensesTitle": "Patenti disponibili",
 			"pricesTitle": "Listino prezzi",
-			"noPrices": "Prezzi non disponibili online"
+			"noPrices": "Prezzi non disponibili online",
+			"claimHint": "Sei il proprietario di questa autoscuola?",
+			"claimCta": "Rivendica questo profilo"
 		}
 	},
 	"student": {
@@ -54,12 +58,12 @@
 			"notListed": "La mia autoscuola non è in elenco",
 			"foundSchool": "Abbiamo trovato <strong>{{name}}</strong>. Per la verifica automatica usa un'email <strong>@{{domain}}</strong>.",
 			"noDomainEmail": "Non ho un'email @{{domain}}",
-			"manualReview": "<strong>{{name}}</strong> — la tua richiesta sarà revisionata manualmente, di solito entro 48 ore.",
+			"manualReview": "<strong>{{name}}</strong> — la tua richiesta sarà revisionata manualmente, di solito entro ~2 giorni lavorativi.",
 			"manualReviewReturn": "Email confermata! Completa la richiesta per la tua autoscuola.",
-			"manualReviewReturnHint": "Inserisci il nome della tua autoscuola, il tuo nome completo e, se disponibile, la partita IVA. Verificheremo e approveremo entro 48 ore.",
+			"manualReviewReturnHint": "Inserisci il nome della tua autoscuola, il tuo nome completo e, se disponibile, la partita IVA. Verificheremo e approveremo entro ~2 giorni lavorativi.",
 			"notFound": "La tua autoscuola non è ancora nel nostro sistema. Invia una richiesta e la aggiungeremo.",
 			"submitted": "Richiesta inviata!",
-			"submittedDesc": "Ti risponderemo entro 48 ore.",
+			"submittedDesc": "Ti risponderemo entro ~2 giorni lavorativi.",
 			"goToDashboard": "Vai alla tua dashboard",
 			"alreadyClaimed": "<strong>{{name}}</strong> è già stata rivendicata. <a href='/login' class='underline'>Accedi</a> al tuo account o contatta <a href='mailto:supporto@patentedigitale.it' class='underline'>supporto@patentedigitale.it</a>.",
 			"backToSearch": "← Cerca di nuovo",
@@ -72,7 +76,7 @@
 			"rejectedContact": "Contattaci",
 			"rejectedReason": "per capire il motivo.",
 			"pendingTitle": "Richiesta in revisione",
-			"pendingDesc": "Stiamo revisionando la tua richiesta di proprietà. Di solito entro 48 ore."
+			"pendingDesc": "Stiamo revisionando la tua richiesta di proprietà. Di solito entro ~2 giorni lavorativi."
 		},
 		"claimForm": {
 			"createAccount": "Prima di tutto, crea il tuo account:",
@@ -84,15 +88,15 @@
 			"submitting": "Invio in corso...",
 			"submit": "Invia richiesta",
 			"notAuthenticated": "Non autenticato.",
-				"errors": {
-					"websiteInvalid": "Inserisci un URL valido (es. https://www.esempio.it).",
-					"requiredField": "Questo campo è obbligatorio.",
-					"alreadyHavePending": "Hai già una richiesta in revisione.",
-					"alreadyHavePendingCta": "Vai alla dashboard →"
-				},
-				"addressPlaceholder": "Cerca indirizzo...",
-				"mapHint": "Clicca sulla mappa per posizionare il segnaposto della tua autoscuola",
-				"mapCoords": "Posizione: {{lat}}, {{lng}}"
+			"errors": {
+				"websiteInvalid": "Inserisci un URL valido (es. https://www.esempio.it).",
+				"requiredField": "Questo campo è obbligatorio.",
+				"alreadyHavePending": "Hai già una richiesta in revisione.",
+				"alreadyHavePendingCta": "Vai alla dashboard →"
+			},
+			"addressPlaceholder": "Cerca indirizzo...",
+			"mapHint": "Clicca sulla mappa per posizionare il segnaposto della tua autoscuola",
+			"mapCoords": "Posizione: {{lat}}, {{lng}}"
 		},
 		"search": {
 			"placeholder": "Cerca autoscuola o città..."
@@ -105,8 +109,30 @@
 				"zip": "CAP",
 				"region": "Regione",
 				"phone": "Telefono",
-				"website": "Sito web"
+				"mobile": "Cellulare",
+				"email": "Email",
+				"whatsapp_business": "WhatsApp Business",
+				"website": "Sito web",
+				"piva": "Partita IVA",
+				"founded_year": "Anno di fondazione",
+				"description": "Descrizione",
+				"instructor_count": "Numero di istruttori",
+				"social_instagram": "Instagram",
+				"social_facebook": "Facebook",
+				"social_tiktok": "TikTok",
+				"social_youtube": "YouTube",
+				"whatsapp_businessHint": "Numero con prefisso internazionale (es. +39). Apparirà come bottone WhatsApp Business sulla tua pagina pubblica."
 			},
+			"sections": {
+				"identity": "Identità",
+				"contacts": "Contatti",
+				"address": "Indirizzo",
+				"hours": "Orari",
+				"licenses": "Patenti e prezzi",
+				"staff": "Staff",
+				"social": "Social"
+			},
+			"priceFor": "Prezzo {{licence}} (€)",
 			"licenses": "Patenti erogate",
 			"openingHours": "Orari di apertura (uno per riga, es. \"Lunedì: 9:00–19:00\")",
 			"saving": "Salvataggio...",
@@ -132,7 +158,27 @@
 				"cta": "Invia una nuova richiesta"
 			},
 			"refreshStatus": "Aggiorna stato",
-			"rpcError": "Errore durante la verifica automatica: {{message}}. Puoi riprovare dalla pagina di registrazione."
+			"rpcError": "Errore durante la verifica automatica: {{message}}. Puoi riprovare dalla pagina di registrazione.",
+			"mock": {
+				"metricsLabel": "Questo mese",
+				"metric1": {
+					"value": "12",
+					"label": "Iscrizioni"
+				},
+				"metric2": {
+					"value": "47",
+					"label": "Visite al profilo"
+				},
+				"recentLabel": "Iscrizioni recenti",
+				"student1": "Marco R. — Patente B",
+				"student2": "Sara L. — Patente B",
+				"student3": "Luca M. — Patente A2",
+				"time1": "2 ore fa",
+				"time2": "ieri",
+				"time3": "3 giorni fa",
+				"exportCsv": "Esporta CSV",
+				"verified": "Profilo verificato"
+			}
 		},
 		"edit": {
 			"backToDashboard": "← Dashboard",
@@ -208,7 +254,8 @@
 			"dashboard": "Dashboard",
 			"quizOnline": "Quiz online",
 			"logout": "Esci",
-			"setPassword": "Imposta password"
+			"setPassword": "Imposta password",
+			"home": "Home"
 		},
 		"hero": {
 			"headline": {
@@ -216,15 +263,17 @@
 				"line2": "burocrazia",
 				"emphasis": "senza"
 			},
-			"subhead": "Trova, scegli e iscriviti alla tua autoscuola in pochi minuti. Tutto online, senza file.",
-"searchPlaceholder": "Cerca per città o CAP...",
+			"subhead": "Trova la tua autoscuola tra 4.848 scuole in tutta Italia. Iscriviti online, senza code.",
+			"searchPlaceholder": "Cerca per città o CAP...",
 			"cta": {
-			"primary": "Trova la tua autoscuola",
-			"secondary": "Come funziona"
+				"primary": "Trova la tua autoscuola",
+				"secondary": "Come funziona"
 			},
 			"mascotNote": "Per tutti i tipi di patenti, non solo la B",
-			"trust": "Già scelto da oltre 12.000 studenti in 14 regioni. Pagamenti sicuri con PayPal, Apple Pay e Google Pay.",			"trust.social": "12.000+ studenti felici",
-			"mascotAlt": "Patentino, la mascotte di Patentedigitale.it"
+			"trust": "Già scelto da oltre 12.000 studenti in 14 regioni. Pagamenti sicuri con PayPal, Apple Pay e Google Pay.",
+			"trust.social": "12.000+ studenti felici",
+			"mascotAlt": "Patentino, la mascotte di Patentedigitale.it",
+			"paypalBadge": "Paga anche in 3 comode rate"
 		},
 		"howItWorks": {
 			"eyebrow": "Per gli studenti",
@@ -239,18 +288,18 @@
 					"description": "Compila, paga e mettiti alla guida in meno di 2 mesi!"
 				},
 				"3": {
-					"title": "Studia e prenota",
-					"description": "Quiz dal tuo telefono, prenoti le guide quando vuoi tu."
+					"title": "Sei iscritto.",
+					"description": "Conferma l'iscrizione online. L'autoscuola ti contatterà per il primo appuntamento."
 				}
 			}
 		},
 		"whyDigital": {
 			"eyebrow": "Perché digitale.",
-			"heading": "Perché aspettare un anno per guidare? Ottieni il foglio rosa in 2 mesi, non in 12.",
+			"heading": "Tutto quello che ti serve per prendere la patente, in un unico posto.",
 			"rows": {
 				"1": {
 					"title": "Fai tutto online",
-					"body": "Iscrizione completa online: tutto in digitale, l'unico foglio sarà quello rosa!",
+					"body": "Iscriviti alla tua autoscuola completamente online. Compila il modulo, carica i documenti e paga — senza mettere piede in segreteria.",
 					"imageAlt": "giovane che scansiona un documento con il telefono"
 				},
 				"3": {
@@ -289,16 +338,16 @@
 					"subCaption": "tra gli iscritti del 2024"
 				}
 			},
-			"partners": { 
+			"partners": {
 				"title": "Alcuni dei nostri partner",
 				"strategic": "Ecosistema e Collaborazioni"
 			}
 		},
 		"b2b": {
 			"eyebrow": "Sei un'autoscuola?",
-			"heading": "Porta la tua autoscuola nel futuro.",
-			"body": "Gestisci iscrizioni, pagamenti, quiz e prenotazioni guide da un'unica dashboard. Con l'app ti prendi cura del tuo business e dei tuoi studenti dove e quando vuoi. Unisciti a noi! Iscrivi la tua autoscuola e contattaci per attivare la tua prova gratuita.",
-			"cta": "Iscrivi la tua autoscuola",
+			"heading": "La tua autoscuola diventa digitale!",
+			"body": "Rivendica il profilo della tua autoscuola e inizia a ricevere iscrizioni online. Dashboard gratuita per iniziare.",
+			"cta": "Rivendica il tuo profilo",
 			"linkSecondary": "Scopri come funziona"
 		},
 		"faq": {
@@ -307,8 +356,8 @@
 			"subline": "Non hai trovato la tua? <0>Scrivici</0>.",
 			"items": {
 				"1": {
-					"q": "Quanto costa iscriversi tramite Patentedigitale.it?",
-					"a": "L'iscrizione è gratis. Paghi solo il prezzo dell'autoscuola che scegli, scontato rispetto a quello che pagheresti andando direttamente in segreteria."
+					"q": "È gratis usare Patentedigitale.it?",
+					"a": "Sì, trovare e contattare un'autoscuola è completamente gratuito. Paghi solo il costo dell'iscrizione direttamente alla scuola scelta."
 				},
 				"2": {
 					"q": "Quali documenti mi servono per iniziare?",
@@ -316,7 +365,7 @@
 				},
 				"4": {
 					"q": "I miei dati sono al sicuro?",
-					"a": "Sì. I tuoi dati sono trattati secondo il GDPR, salvati su server europei, cifrati a riposo e in transito. I pagamenti passano da provider certificati PCI-DSS."
+					"a": "Sì. I tuoi dati sono trattati secondo il GDPR, salvati su server europei, cifrati a riposo e in transito."
 				}
 			}
 		},
@@ -369,6 +418,376 @@
 				"retry": "Riprova",
 				"details": "Dettagli tecnici",
 				"home": "Vai alla home"
+			}
+		}
+	},
+	"studenti": {
+		"hero": {
+			"eyebrow": "Per gli studenti",
+			"headline_part1": "Prendi la patente ora.",
+			"headline_part2": "Pagala con calma dopo.",
+			"subhead": "Trova la tua autoscuola e iscriviti dal telefono. Niente file, niente segreteria, niente stress.",
+			"cta": "Cerca la tua autoscuola",
+			"paypalBadge": "Paga in 3 rate con PayPal",
+			"paypalNote": "Disponibile sulle autoscuole verificate con pagamento online attivo.",
+			"ctaSecondary": "Come funziona"
+		},
+		"flow": {
+			"eyebrow": "Come funziona",
+			"heading": "Da casa: iscrizione e pagamento.\nIn autoscuola: tutto il resto.",
+			"online": {
+				"label": "Online, da te",
+				"items": {
+					"1": "Cerchi e scegli la tua autoscuola.",
+					"2": "Compili il modulo di iscrizione.",
+					"3": "Paghi, anche in 3 rate."
+				}
+			},
+			"inperson": {
+				"label": "In autoscuola",
+				"items": {
+					"1": "Certificato medico.",
+					"2": "Ritiri il libro di teoria.",
+					"3": "Lezioni di teoria e guide.",
+					"4": "Esami."
+				}
+			}
+		},
+		"docs": {
+			"eyebrow": "Bonus",
+			"heading": "Carica i documenti dal telefono.\nAnche con la fotocamera.",
+			"body": "Se vuoi anticipare, puoi caricare i documenti durante l'iscrizione. Foto tessera dalla fotocamera, documento e codice fiscale scannerizzati. Se preferisci portarli in autoscuola il primo giorno, va benissimo lo stesso.",
+			"items": {
+				"1": {
+					"title": "Foto tessera",
+					"body": "Scatta direttamente dalla fotocamera del telefono."
+				},
+				"2": {
+					"title": "Documento d'identità",
+					"body": "Fronte e retro. Anche con foto dal telefono."
+				},
+				"3": {
+					"title": "Codice fiscale",
+					"body": "La tessera sanitaria fotografata."
+				},
+				"4": {
+					"title": "Documenti extra, se servono",
+					"body": "Per minori: documento di un genitore. Per non UE: permesso di soggiorno."
+				}
+			},
+			"note": "Caricare i documenti online è opzionale. Tu decidi se farlo da casa o in autoscuola."
+		},
+		"paypal": {
+			"eyebrow": "Paga come vuoi",
+			"heading": "In un'unica soluzione, o in 3 rate.",
+			"body": "Con PayPal Paga in 3 dividi il costo dell'iscrizione in tre rate mensili, senza interessi e senza costi nascosti.",
+			"rateLabel": "Rata",
+			"caveat": "Disponibile solo sulle autoscuole verificate con pagamento online attivo."
+		},
+		"cta": {
+			"heading": "Pronto a iniziare?",
+			"subhead": "Cerca la tua autoscuola adesso. Nessun account, nessuna email richiesta.",
+			"button": "Cerca autoscuola"
+		},
+		"bundles": {
+			"eyebrow": "Trasparenza",
+			"heading": "Vedi tutto prima di iscriverti.\nPrezzi chiari, niente sorprese.",
+			"body": "Ogni autoscuola configura i propri pacchetti con esattezza. Tu vedi cosa include, quanto costa, e scegli quello che ti serve. Senza dover andare in segreteria a chiedere.",
+			"note": "Esempio illustrativo. I pacchetti e i prezzi variano da scuola a scuola.",
+			"mock": {
+				"url": "patentedigitale.it/cerca/autoscuola-verdi",
+				"schoolName": "Autoscuola Verdi",
+				"location": "Via Roma 12, Milano",
+				"verified": "Verificata",
+				"sectionTitle": "Scegli il tuo pacchetto",
+				"popularBadge": "Popolare",
+				"ctaLabel": "Iscriviti",
+				"paypalNote": "Paga in un'unica soluzione o in 3 rate con PayPal",
+				"tiers": {
+					"essential": {
+						"name": "Essenziale",
+						"price": "800 €",
+						"features": {
+							"1": "Iscrizione e foglio rosa",
+							"2": "Materiali di studio",
+							"3": "6 ore di guida",
+							"4": "1 tentativo esame teoria"
+						}
+					},
+					"complete": {
+						"name": "Completa",
+						"price": "1.200 €",
+						"features": {
+							"1": "Tutto in Essenziale",
+							"2": "12 ore di guida",
+							"3": "2 tentativi esame teoria",
+							"4": "Esame pratico incluso"
+						}
+					},
+					"plus": {
+						"name": "Plus",
+						"price": "1.500 €",
+						"features": {
+							"1": "Tutto in Completa",
+							"2": "18 ore di guida",
+							"3": "Garanzia ripetizione",
+							"4": "Supporto WhatsApp"
+						}
+					}
+				}
+			}
+		}
+	},
+	"autoscuole": {
+		"hero": {
+			"eyebrow": "Per le autoscuole",
+			"headline": "La tua autoscuola è già su Patentedigitale.",
+			"subhead": "Rivendicala in pochi minuti e inizia a ricevere iscrizioni direttamente nella tua dashboard.",
+			"cta": "Rivendica la tua autoscuola",
+			"ctaSecondary": "Cerca il tuo profilo",
+			"ctaSecondaryScroll": "Come funziona"
+		},
+		"dashboard": {
+			"eyebrow": "Cosa ottieni",
+			"heading": "Una dashboard che lavora per te.",
+			"subhead": "Iscrizioni, profilo, esportazione dati. Tutto in un posto.",
+			"mock": {
+				"title": "Autoscuola Verdi",
+				"status": "Profilo verificato",
+				"metricsLabel": "Questo mese",
+				"metric1": {
+					"value": "12",
+					"label": "Iscrizioni"
+				},
+				"metric2": {
+					"value": "47",
+					"label": "Visite al profilo"
+				},
+				"recentLabel": "Iscrizioni recenti",
+				"student1": "Marco R. — Patente B",
+				"student2": "Sara L. — Patente B",
+				"student3": "Luca M. — Patente A2",
+				"time1": "2 ore fa",
+				"time2": "ieri",
+				"time3": "3 giorni fa"
+			}
+		},
+		"benefits": {
+			"primary": {
+				"title": "Iscrizioni online direttamente da te.",
+				"body": "Gli studenti ti scelgono dal sito, compilano l'iscrizione e tu la trovi in dashboard. Niente telefonate perse, niente moduli cartacei da archiviare."
+			},
+			"secondary": {
+				"1": {
+					"title": "Profilo già online",
+					"body": "La tua autoscuola è probabilmente già nel database. Rivendicala e aggiorna i dati."
+				},
+				"2": {
+					"title": "Esporti tutto, quando vuoi",
+					"body": "I tuoi studenti, i tuoi dati. Esportazione in CSV in un click."
+				}
+			}
+		},
+		"claim": {
+			"eyebrow": "Come iniziare",
+			"heading": "Due modi per rivendicare.",
+			"auto": {
+				"label": "Rivendica automatica",
+				"time": "Istantanea",
+				"description": "Se l'email aziendale corrisponde al dominio già nel nostro database, sei dentro al primo accesso. Nessuna verifica manuale."
+			},
+			"manual": {
+				"label": "Rivendica manuale",
+				"time": "~2 giorni lavorativi",
+				"description": "Carichi P.IVA e un documento ufficiale. Verifichiamo entro ~2 giorni lavorativi e ti contattiamo per attivare la dashboard."
+			}
+		},
+		"pricing": {
+			"eyebrow": "Quanto costa",
+			"heading": "Inizia gratis. Paghi solo quando guadagni.",
+			"today": {
+				"label": "Oggi",
+				"value": "0 €",
+				"description": "Rivendica il profilo, ricevi iscrizioni. Nessun costo per essere su Patentedigitale."
+			},
+			"transaction": {
+				"label": "Sulle iscrizioni online",
+				"value": "2%",
+				"description": "Solo quando uno studente si iscrive e paga online tramite la piattaforma. Niente iscrizione = niente commissione."
+			},
+			"note": "Il modello evolverà. Stiamo definendo i piani futuri insieme ad advisor e autoscuole partner. Ti aggiorneremo prima di qualsiasi cambio."
+		},
+		"cta": {
+			"heading": "Pronto a digitalizzare la tua autoscuola?",
+			"subhead": "Cerca il tuo profilo, rivendicalo, inizia a ricevere iscrizioni online.",
+			"button": "Rivendica la tua autoscuola",
+			"buttonSecondary": "Cerca il tuo profilo"
+		},
+		"payments": {
+			"eyebrow": "Pagamenti",
+			"heading": "Lo studente paga in 3 rate.\nTu ricevi tutto subito.",
+			"body": "Anche quando lo studente sceglie PayPal Paga in 3, tu ricevi l'intero importo dell'iscrizione subito dopo la verifica della transazione. Il rischio del pagamento a rate se lo prende PayPal, non tu.",
+			"pillStudent": "Lo studente",
+			"pillStudentValue": "3 rate mensili",
+			"pillSchool": "Tu",
+			"pillSchoolValue": "100% subito"
+		}
+	},
+	"iscrizione": {
+		"defaultSchoolName": "Autoscuola Verdi",
+		"backToSearch": "Torna alla ricerca",
+		"verified": "Verificata",
+		"previewBadge": "Anteprima · in costruzione",
+		"hero": {
+			"eyebrow": "Iscrizione",
+			"subhead": "Questa è una preview della pagina di iscrizione. Stai vedendo i pacchetti tipo che un'autoscuola può offrire su patentedigitale.it. Ancora non puoi completare l'iscrizione da qui.",
+			"caveatTitle": "Stai testando una preview",
+			"caveatBody": "I dati delle patenti, prezzi e veicoli mostrati sono illustrativi. Quando l'iscrizione sarà attiva, vedrai i dati reali configurati dall'autoscuola.",
+			"enrollAnchor": "Vedi patenti"
+		},
+		"bundles": {
+			"eyebrow": "Pacchetti",
+			"heading": "Scegli il pacchetto\nche ti serve.",
+			"body": "Ogni autoscuola configura i propri pacchetti con esattezza. Tu vedi cosa include, quanto costa e scegli quello che ti serve.",
+			"note": "Esempio illustrativo. I pacchetti e i prezzi variano da scuola a scuola.",
+			"sectionTitle": "Scegli il tuo pacchetto",
+			"schoolIdLabel": "ID scuola",
+			"popularBadge": "Popolare",
+			"ctaLabel": "Iscriviti",
+			"paypalNote": "Paga in un'unica soluzione o in 3 rate con PayPal",
+			"tiers": {
+				"essential": {
+					"name": "Essenziale",
+					"price": "800 €",
+					"features": {
+						"1": "Iscrizione e foglio rosa",
+						"2": "Materiali di studio",
+						"3": "6 ore di guida",
+						"4": "1 tentativo esame teoria"
+					}
+				},
+				"complete": {
+					"name": "Completa",
+					"price": "1.200 €",
+					"features": {
+						"1": "Tutto in Essenziale",
+						"2": "12 ore di guida",
+						"3": "2 tentativi esame teoria",
+						"4": "Esame pratico incluso"
+					}
+				},
+				"plus": {
+					"name": "Plus",
+					"price": "1.500 €",
+					"features": {
+						"1": "Tutto in Completa",
+						"2": "18 ore di guida",
+						"3": "Garanzia ripetizione",
+						"4": "Supporto WhatsApp"
+					}
+				}
+			}
+		},
+		"detail": {
+			"about": "Chi siamo",
+			"contacts": "Contatti",
+			"contactsHeading": "Come raggiungerci",
+			"hours": "Orari",
+			"hoursHeading": "Orari di apertura",
+			"licences": "Patenti",
+			"licencesHeading": "Patenti e prezzi",
+			"licenceLabel": "Patente {{code}}",
+			"priceUnavailable": "Su richiesta",
+			"address": "Indirizzo",
+			"openInMaps": "Apri su Google Maps",
+			"foundedSince": "Dal {{year}}",
+			"instructorCount_one": "{{count}} istruttore",
+			"instructorCount_other": "{{count}} istruttori",
+			"enrollCta": "Iscriviti ora",
+			"callCta": "Chiama",
+			"bundlesCaveat": "Esempio · ogni autoscuola configura i suoi pacchetti.",
+			"exampleLabel": "Esempio illustrativo"
+		},
+		"whatsappGate": {
+			"hint": "Accedi o registrati per contattare l'autoscuola su WhatsApp.",
+			"cta": "Accedi o registrati →"
+		},
+		"next": {
+			"eyebrow": "Cosa succede dopo",
+			"heading": "Tre passi e sei iscritto.",
+			"cta": "Cerca un'altra autoscuola",
+			"steps": {
+				"1": {
+					"title": "Scegli il pacchetto",
+					"body": "Confronti Essenziale, Completa e Plus. Vedi cosa include ogni pacchetto e scegli quello che fa per te."
+				},
+				"2": {
+					"title": "Compili il modulo",
+					"body": "Inserisci i tuoi dati anagrafici e carichi i documenti dal telefono. Niente stampe, niente code in segreteria."
+				},
+				"3": {
+					"title": "Paghi (anche in 3 rate)",
+					"body": "Paghi in un'unica soluzione o in 3 rate con PayPal. Zero interessi, zero costi nascosti."
+				}
+			}
+		},
+		"photos": {
+			"eyebrow": "Foto",
+			"heading": "Conosci l'autoscuola."
+		},
+		"picker": {
+			"eyebrow": "Patenti disponibili",
+			"heading": "Scegli la patente che vuoi prendere.",
+			"subhead": "Seleziona una patente per vedere prezzo, cosa include e i veicoli disponibili.",
+			"priceLabel": "Prezzo iscrizione",
+			"priceUnavailable": "Su richiesta",
+			"includesLabel": "Cosa include",
+			"vehiclesLabel": "Veicoli disponibili",
+			"noVehicles": "Veicoli non specificati. Chiedi in autoscuola.",
+			"enrollCta": "Iscriviti a Patente {{code}}",
+			"paypalNote": "Paga in 3 rate con PayPal su autoscuole verificate.",
+			"patenteLabel": "Patente {{code}}",
+			"mockNote": "Dati di esempio. La pagina mostrerà i dati reali quando l'autoscuola li configura.",
+			"variantsLabel": "Pacchetto",
+			"transmissionLabel": "Cambio",
+			"transmissionManual": "Manuale",
+			"transmissionAuto": "Automatico",
+			"extraHoursLabel": "Ore di guida extra",
+			"extraHoursNone": "Solo le 6 obbligatorie",
+			"extraHours5": "+5 ore",
+			"extraHours10": "+10 ore",
+			"photoExpandLabel": "Apri foto",
+			"photoCloseLabel": "Chiudi",
+			"extraHoursHint": "Aggiungi ore di guida (oltre quelle obbligatorie).",
+			"extraHoursUnit": "ore",
+			"extraHoursOne": "ora",
+			"extraHoursPricePer": "per ora",
+			"extraHoursAddPack": "+5 pack (-10%)",
+			"extraHoursDiscountBadge": "−10% sconto pack 5+",
+			"extraHoursDecrement": "Rimuovi un'ora",
+			"extraHoursIncrement": "Aggiungi un'ora"
+		},
+		"paywall": {
+			"closeLabel": "Chiudi",
+			"loading": "Caricamento...",
+			"guest": {
+				"heading": "Crea il tuo account per iscriverti",
+				"body": "Per iscriverti a {{name}} ti serve un account studente. Ti ci vuole un minuto.",
+				"primaryCta": "Crea account studente",
+				"secondaryCta": "Ho già un account"
+			},
+			"autoscuola": {
+				"heading": "Accedi come studente",
+				"body": "Stai usando un account autoscuola. Per iscriverti a un corso ti serve un account studente. Esci e crea un account studente per continuare.",
+				"primaryCta": "Esci e accedi come studente"
+			},
+			"student": {
+				"heading": "Quasi fatto. Anteprima pagamento.",
+				"body": "Il flusso di pagamento è in costruzione. Quando sarà attivo, qui completerai l'iscrizione direttamente con carta o PayPal (anche in 3 rate).",
+				"summary": "Iscrizione a {{name}} · Patente {{code}}",
+				"totalLabel": "Totale",
+				"primaryCta": "Continua (anteprima)",
+				"mockLabel": "Anteprima · pagamento non attivo"
 			}
 		}
 	}

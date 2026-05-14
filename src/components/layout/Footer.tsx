@@ -3,6 +3,25 @@ import { Link } from "react-router";
 import { Mascot, Wordmark } from "../brand/Brand";
 import { LangSwitch } from "../nav/LangSwitch";
 
+const LinkedInIcon = ({ className }: { className?: string }) => (
+	<svg
+		className={className}
+		viewBox="0 0 24 24"
+		fill="none"
+		stroke="currentColor"
+		strokeWidth="2"
+		strokeLinecap="round"
+		strokeLinejoin="round"
+		role="img"
+		aria-label="LinkedIn"
+	>
+		<title>LinkedIn</title>
+		<path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+		<rect x="2" y="9" width="4" height="12" />
+		<circle cx="4" cy="4" r="2" />
+	</svg>
+);
+
 const TikTokIcon = ({ className }: { className?: string }) => (
 	<svg
 		className={className}
@@ -144,6 +163,7 @@ export function Footer() {
 								{ Icon: InstagramIcon, href: "#instagram", label: "Instagram" },
 								{ Icon: TikTokIcon, href: "#tiktok", label: "TikTok" },
 								{ Icon: FacebookIcon, href: "#facebook", label: "Facebook" },
+								{ Icon: LinkedInIcon, href: "#linkedin", label: "LinkedIn" },
 							].map(({ Icon, href, label }) => (
 								<a
 									key={label}

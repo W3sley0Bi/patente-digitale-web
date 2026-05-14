@@ -1,4 +1,5 @@
-import { Headset, Menu, X, Mail, MessageCircle } from "lucide-react";
+import { Headset, Menu, X, Mail, MessageCircle, Home, GraduationCap, Car, Search } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 import { useEffect, useState, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router";
@@ -13,11 +14,11 @@ import { LangSwitch } from "./LangSwitch";
 import { UserMenu } from "./UserMenu";
 import { Button } from "@/components/ui/button";
 
-const NAV_LINKS = [
-	{ href: "/#how-it-works", label: "landing.nav.howItWorks" },
-	{ href: "/#partner", label: "landing.nav.partners" },
-	{ href: "/search", label: "landing.nav.findSchool" },
-	{ href: "/#faq", label: "landing.nav.faq" },
+const NAV_LINKS: { href: string; label: string; icon: LucideIcon }[] = [
+	{ href: "/", label: "landing.nav.home", icon: Home },
+	{ href: "/studenti", label: "landing.nav.howItWorks", icon: GraduationCap },
+	{ href: "/autoscuole", label: "landing.nav.partners", icon: Car },
+	{ href: "/search", label: "landing.nav.findSchool", icon: Search },
 ];
 
 
@@ -65,28 +66,40 @@ export function Nav() {
 		};
 	}, []);
 
-	const NavLink = ({ href, label }: { href: string; label: string }) => {
+	const NavLink = ({ href, label, icon: Icon }: { href: string; label: string; icon: LucideIcon }) => {
 		const isInternal = href.startsWith("/");
-		const className = "font-sans text-sm font-medium text-ink-muted transition-colors hover:text-brand";
+		const className = "flex items-center gap-1.5 font-sans text-sm font-medium text-ink-muted transition-colors hover:text-brand";
+		const content = (
+			<>
+				<Icon className="h-4 w-4" aria-hidden="true" />
+				<span>{t(label)}</span>
+			</>
+		);
 
 		if (isInternal) {
 			return (
 				<Link to={href} className={className}>
-					{t(label)}
+					{content}
 				</Link>
 			);
 		}
 
 		return (
 			<a href={href} className={className}>
-				{t(label)}
+				{content}
 			</a>
 		);
 	};
 
-	const MobileNavLink = ({ href, label }: { href: string; label: string }) => {
+	const MobileNavLink = ({ href, label, icon: Icon }: { href: string; label: string; icon: LucideIcon }) => {
 		const isInternal = href.startsWith("/");
-		const className = "flex items-center px-5 py-4 font-sans text-base font-semibold text-ink border-b border-line/60 hover:bg-brand-soft/30 hover:text-brand transition-colors";
+		const className = "flex items-center gap-3 px-5 py-4 font-sans text-base font-semibold text-ink border-b border-line/60 hover:bg-brand-soft/30 hover:text-brand transition-colors";
+		const content = (
+			<>
+				<Icon className="h-5 w-5 text-ink-muted" aria-hidden="true" />
+				<span>{t(label)}</span>
+			</>
+		);
 
 		if (isInternal) {
 			return (
@@ -95,7 +108,7 @@ export function Nav() {
 					onClick={() => setIsMenuOpen(false)}
 					className={className}
 				>
-					{t(label)}
+					{content}
 				</Link>
 			);
 		}
@@ -106,7 +119,7 @@ export function Nav() {
 				onClick={() => setIsMenuOpen(false)}
 				className={className}
 			>
-				{t(label)}
+				{content}
 			</a>
 		);
 	};

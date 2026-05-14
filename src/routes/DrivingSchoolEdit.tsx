@@ -20,7 +20,40 @@ export default function DrivingSchoolEdit() {
       .eq("user_id", user.id)
       .single()
       .then(({ data: row }) => {
-        setData(row as SchoolEditorData | null);
+        if (row) {
+          const r = row as Record<string, unknown>;
+          const isPlainObject = (v: unknown): v is Record<string, unknown> =>
+            typeof v === "object" && v !== null && !Array.isArray(v);
+          const pricesRaw = r.prices;
+          const prices: Record<string, number> = {};
+          if (isPlainObject(pricesRaw)) {
+            for (const [k, v] of Object.entries(pricesRaw)) {
+              const n = typeof v === "number" ? v : Number(v);
+              if (Number.isFinite(n)) prices[k] = n;
+            }
+          }
+          const socialRaw = r.social;
+          const social: Record<string, string> = {};
+          if (isPlainObject(socialRaw)) {
+            for (const [k, v] of Object.entries(socialRaw)) {
+              if (typeof v === "string") social[k] = v;
+            }
+          }
+          const normalized: SchoolEditorData = {
+            ...(r as unknown as SchoolEditorData),
+            opening_hours: Array.isArray(r.opening_hours)
+              ? (r.opening_hours as string[])
+              : typeof r.opening_hours === "string"
+                ? [r.opening_hours]
+                : [],
+            licenses: Array.isArray(r.licenses) ? (r.licenses as string[]) : [],
+            prices,
+            social,
+          };
+          setData(normalized);
+        } else {
+          setData(null);
+        }
         setLoading(false);
       });
   }, [user]);

@@ -7,18 +7,17 @@ export function ScrollToHash() {
 	useEffect(() => {
 		if (location.hash) {
 			const id = location.hash.replace("#", "");
-			
-			// Small delay to ensure the page has rendered and sections are mounted
 			const timer = setTimeout(() => {
 				const element = document.getElementById(id);
 				if (element) {
 					element.scrollIntoView({ behavior: "smooth" });
 				}
 			}, 250);
-
 			return () => clearTimeout(timer);
+		} else {
+			window.scrollTo({ top: 0, left: 0, behavior: "instant" });
 		}
-	}, [location]);
+	}, [location.pathname, location.hash]);
 
 	return null;
 }

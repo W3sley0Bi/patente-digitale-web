@@ -28,8 +28,9 @@ export function ResultsList({
   const virtualizer = useVirtualizer({
     count: schools.length,
     getScrollElement: () => parentRef.current,
-    estimateSize: () => 132,
+    estimateSize: () => 140,
     overscan: 5,
+    measureElement: (el) => el.getBoundingClientRect().height,
   });
 
   useEffect(() => {
@@ -94,6 +95,8 @@ export function ResultsList({
           return (
             <div
               key={school.id}
+              ref={virtualizer.measureElement}
+              data-index={virtualItem.index}
               style={{
                 position: "absolute",
                 top: 0,

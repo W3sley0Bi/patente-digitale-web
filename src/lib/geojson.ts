@@ -9,6 +9,7 @@ export interface SchoolProperties {
   email?: string;
   website: string;
   partner?: boolean;
+  slug?: string;
   rating?: number | null;
   userRatingCount?: number | null;
   businessStatus?: string;
@@ -43,6 +44,6 @@ export function normalizeSchool(feature: SchoolFeature): NormalizedSchool {
     ...feature.properties,
     name: feature.properties.name || "Autoscuola",
     latlng: [lat, lng],
-    id: `${lat},${lng}`,
+    id: feature.properties._placeId || `${lat},${lng}:${feature.properties.name}`,
   };
 }

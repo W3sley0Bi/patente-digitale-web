@@ -1,4 +1,22 @@
 {
+  "permissions": {
+    "allow": [
+      "Bash(supabase db *)",
+      "Bash(supabase link *)",
+      "Bash(supabase *)",
+      "mcp__supabase__list_migrations",
+      "mcp__supabase__apply_migration",
+      "mcp__supabase__list_tables",
+      "Bash(node *)",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(python3 *)",
+      "Bash(npx tsc *)",
+      "Bash(npx vite *)",
+      "Bash(grep *)",
+      "mcp__supabase__execute_sql"
+    ]
+  },
   "enabledMcpjsonServers": [
     "supabase",
     "github",

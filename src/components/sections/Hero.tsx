@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { ArrowRight, Search, Locate, Loader2 } from "lucide-react";
+import { ArrowDown, Search, Locate, Loader2, Check } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 import { useState } from "react";
@@ -164,16 +164,25 @@ export function Hero() {
 						)}
 					</motion.div>
 
+					<motion.div variants={revealVariants} className="mt-8 flex justify-center">
+						<div className="inline-flex items-center gap-2 rounded-full border border-line bg-bg px-4 py-2 shadow-sm">
+							<Check className="h-3.5 w-3.5 text-brand shrink-0" />
+							<span className="font-sans text-xs font-medium text-ink-muted">
+								{t("landing.hero.paypalBadge")}
+							</span>
+						</div>
+					</motion.div>
+
 					<motion.div
 						variants={revealVariants}
-						className="mt-12"
+						className="mt-6"
 					>
-						<a 
+						<a
 							href="#how-it-works"
-							className="group flex items-center gap-2 font-sans text-sm font-bold text-ink-muted hover:text-brand transition-colors duration-300"
+							className="group flex flex-col items-center gap-1 font-sans text-sm font-bold text-ink-muted hover:text-brand transition-colors duration-300"
 						>
-							{t("landing.hero.cta.secondary")}
-							<ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+							<span>{t("landing.hero.cta.secondary")}</span>
+							<ArrowDown className="h-4 w-4 transition-transform duration-300 group-hover:translate-y-1 motion-safe:animate-bounce" />
 						</a>
 					</motion.div>
 				</motion.div>

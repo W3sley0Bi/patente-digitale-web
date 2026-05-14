@@ -4,9 +4,11 @@ import { useTranslation } from "react-i18next";
 import { supabase } from "@/lib/supabase";
 import { useAuth } from "@/hooks/useAuth";
 import { useProfile } from "@/hooks/useProfile";
+import { BadgeCheck, Download } from "lucide-react";
 import { Nav } from "@/components/nav/Nav";
 import { DashboardPending } from "@/components/driving-school/DashboardPending";
 import { DrivingSchoolLayout } from "@/components/driving-school/DrivingSchoolLayout";
+import { MockupTest } from "@/components/mockup-test/MockupTest";
 
 interface ClaimRow {
   status: "pending" | "accepted" | "rejected";
@@ -155,6 +157,79 @@ export default function DrivingSchoolDashboard() {
     <DrivingSchoolLayout schoolName={schoolName}>
       <h1 className="text-2xl font-bold">{schoolName}</h1>
       <p className="text-ink-muted mt-1 text-sm">{t("school.dashboard.subtitle")}</p>
+      <MockupTest name="autoscuola-dashboard-metrics" badge={true} className="mt-8">
+        <div className="rounded-2xl border border-line bg-bg-raised p-6 md:p-8">
+          {/* Profile header */}
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <h3 className="font-sans text-lg font-black text-ink">{schoolName}</h3>
+              <div className="mt-1 flex items-center gap-1.5">
+                <BadgeCheck className="h-3.5 w-3.5 text-brand" />
+                <span className="font-sans text-xs text-brand-ink font-bold">
+                  {t("school.dashboard.mock.verified")}
+                </span>
+              </div>
+            </div>
+            <button
+              type="button"
+              data-mockup-cta="export-csv"
+              className="inline-flex items-center gap-2 rounded-md border border-line bg-bg px-3 py-1.5 text-xs font-bold text-ink-muted hover:text-brand transition-colors"
+            >
+              <Download className="h-3.5 w-3.5" />
+              {t("school.dashboard.mock.exportCsv")}
+            </button>
+          </div>
+
+          {/* Metrics */}
+          <div className="mt-6">
+            <span className="font-sans text-xs font-bold uppercase tracking-widest text-ink-faint">
+              {t("school.dashboard.mock.metricsLabel")}
+            </span>
+            <div className="mt-3 grid grid-cols-2 gap-3">
+              <div className="rounded-xl bg-brand-soft/60 p-4">
+                <div className="font-sans text-3xl font-black text-brand-ink leading-none">
+                  {t("school.dashboard.mock.metric1.value")}
+                </div>
+                <div className="mt-2 font-sans text-xs text-ink-muted">
+                  {t("school.dashboard.mock.metric1.label")}
+                </div>
+              </div>
+              <div className="rounded-xl border border-line p-4">
+                <div className="font-sans text-3xl font-black text-ink leading-none">
+                  {t("school.dashboard.mock.metric2.value")}
+                </div>
+                <div className="mt-2 font-sans text-xs text-ink-muted">
+                  {t("school.dashboard.mock.metric2.label")}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Recent enrolments */}
+          <div className="mt-6">
+            <span className="font-sans text-xs font-bold uppercase tracking-widest text-ink-faint">
+              {t("school.dashboard.mock.recentLabel")}
+            </span>
+            <ul className="mt-3 flex flex-col divide-y divide-line border border-line rounded-xl bg-bg overflow-hidden">
+              {[1, 2, 3].map((i) => (
+                <li key={i} className="flex items-center justify-between gap-3 px-4 py-3">
+                  <div className="flex items-center gap-3 min-w-0">
+                    <div className="h-7 w-7 rounded-full bg-brand-soft flex items-center justify-center font-sans text-xs font-black text-brand-ink shrink-0">
+                      {t(`school.dashboard.mock.student${i}`).slice(0, 1)}
+                    </div>
+                    <span className="font-sans text-sm text-ink truncate">
+                      {t(`school.dashboard.mock.student${i}`)}
+                    </span>
+                  </div>
+                  <span className="font-sans text-xs text-ink-faint shrink-0">
+                    {t(`school.dashboard.mock.time${i}`)}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </MockupTest>
       <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
         <Link
           to="/driving-school/dashboard/edit"

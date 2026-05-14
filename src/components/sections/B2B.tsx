@@ -1,4 +1,4 @@
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, BadgeCheck } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router";
 import { Button } from "@/components/ui/button";
@@ -73,12 +73,12 @@ export function B2B() {
 										<ArrowRight className="ms-2 h-4 w-4 transition-transform group-hover:translate-x-1 rtl:rotate-180 rtl:group-hover:-translate-x-1" />
 									</Button>
 								</Link>
-								<a
-									href="/info-dashboard"
+								<Link
+									to="/autoscuole"
 									className="flex items-center justify-center gap-2 font-sans text-sm font-bold text-brand hover:text-brand-hover transition-colors px-4 py-3 rounded-lg hover:bg-white/5"
 								>
 									{t("landing.b2b.linkSecondary")}
-								</a>
+								</Link>
 							</div>
 						</Reveal>
 					</div>

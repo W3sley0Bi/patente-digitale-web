@@ -23,7 +23,9 @@
 			"callLabel": "Call",
 			"callNow": "Call now",
 			"closeModal": "Close",
-			"websiteLabel": "Website"
+			"websiteLabel": "Website",
+			"openLabel": "Open",
+			"claimCta": "Is it yours? Claim it"
 		},
 		"ownerCallout": {
 			"label": "Can't find your school?",
@@ -31,7 +33,9 @@
 		},
 		"detail": {
 			"partnerVerified": "Verified School",
-			"enroll": "Enrol now"
+			"enroll": "View school profile",
+			"claimHint": "Are you the owner of this driving school?",
+			"claimCta": "Claim this profile"
 		}
 	},
 	"student": {
@@ -51,12 +55,12 @@
 			"notListed": "My school isn't listed",
 			"foundSchool": "We found <strong>{{name}}</strong>. To get verified automatically, use a <strong>@{{domain}}</strong> email address.",
 			"noDomainEmail": "I don't have a @{{domain}} email",
-			"manualReview": "<strong>{{name}}</strong> — your claim will be reviewed manually, usually within 48 hours.",
+			"manualReview": "<strong>{{name}}</strong> — your claim will be reviewed manually, usually within ~2 business days.",
 			"manualReviewReturn": "Email confirmed! Complete your driving school claim.",
-			"manualReviewReturnHint": "Enter your school name, your full name, and your VAT number if available. We'll review and approve within 48 hours.",
+			"manualReviewReturnHint": "Enter your school name, your full name, and your VAT number if available. We'll review and approve within ~2 business days.",
 			"notFound": "Your school isn't in our system yet. Submit a claim and we'll add it.",
 			"submitted": "Claim submitted!",
-			"submittedDesc": "You'll hear from us within 48 hours.",
+			"submittedDesc": "You'll hear from us within ~2 business days.",
 			"goToDashboard": "Go to your dashboard",
 			"alreadyClaimed": "<strong>{{name}}</strong> has already been claimed. <a href='/login' class='underline'>Log in</a> to your account or contact <a href='mailto:supporto@patentedigitale.it' class='underline'>supporto@patentedigitale.it</a>.",
 			"backToSearch": "← Search again",
@@ -69,7 +73,7 @@
 			"rejectedContact": "Contact us",
 			"rejectedReason": "to understand why.",
 			"pendingTitle": "Claim in review",
-			"pendingDesc": "We're reviewing your ownership claim. Usually within 48 hours."
+			"pendingDesc": "We're reviewing your ownership claim. Usually within ~2 business days."
 		},
 		"claimForm": {
 			"createAccount": "First, create your account:",
@@ -81,15 +85,15 @@
 			"submitting": "Submitting...",
 			"submit": "Submit claim",
 			"notAuthenticated": "Not authenticated.",
-				"errors": {
-					"websiteInvalid": "Please enter a valid URL (e.g. https://www.example.com).",
-					"requiredField": "This field is required.",
-					"alreadyHavePending": "You already have a claim in review.",
-					"alreadyHavePendingCta": "Go to your dashboard →"
-				},
-				"addressPlaceholder": "Search address...",
-				"mapHint": "Click on the map to pin your school's location",
-				"mapCoords": "Location: {{lat}}, {{lng}}"
+			"errors": {
+				"websiteInvalid": "Please enter a valid URL (e.g. https://www.example.com).",
+				"requiredField": "This field is required.",
+				"alreadyHavePending": "You already have a claim in review.",
+				"alreadyHavePendingCta": "Go to your dashboard →"
+			},
+			"addressPlaceholder": "Search address...",
+			"mapHint": "Click on the map to pin your school's location",
+			"mapCoords": "Location: {{lat}}, {{lng}}"
 		},
 		"search": {
 			"placeholder": "Search school name or city..."
@@ -102,8 +106,30 @@
 				"zip": "Postcode",
 				"region": "Region",
 				"phone": "Phone",
-				"website": "Website"
+				"mobile": "Mobile",
+				"email": "Email",
+				"whatsapp_business": "WhatsApp Business",
+				"website": "Website",
+				"piva": "VAT number",
+				"founded_year": "Year founded",
+				"description": "Description",
+				"instructor_count": "Number of instructors",
+				"social_instagram": "Instagram",
+				"social_facebook": "Facebook",
+				"social_tiktok": "TikTok",
+				"social_youtube": "YouTube",
+				"whatsapp_businessHint": "Number with international prefix (e.g. +39). Will appear as a WhatsApp Business button on your public page."
 			},
+			"sections": {
+				"identity": "Identity",
+				"contacts": "Contacts",
+				"address": "Address",
+				"hours": "Hours",
+				"licenses": "Licenses and prices",
+				"staff": "Staff",
+				"social": "Social"
+			},
+			"priceFor": "{{licence}} price (€)",
 			"licenses": "Licenses offered",
 			"openingHours": "Opening hours (one per line, e.g. \"Lunedì: 9:00–19:00\")",
 			"saving": "Saving...",
@@ -129,7 +155,27 @@
 				"cta": "File a new claim"
 			},
 			"refreshStatus": "Refresh status",
-			"rpcError": "Automatic verification failed: {{message}}. You can retry from the registration page."
+			"rpcError": "Automatic verification failed: {{message}}. You can retry from the registration page.",
+			"mock": {
+				"metricsLabel": "This month",
+				"metric1": {
+					"value": "12",
+					"label": "Enrolments"
+				},
+				"metric2": {
+					"value": "47",
+					"label": "Profile views"
+				},
+				"recentLabel": "Recent enrolments",
+				"student1": "Marco R. — Licence B",
+				"student2": "Sara L. — Licence B",
+				"student3": "Luca M. — Licence A2",
+				"time1": "2 hours ago",
+				"time2": "yesterday",
+				"time3": "3 days ago",
+				"exportCsv": "Export CSV",
+				"verified": "Verified profile"
+			}
 		},
 		"edit": {
 			"backToDashboard": "← Dashboard",
@@ -205,7 +251,8 @@
 			"dashboard": "Dashboard",
 			"quizOnline": "Quiz online",
 			"logout": "Log out",
-			"setPassword": "Set password"
+			"setPassword": "Set password",
+			"home": "Home"
 		},
 		"hero": {
 			"headline": {
@@ -213,15 +260,17 @@
 				"line2": "red tape",
 				"emphasis": "zero"
 			},
-			"subhead": "Find, choose and enrol in your driving school in minutes. All online, no queues.",
-"searchPlaceholder": "Search by city or postcode...",
+			"subhead": "Find your driving school from 4,848 schools across Italy. Enrol online, no queues.",
+			"searchPlaceholder": "Search by city or postcode...",
 			"cta": {
-			"primary": "Find your driving school",
-			"secondary": "How it works"
+				"primary": "Find your driving school",
+				"secondary": "How it works"
 			},
 			"mascotNote": "For all license types, not just category B",
-			"trust": "Trusted by 12,000+ students across 14 regions. Secure payments via PayPal, Apple Pay and Google Pay.",			"trust.social": "12,000+ happy students",
-			"mascotAlt": "Patentino, the Patentedigitale.it mascot"
+			"trust": "Trusted by 12,000+ students across 14 regions. Secure payments via PayPal, Apple Pay and Google Pay.",
+			"trust.social": "12,000+ happy students",
+			"mascotAlt": "Patentino, the Patentedigitale.it mascot",
+			"paypalBadge": "Pay in 3 instalments with PayPal"
 		},
 		"howItWorks": {
 			"eyebrow": "For students",
@@ -236,18 +285,18 @@
 					"description": "Fill in, pay, and get driving in less than 2 months!"
 				},
 				"3": {
-					"title": "Study and book",
-					"description": "Quizzes on your phone, book lessons whenever you want."
+					"title": "You're enrolled.",
+					"description": "Confirm your enrolment online. The school will contact you to book your first appointment."
 				}
 			}
 		},
 		"whyDigital": {
 			"eyebrow": "Why digital.",
-			"heading": "Why wait a year to drive? Get your pink slip in 2 months, not 12.",
+			"heading": "Everything you need to get your licence, in one place.",
 			"rows": {
 				"1": {
 					"title": "Do everything online",
-					"body": "Complete online enrollment: everything is digital, the only sheet you'll need is your learner's permit!",
+					"body": "Enrol in your driving school completely online. Fill in the form, upload your documents and pay — without ever setting foot in the office.",
 					"imageAlt": "young person scanning document with phone"
 				},
 				"3": {
@@ -286,16 +335,16 @@
 					"subCaption": "among 2024 students"
 				}
 			},
-			"partners": { 
+			"partners": {
 				"title": "Some of our partners",
 				"strategic": "Ecosystem & Collaborations"
 			}
 		},
 		"b2b": {
 			"eyebrow": "Are you a driving school?",
-			"heading": "Bring your driving school into the future.",
-			"body": "Manage enrolments, payments, quizzes and lesson bookings from a single dashboard. With our app, you take care of your business and your students whenever and wherever you want. Join us! Register your school and contact us to activate your free trial.",
-			"cta": "Register your school",
+			"heading": "Your driving school goes digital!",
+			"body": "Claim your driving school profile and start receiving online enrolments. Free dashboard to get started.",
+			"cta": "Claim your profile",
 			"linkSecondary": "See how it works"
 		},
 		"faq": {
@@ -304,8 +353,8 @@
 			"subline": "Didn't find yours? <0>Contact us</0>.",
 			"items": {
 				"1": {
-					"q": "How much does it cost to enrol via Patentedigitale.it?",
-					"a": "Enrolment is free. You pay only the price of the school you choose, which is discounted compared to what you'd pay walking in."
+					"q": "Is Patentedigitale.it free to use?",
+					"a": "Yes, finding and contacting a driving school is completely free. You only pay the enrolment fee directly to the school you choose."
 				},
 				"2": {
 					"q": "What documents do I need to start?",
@@ -313,7 +362,7 @@
 				},
 				"4": {
 					"q": "Is my data secure?",
-					"a": "Yes. Your data is GDPR-compliant, stored on European servers, encrypted at rest and in transit. Payments go through PCI-DSS certified providers (PayPal, Stripe)."
+					"a": "Yes. Your data is GDPR-compliant, stored on European servers, encrypted at rest and in transit."
 				}
 			}
 		},
@@ -366,6 +415,376 @@
 				"retry": "Try again",
 				"details": "Technical details",
 				"home": "Go to home"
+			}
+		}
+	},
+	"studenti": {
+		"hero": {
+			"eyebrow": "For students",
+			"headline_part1": "Get your licence now.",
+			"headline_part2": "Pay for it calmly later.",
+			"subhead": "Find your driving school and enrol from your phone. No queues, no admin office, no stress.",
+			"cta": "Find your driving school",
+			"paypalBadge": "Pay in 3 instalments with PayPal",
+			"paypalNote": "Available at verified driving schools with online payments active.",
+			"ctaSecondary": "How it works"
+		},
+		"flow": {
+			"eyebrow": "How it works",
+			"heading": "From home: enrolment and payment.\nAt the school: everything else.",
+			"online": {
+				"label": "Online, on your own",
+				"items": {
+					"1": "Search and pick your driving school.",
+					"2": "Fill in the enrolment form.",
+					"3": "Pay, in instalments if you want."
+				}
+			},
+			"inperson": {
+				"label": "At the school",
+				"items": {
+					"1": "Medical certificate.",
+					"2": "Pick up your theory book.",
+					"3": "Theory lessons and driving sessions.",
+					"4": "Exams."
+				}
+			}
+		},
+		"docs": {
+			"eyebrow": "Bonus",
+			"heading": "Upload documents from your phone.\nEven with the camera.",
+			"body": "If you want to get ahead, you can upload documents during enrolment. Passport photo with the phone camera, ID and codice fiscale scanned. If you prefer to bring them to the school on day one, that's fine too.",
+			"items": {
+				"1": {
+					"title": "Passport photo",
+					"body": "Snap it straight from your phone camera."
+				},
+				"2": {
+					"title": "ID document",
+					"body": "Front and back. A phone photo works too."
+				},
+				"3": {
+					"title": "Codice fiscale",
+					"body": "A photo of your tax-ID card."
+				},
+				"4": {
+					"title": "Extra documents, if needed",
+					"body": "For minors: a parent's ID. For non-EU citizens: permesso di soggiorno."
+				}
+			},
+			"note": "Uploading documents online is optional. You choose between doing it from home or at the school."
+		},
+		"paypal": {
+			"eyebrow": "Pay your way",
+			"heading": "In one go, or in 3 instalments.",
+			"body": "With PayPal Pay in 3, split your enrolment cost into three monthly instalments. No interest, no hidden fees.",
+			"rateLabel": "Instalment",
+			"caveat": "Available only at verified driving schools with online payments active."
+		},
+		"cta": {
+			"heading": "Ready to start?",
+			"subhead": "Find your driving school now. No account, no email required.",
+			"button": "Find a driving school"
+		},
+		"bundles": {
+			"eyebrow": "Transparency",
+			"heading": "See everything before you enrol.\nClear pricing, no surprises.",
+			"body": "Each driving school configures its own packages. You see what's included, what it costs, and pick what fits you. No need to walk into a school office to find out.",
+			"note": "Illustrative example. Packages and prices vary by school.",
+			"mock": {
+				"url": "patentedigitale.it/search/autoscuola-verdi",
+				"schoolName": "Autoscuola Verdi",
+				"location": "Via Roma 12, Milano",
+				"verified": "Verified",
+				"sectionTitle": "Pick your package",
+				"popularBadge": "Popular",
+				"ctaLabel": "Enrol",
+				"paypalNote": "Pay in full or in 3 instalments with PayPal",
+				"tiers": {
+					"essential": {
+						"name": "Essential",
+						"price": "€800",
+						"features": {
+							"1": "Enrolment and learner's permit",
+							"2": "Study materials",
+							"3": "6 driving hours",
+							"4": "1 theory exam attempt"
+						}
+					},
+					"complete": {
+						"name": "Complete",
+						"price": "€1,200",
+						"features": {
+							"1": "Everything in Essential",
+							"2": "12 driving hours",
+							"3": "2 theory exam attempts",
+							"4": "Practical exam included"
+						}
+					},
+					"plus": {
+						"name": "Plus",
+						"price": "€1,500",
+						"features": {
+							"1": "Everything in Complete",
+							"2": "18 driving hours",
+							"3": "Retake guarantee",
+							"4": "WhatsApp support"
+						}
+					}
+				}
+			}
+		}
+	},
+	"autoscuole": {
+		"hero": {
+			"eyebrow": "For driving schools",
+			"headline": "Your driving school is already on Patentedigitale.",
+			"subhead": "Claim it in minutes and start receiving enrolments directly in your dashboard.",
+			"cta": "Claim your driving school",
+			"ctaSecondary": "Find your profile",
+			"ctaSecondaryScroll": "How it works"
+		},
+		"dashboard": {
+			"eyebrow": "What you get",
+			"heading": "A dashboard that works for you.",
+			"subhead": "Enrolments, profile, data export. All in one place.",
+			"mock": {
+				"title": "Autoscuola Verdi",
+				"status": "Verified profile",
+				"metricsLabel": "This month",
+				"metric1": {
+					"value": "12",
+					"label": "Enrolments"
+				},
+				"metric2": {
+					"value": "47",
+					"label": "Profile views"
+				},
+				"recentLabel": "Recent enrolments",
+				"student1": "Marco R. — Licence B",
+				"student2": "Sara L. — Licence B",
+				"student3": "Luca M. — Licence A2",
+				"time1": "2 hours ago",
+				"time2": "yesterday",
+				"time3": "3 days ago"
+			}
+		},
+		"benefits": {
+			"primary": {
+				"title": "Online enrolments straight to you.",
+				"body": "Students pick you on the site, complete the enrolment, and you find it in the dashboard. No missed calls, no paper forms to file."
+			},
+			"secondary": {
+				"1": {
+					"title": "Profile already online",
+					"body": "Your driving school is likely already in our database. Claim it and update your details."
+				},
+				"2": {
+					"title": "Export everything, anytime",
+					"body": "Your students, your data. CSV export in one click."
+				}
+			}
+		},
+		"claim": {
+			"eyebrow": "How to start",
+			"heading": "Two ways to claim.",
+			"auto": {
+				"label": "Automatic claim",
+				"time": "Instant",
+				"description": "If your business email matches a domain already in our database, you're in on first login. No manual verification."
+			},
+			"manual": {
+				"label": "Manual claim",
+				"time": "~2 business days",
+				"description": "Upload P.IVA and an official document. We verify within ~2 business days and contact you to activate the dashboard."
+			}
+		},
+		"pricing": {
+			"eyebrow": "Pricing",
+			"heading": "Start free. You pay only when you earn.",
+			"today": {
+				"label": "Today",
+				"value": "€0",
+				"description": "Claim your profile, receive enrolments. No cost to be on Patentedigitale."
+			},
+			"transaction": {
+				"label": "On online enrolments",
+				"value": "2%",
+				"description": "Only when a student enrols and pays online through the platform. No enrolment, no commission."
+			},
+			"note": "The model will evolve. We're defining future plans with advisors and partner schools. We'll let you know before any change."
+		},
+		"cta": {
+			"heading": "Ready to digitalise your driving school?",
+			"subhead": "Find your profile, claim it, start receiving online enrolments.",
+			"button": "Claim your driving school",
+			"buttonSecondary": "Find your profile"
+		},
+		"payments": {
+			"eyebrow": "Payments",
+			"heading": "The student pays in 3 instalments.\nYou get the full amount right away.",
+			"body": "Even when the student picks PayPal Pay in 3, you receive the full enrolment amount as soon as the transaction is verified. PayPal carries the instalment risk, not you.",
+			"pillStudent": "The student",
+			"pillStudentValue": "3 monthly instalments",
+			"pillSchool": "You",
+			"pillSchoolValue": "100% upfront"
+		}
+	},
+	"iscrizione": {
+		"defaultSchoolName": "Autoscuola Verdi",
+		"backToSearch": "Back to search",
+		"verified": "Verified driving school",
+		"previewBadge": "Preview · under construction",
+		"hero": {
+			"eyebrow": "Enrollment",
+			"subhead": "This is a preview of the enrollment page. You're seeing sample bundles a driving school can offer on patentedigitale.it. You can't complete enrollment from here yet.",
+			"caveatTitle": "You're testing a preview",
+			"caveatBody": "Licence data, prices and vehicles shown are illustrative. When enrolment goes live, you'll see real data configured by the school.",
+			"enrollAnchor": "See licences"
+		},
+		"bundles": {
+			"eyebrow": "Bundles",
+			"heading": "Pick the bundle\nthat fits you.",
+			"body": "Each driving school configures its own bundles. You see exactly what's included, how much it costs, and choose what you need.",
+			"note": "Illustrative example. Bundles and prices vary by school.",
+			"sectionTitle": "Choose your bundle",
+			"schoolIdLabel": "School ID",
+			"popularBadge": "Popular",
+			"ctaLabel": "Enroll",
+			"paypalNote": "Pay in full or in 3 installments with PayPal",
+			"tiers": {
+				"essential": {
+					"name": "Essential",
+					"price": "€800",
+					"features": {
+						"1": "Enrollment and pink slip",
+						"2": "Study materials",
+						"3": "6 driving hours",
+						"4": "1 theory exam attempt"
+					}
+				},
+				"complete": {
+					"name": "Complete",
+					"price": "€1,200",
+					"features": {
+						"1": "Everything in Essential",
+						"2": "12 driving hours",
+						"3": "2 theory exam attempts",
+						"4": "Practical exam included"
+					}
+				},
+				"plus": {
+					"name": "Plus",
+					"price": "€1,500",
+					"features": {
+						"1": "Everything in Complete",
+						"2": "18 driving hours",
+						"3": "Retake guarantee",
+						"4": "WhatsApp support"
+					}
+				}
+			}
+		},
+		"detail": {
+			"about": "About",
+			"contacts": "Contacts",
+			"contactsHeading": "How to reach us",
+			"hours": "Hours",
+			"hoursHeading": "Opening hours",
+			"licences": "Licences",
+			"licencesHeading": "Licences and prices",
+			"licenceLabel": "Licence {{code}}",
+			"priceUnavailable": "On request",
+			"address": "Address",
+			"openInMaps": "Open in Google Maps",
+			"foundedSince": "Since {{year}}",
+			"instructorCount_one": "{{count}} instructor",
+			"instructorCount_other": "{{count}} instructors",
+			"enrollCta": "Enroll now",
+			"callCta": "Call",
+			"bundlesCaveat": "Example · each driving school configures its own bundles.",
+			"exampleLabel": "Illustrative example"
+		},
+		"whatsappGate": {
+			"hint": "Log in or sign up to contact the driving school on WhatsApp.",
+			"cta": "Log in or sign up →"
+		},
+		"next": {
+			"eyebrow": "What happens next",
+			"heading": "Three steps and you're enrolled.",
+			"cta": "Find another driving school",
+			"steps": {
+				"1": {
+					"title": "Pick the bundle",
+					"body": "Compare Essential, Complete and Plus. See what each includes and choose the one that fits you."
+				},
+				"2": {
+					"title": "Fill out the form",
+					"body": "Enter your details and upload documents from your phone. No printing, no queues at the office."
+				},
+				"3": {
+					"title": "Pay (also in 3 installments)",
+					"body": "Pay in full or in 3 installments with PayPal. Zero interest, zero hidden fees."
+				}
+			}
+		},
+		"photos": {
+			"eyebrow": "Photos",
+			"heading": "Get to know the school."
+		},
+		"picker": {
+			"eyebrow": "Available licences",
+			"heading": "Pick the licence you want.",
+			"subhead": "Select a licence to see price, what's included, and vehicles available.",
+			"priceLabel": "Enrolment price",
+			"priceUnavailable": "On request",
+			"includesLabel": "What's included",
+			"vehiclesLabel": "Vehicles available",
+			"noVehicles": "Vehicles not specified. Ask the school directly.",
+			"enrollCta": "Enrol in Licence {{code}}",
+			"paypalNote": "Pay in 3 instalments with PayPal at verified schools.",
+			"patenteLabel": "Licence {{code}}",
+			"mockNote": "Example data. The page will show real data when the school configures it.",
+			"variantsLabel": "Package",
+			"transmissionLabel": "Transmission",
+			"transmissionManual": "Manual",
+			"transmissionAuto": "Automatic",
+			"extraHoursLabel": "Extra driving hours",
+			"extraHoursNone": "Just the 6 mandatory",
+			"extraHours5": "+5 hours",
+			"extraHours10": "+10 hours",
+			"photoExpandLabel": "Open photo",
+			"photoCloseLabel": "Close",
+			"extraHoursHint": "Add driving lessons (on top of the mandatory ones).",
+			"extraHoursUnit": "hours",
+			"extraHoursOne": "hour",
+			"extraHoursPricePer": "per hour",
+			"extraHoursAddPack": "+5 pack (-10%)",
+			"extraHoursDiscountBadge": "−10% bundle discount for 5+",
+			"extraHoursDecrement": "Remove one hour",
+			"extraHoursIncrement": "Add one hour"
+		},
+		"paywall": {
+			"closeLabel": "Close",
+			"loading": "Loading...",
+			"guest": {
+				"heading": "Create your account to enrol",
+				"body": "To enrol at {{name}} you need a student account. Takes a minute.",
+				"primaryCta": "Create student account",
+				"secondaryCta": "I already have an account"
+			},
+			"autoscuola": {
+				"heading": "Sign in as a student",
+				"body": "You're signed in as a driving school. To enrol in a course you need a student account. Sign out and create a student account to continue.",
+				"primaryCta": "Sign out and sign in as student"
+			},
+			"student": {
+				"heading": "Almost there. Payment preview.",
+				"body": "The payment flow is in construction. When live, you'll complete enrolment right here with card or PayPal (even in 3 instalments).",
+				"summary": "Enrolment at {{name}} · Licence {{code}}",
+				"totalLabel": "Total",
+				"primaryCta": "Continue (preview)",
+				"mockLabel": "Preview · payment not active"
 			}
 		}
 	}

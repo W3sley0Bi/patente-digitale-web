@@ -1,9 +1,10 @@
-import { Globe, Phone, X } from "lucide-react";
+import { ArrowRight, BadgeCheck, Globe, Phone, X } from "lucide-react";
 import { useState } from "react";
 import { createPortal } from "react-dom";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router";
 import type { NormalizedSchool } from "@/lib/geojson";
-import verifiedBadge from "@/assets/verified-autoscuola-green.png";
+import { buildIscrizioneUrl } from "@/lib/buildIscrizioneUrl";
 
 interface PhoneModalProps {
   phone: string;
@@ -61,15 +62,22 @@ export function SchoolCard({ school, isSelected, onClick }: SchoolCardProps) {
   const [showPhone, setShowPhone] = useState(false);
   const isVerified = school.partner === true;
 
-  let cardClass = "relative flex min-h-[6.75rem] w-full flex-col rounded-xl border p-4 text-left shadow-sm transition-all overflow-hidden";
-  if (isVerified && !isSelected) {
-    cardClass += " border-emerald-400 bg-gradient-to-br from-white to-emerald-50 shadow-[0_0_0_1px_theme(colors.emerald.300)] hover:shadow-md";
-  } else if (isSelected) {
-    cardClass += isVerified
-      ? " border-emerald-500 bg-emerald-50 shadow-md"
-      : " border-brand bg-brand-soft shadow-md";
+  let cardClass = "relative flex w-full flex-col rounded-xl border text-left shadow-sm transition-all overflow-hidden";
+  
+  if (isVerified) {
+    cardClass += " p-5 min-h-[8rem]";
+    if (!isSelected) {
+      cardClass += " border-emerald-400 bg-gradient-to-br from-white to-emerald-50 shadow-[0_0_0_1px_theme(colors.emerald.300)] hover:shadow-md";
+    } else {
+      cardClass += " border-emerald-500 bg-emerald-50 shadow-md";
+    }
   } else {
-    cardClass += " border-line bg-bg-raised hover:border-line-strong hover:shadow-md";
+    cardClass += " p-4 min-h-[5.5rem]";
+    if (isSelected) {
+      cardClass += " border-brand bg-brand-soft shadow-md";
+    } else {
+      cardClass += " border-line bg-bg-raised hover:border-line-strong hover:shadow-md";
+    }
   }
 
   return (
@@ -99,7 +107,7 @@ export function SchoolCard({ school, isSelected, onClick }: SchoolCardProps) {
           <p className="mt-0.5 font-sans text-xs leading-relaxed text-ink-muted line-clamp-1">
             {[school.city, school.zip, school.region].filter(Boolean).join(", ")}
           </p>
-          {school.rating != null && (
+          {isVerified && school.rating != null && (
             <p className="mt-0.5 flex items-center gap-1 font-sans text-xs text-ink-muted">
               <span className="text-amber-400">★</span>
               <span className="font-semibold text-ink">{school.rating.toFixed(1)}</span>
@@ -110,42 +118,25 @@ export function SchoolCard({ school, isSelected, onClick }: SchoolCardProps) {
           )}
         </div>
 
-        {/* Bottom: action links — always present to anchor card height */}
-        <div className="mt-2 flex min-h-[1.25rem] flex-wrap gap-3">
-          {school.phone && (
-            <button
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                setShowPhone(true);
-              }}
-              className="flex items-center gap-1 font-sans text-xs text-brand transition-colors hover:text-brand-hover"
-            >
-              <Phone size={12} />
-              {t("cerca.card.callLabel")}
-            </button>
-          )}
-          {school.website && (
-            <a
-              href={school.website}
-              target="_blank"
-              rel="noopener noreferrer"
+        {/* Bottom: action links — verified schools only */}
+        {isVerified && (
+          <div className="mt-3 flex flex-wrap gap-3">
+            <Link
+              to={buildIscrizioneUrl(school)}
               onClick={(e) => e.stopPropagation()}
-              className="flex items-center gap-1 font-sans text-xs text-brand transition-colors hover:text-brand-hover"
+              className="inline-flex items-center gap-1.5 rounded-lg bg-brand px-3 py-1.5 font-sans text-xs font-bold text-white shadow-sm transition-all hover:bg-brand-hover hover:shadow-md active:scale-95"
             >
-              <Globe size={12} />
-              {t("cerca.card.websiteLabel")}
-            </a>
-          )}
-        </div>
+              {t("cerca.card.openLabel")}
+              <ArrowRight size={12} strokeWidth={3} />
+            </Link>
+          </div>
+        )}
 
         {/* Partner: verified badge — bottom-right */}
         {isVerified && (
-          <img
-            src={verifiedBadge}
-            alt="Autoscuola verificata"
-            className="absolute bottom-2 right-2 h-7 w-7 object-contain drop-shadow-sm"
-            draggable={false}
+          <BadgeCheck
+            className="absolute bottom-3 right-3 h-5 w-5 text-emerald-600 drop-shadow-sm"
+            strokeWidth={3}
           />
         )}
       </button>

@@ -181,7 +181,7 @@
       // -----------------------------------------------------------
       // Schema definition — single source of truth for the diagram.
       // -----------------------------------------------------------
-      const STORAGE_KEY = "pd-er-layout-v10"; // v2.0 simplification: -pending_claims, -reviews, -memberships, -invitations
+      const STORAGE_KEY = "pd-er-layout-v11"; // synced from live DB 2026-05-13
 
       const tables = [
         {
@@ -218,36 +218,25 @@
             { k: "",   name: "city", type: "text" },
             { k: "",   name: "zip", type: "text" },
             { k: "",   name: "region", type: "text" },
-            { k: "",   name: "lat", type: "float8" },
-            { k: "",   name: "lng", type: "float8" },
             { k: "",   name: "phone", type: "text" },
             { k: "",   name: "mobile", type: "text" },
             { k: "",   name: "email", type: "text" },
             { k: "",   name: "website", type: "text" },
             { k: "",   name: "whatsapp_business", type: "text" },
-            { k: "",   name: "piva", type: "text" },
-            { k: "",   name: "fiscal_code", type: "text" },
-            { k: "",   name: "chamber_of_commerce_no", type: "text" },
-            { k: "",   name: "ministerial_authorization", type: "text" },
-            { k: "",   name: "founded_year", type: "int" },
-            { k: "",   name: "avg_exam_wait_days", type: "int" },
-            { k: "",   name: "instructor_count", type: "int" },
-            { k: "",   name: "has_female_instructor", type: "boolean" },
-            { k: "",   name: "instructor_specializations", type: "text[]" },
-            { k: "",   name: "proprietary_app", type: "jsonb" },
             { k: "",   name: "opening_hours", type: "jsonb" },
-            { k: "",   name: "languages_spoken", type: "enum text[]" },
-            { k: "",   name: "documents_required", type: "text[]" },
-            { k: "",   name: "accessibility", type: "jsonb" },
-            { k: "",   name: "medical_visit", type: "jsonb" },
-            { k: "",   name: "exam_fees", type: "jsonb" },
-            { k: "",   name: "pass_rates", type: "jsonb" },
+            { k: "",   name: "licenses", type: "jsonb" },
+            { k: "",   name: "prices", type: "jsonb" },
+            { k: "",   name: "lat", type: "float8" },
+            { k: "",   name: "lng", type: "float8" },
+            { k: "",   name: "instructor_count", type: "int" },
             { k: "",   name: "social", type: "jsonb" },
             { k: "",   name: "description", type: "text" },
+            { k: "",   name: "piva", type: "text" },
+            { k: "",   name: "founded_year", type: "int" },
             { k: "",   name: "verified", type: "boolean" },
-            { k: "",   name: "founding_partner", type: "boolean" },
             { k: "",   name: "verified_at", type: "timestamptz" },
             { k: "",   name: "claimed_at", type: "timestamptz" },
+            { k: "",   name: "created_at", type: "timestamptz" },
             { k: "",   name: "updated_at", type: "timestamptz" },
           ],
           note: "renamed from claimed_schools · owner-edited, public-read"
@@ -293,14 +282,6 @@
           ],
           note: "Supabase Storage · 5/school · 2MB max · NOT bytea in DB"
         },
-        {
-          id: "school_completion", kind: "view", x: 2700, y: 540,
-          cols: [
-            { k: "PK", name: "school_id", type: "→ driving_schools", fk: true },
-            { k: "",   name: "completion_pct", type: "int 0..100" },
-          ],
-          note: "VIEW · founding partner gate ≥80"
-        },
       ];
 
       // edges: { from, to, label, dashed }
@@ -311,7 +292,6 @@
         { from: "driving_schools", to: "school_vehicles",   label: "1:M" },
         { from: "driving_licences", to: "school_vehicles",  label: "1:M licence_id" },
         { from: "driving_schools", to: "school_photos",     label: "1:M" },
-        { from: "driving_schools", to: "school_completion", label: "view" },
       ];
 
       // -----------------------------------------------------------

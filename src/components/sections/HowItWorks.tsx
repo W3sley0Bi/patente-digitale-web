@@ -1,4 +1,4 @@
-import { BookOpen, FileSignature, MapPin } from "lucide-react";
+import { CheckCircle2, FileSignature, MapPin } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { SectionEyebrow } from "../layout/SectionEyebrow";
@@ -7,7 +7,7 @@ import { Reveal } from "../motion/Reveal";
 const STEPS: { id: number; icon: LucideIcon }[] = [
 	{ id: 1, icon: MapPin },
 	{ id: 2, icon: FileSignature },
-	{ id: 3, icon: BookOpen },
+	{ id: 3, icon: CheckCircle2 },
 ];
 
 export function HowItWorks() {

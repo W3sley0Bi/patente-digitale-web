@@ -18,6 +18,8 @@ const DrivingSchoolDashboard = lazy(() => import("./routes/DrivingSchoolDashboar
 const DrivingSchoolEdit = lazy(() => import("./routes/DrivingSchoolEdit"));
 const SetPassword = lazy(() => import("./routes/SetPassword"));
 const DrivingSchoolSettings = lazy(() => import("./routes/DrivingSchoolSettings"));
+const Studenti = lazy(() => import("./routes/Studenti"));
+const Autoscuole = lazy(() => import("./routes/Autoscuole"));
 const NotFound = lazy(() => import("./routes/NotFound"));
 const ServerError = lazy(() => import("./routes/ServerError"));
 
@@ -36,7 +38,9 @@ function App() {
 			<Suspense fallback={<LoadingFallback />}>
 				<Routes>
 					<Route path="/" element={<Landing />} />
-					<Route path="/cerca" element={<Navigate to="/search" replace />} />
+					<Route path="/studenti" element={<Studenti />} />
+				<Route path="/autoscuole" element={<Autoscuole />} />
+				<Route path="/cerca" element={<Navigate to="/search" replace />} />
 					<Route path="/search" element={<Cerca />} />
 					<Route path="/iscrizione" element={<Iscrizione />} />
 					<Route path="/partner" element={<Partner />} />

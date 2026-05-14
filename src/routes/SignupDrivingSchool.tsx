@@ -53,6 +53,62 @@ export default function SignupDrivingSchool() {
     }
   }, [authError]);
 
+  // Auto-claim from /search "Rivendica" CTA: ?placeId=<id> pre-selects the school
+  const placeIdParam = searchParams.get("placeId");
+  useEffect(() => {
+    if (!placeIdParam) return;
+    if (selected) return;
+    if (step !== "search") return;
+    let cancelled = false;
+    fetch("/data/autoscuole.geojson")
+      .then((r) => r.json())
+      .then((data: {
+        features: {
+          geometry: { coordinates: [number, number] };
+          properties: {
+            _placeId?: string;
+            name?: string;
+            city?: string;
+            website?: string | null;
+            address?: string | null;
+            phone?: string | null;
+            region?: string | null;
+            zip?: string | null;
+            openingHours?: string[] | null;
+          };
+        }[];
+      }) => {
+        if (cancelled) return;
+        const match = data.features.find((f) => f.properties._placeId === placeIdParam);
+        if (!match) {
+          setStep("not-found");
+          return;
+        }
+        const school: SchoolMatch = {
+          _placeId: match.properties._placeId ?? "",
+          name: match.properties.name ?? "",
+          city: match.properties.city ?? "",
+          website: match.properties.website ?? null,
+          address: match.properties.address ?? null,
+          phone: match.properties.phone ?? null,
+          region: match.properties.region ?? null,
+          zip: match.properties.zip ?? null,
+          lat: match.geometry?.coordinates[1] ?? null,
+          lng: match.geometry?.coordinates[0] ?? null,
+          openingHours: match.properties.openingHours ?? null,
+        };
+        void handleSelect(school);
+      })
+      .catch(() => {
+        // Network / parse error — leave on search step
+      });
+    return () => {
+      cancelled = true;
+    };
+    // handleSelect is stable across renders in practice; we re-run only when placeIdParam changes.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [placeIdParam]);
+
   const domain = selected?.website ? extractDomain(selected.website) : "";
 
   const handleSelect = async (school: SchoolMatch) => {

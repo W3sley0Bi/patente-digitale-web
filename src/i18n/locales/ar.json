@@ -23,7 +23,8 @@
 			"callLabel": "اتصل",
 			"callNow": "اتصل الآن",
 			"closeModal": "إغلاق",
-			"websiteLabel": "الموقع"
+			"websiteLabel": "الموقع",
+			"openLabel": "افتح"
 		},
 		"ownerCallout": {
 			"label": "لا تجد مدرستك؟",
@@ -51,12 +52,12 @@
 			"notListed": "مدرستي غير مدرجة",
 			"foundSchool": "وجدنا <strong>{{name}}</strong>. للتحقق التلقائي، استخدم بريداً إلكترونياً <strong>@{{domain}}</strong>.",
 			"noDomainEmail": "ليس لدي بريد @{{domain}}",
-			"manualReview": "<strong>{{name}}</strong> — ستتم مراجعة طلبك يدوياً، عادةً خلال 48 ساعة.",
+			"manualReview": "<strong>{{name}}</strong> — ستتم مراجعة طلبك يدوياً، عادةً خلال حوالي يومي عمل.",
 			"manualReviewReturn": "تم تأكيد البريد الإلكتروني! أكمل طلب مدرستك.",
-			"manualReviewReturnHint": "أدخل اسم مدرستك واسمك الكامل ورقم ضريبة القيمة المضافة إن توفّر. سنراجع طلبك ونوافق عليه خلال 48 ساعة.",
+			"manualReviewReturnHint": "أدخل اسم مدرستك واسمك الكامل ورقم ضريبة القيمة المضافة إن توفّر. سنراجع طلبك ونوافق عليه خلال حوالي يومي عمل.",
 			"notFound": "مدرستك ليست في نظامنا بعد. أرسل طلباً وسنضيفها.",
 			"submitted": "تم إرسال الطلب!",
-			"submittedDesc": "ستسمع منا خلال 48 ساعة.",
+			"submittedDesc": "ستسمع منا خلال حوالي يومي عمل.",
 			"goToDashboard": "اذهب إلى لوحة التحكم",
 			"alreadyClaimed": "تمت المطالبة بـ <strong>{{name}}</strong> مسبقاً. <a href='/login' class='underline'>سجّل دخولك</a> أو تواصل مع <a href='mailto:supporto@patentedigitale.it' class='underline'>supporto@patentedigitale.it</a>.",
 			"backToSearch": "→ البحث مجدداً",
@@ -69,7 +70,7 @@
 			"rejectedContact": "تواصل معنا",
 			"rejectedReason": "لمعرفة السبب.",
 			"pendingTitle": "الطلب قيد المراجعة",
-			"pendingDesc": "نحن نراجع طلب ملكيتك. عادةً خلال 48 ساعة."
+			"pendingDesc": "نحن نراجع طلب ملكيتك. عادةً خلال حوالي يومي عمل."
 		},
 		"claimForm": {
 			"createAccount": "أولاً، أنشئ حسابك:",
