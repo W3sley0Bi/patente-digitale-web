@@ -4,7 +4,9 @@ import { fileURLToPath } from "node:url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const GEOJSON_PATH = path.resolve(__dirname, "../public/data/autoscuole.geojson");
-const OUTPUT_CSV = path.resolve(__dirname, "output/outreach_report_2026-05-13.csv");
+const EMAILS_PATH = path.resolve(__dirname, "output/autoscuole-emails.json");
+const dateStr = new Date().toISOString().split("T")[0];
+const OUTPUT_CSV = path.resolve(__dirname, `output/outreach_report_${dateStr}.csv`);
 
 function escapeCsv(val) {
   if (val === null || val === undefined) return "";
@@ -25,6 +27,12 @@ async function main() {
 
   const geojson = JSON.parse(fs.readFileSync(GEOJSON_PATH, "utf8"));
   const features = geojson.features;
+
+  let emailData = [];
+  if (fs.existsSync(EMAILS_PATH)) {
+    emailData = JSON.parse(fs.readFileSync(EMAILS_PATH, "utf8"));
+  }
+  const emailMap = new Map(emailData.map(e => [e.id, e.emails || []]));
 
   const header = [
     "School Name",
@@ -55,16 +63,17 @@ async function main() {
       continue; // Skip schools without websites as per user request
     }
 
-    const hasEmail = !!p.email;
+    const id = p._placeId || p.name;
+    const emails = emailMap.get(id) || (p.email ? [p.email] : []);
+    const hasEmail = emails.length > 0;
 
     let status = "";
-    let emailCount = 0;
+    const emailCount = emails.length;
 
     stats.withWebsite++;
     if (hasEmail) {
       status = "EMAIL_FOUND";
       stats.emailsFound++;
-      emailCount = 1; 
     } else {
       status = "NO_EMAIL_ON_SITE";
       stats.noEmailsFound++;
@@ -77,8 +86,8 @@ async function main() {
       escapeCsv(p.website || ""),
       status,
       emailCount,
-      escapeCsv(p.email || ""),
-      escapeCsv(p.email || "") 
+      escapeCsv(emails[0] || ""),
+      escapeCsv(emails.join("; ")) 
     ];
 
     rows.push(row.join(","));
