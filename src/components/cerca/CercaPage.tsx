@@ -18,6 +18,7 @@ export function CercaPage() {
 		zip,
 		name,
 		verifiedOnly,
+		enrollmentOnly,
 		results,
 		cityOptions,
 		selected,
@@ -28,6 +29,7 @@ export function CercaPage() {
 		setZip,
 		setName,
 		setVerifiedOnly,
+		setEnrollmentOnly,
 		setSelected,
 		clearFilters,
 	} = useCerca();
@@ -63,12 +65,14 @@ export function CercaPage() {
 						zip={zip}
 						name={name}
 						verifiedOnly={verifiedOnly}
+						enrollmentOnly={enrollmentOnly}
 						cityOptions={cityOptions}
 						onCityChange={setCity}
 						onRegionChange={setRegion}
 						onZipChange={setZip}
 						onNameChange={setName}
 						onVerifiedOnlyChange={setVerifiedOnly}
+						onEnrollmentOnlyChange={setEnrollmentOnly}
 						onClear={clearFilters}
 					/>
 				</div>

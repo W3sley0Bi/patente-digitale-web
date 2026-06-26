@@ -13,6 +13,7 @@ interface ClaimedSchoolRow {
   licenses?: string[] | null;
   lat?: number | null;
   lng?: number | null;
+  enrollment_enabled?: boolean | null;
   [key: string]: unknown;
 }
 
@@ -40,6 +41,8 @@ export function mergeDelta(base: NormalizedSchool[], delta: ClaimedSchoolRow[]):
         override.lat != null && override.lng != null
           ? [override.lat, override.lng]
           : school.latlng,
+      partner: true,
+      enrollment_enabled: override.enrollment_enabled ?? false,
     };
   });
 
@@ -53,7 +56,8 @@ export function mergeDelta(base: NormalizedSchool[], delta: ClaimedSchoolRow[]):
       address: row.address ?? "",
       phone: row.phone ?? "",
       website: row.website ?? "",
-      partner: false,
+      partner: true,
+      enrollment_enabled: row.enrollment_enabled ?? false,
       latlng: [row.lat ?? 0, row.lng ?? 0],
       licenses: row.licenses ?? [],
       id: `${row.lat ?? 0},${row.lng ?? 0}`,

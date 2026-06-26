@@ -12,6 +12,7 @@ import {
 	Globe,
 	Clock,
 	BadgeCheck,
+	Zap,
 	ExternalLink,
 	X,
 	ChevronLeft,
@@ -62,6 +63,7 @@ interface DrivingSchoolRow {
 	description: string | null;
 	founded_year: number | null;
 	verified: boolean | null;
+	enrollment_enabled: boolean | null;
 }
 
 interface DrivingLicenceRow {
@@ -321,7 +323,7 @@ export default function Iscrizione() {
 				const { data: schoolRow, error: schoolErr } = await supabase
 					.from("driving_schools")
 					.select(
-						"id, place_id, name, address, city, zip, region, phone, mobile, email, website, whatsapp_business, opening_hours, licenses, prices, lat, lng, instructor_count, description, founded_year, verified",
+						"id, place_id, name, address, city, zip, region, phone, mobile, email, website, whatsapp_business, opening_hours, licenses, prices, lat, lng, instructor_count, description, founded_year, verified, enrollment_enabled",
 					)
 					.eq("place_id", placeId)
 					.maybeSingle();
@@ -570,6 +572,15 @@ export default function Iscrizione() {
 											{queryRatingCount != null && (
 												<span className="text-ink-faint">({queryRatingCount.toLocaleString()})</span>
 											)}
+										</span>
+									</>
+								)}
+								{school?.enrollment_enabled && (
+									<>
+										<span className="text-ink-faint">·</span>
+										<span className="inline-flex items-center gap-1">
+											<Zap className="h-3 w-3 fill-amber-500 text-amber-500" strokeWidth={0} />
+											<span className="text-amber-600 font-semibold">{t("cerca.card.enrollBadge")}</span>
 										</span>
 									</>
 								)}

@@ -14,7 +14,14 @@
       "Bash(npx tsc *)",
       "Bash(npx vite *)",
       "Bash(grep *)",
-      "mcp__supabase__execute_sql"
+      "mcp__supabase__execute_sql",
+      "Bash(pnpm tsc *)",
+      "Bash(xargs cat *)",
+      "mcp__supabase__list_projects",
+      "Bash(pip3 install *)",
+      "Bash(convert --version)",
+      "Bash(/tmp/gifenv/bin/pip install *)",
+      "Bash(/tmp/gifenv/bin/python3 *)"
     ]
   },
   "enabledMcpjsonServers": [

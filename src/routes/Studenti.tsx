@@ -180,6 +180,7 @@ export default function Studenti() {
 										</Button>
 									</Link>
 								</div>
+
 							</Reveal>
 
 							{/* PayPal callout — vertical card, not centered */}

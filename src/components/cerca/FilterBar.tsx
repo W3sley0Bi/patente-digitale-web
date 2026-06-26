@@ -1,4 +1,4 @@
-import { ChevronDown, Locate, Loader2, X, Check } from "lucide-react";
+import { BadgeCheck, ChevronDown, Locate, Loader2, X, Check, Zap } from "lucide-react";
 import { useRef, useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { REGIONS } from "@/lib/italyGeo";
@@ -11,12 +11,14 @@ interface FilterBarProps {
 	zip: string;
 	name: string;
 	verifiedOnly: boolean;
+	enrollmentOnly: boolean;
 	cityOptions: string[];
 	onCityChange: (v: string) => void;
 	onRegionChange: (v: string) => void;
 	onZipChange: (v: string) => void;
 	onNameChange: (v: string) => void;
 	onVerifiedOnlyChange: (v: boolean) => void;
+	onEnrollmentOnlyChange: (v: boolean) => void;
 	onClear: () => void;
 }
 
@@ -43,12 +45,14 @@ export function FilterBar({
 	zip,
 	name,
 	verifiedOnly,
+	enrollmentOnly,
 	cityOptions,
 	onCityChange,
 	onRegionChange,
 	onZipChange,
 	onNameChange,
 	onVerifiedOnlyChange,
+	onEnrollmentOnlyChange,
 	onClear,
 }: FilterBarProps) {
 	const { t } = useTranslation();
@@ -61,7 +65,7 @@ export function FilterBar({
 	const cityDropdownRef = useRef<HTMLDivElement>(null);
 	const regionDropdownRef = useRef<HTMLDivElement>(null);
 
-	const hasFilters = city || region || zip || name || verifiedOnly;
+	const hasFilters = city || region || zip || name || verifiedOnly || enrollmentOnly;
 
 	const filteredCities = cityOptions.filter((c) =>
 		c.toLowerCase().includes(city.toLowerCase()),
@@ -264,22 +268,49 @@ export function FilterBar({
 				</div>
 			</div>
 
-			{/* Partner toggle + clear all */}
+			{/* Toggles + clear all */}
 			<div className="flex items-center justify-between px-0.5">
-				<label className="flex cursor-pointer items-center gap-2 select-none">
-					<Checkbox
-						id="partner-filter"
-						checked={verifiedOnly}
-						onCheckedChange={(checked) => onVerifiedOnlyChange(!!checked)}
-						className="data-[state=checked]:bg-brand data-[state=checked]:border-brand"
-					/>
-					<span className={cn(
-						"font-sans text-sm font-semibold tracking-tight transition-colors",
-						verifiedOnly ? "text-brand" : "text-ink-muted",
-					)}>
-						{t("cerca.filters.partnerOnly")}
-					</span>
-				</label>
+				<div className="flex flex-wrap items-center gap-x-4 gap-y-1.5">
+					<label className="flex cursor-pointer items-center gap-2 select-none">
+						<Checkbox
+							id="partner-filter"
+							checked={verifiedOnly}
+							onCheckedChange={(checked) => onVerifiedOnlyChange(!!checked)}
+							className="data-[state=checked]:bg-brand data-[state=checked]:border-brand"
+						/>
+						<BadgeCheck
+							size={13}
+							className={cn("shrink-0 transition-colors", verifiedOnly ? "text-brand" : "text-ink-faint")}
+							strokeWidth={2.5}
+						/>
+						<span className={cn(
+							"font-sans text-sm font-semibold tracking-tight transition-colors",
+							verifiedOnly ? "text-brand" : "text-ink-muted",
+						)}>
+							{t("cerca.filters.partnerOnly")}
+						</span>
+					</label>
+
+					<label className="flex cursor-pointer items-center gap-2 select-none">
+						<Checkbox
+							id="enrollment-filter"
+							checked={enrollmentOnly}
+							onCheckedChange={(checked) => onEnrollmentOnlyChange(!!checked)}
+							className="data-[state=checked]:bg-amber-500 data-[state=checked]:border-amber-500"
+						/>
+						<Zap
+							size={13}
+							className={cn("shrink-0 transition-colors", enrollmentOnly ? "fill-amber-500 text-amber-500" : "text-ink-faint")}
+							strokeWidth={enrollmentOnly ? 0 : 2}
+						/>
+						<span className={cn(
+							"font-sans text-sm font-semibold tracking-tight transition-colors",
+							enrollmentOnly ? "text-amber-700" : "text-ink-muted",
+						)}>
+							{t("cerca.filters.enrollmentOnly")}
+						</span>
+					</label>
+				</div>
 
 				{hasFilters && (
 					<button

@@ -33,7 +33,7 @@ export function EnrollButton({
 			try {
 				const s = await getAcceptedSchoolByPlaceId(placeId);
 				if (cancelled) return;
-				if (!s?.booking_enabled) {
+				if (!s) {
 					setReady(true);
 					return;
 				}

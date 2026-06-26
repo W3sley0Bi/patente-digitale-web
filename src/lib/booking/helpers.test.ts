@@ -3,6 +3,7 @@ import {
 	effectiveStatus,
 	groupByDay,
 	isCancellable,
+	nextDays,
 	overlaps,
 } from "./helpers";
 import type { Booking } from "./types";
@@ -93,5 +94,21 @@ describe("groupByDay", () => {
 		]);
 		expect(Object.keys(g).sort()).toEqual(["2030-01-01", "2030-01-02"]);
 		expect(g["2030-01-01"].map((x) => x.id)).toEqual(["a"]);
+	});
+});
+
+describe("nextDays", () => {
+	it("returns n consecutive ISO dates from start", () => {
+		expect(nextDays(3, new Date("2026-06-26T10:00:00Z"))).toEqual([
+			"2026-06-26",
+			"2026-06-27",
+			"2026-06-28",
+		]);
+	});
+	it("crosses month boundaries", () => {
+		expect(nextDays(2, new Date("2026-01-31T00:00:00Z"))).toEqual([
+			"2026-01-31",
+			"2026-02-01",
+		]);
 	});
 });

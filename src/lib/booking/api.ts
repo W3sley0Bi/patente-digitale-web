@@ -89,6 +89,86 @@ export async function setInstructorActive(
 		.eq("id", id);
 	if (error) throw error;
 }
+export async function renameInstructor(id: string, name: string): Promise<void> {
+	const { error } = await supabase
+		.from("instructors")
+		.update({ name })
+		.eq("id", id);
+	if (error) throw error;
+}
+export async function deleteInstructor(id: string): Promise<void> {
+	const { error } = await supabase.from("instructors").delete().eq("id", id);
+	if (error) throw error;
+}
+
+// ── availability (school weekly hours + per-instructor weekly hours) ──
+export interface AvailabilityRow {
+	weekday: number; // ISO 1=Mon … 7=Sun
+	start_time: string; // "HH:MM" or "HH:MM:SS"
+	end_time: string;
+}
+export type BookingHours = Record<string, [string, string][]>; // key = isodow "1".."7"
+
+export async function listInstructorAvailability(
+	instructorId: string,
+): Promise<AvailabilityRow[]> {
+	const { data, error } = await supabase
+		.from("instructor_availability")
+		.select("weekday, start_time, end_time")
+		.eq("instructor_id", instructorId)
+		.order("weekday");
+	if (error) throw error;
+	return (data ?? []) as AvailabilityRow[];
+}
+/** Replace all availability rows for one instructor. */
+export async function setInstructorAvailability(
+	instructorId: string,
+	rows: AvailabilityRow[],
+): Promise<void> {
+	const del = await supabase
+		.from("instructor_availability")
+		.delete()
+		.eq("instructor_id", instructorId);
+	if (del.error) throw del.error;
+	if (rows.length === 0) return;
+	const ins = await supabase
+		.from("instructor_availability")
+		.insert(rows.map((r) => ({ ...r, instructor_id: instructorId })));
+	if (ins.error) throw ins.error;
+}
+
+export async function getBookingHours(schoolId: string): Promise<BookingHours> {
+	const { data, error } = await supabase
+		.from("driving_schools")
+		.select("booking_hours")
+		.eq("id", schoolId)
+		.maybeSingle();
+	if (error) throw error;
+	return ((data?.booking_hours as BookingHours) ?? {}) as BookingHours;
+}
+export async function setBookingHours(
+	schoolId: string,
+	hours: BookingHours,
+): Promise<void> {
+	const { error } = await supabase
+		.from("driving_schools")
+		.update({ booking_hours: hours })
+		.eq("id", schoolId);
+	if (error) throw error;
+}
+
+/** Available lesson start timestamps (ISO) for a school on a given day (YYYY-MM-DD). */
+export async function listAvailableSlots(
+	schoolId: string,
+	dayISO: string,
+): Promise<string[]> {
+	const { data, error } = await supabase.rpc("list_available_slots", {
+		p_school_id: schoolId,
+		p_day: dayISO,
+	});
+	if (error) throw error;
+	return (data as string[]) ?? [];
+}
 
 // ── service settings (RLS-guarded; owner policy on driving_schools) ──
 export async function setServiceSettings(

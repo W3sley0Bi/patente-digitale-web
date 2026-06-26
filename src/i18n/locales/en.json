@@ -1,5 +1,12 @@
 {
 	"booking": {
+		"student": {
+			"greeting": "Hi, {{name}}",
+			"notEnrolled": "You're not enrolled at a driving school yet.",
+			"findSchool": "Find your driving school",
+			"pending": "Request sent to {{school}} — awaiting approval.",
+			"enrolledAt": "Enrolled at {{school}}"
+		},
 		"enroll": {
 			"cta": "Enroll at this school",
 			"pending": "Request sent, awaiting approval",
@@ -15,7 +22,11 @@
 			"success": "Request sent",
 			"notEnrolled": "You must be enrolled to book",
 			"disabled": "Booking is not active",
-			"error": "Could not send request"
+			"error": "Could not send request",
+			"pickDay": "Pick a day",
+			"chooseSlot": "Available times",
+			"noSlots": "No times available this day",
+			"slotUnavailable": "That time is no longer available"
 		},
 		"mine": {
 			"title": "My lessons",
@@ -48,7 +59,24 @@
 			"settings": "Booking settings",
 			"durationLabel": "Lesson duration (minutes)",
 			"enabledLabel": "Booking active",
-			"save": "Save"
+			"save": "Save",
+			"availability": "Opening hours",
+			"instructorHours": "Hours",
+			"rename": "Rename",
+			"delete": "Delete",
+			"confirmDelete": "Delete instructor {{name}}?",
+			"addRange": "Add range",
+			"removeRange": "Remove range",
+			"closed": "Closed",
+			"weekday": {
+				"1": "Mon",
+				"2": "Tue",
+				"3": "Wed",
+				"4": "Thu",
+				"5": "Fri",
+				"6": "Sat",
+				"7": "Sun"
+			}
 		}
 	},
 	"cerca": {
@@ -197,6 +225,7 @@
 			"editListingDesc": "Update address, hours, licences and prices",
 			"nav": {
 				"overview": "Overview",
+				"guide": "Lessons",
 				"editListing": "Listing",
 				"settings": "Settings"
 			},
@@ -304,6 +333,7 @@
 			"findSchool": "Find a driving school",
 			"dashboard": "Dashboard",
 			"quizOnline": "Quiz online",
+			"comingSoon": "Coming soon",
 			"logout": "Log out",
 			"setPassword": "Set password",
 			"home": "Home"

@@ -13,6 +13,7 @@ interface UseCercaReturn {
   name: string;
   license: string;
   verifiedOnly: boolean;
+  enrollmentOnly: boolean;
   results: NormalizedSchool[];
   cityOptions: string[];
   selected: NormalizedSchool | null;
@@ -24,6 +25,7 @@ interface UseCercaReturn {
   setName: (v: string) => void;
   setLicense: (v: string) => void;
   setVerifiedOnly: (v: boolean) => void;
+  setEnrollmentOnly: (v: boolean) => void;
   setSelected: (school: NormalizedSchool | null) => void;
   clearFilters: () => void;
 }
@@ -39,9 +41,10 @@ export function useCerca(): UseCercaReturn {
     name: searchParams.get("q") ?? "",
     license: searchParams.get("license") ?? "",
     verifiedOnly: searchParams.get("verified") === "1",
+    enrollmentOnly: searchParams.get("enrollment") === "1",
   });
 
-  const { city, region, zip, name, license, verifiedOnly } = filters;
+  const { city, region, zip, name, license, verifiedOnly, enrollmentOnly } = filters;
 
   /*
   const selectedLicenses = useMemo(() => 
@@ -99,6 +102,7 @@ export function useCerca(): UseCercaReturn {
           filters.name ? n.set("q", filters.name) : n.delete("q");
           filters.license ? n.set("license", filters.license) : n.delete("license");
           filters.verifiedOnly ? n.set("verified", "1") : n.delete("verified");
+          filters.enrollmentOnly ? n.set("enrollment", "1") : n.delete("enrollment");
           return n;
         },
         { replace: true },
@@ -145,9 +149,17 @@ export function useCerca(): UseCercaReturn {
       schools = schools.filter((s) => s.partner === true);
     }
 
-    return [...schools].sort((a, b) => (b.partner ? 1 : 0) - (a.partner ? 1 : 0));
+    if (enrollmentOnly) {
+      schools = schools.filter((s) => s.enrollment_enabled === true);
+    }
+
+    return [...schools].sort((a, b) => {
+      const aScore = (b.enrollment_enabled ? 2 : 0) + (b.partner ? 1 : 0);
+      const bScore = (a.enrollment_enabled ? 2 : 0) + (a.partner ? 1 : 0);
+      return aScore - bScore;
+    });
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [city, region, zip, name, license, verifiedOnly, loadTick]);
+  }, [city, region, zip, name, license, verifiedOnly, enrollmentOnly, loadTick]);
 
   // City options for autocomplete — filtered by selected region and zip
   const cityOptions = useMemo(() => {
@@ -190,14 +202,18 @@ export function useCerca(): UseCercaReturn {
     setFilters((f) => ({ ...f, verifiedOnly: v }));
   }, []);
 
+  const setEnrollmentOnly = useCallback((v: boolean) => {
+    setFilters((f) => ({ ...f, enrollmentOnly: v }));
+  }, []);
+
   const clearFilters = useCallback(() => {
-    setFilters({ city: "", region: "", zip: "", name: "", license: "", verifiedOnly: false });
+    setFilters({ city: "", region: "", zip: "", name: "", license: "", verifiedOnly: false, enrollmentOnly: false });
   }, []);
 
   return {
-    city, region, zip, name, license, verifiedOnly,
+    city, region, zip, name, license, verifiedOnly, enrollmentOnly,
     results, cityOptions,
     selected, loading, error,
-    setCity, setRegion, setZip, setName, setLicense, setVerifiedOnly, setSelected, clearFilters,
+    setCity, setRegion, setZip, setName, setLicense, setVerifiedOnly, setEnrollmentOnly, setSelected, clearFilters,
   };
 }

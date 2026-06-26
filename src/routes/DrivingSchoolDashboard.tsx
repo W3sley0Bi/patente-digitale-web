@@ -1,20 +1,11 @@
-import { BadgeCheck, Download } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router";
-import { EnrollmentsInbox } from "@/components/booking/EnrollmentsInbox";
-import { InstructorsManager } from "@/components/booking/InstructorsManager";
-import { RequestsInbox } from "@/components/booking/RequestsInbox";
-import { ServiceSettings } from "@/components/booking/ServiceSettings";
-import { WeekCalendar } from "@/components/booking/WeekCalendar";
 import { DashboardPending } from "@/components/driving-school/DashboardPending";
 import { DrivingSchoolLayout } from "@/components/driving-school/DrivingSchoolLayout";
-import { MockupTest } from "@/components/mockup-test/MockupTest";
 import { Nav } from "@/components/nav/Nav";
 import { useAuth } from "@/hooks/useAuth";
 import { useProfile } from "@/hooks/useProfile";
-import { listInstructors, listSchoolBookings } from "@/lib/booking/api";
-import type { Booking, Instructor } from "@/lib/booking/types";
 import { supabase } from "@/lib/supabase";
 
 interface ClaimRow {
@@ -38,7 +29,6 @@ export default function DrivingSchoolDashboard() {
 	const [domainClaimDone, setDomainClaimDone] = useState(false);
 	const [rpcError, setRpcError] = useState<string | null>(null);
 	const [refreshing, setRefreshing] = useState(false);
-	const [calRefresh, setCalRefresh] = useState(0);
 	const retryCountRef = useRef(0);
 	const MAX_RETRIES = 1;
 
@@ -200,88 +190,6 @@ export default function DrivingSchoolDashboard() {
 			<p className="text-ink-muted mt-1 text-sm">
 				{t("school.dashboard.subtitle")}
 			</p>
-			<MockupTest
-				name="autoscuola-dashboard-metrics"
-				badge={true}
-				className="mt-8"
-			>
-				<div className="rounded-2xl border border-line bg-bg-raised p-6 md:p-8">
-					{/* Profile header */}
-					<div className="flex flex-wrap items-center justify-between gap-3">
-						<div>
-							<h3 className="font-sans text-lg font-black text-ink">
-								{schoolName}
-							</h3>
-							<div className="mt-1 flex items-center gap-1.5">
-								<BadgeCheck className="h-3.5 w-3.5 text-brand" />
-								<span className="font-sans text-xs text-brand-ink font-bold">
-									{t("school.dashboard.mock.verified")}
-								</span>
-							</div>
-						</div>
-						<button
-							type="button"
-							data-mockup-cta="export-csv"
-							className="inline-flex items-center gap-2 rounded-md border border-line bg-bg px-3 py-1.5 text-xs font-bold text-ink-muted hover:text-brand transition-colors"
-						>
-							<Download className="h-3.5 w-3.5" />
-							{t("school.dashboard.mock.exportCsv")}
-						</button>
-					</div>
-
-					{/* Metrics */}
-					<div className="mt-6">
-						<span className="font-sans text-xs font-bold uppercase tracking-widest text-ink-faint">
-							{t("school.dashboard.mock.metricsLabel")}
-						</span>
-						<div className="mt-3 grid grid-cols-2 gap-3">
-							<div className="rounded-xl bg-brand-soft/60 p-4">
-								<div className="font-sans text-3xl font-black text-brand-ink leading-none">
-									{t("school.dashboard.mock.metric1.value")}
-								</div>
-								<div className="mt-2 font-sans text-xs text-ink-muted">
-									{t("school.dashboard.mock.metric1.label")}
-								</div>
-							</div>
-							<div className="rounded-xl border border-line p-4">
-								<div className="font-sans text-3xl font-black text-ink leading-none">
-									{t("school.dashboard.mock.metric2.value")}
-								</div>
-								<div className="mt-2 font-sans text-xs text-ink-muted">
-									{t("school.dashboard.mock.metric2.label")}
-								</div>
-							</div>
-						</div>
-					</div>
-
-					{/* Recent enrolments */}
-					<div className="mt-6">
-						<span className="font-sans text-xs font-bold uppercase tracking-widest text-ink-faint">
-							{t("school.dashboard.mock.recentLabel")}
-						</span>
-						<ul className="mt-3 flex flex-col divide-y divide-line border border-line rounded-xl bg-bg overflow-hidden">
-							{[1, 2, 3].map((i) => (
-								<li
-									key={i}
-									className="flex items-center justify-between gap-3 px-4 py-3"
-								>
-									<div className="flex items-center gap-3 min-w-0">
-										<div className="h-7 w-7 rounded-full bg-brand-soft flex items-center justify-center font-sans text-xs font-black text-brand-ink shrink-0">
-											{t(`school.dashboard.mock.student${i}`).slice(0, 1)}
-										</div>
-										<span className="font-sans text-sm text-ink truncate">
-											{t(`school.dashboard.mock.student${i}`)}
-										</span>
-									</div>
-									<span className="font-sans text-xs text-ink-faint shrink-0">
-										{t(`school.dashboard.mock.time${i}`)}
-									</span>
-								</li>
-							))}
-						</ul>
-					</div>
-				</div>
-			</MockupTest>
 			<div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
 				<Link
 					to="/driving-school/dashboard/edit"
@@ -294,52 +202,18 @@ export default function DrivingSchoolDashboard() {
 						{t("school.dashboard.editListingDesc")}
 					</p>
 				</Link>
+				<Link
+					to="/driving-school/dashboard/guide"
+					className="rounded-xl border border-line p-5 hover:border-brand/40 hover:bg-brand-soft/20 transition-colors group"
+				>
+					<p className="font-semibold text-sm group-hover:text-brand transition-colors">
+						{t("school.dashboard.nav.guide")}
+					</p>
+					<p className="text-xs text-ink-muted mt-1">
+						{t("booking.school.requests")}
+					</p>
+				</Link>
 			</div>
-			{claim?.id && claim.status === "accepted" && (
-				<div className="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-2">
-					<ServiceSettings
-						schoolId={claim.id}
-						initialDuration={claim.lesson_duration_min}
-						initialEnabled={claim.booking_enabled}
-						onSaved={handleRefresh}
-					/>
-					<InstructorsManager schoolId={claim.id} />
-					<EnrollmentsInbox schoolId={claim.id} />
-					<RequestsInbox
-						schoolId={claim.id}
-						onChange={() => setCalRefresh((n) => n + 1)}
-					/>
-					<div className="lg:col-span-2">
-						<CalendarPane schoolId={claim.id} refreshKey={calRefresh} />
-					</div>
-				</div>
-			)}
 		</DrivingSchoolLayout>
-	);
-}
-
-function CalendarPane({
-	schoolId,
-	refreshKey,
-}: {
-	schoolId: string;
-	refreshKey: number;
-}) {
-	const [bookings, setBookings] = useState<Booking[]>([]);
-	const [instructors, setInstructors] = useState<Instructor[]>([]);
-	useEffect(() => {
-		Promise.all([listSchoolBookings(schoolId), listInstructors(schoolId)])
-			.then(([b, i]) => {
-				setBookings(b);
-				setInstructors(i);
-			})
-			.catch(() => {});
-	}, [schoolId, refreshKey]);
-	return (
-		<WeekCalendar
-			bookings={bookings}
-			instructors={instructors}
-			weekStart={new Date()}
-		/>
 	);
 }

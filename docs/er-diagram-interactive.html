@@ -181,7 +181,7 @@
       // -----------------------------------------------------------
       // Schema definition — single source of truth for the diagram.
       // -----------------------------------------------------------
-      const STORAGE_KEY = "pd-er-layout-v11"; // synced from live DB 2026-05-13
+      const STORAGE_KEY = "pd-er-layout-v12"; // enrollment_enabled added 2026-05-14
 
       const tables = [
         {
@@ -235,6 +235,7 @@
             { k: "",   name: "founded_year", type: "int" },
             { k: "",   name: "verified", type: "boolean" },
             { k: "",   name: "verified_at", type: "timestamptz" },
+            { k: "",   name: "enrollment_enabled", type: "boolean · default false" },
             { k: "",   name: "claimed_at", type: "timestamptz" },
             { k: "",   name: "created_at", type: "timestamptz" },
             { k: "",   name: "updated_at", type: "timestamptz" },

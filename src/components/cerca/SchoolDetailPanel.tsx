@@ -17,7 +17,6 @@ import { useTranslation } from "react-i18next";
 import { Link } from "react-router";
 import { EnrollButton } from "@/components/booking/EnrollButton";
 import { useProfile } from "@/hooks/useProfile";
-import { buildIscrizioneUrl } from "@/lib/buildIscrizioneUrl";
 import type { NormalizedSchool } from "@/lib/geojson";
 
 interface SchoolDetailPanelProps {
@@ -329,23 +328,11 @@ function PanelContent({ school, isVerified, onClose, t }: PanelContentProps) {
 					)}
 			</div>
 
-			{/* Partner CTA — verified */}
-			{isVerified && (
-				<div className="mt-auto shrink-0 px-5 pb-5">
-					<div className="flex flex-col gap-2 border-t border-emerald-200 pt-4">
-						<Link
-							to={buildIscrizioneUrl(school)}
-							className="flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-400 px-4 py-3 text-center font-sans text-sm font-bold text-emerald-900 shadow-sm transition-colors hover:bg-emerald-300 active:scale-95"
-						>
-							{t("cerca.detail.enroll")}
-							<ArrowRight size={15} />
-						</Link>
-						{/* Booking enrollment — logged-in students only; renders nothing unless the
-                school is accepted with booking enabled */}
-						{role === "student" && school._placeId && (
-							<EnrollButton placeId={school._placeId} />
-						)}
-					</div>
+			{/* Booking enrollment — any accepted school, logged-in students only.
+          EnrollButton self-hides if the place_id doesn't map to an accepted school. */}
+			{role === "student" && school._placeId && (
+				<div className="mt-auto shrink-0 border-t border-line px-5 pb-5 pt-4">
+					<EnrollButton placeId={school._placeId} />
 				</div>
 			)}
 		</div>

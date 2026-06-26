@@ -1,5 +1,12 @@
 {
 	"booking": {
+		"student": {
+			"greeting": "Ciao, {{name}}",
+			"notEnrolled": "Non sei ancora iscritto a un'autoscuola.",
+			"findSchool": "Trova la tua autoscuola",
+			"pending": "Richiesta inviata a {{school}} — in attesa di conferma.",
+			"enrolledAt": "Iscritto a {{school}}"
+		},
 		"enroll": {
 			"cta": "Iscriviti a questa autoscuola",
 			"pending": "Richiesta inviata, in attesa di conferma",
@@ -15,7 +22,11 @@
 			"success": "Richiesta inviata",
 			"notEnrolled": "Devi essere iscritto per prenotare",
 			"disabled": "Le prenotazioni non sono attive",
-			"error": "Impossibile inviare la richiesta"
+			"error": "Impossibile inviare la richiesta",
+			"pickDay": "Scegli il giorno",
+			"chooseSlot": "Orari disponibili",
+			"noSlots": "Nessun orario disponibile questo giorno",
+			"slotUnavailable": "Orario non più disponibile"
 		},
 		"mine": {
 			"title": "Le mie guide",
@@ -48,7 +59,24 @@
 			"settings": "Impostazioni prenotazioni",
 			"durationLabel": "Durata guida (minuti)",
 			"enabledLabel": "Prenotazioni attive",
-			"save": "Salva"
+			"save": "Salva",
+			"availability": "Orari di apertura",
+			"instructorHours": "Orari",
+			"rename": "Rinomina",
+			"delete": "Elimina",
+			"confirmDelete": "Eliminare l'istruttore {{name}}?",
+			"addRange": "Aggiungi fascia",
+			"removeRange": "Rimuovi fascia",
+			"closed": "Chiuso",
+			"weekday": {
+				"1": "Lun",
+				"2": "Mar",
+				"3": "Mer",
+				"4": "Gio",
+				"5": "Ven",
+				"6": "Sab",
+				"7": "Dom"
+			}
 		}
 	},
 	"cerca": {
@@ -200,6 +228,7 @@
 			"editListingDesc": "Aggiorna indirizzo, orari, patenti e prezzi",
 			"nav": {
 				"overview": "Panoramica",
+				"guide": "Guide",
 				"editListing": "Profilo",
 				"settings": "Impostazioni"
 			},
@@ -307,6 +336,7 @@
 			"findSchool": "Cerca autoscuola",
 			"dashboard": "Dashboard",
 			"quizOnline": "Quiz online",
+			"comingSoon": "Presto disponibile",
 			"logout": "Esci",
 			"setPassword": "Imposta password",
 			"home": "Home"

@@ -4,11 +4,13 @@ import {
 	ArrowRight,
 	ArrowDown,
 	BadgeCheck,
+	Check,
 	Download,
 	Search,
 	Zap,
 	FileCheck,
 	TrendingUp,
+	X,
 } from "lucide-react";
 import { Nav } from "@/components/nav/Nav";
 import { Footer } from "@/components/layout/Footer";
@@ -409,6 +411,69 @@ export default function Autoscuole() {
 								</div>
 							</Reveal>
 						</div>
+					</div>
+				</section>
+
+				{/* FEATURE PARITY — claimed vs verified */}
+				<section className="py-24 md:py-32 bg-bg-sunken/30">
+					<div className="mx-auto max-w-(--container-wide) px-4 lg:px-8">
+						<Reveal>
+							<SectionEyebrow>{t("autoscuole.featureParity.eyebrow")}</SectionEyebrow>
+							<h2 className="mt-3 font-sans text-2xl font-black tracking-tight text-ink md:text-3xl">
+								{t("autoscuole.featureParity.heading")}
+							</h2>
+						</Reveal>
+
+						<Reveal delay={0.1}>
+							<div className="mt-12 overflow-hidden rounded-2xl border border-line bg-bg">
+								{/* Header row */}
+								<div className="grid grid-cols-[1fr_auto_auto] items-center border-b border-line bg-bg-raised px-6 py-4 md:grid-cols-[1fr_140px_180px]">
+									<span className="font-sans text-xs font-bold uppercase tracking-widest text-ink-faint" />
+									<div className="flex justify-center">
+										<span className="font-sans text-xs font-bold uppercase tracking-widest text-ink-muted">
+											{t("autoscuole.featureParity.unverified")}
+										</span>
+									</div>
+									<div className="flex justify-center">
+										<span className="inline-flex items-center gap-1.5 rounded-full bg-brand-soft/60 border border-brand/20 px-3 py-1">
+											<BadgeCheck className="h-3 w-3 text-brand" />
+											<span className="font-sans text-xs font-bold text-brand-ink">
+												{t("autoscuole.featureParity.verified")}
+											</span>
+										</span>
+									</div>
+								</div>
+
+								{/* Feature rows */}
+								{(["listing", "priority", "enrolment", "profile"] as const).map(
+									(feature, i) => (
+										<div
+											key={feature}
+											className={`grid grid-cols-[1fr_auto_auto] items-center gap-4 px-6 py-5 md:grid-cols-[1fr_140px_180px] ${i !== 3 ? "border-b border-line" : ""}`}
+										>
+											<div className="min-w-0">
+												<span className="font-sans text-sm font-bold text-ink block">
+													{t(`autoscuole.featureParity.features.${feature}.label`)}
+												</span>
+												<span className="mt-0.5 font-sans text-xs leading-relaxed text-ink-muted block max-w-[50ch]">
+													{t(`autoscuole.featureParity.features.${feature}.detail`)}
+												</span>
+											</div>
+											<div className="flex justify-center">
+												{feature === "listing" ? (
+													<Check className="h-5 w-5 text-ink-muted" />
+												) : (
+													<X className="h-5 w-5 text-ink-faint" />
+												)}
+											</div>
+											<div className="flex justify-center">
+												<Check className="h-5 w-5 text-brand" />
+											</div>
+										</div>
+									)
+								)}
+							</div>
+						</Reveal>
 					</div>
 				</section>
 

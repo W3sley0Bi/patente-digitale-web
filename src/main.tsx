@@ -1,3 +1,6 @@
+// Temporal global — required by @schedule-x/* (v4 uses the TC39 Temporal API).
+// Must load before any calendar code runs.
+import "temporal-polyfill/global";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./styles/tailwind.css";

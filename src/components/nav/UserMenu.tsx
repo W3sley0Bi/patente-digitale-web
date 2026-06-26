@@ -1,7 +1,7 @@
-import { useEffect, useState, useRef } from "react";
-import { Link, useNavigate } from "react-router";
-import { LayoutDashboard, BookOpen, LogOut, User } from "lucide-react";
+import { BookOpen, LayoutDashboard, LogOut, User } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { Link, useNavigate } from "react-router";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
 import { useProfile } from "@/hooks/useProfile";
@@ -64,14 +64,18 @@ export function UserMenu({ onClose }: { onClose?: () => void }) {
 					<LayoutDashboard size={15} className="text-ink-muted" />
 					{t("landing.nav.dashboard")}
 				</Link>
-				<Link
-					to="/quiz"
-					onClick={onClose}
-					className="flex items-center gap-3 px-4 py-2.5 text-sm text-ink hover:bg-brand-soft/30 hover:text-brand transition-colors rounded-lg"
+				<div
+					aria-disabled="true"
+					className="flex cursor-default select-none items-center justify-between gap-3 rounded-lg px-4 py-2.5 text-sm text-ink-faint"
 				>
-					<BookOpen size={15} className="text-ink-muted" />
-					{t("landing.nav.quizOnline")}
-				</Link>
+					<span className="flex items-center gap-3">
+						<BookOpen size={15} className="text-ink-faint" />
+						{t("landing.nav.quizOnline")}
+					</span>
+					<span className="rounded-full bg-line/60 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-ink-faint">
+						{t("landing.nav.comingSoon")}
+					</span>
+				</div>
 				<button
 					type="button"
 					onClick={handleLogout}
@@ -106,14 +110,18 @@ export function UserMenu({ onClose }: { onClose?: () => void }) {
 							<LayoutDashboard size={15} className="text-ink-muted" />
 							{t("landing.nav.dashboard")}
 						</Link>
-						<Link
-							to="/quiz"
-							onClick={() => setOpen(false)}
-							className="flex items-center gap-3 px-4 py-2.5 text-sm text-ink hover:bg-brand-soft/30 hover:text-brand transition-colors"
+						<div
+							aria-disabled="true"
+							className="flex cursor-default select-none items-center justify-between gap-3 px-4 py-2.5 text-sm text-ink-faint"
 						>
-							<BookOpen size={15} className="text-ink-muted" />
-							{t("landing.nav.quizOnline")}
-						</Link>
+							<span className="flex items-center gap-3">
+								<BookOpen size={15} className="text-ink-faint" />
+								{t("landing.nav.quizOnline")}
+							</span>
+							<span className="rounded-full bg-line/60 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-ink-faint">
+								{t("landing.nav.comingSoon")}
+							</span>
+						</div>
 					</div>
 
 					<div className="border-t border-line py-1">

@@ -7,6 +7,7 @@ import { Hero } from "@/components/sections/Hero";
 // Eager load fold-adjacent sections
 import { HowItWorks } from "@/components/sections/HowItWorks";
 import { WhyDigital } from "@/components/sections/WhyDigital";
+import { Comparison } from "@/components/sections/Comparison";
 
 import { Trust } from "@/components/sections/Trust";
 
@@ -35,6 +36,7 @@ export default function Landing() {
 				<div className="flex flex-col">
 					<HowItWorks />
 					<WhyDigital />
+					<Comparison />
 					<Suspense fallback={<SectionPlaceholder />}>
 						<Trust />
 						<FAQ />

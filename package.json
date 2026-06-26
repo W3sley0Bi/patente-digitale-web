@@ -18,6 +18,10 @@
 		"@fontsource-variable/outfit": "^5.2.8",
 		"@fontsource-variable/playfair-display": "^5.2.8",
 		"@fontsource/jetbrains-mono": "^5.2.8",
+		"@schedule-x/calendar": "^4.6.0",
+		"@schedule-x/events-service": "^4.6.0",
+		"@schedule-x/react": "^4.1.0",
+		"@schedule-x/theme-default": "^4.6.0",
 		"@supabase/supabase-js": "^2.105.3",
 		"@tailwindcss/vite": "^4.2.4",
 		"@tanstack/react-virtual": "^3.13.24",
@@ -38,7 +42,8 @@
 		"react-router": "^7.14.2",
 		"shadcn": "^4.6.0",
 		"tailwind-merge": "^3.5.0",
-		"tailwindcss": "^4.2.4"
+		"tailwindcss": "^4.2.4",
+		"temporal-polyfill": "^1.0.1"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^2.4.14",

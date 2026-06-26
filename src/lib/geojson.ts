@@ -9,6 +9,7 @@ export interface SchoolProperties {
   email?: string;
   website: string;
   partner?: boolean;
+  enrollment_enabled?: boolean;
   slug?: string;
   rating?: number | null;
   userRatingCount?: number | null;

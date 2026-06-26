@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 import { X, ArrowRight, CreditCard, LogOut, UserPlus } from "lucide-react";
+import type { LucideProps } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { useProfile } from "@/hooks/useProfile";
 
@@ -13,6 +14,9 @@ interface EnrollPaywallProps {
 	displayPrice: string;
 	returnTo: string;
 }
+
+const primaryBtnCls =
+	"inline-flex items-center justify-center gap-2 h-8 px-3 rounded-pill bg-brand text-white font-sans text-xs font-bold hover:bg-brand-hover transition-colors shadow-cta";
 
 export function EnrollPaywall({
 	open,
@@ -27,7 +31,6 @@ export function EnrollPaywall({
 	const { user, loading: authLoading, signOut } = useAuth();
 	const { role, loading: profileLoading } = useProfile();
 
-	// Close on Escape
 	useEffect(() => {
 		if (!open) return;
 		const onKey = (e: KeyboardEvent) => {
@@ -37,7 +40,6 @@ export function EnrollPaywall({
 		return () => window.removeEventListener("keydown", onKey);
 	}, [open, onClose]);
 
-	// Body scroll lock
 	useEffect(() => {
 		if (!open) return;
 		const prev = document.body.style.overflow;
@@ -69,15 +71,12 @@ export function EnrollPaywall({
 			aria-modal="true"
 		>
 			<div className="relative w-full max-w-md rounded-2xl bg-bg-raised shadow-xl border border-line">
-				{/* Header */}
 				<div className="flex items-center justify-between px-5 py-4 border-b border-line">
-					<div className="flex items-center gap-2">
-						<div className="inline-flex items-center gap-1.5 rounded-full bg-accent-soft px-2.5 py-1">
-							<span className="h-1.5 w-1.5 rounded-full bg-accent animate-pulse" />
-							<span className="font-sans text-[10px] font-black uppercase tracking-widest text-accent-ink">
-								Anteprima
-							</span>
-						</div>
+					<div className="inline-flex items-center gap-1.5 rounded-full bg-accent-soft px-2.5 py-1">
+						<span className="h-1.5 w-1.5 rounded-full bg-accent animate-pulse" />
+						<span className="font-sans text-[10px] font-black uppercase tracking-widest text-accent-ink">
+							Anteprima
+						</span>
 					</div>
 					<button
 						type="button"
@@ -89,7 +88,6 @@ export function EnrollPaywall({
 					</button>
 				</div>
 
-				{/* Body */}
 				<div className="px-5 py-6 md:px-7 md:py-7">
 					{isLoading ? (
 						<div className="flex items-center justify-center py-8">
@@ -116,6 +114,34 @@ export function EnrollPaywall({
 	);
 }
 
+function StateHeader({
+	Icon,
+	iconBg,
+	iconColor,
+	heading,
+	body,
+}: {
+	Icon: React.ComponentType<LucideProps>;
+	iconBg: string;
+	iconColor: string;
+	heading: string;
+	body: string;
+}) {
+	return (
+		<div className="flex items-start gap-3">
+			<div
+				className={`shrink-0 h-10 w-10 rounded-xl ${iconBg} flex items-center justify-center`}
+			>
+				<Icon className={`h-5 w-5 ${iconColor}`} />
+			</div>
+			<div>
+				<h3 className="font-sans text-base font-black text-ink">{heading}</h3>
+				<p className="mt-1 font-sans text-sm text-ink-muted leading-relaxed">{body}</p>
+			</div>
+		</div>
+	);
+}
+
 function GuestState({
 	onSignup,
 	onLogin,
@@ -128,25 +154,15 @@ function GuestState({
 	const { t } = useTranslation();
 	return (
 		<div className="flex flex-col gap-5">
-			<div className="flex items-start gap-3">
-				<div className="shrink-0 h-10 w-10 rounded-xl bg-brand-soft flex items-center justify-center">
-					<UserPlus className="h-5 w-5 text-brand" />
-				</div>
-				<div>
-					<h3 className="font-sans text-base font-black text-ink">
-						{t("iscrizione.paywall.guest.heading")}
-					</h3>
-					<p className="mt-1 font-sans text-sm text-ink-muted leading-relaxed">
-						{t("iscrizione.paywall.guest.body", { name: schoolName })}
-					</p>
-				</div>
-			</div>
+			<StateHeader
+				Icon={UserPlus}
+				iconBg="bg-brand-soft"
+				iconColor="text-brand"
+				heading={t("iscrizione.paywall.guest.heading")}
+				body={t("iscrizione.paywall.guest.body", { name: schoolName })}
+			/>
 			<div className="flex flex-col gap-2 mt-2">
-				<button
-					type="button"
-					onClick={onSignup}
-					className="inline-flex items-center justify-center gap-2 h-11 w-full rounded-pill bg-brand text-white font-sans text-sm font-bold hover:bg-brand-hover transition-colors shadow-cta"
-				>
+				<button type="button" onClick={onSignup} className={primaryBtnCls}>
 					{t("iscrizione.paywall.guest.primaryCta")}
 					<ArrowRight className="h-4 w-4" />
 				</button>
@@ -166,24 +182,14 @@ function AutoscuolaState({ onSignOut }: { onSignOut: () => void }) {
 	const { t } = useTranslation();
 	return (
 		<div className="flex flex-col gap-5">
-			<div className="flex items-start gap-3">
-				<div className="shrink-0 h-10 w-10 rounded-xl bg-accent-soft flex items-center justify-center">
-					<LogOut className="h-5 w-5 text-accent-ink" />
-				</div>
-				<div>
-					<h3 className="font-sans text-base font-black text-ink">
-						{t("iscrizione.paywall.autoscuola.heading")}
-					</h3>
-					<p className="mt-1 font-sans text-sm text-ink-muted leading-relaxed">
-						{t("iscrizione.paywall.autoscuola.body")}
-					</p>
-				</div>
-			</div>
-			<button
-				type="button"
-				onClick={onSignOut}
-				className="inline-flex items-center justify-center gap-2 h-11 w-full rounded-pill bg-brand text-white font-sans text-sm font-bold hover:bg-brand-hover transition-colors shadow-cta"
-			>
+			<StateHeader
+				Icon={LogOut}
+				iconBg="bg-accent-soft"
+				iconColor="text-accent-ink"
+				heading={t("iscrizione.paywall.autoscuola.heading")}
+				body={t("iscrizione.paywall.autoscuola.body")}
+			/>
+			<button type="button" onClick={onSignOut} className={primaryBtnCls}>
 				<LogOut className="h-4 w-4" />
 				{t("iscrizione.paywall.autoscuola.primaryCta")}
 			</button>
@@ -203,19 +209,13 @@ function StudentState({
 	const { t } = useTranslation();
 	return (
 		<div className="flex flex-col gap-5">
-			<div className="flex items-start gap-3">
-				<div className="shrink-0 h-10 w-10 rounded-xl bg-brand-soft flex items-center justify-center">
-					<CreditCard className="h-5 w-5 text-brand" />
-				</div>
-				<div>
-					<h3 className="font-sans text-base font-black text-ink">
-						{t("iscrizione.paywall.student.heading")}
-					</h3>
-					<p className="mt-1 font-sans text-sm text-ink-muted leading-relaxed">
-						{t("iscrizione.paywall.student.body")}
-					</p>
-				</div>
-			</div>
+			<StateHeader
+				Icon={CreditCard}
+				iconBg="bg-brand-soft"
+				iconColor="text-brand"
+				heading={t("iscrizione.paywall.student.heading")}
+				body={t("iscrizione.paywall.student.body")}
+			/>
 
 			<div className="rounded-xl border border-line bg-bg-sunken/30 p-4">
 				<p className="font-sans text-xs text-ink-faint">

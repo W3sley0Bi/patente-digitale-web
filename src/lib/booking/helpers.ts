@@ -25,6 +25,18 @@ export function overlaps(a: Booking, b: Booking): boolean {
 	);
 }
 
+/** n consecutive YYYY-MM-DD dates (UTC) starting at `from`. */
+export function nextDays(n: number, from: Date = new Date()): string[] {
+	const out: string[] = [];
+	for (let i = 0; i < n; i++) {
+		const d = new Date(
+			Date.UTC(from.getUTCFullYear(), from.getUTCMonth(), from.getUTCDate() + i),
+		);
+		out.push(d.toISOString().slice(0, 10));
+	}
+	return out;
+}
+
 /** Group bookings by UTC date (YYYY-MM-DD), each bucket sorted by start time. */
 export function groupByDay(bookings: Booking[]): Record<string, Booking[]> {
 	const out: Record<string, Booking[]> = {};

@@ -1,23 +1,27 @@
-import { Suspense, lazy } from "react";
+import { lazy, Suspense } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router";
-import Landing from "./routes/Landing";
-import { ScrollToHash } from "./hooks/useScrollToHash";
 import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
-import { AuthProvider } from "@/lib/AuthContext";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
+import { AuthProvider } from "@/lib/AuthContext";
+import { ScrollToHash } from "./hooks/useScrollToHash";
+import Landing from "./routes/Landing";
 
 const Cerca = lazy(() => import("./routes/Cerca"));
-const Iscrizione = lazy(() => import("./routes/Iscrizione"));
 const Partner = lazy(() => import("./routes/Partner"));
 const Login = lazy(() => import("./routes/Login"));
 const QuizOnline = lazy(() => import("./routes/QuizOnline"));
 const ResetPassword = lazy(() => import("./routes/ResetPassword"));
 const SignupDrivingSchool = lazy(() => import("./routes/SignupDrivingSchool"));
 const StudentDashboard = lazy(() => import("./routes/StudentDashboard"));
-const DrivingSchoolDashboard = lazy(() => import("./routes/DrivingSchoolDashboard"));
+const DrivingSchoolDashboard = lazy(
+	() => import("./routes/DrivingSchoolDashboard"),
+);
+const DrivingSchoolGuide = lazy(() => import("./routes/DrivingSchoolGuide"));
 const DrivingSchoolEdit = lazy(() => import("./routes/DrivingSchoolEdit"));
 const SetPassword = lazy(() => import("./routes/SetPassword"));
-const DrivingSchoolSettings = lazy(() => import("./routes/DrivingSchoolSettings"));
+const DrivingSchoolSettings = lazy(
+	() => import("./routes/DrivingSchoolSettings"),
+);
 const Studenti = lazy(() => import("./routes/Studenti"));
 const Autoscuole = lazy(() => import("./routes/Autoscuole"));
 const NotFound = lazy(() => import("./routes/NotFound"));
@@ -35,65 +39,91 @@ function App() {
 			<AuthProvider>
 				<ScrollToHash />
 				<ErrorBoundary fallback={<ServerError />}>
-			<Suspense fallback={<LoadingFallback />}>
-				<Routes>
-					<Route path="/" element={<Landing />} />
-					<Route path="/studenti" element={<Studenti />} />
-				<Route path="/autoscuole" element={<Autoscuole />} />
-				<Route path="/cerca" element={<Navigate to="/search" replace />} />
-					<Route path="/search" element={<Cerca />} />
-					<Route path="/iscrizione" element={<Iscrizione />} />
-					<Route path="/partner" element={<Partner />} />
-					<Route path="/login" element={<Login />} />
-					<Route path="/reset-password" element={<ResetPassword />} />
-					<Route path="/quiz" element={
-						<ProtectedRoute requiredRole="student">
-							<QuizOnline />
-						</ProtectedRoute>
-					} />
-					<Route path="/signup" element={<Navigate to="/login?tab=signup" replace />} />
-					<Route path="/signup/driving-school" element={<SignupDrivingSchool />} />
-					<Route
-						path="/student/dashboard"
-						element={
-							<ProtectedRoute requiredRole="student">
-								<StudentDashboard />
-							</ProtectedRoute>
-						}
-					/>
-					<Route
-						path="/driving-school/dashboard"
-						element={
-							<ProtectedRoute requiredRole="autoscuola">
-								<DrivingSchoolDashboard />
-							</ProtectedRoute>
-						}
-					/>
-					<Route
-						path="/driving-school/dashboard/edit"
-						element={
-							<ProtectedRoute requiredRole="autoscuola" requireApproved>
-								<DrivingSchoolEdit />
-							</ProtectedRoute>
-						}
-					/>
-					<Route
-						path="/driving-school/dashboard/settings"
-						element={
-							<ProtectedRoute requiredRole="autoscuola" requireApproved>
-								<DrivingSchoolSettings />
-							</ProtectedRoute>
-						}
-					/>
-					<Route path="/set-password" element={
-						<ProtectedRoute>
-							<SetPassword />
-						</ProtectedRoute>
-					} />
-					<Route path="*" element={<NotFound />} />
-				</Routes>
-			</Suspense>
-			</ErrorBoundary>
+					<Suspense fallback={<LoadingFallback />}>
+						<Routes>
+							<Route path="/" element={<Landing />} />
+							<Route path="/studenti" element={<Studenti />} />
+							<Route path="/autoscuole" element={<Autoscuole />} />
+							<Route
+								path="/cerca"
+								element={<Navigate to="/search" replace />}
+							/>
+							<Route path="/search" element={<Cerca />} />
+							<Route
+								path="/iscrizione"
+								element={<Navigate to="/search" replace />}
+							/>
+							<Route path="/partner" element={<Partner />} />
+							<Route path="/login" element={<Login />} />
+							<Route path="/reset-password" element={<ResetPassword />} />
+							<Route
+								path="/quiz"
+								element={
+									<ProtectedRoute requiredRole="student">
+										<QuizOnline />
+									</ProtectedRoute>
+								}
+							/>
+							<Route
+								path="/signup"
+								element={<Navigate to="/login?tab=signup" replace />}
+							/>
+							<Route
+								path="/signup/driving-school"
+								element={<SignupDrivingSchool />}
+							/>
+							<Route
+								path="/student/dashboard"
+								element={
+									<ProtectedRoute requiredRole="student">
+										<StudentDashboard />
+									</ProtectedRoute>
+								}
+							/>
+							<Route
+								path="/driving-school/dashboard"
+								element={
+									<ProtectedRoute requiredRole="autoscuola">
+										<DrivingSchoolDashboard />
+									</ProtectedRoute>
+								}
+							/>
+							<Route
+								path="/driving-school/dashboard/guide"
+								element={
+									<ProtectedRoute requiredRole="autoscuola" requireApproved>
+										<DrivingSchoolGuide />
+									</ProtectedRoute>
+								}
+							/>
+							<Route
+								path="/driving-school/dashboard/edit"
+								element={
+									<ProtectedRoute requiredRole="autoscuola" requireApproved>
+										<DrivingSchoolEdit />
+									</ProtectedRoute>
+								}
+							/>
+							<Route
+								path="/driving-school/dashboard/settings"
+								element={
+									<ProtectedRoute requiredRole="autoscuola" requireApproved>
+										<DrivingSchoolSettings />
+									</ProtectedRoute>
+								}
+							/>
+							<Route
+								path="/set-password"
+								element={
+									<ProtectedRoute>
+										<SetPassword />
+									</ProtectedRoute>
+								}
+							/>
+							<Route path="*" element={<NotFound />} />
+						</Routes>
+					</Suspense>
+				</ErrorBoundary>
 			</AuthProvider>
 		</BrowserRouter>
 	);

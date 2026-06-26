@@ -20,6 +20,7 @@
         "email": "supporto@patentedigitale.it",
         "website": "https://www.patentedigitale.it",
         "partner": true,
+        "enrollment_enabled": true,
         "rating": 4.8,
         "userRatingCount": 124,
         "businessStatus": "OPERATIONAL",
