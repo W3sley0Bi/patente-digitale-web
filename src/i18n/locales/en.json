@@ -1,4 +1,56 @@
 {
+	"booking": {
+		"enroll": {
+			"cta": "Enroll at this school",
+			"pending": "Request sent, awaiting approval",
+			"active": "You're enrolled",
+			"error": "Could not send request"
+		},
+		"book": {
+			"title": "Book a lesson",
+			"date": "Date",
+			"time": "Time",
+			"duration": "Duration: {{min}} min",
+			"submit": "Request lesson",
+			"success": "Request sent",
+			"notEnrolled": "You must be enrolled to book",
+			"disabled": "Booking is not active",
+			"error": "Could not send request"
+		},
+		"mine": {
+			"title": "My lessons",
+			"empty": "No lessons yet",
+			"cancel": "Cancel",
+			"cancelReason": "Reason (optional)",
+			"status": {
+				"pending": "Pending",
+				"confirmed": "Confirmed",
+				"declined": "Declined",
+				"cancelled": "Cancelled",
+				"completed": "Completed"
+			}
+		},
+		"school": {
+			"requests": "Lesson requests",
+			"noRequests": "No requests",
+			"assignInstructor": "Assign instructor",
+			"confirm": "Confirm",
+			"decline": "Decline",
+			"instructorBusy": "Instructor already booked in that slot",
+			"enrollments": "Enrollment requests",
+			"approve": "Approve",
+			"reject": "Reject",
+			"activeElsewhere": "Student is already enrolled at another school",
+			"calendar": "Calendar",
+			"instructors": "Instructors",
+			"addInstructor": "Add instructor",
+			"instructorName": "Instructor name",
+			"settings": "Booking settings",
+			"durationLabel": "Lesson duration (minutes)",
+			"enabledLabel": "Booking active",
+			"save": "Save"
+		}
+	},
 	"cerca": {
 		"title": "Find your driving school",
 		"searchPlaceholder": "Search by city, school name, postcode or region...",
@@ -17,7 +69,8 @@
 			"clearAll": "Clear filters",
 			"outsideItaly": "Sorry, there are no driving schools in your area.",
 			"allSchools": "All schools",
-			"partnerOnly": "Verified schools"
+			"partnerOnly": "Verified schools",
+			"enrollmentOnly": "Online enrolment active"
 		},
 		"card": {
 			"callLabel": "Call",
@@ -25,7 +78,8 @@
 			"closeModal": "Close",
 			"websiteLabel": "Website",
 			"openLabel": "Open",
-			"claimCta": "Is it yours? Claim it"
+			"claimCta": "Is it yours? Claim it",
+			"enrollBadge": "Online enrolment"
 		},
 		"ownerCallout": {
 			"label": "Can't find your school?",
@@ -275,18 +329,43 @@
 		"howItWorks": {
 			"eyebrow": "For students",
 			"heading": "Three moves. Then you're on the road.",
+			"supporting": "In under 5 minutes you've picked your school, enrolled, and started studying. The rest is driving.",
 			"steps": {
 				"1": {
 					"title": "Find your school",
-					"description": "Explore the map, filter by region, choose your school and you're all set"
+					"description": "Browse the map, filter by region, pick the closest one."
 				},
 				"2": {
 					"title": "Enrol online",
-					"description": "Fill in, pay, and get driving in less than 2 months!"
+					"description": "Fill in your details once, pay with PayPal or Apple Pay, skip the queue."
 				},
 				"3": {
-					"title": "You're enrolled.",
-					"description": "Confirm your enrolment online. The school will contact you to book your first appointment."
+					"title": "Study and book",
+					"description": "Quizzes on your phone, book lessons whenever you want."
+				}
+			}
+		},
+		"comparison": {
+			"eyebrow": "Two paths.",
+			"heading": "Same licence, two very different journeys.",
+			"modern": {
+				"label": "With Patentedigitale.it",
+				"duration": "2 months",
+				"points": {
+					"1": "Enrol and upload documents online, from home.",
+					"2": "Quizzes on your phone, wherever you are.",
+					"3": "Pay online or in person, your choice.",
+					"4": "Deadlines and exams in one timeline."
+				}
+			},
+			"traditional": {
+				"label": "Traditional path",
+				"duration": "6–12 months",
+				"points": {
+					"1": "Queues at the school office for every document.",
+					"2": "Textbooks and photocopies in class.",
+					"3": "Cash or cheque payments, paper receipts.",
+					"4": "Phone calls and sticky notes to remember dates."
 				}
 			}
 		},
@@ -315,35 +394,36 @@
 			"eyebrow": "Not just words.",
 			"stats": {
 				"1": {
-					"number": "12,300+",
+					"number": "12.300+",
 					"caption": "students enrolled",
-					"subCaption": "since Jan 2024"
+					"subCaption": "since January 2024"
 				},
 				"2": {
 					"number": "187",
-					"caption": "verified schools",
+					"caption": "partner driving schools",
 					"subCaption": "across 14 regions"
 				},
 				"3": {
-					"number": "4.8 / 5",
+					"number": "4,8 / 5",
 					"caption": "average rating",
 					"subCaption": "from 2,400 reviews"
 				},
 				"4": {
 					"number": "96%",
-					"caption": "first-time pass rate",
+					"caption": "exams passed first try",
 					"subCaption": "among 2024 students"
 				}
 			},
 			"partners": {
 				"title": "Some of our partners",
-				"strategic": "Ecosystem & Collaborations"
+				"strategic": "Ecosystem & Collaborations",
+				"autoscuole": "Partner driving schools across Italy"
 			}
 		},
 		"b2b": {
 			"eyebrow": "Are you a driving school?",
-			"heading": "Your driving school goes digital!",
-			"body": "Claim your driving school profile and start receiving online enrolments. Free dashboard to get started.",
+			"heading": "Accept online enrolments and payments.",
+			"body": "Digital enrolments active from day one. Switch on online payments when you're ready, for every student or only for those who ask. The rest of your school stays the same.",
 			"cta": "Claim your profile",
 			"linkSecondary": "See how it works"
 		},
@@ -423,11 +503,13 @@
 			"eyebrow": "For students",
 			"headline_part1": "Get your licence now.",
 			"headline_part2": "Pay for it calmly later.",
-			"subhead": "Find your driving school and enrol from your phone. No queues, no admin office, no stress.",
+			"subhead": "Find your driving school and enrol online. On day one, you're already set.",
 			"cta": "Find your driving school",
 			"paypalBadge": "Pay in 3 instalments with PayPal",
 			"paypalNote": "Available at verified driving schools with online payments active.",
-			"ctaSecondary": "How it works"
+			"ctaSecondary": "How it works",
+			"enrollCallout": "187 schools already with online enrolment active —",
+			"enrollCalloutLink": "find them →"
 		},
 		"flow": {
 			"eyebrow": "How it works",
@@ -538,16 +620,16 @@
 	"autoscuole": {
 		"hero": {
 			"eyebrow": "For driving schools",
-			"headline": "Your driving school is already on Patentedigitale.",
-			"subhead": "Claim it in minutes and start receiving enrolments directly in your dashboard.",
+			"headline": "Accept online enrolments and payments.",
+			"subhead": "Digital enrolments active for every new student from day one. Online payments are something you switch on when you're ready, for everyone or only for the students who ask. The rest of your workflow stays the same.",
 			"cta": "Claim your driving school",
 			"ctaSecondary": "Find your profile",
 			"ctaSecondaryScroll": "How it works"
 		},
 		"dashboard": {
 			"eyebrow": "What you get",
-			"heading": "A dashboard that works for you.",
-			"subhead": "Enrolments, profile, data export. All in one place.",
+			"heading": "One dashboard for enrolments, students, and payments when you want them.",
+			"subhead": "Enrolments arrive complete, sorted, validated. When you choose to accept online payments too, you handle them from the same screen.",
 			"mock": {
 				"title": "Autoscuola Verdi",
 				"status": "Verified profile",
@@ -599,6 +681,30 @@
 				"description": "Upload P.IVA and an official document. We verify within ~2 business days and contact you to activate the dashboard."
 			}
 		},
+		"featureParity": {
+			"eyebrow": "What you get",
+			"heading": "Not verified vs verified: what's the difference.",
+			"unverified": "Not verified",
+			"verified": "Verified",
+			"features": {
+				"listing": {
+					"label": "Listed in the app",
+					"detail": "Your school appears on the map and in search results."
+				},
+				"priority": {
+					"label": "Priority listing",
+					"detail": "Your school ranks above unverified schools in search results."
+				},
+				"enrolment": {
+					"label": "Online enrolment",
+					"detail": "Students enrol directly from your profile without needing to call."
+				},
+				"profile": {
+					"label": "Detailed info card & dedicated page",
+					"detail": "Photos, prices, licence types, hours — a full profile with a dedicated URL."
+				}
+			}
+		},
 		"pricing": {
 			"eyebrow": "Pricing",
 			"heading": "Start free. You pay only when you earn.",
@@ -608,9 +714,9 @@
 				"description": "Claim your profile, receive enrolments. No cost to be on Patentedigitale."
 			},
 			"transaction": {
-				"label": "On online enrolments",
+				"label": "Only on online payments",
 				"value": "2%",
-				"description": "Only when a student enrols and pays online through the platform. No enrolment, no commission."
+				"description": "A small fee applies only when a student pays online. If you don't enable online payments, there's no cost."
 			},
 			"note": "The model will evolve. We're defining future plans with advisors and partner schools. We'll let you know before any change."
 		},
@@ -621,13 +727,13 @@
 			"buttonSecondary": "Find your profile"
 		},
 		"payments": {
-			"eyebrow": "Payments",
-			"heading": "The student pays in 3 instalments.\nYou get the full amount right away.",
-			"body": "Even when the student picks PayPal Pay in 3, you receive the full enrolment amount as soon as the transaction is verified. PayPal carries the instalment risk, not you.",
-			"pillStudent": "The student",
-			"pillStudentValue": "3 monthly instalments",
-			"pillSchool": "You",
-			"pillSchoolValue": "100% upfront"
+			"eyebrow": "Online payments, on your terms",
+			"heading": "Turn on online payments\nwhen it suits you.",
+			"body": "You decide whether to accept them for every new student, only when a student asks, or not at all. When a payment arrives, you see it in your account with the receipt already generated. When you don't accept payments, the enrolment stays digital and the student pays at the office as usual.",
+			"pillStudent": "Student pays (if you choose)",
+			"pillStudentValue": "online or in person",
+			"pillSchool": "You receive",
+			"pillSchoolValue": "the net amount, instantly"
 		}
 	},
 	"iscrizione": {

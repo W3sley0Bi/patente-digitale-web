@@ -1,4 +1,56 @@
 {
+	"booking": {
+		"enroll": {
+			"cta": "Iscriviti a questa autoscuola",
+			"pending": "Richiesta inviata, in attesa di conferma",
+			"active": "Sei iscritto",
+			"error": "Impossibile inviare la richiesta"
+		},
+		"book": {
+			"title": "Prenota una guida",
+			"date": "Data",
+			"time": "Ora",
+			"duration": "Durata: {{min}} min",
+			"submit": "Richiedi guida",
+			"success": "Richiesta inviata",
+			"notEnrolled": "Devi essere iscritto per prenotare",
+			"disabled": "Le prenotazioni non sono attive",
+			"error": "Impossibile inviare la richiesta"
+		},
+		"mine": {
+			"title": "Le mie guide",
+			"empty": "Nessuna guida ancora",
+			"cancel": "Annulla",
+			"cancelReason": "Motivo (facoltativo)",
+			"status": {
+				"pending": "In attesa",
+				"confirmed": "Confermata",
+				"declined": "Rifiutata",
+				"cancelled": "Annullata",
+				"completed": "Completata"
+			}
+		},
+		"school": {
+			"requests": "Richieste di guida",
+			"noRequests": "Nessuna richiesta",
+			"assignInstructor": "Assegna istruttore",
+			"confirm": "Conferma",
+			"decline": "Rifiuta",
+			"instructorBusy": "Istruttore già occupato in quella fascia",
+			"enrollments": "Richieste di iscrizione",
+			"approve": "Approva",
+			"reject": "Rifiuta",
+			"activeElsewhere": "Lo studente è già iscritto a un'altra autoscuola",
+			"calendar": "Calendario",
+			"instructors": "Istruttori",
+			"addInstructor": "Aggiungi istruttore",
+			"instructorName": "Nome istruttore",
+			"settings": "Impostazioni prenotazioni",
+			"durationLabel": "Durata guida (minuti)",
+			"enabledLabel": "Prenotazioni attive",
+			"save": "Salva"
+		}
+	},
 	"cerca": {
 		"title": "Trova la tua autoscuola",
 		"searchPlaceholder": "Cerca per città, autoscuola, CAP o regione...",
@@ -17,7 +69,8 @@
 			"clearAll": "Rimuovi filtri",
 			"outsideItaly": "Spiacenti, non ci sono autoscuole nella tua area.",
 			"allSchools": "Tutte le autoscuole",
-			"partnerOnly": "Autoscuole verificate"
+			"partnerOnly": "Autoscuole verificate",
+			"enrollmentOnly": "Iscrizione online attiva"
 		},
 		"card": {
 			"callLabel": "Chiama",
@@ -25,7 +78,8 @@
 			"closeModal": "Chiudi",
 			"websiteLabel": "Sito web",
 			"openLabel": "Apri",
-			"claimCta": "È la tua? Rivendicala"
+			"claimCta": "È la tua? Rivendicala",
+			"enrollBadge": "Iscrizione online"
 		},
 		"ownerCallout": {
 			"label": "Non vedi la tua autoscuola?",
@@ -278,18 +332,43 @@
 		"howItWorks": {
 			"eyebrow": "Per gli studenti",
 			"heading": "Tre mosse. Poi sei in pista.",
+			"supporting": "In meno di 5 minuti hai scelto la scuola, fatto l'iscrizione e iniziato a studiare. Il resto è guidare.",
 			"steps": {
 				"1": {
 					"title": "Trova la tua scuola",
-					"description": "Esplora la mappa, filtra per regione, scegli l'autoscuola ed il gioco e' fatto"
+					"description": "Esplora la mappa, filtra per regione, scegli la più vicina."
 				},
 				"2": {
 					"title": "Iscriviti online",
-					"description": "Compila, paga e mettiti alla guida in meno di 2 mesi!"
+					"description": "Compila i dati una volta, paga con PayPal o Apple Pay, salta la fila."
 				},
 				"3": {
-					"title": "Sei iscritto.",
-					"description": "Conferma l'iscrizione online. L'autoscuola ti contatterà per il primo appuntamento."
+					"title": "Studia e prenota",
+					"description": "Quiz dal tuo telefono, prenoti le guide quando vuoi tu."
+				}
+			}
+		},
+		"comparison": {
+			"eyebrow": "Due strade.",
+			"heading": "Stessa patente, due esperienze diverse.",
+			"modern": {
+				"label": "Con Patentedigitale.it",
+				"duration": "2 mesi",
+				"points": {
+					"1": "Iscrizione e documenti online, da casa.",
+					"2": "Quiz dal telefono, ovunque ti trovi.",
+					"3": "Pagamento online o in segreteria, scegli tu.",
+					"4": "Scadenze ed esami in un'unica timeline."
+				}
+			},
+			"traditional": {
+				"label": "Strada tradizionale",
+				"duration": "6–12 mesi",
+				"points": {
+					"1": "Code in segreteria per ogni documento.",
+					"2": "Libri di testo e fotocopie da portare in classe.",
+					"3": "Pagamenti in contanti o assegno, ricevute cartacee.",
+					"4": "Telefoni e post-it per ricordare le date."
 				}
 			}
 		},
@@ -324,7 +403,7 @@
 				},
 				"2": {
 					"number": "187",
-					"caption": "autoscuole verificate",
+					"caption": "autoscuole partner",
 					"subCaption": "in 14 regioni"
 				},
 				"3": {
@@ -340,13 +419,14 @@
 			},
 			"partners": {
 				"title": "Alcuni dei nostri partner",
-				"strategic": "Ecosistema e Collaborazioni"
+				"strategic": "Ecosistema e Collaborazioni",
+				"autoscuole": "Autoscuole partner in tutta Italia"
 			}
 		},
 		"b2b": {
 			"eyebrow": "Sei un'autoscuola?",
-			"heading": "La tua autoscuola diventa digitale!",
-			"body": "Rivendica il profilo della tua autoscuola e inizia a ricevere iscrizioni online. Dashboard gratuita per iniziare.",
+			"heading": "Accetta iscrizioni e pagamenti online.",
+			"body": "Iscrizioni digitali subito attive per ogni studente. I pagamenti online li attivi quando vuoi, per tutti o solo per chi te lo chiede. Il resto della tua autoscuola non cambia.",
 			"cta": "Rivendica il tuo profilo",
 			"linkSecondary": "Scopri come funziona"
 		},
@@ -426,11 +506,13 @@
 			"eyebrow": "Per gli studenti",
 			"headline_part1": "Prendi la patente ora.",
 			"headline_part2": "Pagala con calma dopo.",
-			"subhead": "Trova la tua autoscuola e iscriviti dal telefono. Niente file, niente segreteria, niente stress.",
+			"subhead": "Trova la tua autoscuola, iscriviti online. Il primo giorno parti già pronto.",
 			"cta": "Cerca la tua autoscuola",
 			"paypalBadge": "Paga in 3 rate con PayPal",
 			"paypalNote": "Disponibile sulle autoscuole verificate con pagamento online attivo.",
-			"ctaSecondary": "Come funziona"
+			"ctaSecondary": "Come funziona",
+			"enrollCallout": "187 autoscuole già con iscrizione online attiva —",
+			"enrollCalloutLink": "cercale subito →"
 		},
 		"flow": {
 			"eyebrow": "Come funziona",
@@ -541,16 +623,16 @@
 	"autoscuole": {
 		"hero": {
 			"eyebrow": "Per le autoscuole",
-			"headline": "La tua autoscuola è già su Patentedigitale.",
-			"subhead": "Rivendicala in pochi minuti e inizia a ricevere iscrizioni direttamente nella tua dashboard.",
+			"headline": "Accetta iscrizioni e pagamenti online.",
+			"subhead": "Iscrizioni digitali subito attive per ogni nuovo studente. I pagamenti online li attivi quando vuoi, per tutti o solo per chi te lo chiede. Il resto del tuo lavoro non cambia.",
 			"cta": "Rivendica la tua autoscuola",
 			"ctaSecondary": "Cerca il tuo profilo",
 			"ctaSecondaryScroll": "Come funziona"
 		},
 		"dashboard": {
 			"eyebrow": "Cosa ottieni",
-			"heading": "Una dashboard che lavora per te.",
-			"subhead": "Iscrizioni, profilo, esportazione dati. Tutto in un posto.",
+			"heading": "Un'unica dashboard per iscrizioni, studenti e pagamenti, quando vuoi.",
+			"subhead": "Le iscrizioni arrivano già complete, ordinate, validate. Quando decidi di accettare anche i pagamenti online, li gestisci dalla stessa schermata.",
 			"mock": {
 				"title": "Autoscuola Verdi",
 				"status": "Profilo verificato",
@@ -602,6 +684,30 @@
 				"description": "Carichi P.IVA e un documento ufficiale. Verifichiamo entro ~2 giorni lavorativi e ti contattiamo per attivare la dashboard."
 			}
 		},
+		"featureParity": {
+			"eyebrow": "Cosa ottieni",
+			"heading": "Non verificata vs verificata: cosa cambia.",
+			"unverified": "Non verificata",
+			"verified": "Verificata",
+			"features": {
+				"listing": {
+					"label": "Presenza nell'app",
+					"detail": "La tua autoscuola appare nella mappa e nei risultati di ricerca."
+				},
+				"priority": {
+					"label": "Posizionamento prioritario",
+					"detail": "La tua scuola appare prima delle non verificate nei risultati."
+				},
+				"enrolment": {
+					"label": "Iscrizione online",
+					"detail": "Gli studenti si iscrivono direttamente dal profilo, senza telefonarti."
+				},
+				"profile": {
+					"label": "Scheda dettagliata e pagina dedicata",
+					"detail": "Foto, prezzi, patenti, orari — tutto in un profilo completo con URL dedicato."
+				}
+			}
+		},
 		"pricing": {
 			"eyebrow": "Quanto costa",
 			"heading": "Inizia gratis. Paghi solo quando guadagni.",
@@ -611,9 +717,9 @@
 				"description": "Rivendica il profilo, ricevi iscrizioni. Nessun costo per essere su Patentedigitale."
 			},
 			"transaction": {
-				"label": "Sulle iscrizioni online",
+				"label": "Solo sui pagamenti online",
 				"value": "2%",
-				"description": "Solo quando uno studente si iscrive e paga online tramite la piattaforma. Niente iscrizione = niente commissione."
+				"description": "Una piccola commissione si applica solo quando uno studente paga online. Se non attivi i pagamenti online, non c'è nessun costo."
 			},
 			"note": "Il modello evolverà. Stiamo definendo i piani futuri insieme ad advisor e autoscuole partner. Ti aggiorneremo prima di qualsiasi cambio."
 		},
@@ -624,13 +730,13 @@
 			"buttonSecondary": "Cerca il tuo profilo"
 		},
 		"payments": {
-			"eyebrow": "Pagamenti",
-			"heading": "Lo studente paga in 3 rate.\nTu ricevi tutto subito.",
-			"body": "Anche quando lo studente sceglie PayPal Paga in 3, tu ricevi l'intero importo dell'iscrizione subito dopo la verifica della transazione. Il rischio del pagamento a rate se lo prende PayPal, non tu.",
-			"pillStudent": "Lo studente",
-			"pillStudentValue": "3 rate mensili",
-			"pillSchool": "Tu",
-			"pillSchoolValue": "100% subito"
+			"eyebrow": "Pagamenti online, quando vuoi",
+			"heading": "Attivi i pagamenti online.",
+			"body": "Attivare i pagamenti online è opzionale. Se lo attivi, ogni studente che sceglie di pagare online ti porta un guadagno netto fin dal primo euro. Se non lo attivi, nessun problema: i pagamenti li gestisci come hai sempre fatto.",
+			"pillStudent": "Lo studente paga",
+			"pillStudentValue": "online",
+			"pillSchool": "Tu ricevi",
+			"pillSchoolValue": "l'importo netto, subito"
 		}
 	},
 	"iscrizione": {

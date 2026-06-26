@@ -1,4 +1,56 @@
 {
+	"booking": {
+		"enroll": {
+			"cta": "سجّل في هذه المدرسة",
+			"pending": "تم إرسال الطلب، في انتظار الموافقة",
+			"active": "أنت مسجّل",
+			"error": "تعذّر إرسال الطلب"
+		},
+		"book": {
+			"title": "احجز درساً",
+			"date": "التاريخ",
+			"time": "الوقت",
+			"duration": "المدة: {{min}} دقيقة",
+			"submit": "اطلب درساً",
+			"success": "تم إرسال الطلب",
+			"notEnrolled": "يجب أن تكون مسجّلاً للحجز",
+			"disabled": "الحجز غير مفعّل",
+			"error": "تعذّر إرسال الطلب"
+		},
+		"mine": {
+			"title": "دروسي",
+			"empty": "لا توجد دروس بعد",
+			"cancel": "إلغاء",
+			"cancelReason": "السبب (اختياري)",
+			"status": {
+				"pending": "قيد الانتظار",
+				"confirmed": "مؤكَّد",
+				"declined": "مرفوض",
+				"cancelled": "ملغى",
+				"completed": "مكتمل"
+			}
+		},
+		"school": {
+			"requests": "طلبات الدروس",
+			"noRequests": "لا توجد طلبات",
+			"assignInstructor": "تعيين مدرّب",
+			"confirm": "تأكيد",
+			"decline": "رفض",
+			"instructorBusy": "المدرّب محجوز بالفعل في ذلك الموعد",
+			"enrollments": "طلبات التسجيل",
+			"approve": "موافقة",
+			"reject": "رفض",
+			"activeElsewhere": "الطالب مسجّل بالفعل في مدرسة أخرى",
+			"calendar": "التقويم",
+			"instructors": "المدرّبون",
+			"addInstructor": "إضافة مدرّب",
+			"instructorName": "اسم المدرّب",
+			"settings": "إعدادات الحجز",
+			"durationLabel": "مدة الدرس (دقائق)",
+			"enabledLabel": "الحجز مفعّل",
+			"save": "حفظ"
+		}
+	},
 	"cerca": {
 		"title": "ابحث عن مدرسة قيادتك",
 		"searchPlaceholder": "ابحث بالمدينة أو اسم المدرسة أو الرمز البريدي أو المنطقة...",
