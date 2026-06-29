@@ -2,14 +2,22 @@ import {
 	CalendarSync,
 	Check,
 	Copy,
+	MoreVertical,
+	Pause,
 	Pencil,
+	Play,
 	Plus,
-	Power,
 	Trash2,
 	X,
 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import {
 	type AvailabilityRow,
 	addInstructor,
@@ -29,7 +37,7 @@ const FIRST_RANGE = { start: "09:00", end: "13:00" };
 const NEXT_RANGE = { start: "14:00", end: "18:00" };
 const trimTime = (t: string) => t.slice(0, 5); // "HH:MM:SS" → "HH:MM"
 // name column + 7 weekday columns
-const GRID_COLS = "minmax(11rem,1.3fr) repeat(7, minmax(4.25rem,1fr))";
+const GRID_COLS = "minmax(12rem,1.3fr) repeat(7, minmax(4.25rem,1fr))";
 
 type Range = { start: string; end: string };
 type Grid = Record<string, Record<number, Range[]>>; // instructorId → weekday → ranges
@@ -262,156 +270,244 @@ export function InstructorsManager({
 
 						{/* one row per instructor */}
 						{items.map((i, ii) => (
-							<div
-								key={i.id}
-								className="grid items-stretch gap-1 border-b border-line/60 py-1.5"
-								style={{ gridTemplateColumns: GRID_COLS }}
-							>
-								{/* name + controls */}
-								<div className="flex min-w-0 flex-col justify-center gap-1 pr-3">
-									{editId === i.id ? (
-										<input
-											value={editName}
-											onChange={(e) => setEditName(e.target.value)}
-											onKeyDown={(e) => e.key === "Enter" && saveEdit()}
-											onBlur={saveEdit}
-											// biome-ignore lint/a11y/noAutofocus: inline rename UX
-											autoFocus
-											className="w-full rounded border border-line bg-bg px-2 py-1 text-sm focus:border-brand focus:outline-none"
-										/>
-									) : copyFrom === i.id ? (
-										<select
-											// biome-ignore lint/a11y/noAutofocus: inline copy UX
-											autoFocus
-											defaultValue=""
-											onBlur={() => setCopyFrom(null)}
-											onChange={(e) =>
-												e.target.value && copyToInstructor(i.id, e.target.value)
-											}
-											className="w-full rounded border border-brand bg-bg px-1 py-1 text-xs focus:outline-none"
-										>
-											<option value="" disabled>
-												{t("booking.school.copyToInstructor")}
-											</option>
-											{items
-												.filter((o) => o.id !== i.id)
-												.map((o) => (
-													<option key={o.id} value={o.id}>
-														{o.name}
-													</option>
-												))}
-										</select>
-									) : (
-										<>
-											<div className="flex items-center gap-1.5">
-												<button
-													type="button"
-													onClick={() =>
-														setColorOpen((v) => (v === i.id ? null : i.id))
-													}
-													title={t("booking.school.color")}
-													aria-label={t("booking.school.color")}
-													className="h-4 w-4 shrink-0 rounded-full border border-line/60 transition-transform hover:scale-110"
-													style={{
-														backgroundColor: instructorColor(i.color, ii),
-													}}
-												/>
-												<span
-													className={`min-w-0 flex-1 truncate text-sm font-semibold ${
-														i.active
-															? "text-ink"
-															: "text-ink-faint line-through"
-													}`}
-													title={i.name}
-												>
-													{i.name}
-												</span>
-											</div>
-											{colorOpen === i.id && (
-												<div className="flex flex-wrap gap-1.5 py-1">
-													{INSTRUCTOR_PALETTE.map((c) => {
-														const selected = instructorColor(i.color, ii) === c;
-														return (
-															<button
-																key={c}
-																type="button"
-																onClick={() => pickColor(i, c)}
-																aria-label={c}
-																className={`h-5 w-5 rounded-full transition-transform hover:scale-110 ${
-																	selected
-																		? "ring-2 ring-ink ring-offset-1 ring-offset-bg-raised"
-																		: ""
-																}`}
-																style={{ backgroundColor: c }}
-															/>
-														);
-													})}
-												</div>
-											)}
-											<div className="flex items-center gap-0.5">
-												{items.length > 1 && (
+							<Fragment key={i.id}>
+								<div
+									className="grid items-stretch gap-1 border-b border-line/60 py-1.5"
+									style={{ gridTemplateColumns: GRID_COLS }}
+								>
+									{/* name + controls */}
+									<div className="flex min-w-0 flex-col justify-center gap-1 pr-4">
+										{editId === i.id ? (
+											<input
+												value={editName}
+												onChange={(e) => setEditName(e.target.value)}
+												onKeyDown={(e) => e.key === "Enter" && saveEdit()}
+												onBlur={saveEdit}
+												// biome-ignore lint/a11y/noAutofocus: inline rename UX
+												autoFocus
+												className="w-full rounded border border-line bg-bg px-2 py-1 text-sm focus:border-brand focus:outline-none"
+											/>
+										) : copyFrom === i.id ? (
+											<select
+												// biome-ignore lint/a11y/noAutofocus: inline copy UX
+												autoFocus
+												defaultValue=""
+												onBlur={() => setCopyFrom(null)}
+												onChange={(e) =>
+													e.target.value &&
+													copyToInstructor(i.id, e.target.value)
+												}
+												className="w-full rounded border border-brand bg-bg px-1 py-1 text-xs focus:outline-none"
+											>
+												<option value="" disabled>
+													{t("booking.school.copyToInstructor")}
+												</option>
+												{items
+													.filter((o) => o.id !== i.id)
+													.map((o) => (
+														<option key={o.id} value={o.id}>
+															{o.name}
+														</option>
+													))}
+											</select>
+										) : (
+											<>
+												<div className="flex items-center gap-1.5">
 													<button
 														type="button"
-														onClick={() => setCopyFrom(i.id)}
-														title={t("booking.school.copyToInstructor")}
-														aria-label={t("booking.school.copyToInstructor")}
-														className={`${iconBtn} hover:text-brand`}
+														onClick={() =>
+															setColorOpen((v) => (v === i.id ? null : i.id))
+														}
+														title={t("booking.school.color")}
+														aria-label={t("booking.school.color")}
+														className="h-4 w-4 shrink-0 rounded-full border border-line/60 transition-transform hover:scale-110"
+														style={{
+															backgroundColor: instructorColor(i.color, ii),
+														}}
+													/>
+													<span
+														className={`min-w-0 flex-1 truncate text-sm font-semibold ${
+															i.active
+																? "text-ink"
+																: "text-ink-faint line-through"
+														}`}
+														title={i.name}
 													>
-														<Copy size={14} aria-hidden />
-													</button>
+														{i.name}
+													</span>
+												</div>
+												{colorOpen === i.id && (
+													<div className="flex flex-wrap gap-1.5 py-1">
+														{INSTRUCTOR_PALETTE.map((c) => {
+															const selected =
+																instructorColor(i.color, ii) === c;
+															return (
+																<button
+																	key={c}
+																	type="button"
+																	onClick={() => pickColor(i, c)}
+																	aria-label={c}
+																	className={`h-5 w-5 rounded-full transition-transform hover:scale-110 ${
+																		selected
+																			? "ring-2 ring-ink ring-offset-1 ring-offset-bg-raised"
+																			: ""
+																	}`}
+																	style={{ backgroundColor: c }}
+																/>
+															);
+														})}
+													</div>
 												)}
-												<button
-													type="button"
-													onClick={() => startEdit(i)}
-													title={t("booking.school.rename")}
-													aria-label={t("booking.school.rename")}
-													className={`${iconBtn} hover:text-brand`}
-												>
-													<Pencil size={14} aria-hidden />
-												</button>
-												<button
-													type="button"
-													onClick={() => toggle(i)}
-													title={t("booking.school.instructorActive")}
-													aria-label={t("booking.school.instructorActive")}
-													aria-pressed={i.active}
-													className={`${iconBtn} ${
-														i.active ? "text-brand" : "hover:text-brand"
-													}`}
-												>
-													<Power size={14} aria-hidden />
-												</button>
-												<button
-													type="button"
-													onClick={() => remove(i)}
-													title={t("booking.school.delete")}
-													aria-label={t("booking.school.delete")}
-													className={`${iconBtn} hover:bg-accent-soft hover:text-accent`}
-												>
-													<Trash2 size={14} aria-hidden />
-												</button>
-											</div>
-										</>
-									)}
+												<div className="flex items-center gap-0.5">
+													<button
+														type="button"
+														onClick={() => toggle(i)}
+														title={t(
+															i.active
+																? "booking.school.pause"
+																: "booking.school.resume",
+														)}
+														aria-label={t(
+															i.active
+																? "booking.school.pause"
+																: "booking.school.resume",
+														)}
+														aria-pressed={i.active}
+														className={`${iconBtn} ${
+															i.active
+																? "text-brand"
+																: "text-ink-faint hover:text-brand"
+														}`}
+													>
+														{i.active ? (
+															<Pause size={14} aria-hidden />
+														) : (
+															<Play size={14} aria-hidden />
+														)}
+													</button>
+													<DropdownMenu>
+														<DropdownMenuTrigger
+															render={
+																<button
+																	type="button"
+																	title={t("booking.school.moreActions")}
+																	aria-label={t("booking.school.moreActions")}
+																	className={`${iconBtn} hover:text-brand`}
+																>
+																	<MoreVertical size={14} aria-hidden />
+																</button>
+															}
+														/>
+														<DropdownMenuContent
+															align="start"
+															className="border-line bg-bg-raised"
+														>
+															<DropdownMenuItem
+																onClick={() => startEdit(i)}
+																className="gap-2 text-sm focus:bg-brand/10 focus:text-brand-ink"
+															>
+																<Pencil size={14} aria-hidden />
+																{t("booking.school.rename")}
+															</DropdownMenuItem>
+															{items.length > 1 && (
+																<DropdownMenuItem
+																	onClick={() => setCopyFrom(i.id)}
+																	className="gap-2 text-sm focus:bg-brand/10 focus:text-brand-ink"
+																>
+																	<Copy size={14} aria-hidden />
+																	{t("booking.school.copyToInstructor")}
+																</DropdownMenuItem>
+															)}
+															<DropdownMenuItem
+																onClick={() => remove(i)}
+																className="gap-2 text-sm text-accent focus:bg-accent-soft focus:text-accent"
+															>
+																<Trash2 size={14} aria-hidden />
+																{t("booking.school.delete")}
+															</DropdownMenuItem>
+														</DropdownMenuContent>
+													</DropdownMenu>
+												</div>
+											</>
+										)}
+									</div>
+
+									{/* day cells — tap to open the editor panel below the row */}
+									{WEEKDAYS.map((d) => {
+										const arr = grid[i.id]?.[d] ?? [];
+										const selected = editCell?.iid === i.id && editCell.d === d;
+										return (
+											<button
+												key={d}
+												type="button"
+												onClick={() => {
+													if (arr.length === 0) addRange(i.id, d);
+													setEditCell(selected ? null : { iid: i.id, d });
+												}}
+												aria-pressed={selected}
+												className={`flex h-full w-full flex-col items-center justify-center gap-0.5 rounded-md border px-1 py-1.5 text-center text-[11px] leading-tight transition-colors ${
+													arr.length
+														? "border-transparent bg-brand-soft font-semibold text-brand-ink"
+														: "border-line text-ink-faint hover:border-brand hover:text-brand"
+												} ${selected ? "ring-2 ring-brand ring-offset-1 ring-offset-bg-raised" : ""}`}
+											>
+												{arr.length ? (
+													arr.map((r, idx) => (
+														// biome-ignore lint/suspicious/noArrayIndexKey: ranges are positional
+														<span key={idx} className="whitespace-nowrap">
+															{r.start}–{r.end}
+														</span>
+													))
+												) : (
+													<span>—</span>
+												)}
+											</button>
+										);
+									})}
 								</div>
 
-								{/* day cells */}
-								{WEEKDAYS.map((d) => {
-									const arr = grid[i.id]?.[d] ?? [];
-									const isEdit = editCell?.iid === i.id && editCell.d === d;
-									if (isEdit) {
+								{/* full-width editor for the selected day — roomy inputs, no cramped cell */}
+								{editCell?.iid === i.id &&
+									(() => {
+										const d = editCell.d;
+										const arr = grid[i.id]?.[d] ?? [];
 										return (
-											<div
-												key={d}
-												className="flex flex-col gap-1 rounded-md border border-brand bg-bg p-1"
-											>
-												{arr.map((r, idx) => (
-													<div
-														// biome-ignore lint/suspicious/noArrayIndexKey: ranges are positional
-														key={idx}
-														className="flex flex-col gap-0.5 border-b border-line/40 pb-1 last:border-0 last:pb-0"
-													>
-														<div className="flex items-center gap-1">
+											<div className="mb-1.5 rounded-lg border border-brand/40 bg-brand-soft/25 p-3">
+												<div className="flex items-center justify-between gap-3">
+													<span className="text-xs font-bold uppercase tracking-wide text-brand-ink">
+														{t(`booking.school.weekdayLong.${d}`)}
+													</span>
+													<div className="flex items-center gap-3 text-xs">
+														<button
+															type="button"
+															onClick={() => copyToWeek(i.id, d)}
+															className="flex items-center gap-1 font-medium text-ink-muted transition-colors hover:text-brand"
+														>
+															<CalendarSync size={13} aria-hidden />
+															{t("booking.school.copyToWeek")}
+														</button>
+														<button
+															type="button"
+															onClick={() => setEditCell(null)}
+															className="flex items-center gap-1 font-bold text-brand transition-colors hover:text-brand-hover"
+														>
+															<Check size={13} aria-hidden />
+															{t("booking.school.done")}
+														</button>
+													</div>
+												</div>
+												<div className="mt-2.5 flex flex-wrap items-center gap-2">
+													{arr.length === 0 && (
+														<span className="text-xs text-ink-faint">
+															{t("booking.school.closed")}
+														</span>
+													)}
+													{arr.map((r, idx) => (
+														<div
+															// biome-ignore lint/suspicious/noArrayIndexKey: ranges are positional
+															key={idx}
+															className="flex items-center gap-1.5 rounded-md border border-line bg-bg px-2 py-1.5"
+														>
 															<input
 																type="time"
 																step={900}
@@ -421,89 +517,44 @@ export function InstructorsManager({
 																		start: e.target.value,
 																	})
 																}
-																className="min-w-0 flex-1 rounded border border-line bg-bg-raised px-1 py-0.5 text-[11px]"
+																className="w-[5.5rem] rounded border border-line bg-bg-raised px-1.5 py-0.5 text-xs focus:border-brand focus:outline-none"
+															/>
+															<span className="text-ink-faint">–</span>
+															<input
+																type="time"
+																step={900}
+																value={r.end}
+																onChange={(e) =>
+																	updateRange(i.id, d, idx, {
+																		end: e.target.value,
+																	})
+																}
+																className="w-[5.5rem] rounded border border-line bg-bg-raised px-1.5 py-0.5 text-xs focus:border-brand focus:outline-none"
 															/>
 															<button
 																type="button"
 																onClick={() => removeRange(i.id, d, idx)}
 																title={t("booking.school.removeRange")}
 																aria-label={t("booking.school.removeRange")}
-																className="shrink-0 text-ink-faint hover:text-red-600"
+																className="ml-0.5 text-ink-faint transition-colors hover:text-red-600"
 															>
-																<X size={12} aria-hidden />
+																<X size={14} aria-hidden />
 															</button>
 														</div>
-														<input
-															type="time"
-															step={900}
-															value={r.end}
-															onChange={(e) =>
-																updateRange(i.id, d, idx, {
-																	end: e.target.value,
-																})
-															}
-															className="rounded border border-line bg-bg-raised px-1 py-0.5 text-[11px]"
-														/>
-													</div>
-												))}
-												<button
-													type="button"
-													onClick={() => addRange(i.id, d)}
-													className="text-left text-[11px] font-medium text-brand hover:underline"
-												>
-													+ {t("booking.school.addRange")}
-												</button>
-												<div className="flex items-center justify-between border-t border-line/40 pt-1">
+													))}
 													<button
 														type="button"
-														onClick={() => copyToWeek(i.id, d)}
-														title={t("booking.school.copyToWeek")}
-														aria-label={t("booking.school.copyToWeek")}
-														className="text-ink-muted hover:text-brand"
+														onClick={() => addRange(i.id, d)}
+														className="flex items-center gap-1 rounded-md border border-dashed border-line px-2.5 py-1.5 text-xs font-medium text-brand transition-colors hover:border-brand"
 													>
-														<CalendarSync size={13} aria-hidden />
-													</button>
-													<button
-														type="button"
-														onClick={() => setEditCell(null)}
-														title={t("booking.school.done")}
-														aria-label={t("booking.school.done")}
-														className="text-brand hover:text-brand-hover"
-													>
-														<Check size={13} aria-hidden />
+														<Plus size={13} aria-hidden />
+														{t("booking.school.addRange")}
 													</button>
 												</div>
 											</div>
 										);
-									}
-									return (
-										<button
-											key={d}
-											type="button"
-											onClick={() => {
-												if (arr.length === 0) addRange(i.id, d);
-												setEditCell({ iid: i.id, d });
-											}}
-											className={`flex h-full w-full flex-col items-center justify-center gap-0.5 rounded-md border px-1 py-1.5 text-center text-[11px] leading-tight transition-colors ${
-												arr.length
-													? "border-transparent bg-brand-soft font-semibold text-brand-ink"
-													: "border-line text-ink-faint hover:border-brand hover:text-brand"
-											}`}
-										>
-											{arr.length ? (
-												arr.map((r, idx) => (
-													// biome-ignore lint/suspicious/noArrayIndexKey: ranges are positional
-													<span key={idx} className="whitespace-nowrap">
-														{r.start}–{r.end}
-													</span>
-												))
-											) : (
-												<span>—</span>
-											)}
-										</button>
-									);
-								})}
-							</div>
+									})()}
+							</Fragment>
 						))}
 					</div>
 				</div>

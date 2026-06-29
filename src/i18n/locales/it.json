@@ -32,7 +32,9 @@
 			"evening": "Sera",
 			"selectedSummary": "Hai scelto",
 			"prevMonth": "Mese precedente",
-			"nextMonth": "Mese successivo"
+			"nextMonth": "Mese successivo",
+			"preferredInstructor": "Istruttore preferito",
+			"anyInstructor": "Qualsiasi istruttore"
 		},
 		"mine": {
 			"title": "Le mie guide",
@@ -117,7 +119,22 @@
 			"statusPending": "In attesa",
 			"statusConfirmed": "Confermata",
 			"edit": "Modifica",
-			"editAppointment": "Modifica appuntamento"
+			"editAppointment": "Modifica appuntamento",
+			"studentBusy": "Lo studente ha già una guida in questa fascia",
+			"studentPrefers": "Lo studente preferisce {{name}}",
+			"pause": "Metti in pausa",
+			"resume": "Riattiva",
+			"weekdayLong": {
+				"1": "Lunedì",
+				"2": "Martedì",
+				"3": "Mercoledì",
+				"4": "Giovedì",
+				"5": "Venerdì",
+				"6": "Sabato",
+				"7": "Domenica"
+			},
+			"moreActions": "Altre azioni",
+			"autoConfirmBacklogWarn": "Hai {{count}} richieste in attesa. Attivando la conferma automatica verranno confermate tutte e assegnate a un istruttore libero. Vuoi procedere? Ricordati di salvare per rendere effettiva la modifica."
 		}
 	},
 	"cerca": {

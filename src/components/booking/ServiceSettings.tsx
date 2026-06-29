@@ -1,33 +1,56 @@
+import { Info } from "lucide-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { setServiceSettings } from "@/lib/booking/api";
+import { confirmPendingRequests, setServiceSettings } from "@/lib/booking/api";
 
 export function ServiceSettings({
 	schoolId,
 	initialDuration,
 	initialAutoConfirm,
+	pendingCount,
 	onSaved,
 }: {
 	schoolId: string;
 	initialDuration: number | null;
 	initialAutoConfirm: boolean;
-	onSaved?: () => void;
+	pendingCount: number;
+	onSaved?: (next: { duration: number; autoConfirm: boolean }) => void;
 }) {
 	const { t } = useTranslation();
-	const [duration, setDuration] = useState(initialDuration ?? 60);
-	const [autoConfirm, setAutoConfirm] = useState(initialAutoConfirm);
+	// baseline = last persisted values; Save stays disabled until they diverge
+	const [base, setBase] = useState({
+		duration: initialDuration ?? 60,
+		autoConfirm: initialAutoConfirm,
+	});
+	const [duration, setDuration] = useState(base.duration);
+	const [autoConfirm, setAutoConfirm] = useState(base.autoConfirm);
 	const [saving, setSaving] = useState(false);
-	const [saved, setSaved] = useState(false);
 	const [err, setErr] = useState<string | null>(null);
+
+	const dirty = duration !== base.duration || autoConfirm !== base.autoConfirm;
+
+	const toggleAutoConfirm = () => {
+		setErr(null);
+		// turning ON with a pending backlog: warn that saving will confirm them all
+		if (!autoConfirm && pendingCount > 0) {
+			const ok = window.confirm(
+				t("booking.school.autoConfirmBacklogWarn", { count: pendingCount }),
+			);
+			if (!ok) return;
+		}
+		setAutoConfirm((v) => !v);
+	};
 
 	const save = async () => {
 		setSaving(true);
 		setErr(null);
+		const turnedOn = autoConfirm && !base.autoConfirm;
 		try {
 			// booking stays enabled; the on/off toggle was removed.
 			await setServiceSettings(schoolId, duration, true, autoConfirm);
-			setSaved(true);
-			onSaved?.();
+			if (turnedOn) await confirmPendingRequests(schoolId);
+			setBase({ duration, autoConfirm });
+			onSaved?.({ duration, autoConfirm });
 		} catch (e) {
 			setErr((e as Error).message);
 		} finally {
@@ -48,25 +71,19 @@ export function ServiceSettings({
 					min={15}
 					step={15}
 					value={duration}
-					onChange={(e) => {
-						setSaved(false);
-						setDuration(Number(e.target.value));
-					}}
+					onChange={(e) => setDuration(Number(e.target.value))}
 					className="mt-1 block w-32 rounded-md border border-line bg-bg px-3 py-1.5"
 				/>
 			</label>
 
-			{/* auto-confirm — Apple-style toggle */}
+			{/* auto-confirm — Apple-style toggle, hint behind an (i) tooltip */}
 			<div className="mt-5 border-t border-line pt-4">
-				<label className="flex cursor-pointer items-start gap-3 text-sm">
-					<span className="relative mt-0.5 inline-block h-[25px] w-[50px] shrink-0">
+				<div className="flex items-center gap-3">
+					<label className="relative inline-block h-[25px] w-[50px] shrink-0">
 						<input
 							type="checkbox"
 							checked={autoConfirm}
-							onChange={() => {
-								setSaved(false);
-								setAutoConfirm((v) => !v);
-							}}
+							onChange={toggleAutoConfirm}
 							className="peer sr-only"
 						/>
 						<span
@@ -75,28 +92,37 @@ export function ServiceSettings({
 						/>
 						<span
 							aria-hidden
-							className="absolute left-px top-px h-[23px] w-[23px] rounded-full bg-white shadow-[0_1px_3px_rgba(0,0,0,0.3)] transition-transform peer-checked:translate-x-[25px]"
+							className="absolute top-px left-px h-[23px] w-[23px] rounded-full bg-white shadow-[0_1px_3px_rgba(0,0,0,0.3)] transition-transform peer-checked:translate-x-[25px]"
 						/>
-					</span>
-					<span>
-						<span className="font-semibold text-ink">
-							{t("booking.school.autoConfirmLabel")}
+					</label>
+					<span className="flex items-center gap-1.5 text-sm font-semibold text-ink">
+						{t("booking.school.autoConfirmLabel")}
+						<span className="group relative inline-flex">
+							<button
+								type="button"
+								aria-label={t("booking.school.autoConfirmHint")}
+								className="grid h-4 w-4 place-items-center rounded-full text-ink-faint transition-colors hover:text-brand"
+							>
+								<Info size={14} aria-hidden />
+							</button>
+							<span
+								role="tooltip"
+								className="pointer-events-none absolute bottom-full left-1/2 z-10 mb-1.5 w-56 -translate-x-1/2 rounded-lg border border-line bg-ink px-2.5 py-2 text-xs leading-snug font-normal text-bg opacity-0 shadow-md transition-opacity group-hover:opacity-100 group-focus-within:opacity-100"
+							>
+								{t("booking.school.autoConfirmHint")}
+							</span>
 						</span>
-						<span className="mt-0.5 block text-xs text-ink-muted">
-							{t("booking.school.autoConfirmHint")}
-						</span>
 					</span>
-				</label>
+				</div>
 			</div>
 
 			{err && <p className="mt-3 text-sm text-red-600">{err}</p>}
 			<button
 				type="button"
 				onClick={save}
-				disabled={saving}
-				className="mt-4 rounded-md bg-brand px-4 py-2 text-sm font-bold text-white disabled:opacity-50"
+				disabled={saving || !dirty}
+				className="mt-4 rounded-md bg-brand px-4 py-2 text-sm font-bold text-white transition-colors hover:bg-brand-hover disabled:cursor-not-allowed disabled:opacity-40"
 			>
-				{saved ? "✓ " : ""}
 				{t("booking.school.save")}
 			</button>
 		</div>

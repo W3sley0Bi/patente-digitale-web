@@ -101,9 +101,11 @@ export default function DrivingSchoolGuide() {
 				</p>
 			</header>
 
-			{/* Pending requests, then the full-width schedule */}
+			{/* Pending requests (hidden when auto-confirm is on), then the schedule */}
 			<div className="flex flex-col gap-6">
-				<RequestsInbox schoolId={school.id} onChange={refresh} />
+				{!school.auto_confirm && (
+					<RequestsInbox schoolId={school.id} onChange={refresh} />
+				)}
 				<LessonsCalendar
 					bookings={bookings}
 					instructors={instructors}
@@ -130,7 +132,19 @@ export default function DrivingSchoolGuide() {
 						schoolId={school.id}
 						initialDuration={school.lesson_duration_min}
 						initialAutoConfirm={school.auto_confirm}
-						onSaved={refresh}
+						pendingCount={bookings.filter((b) => b.status === "pending").length}
+						onSaved={({ duration, autoConfirm }) => {
+							setSchool((s) =>
+								s
+									? {
+											...s,
+											lesson_duration_min: duration,
+											auto_confirm: autoConfirm,
+										}
+									: s,
+							);
+							refresh();
+						}}
 					/>
 				</div>
 			</div>

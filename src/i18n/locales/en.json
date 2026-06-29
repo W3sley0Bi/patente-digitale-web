@@ -32,7 +32,9 @@
 			"evening": "Evening",
 			"selectedSummary": "You picked",
 			"prevMonth": "Previous month",
-			"nextMonth": "Next month"
+			"nextMonth": "Next month",
+			"preferredInstructor": "Preferred instructor",
+			"anyInstructor": "Any instructor"
 		},
 		"mine": {
 			"title": "My lessons",
@@ -117,7 +119,22 @@
 			"statusPending": "Pending",
 			"statusConfirmed": "Confirmed",
 			"edit": "Edit",
-			"editAppointment": "Edit appointment"
+			"editAppointment": "Edit appointment",
+			"studentBusy": "Student already has a lesson in this slot",
+			"studentPrefers": "Student prefers {{name}}",
+			"pause": "Pause",
+			"resume": "Resume",
+			"weekdayLong": {
+				"1": "Monday",
+				"2": "Tuesday",
+				"3": "Wednesday",
+				"4": "Thursday",
+				"5": "Friday",
+				"6": "Saturday",
+				"7": "Sunday"
+			},
+			"moreActions": "More actions",
+			"autoConfirmBacklogWarn": "You have {{count}} pending requests. Turning on auto-confirm will confirm them all and assign a free instructor. Proceed? Remember to save to apply the change."
 		}
 	},
 	"cerca": {

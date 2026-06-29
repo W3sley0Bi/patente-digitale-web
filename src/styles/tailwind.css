@@ -122,3 +122,12 @@
 .sx-fill .sx-react-calendar-wrapper {
 	height: 100%;
 }
+
+/* The calendar is pinned to non-small mode (see isCalendarSmall in
+   LessonsCalendar) so week + month stay available on phones. Let the header
+   controls wrap cleanly onto a second row on narrow widths, and never clip the
+   view-switcher / date-picker popups. */
+.sx-fill .sx__calendar-header {
+	flex-wrap: wrap;
+	row-gap: 0.5rem;
+}

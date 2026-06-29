@@ -32,7 +32,9 @@
 			"evening": "مساءً",
 			"selectedSummary": "اخترت",
 			"prevMonth": "الشهر السابق",
-			"nextMonth": "الشهر التالي"
+			"nextMonth": "الشهر التالي",
+			"preferredInstructor": "المدرّب المفضّل",
+			"anyInstructor": "أي مدرّب"
 		},
 		"mine": {
 			"title": "دروسي",
@@ -117,7 +119,22 @@
 			"statusPending": "قيد الانتظار",
 			"statusConfirmed": "مؤكَّد",
 			"edit": "تعديل",
-			"editAppointment": "تعديل الموعد"
+			"editAppointment": "تعديل الموعد",
+			"studentBusy": "لدى الطالب درس بالفعل في هذه الفترة",
+			"studentPrefers": "يفضّل الطالب {{name}}",
+			"pause": "إيقاف مؤقت",
+			"resume": "استئناف",
+			"weekdayLong": {
+				"1": "الإثنين",
+				"2": "الثلاثاء",
+				"3": "الأربعاء",
+				"4": "الخميس",
+				"5": "الجمعة",
+				"6": "السبت",
+				"7": "الأحد"
+			},
+			"moreActions": "إجراءات أخرى",
+			"autoConfirmBacklogWarn": "لديك {{count}} طلبات قيد الانتظار. تفعيل التأكيد التلقائي سيؤكّدها جميعاً ويسنِد مدرّباً متاحاً. متابعة؟ تذكّر الحفظ لتطبيق التغيير."
 		}
 	},
 	"cerca": {

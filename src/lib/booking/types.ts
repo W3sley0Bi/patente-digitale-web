@@ -30,6 +30,7 @@ export interface Booking {
 	school_id: string;
 	student_id: string;
 	instructor_id: string | null;
+	preferred_instructor_id: string | null; // student's soft choice at request time
 	starts_at: string; // ISO
 	duration_min: number;
 	ends_at: string; // ISO (maintained by trigger)

@@ -13,6 +13,7 @@ const mk = (over: Partial<Booking>): Booking => ({
 	school_id: "s",
 	student_id: "u",
 	instructor_id: null,
+	preferred_instructor_id: null,
 	starts_at: "2030-01-01T10:00:00Z",
 	duration_min: 60,
 	ends_at: "2030-01-01T11:00:00Z",

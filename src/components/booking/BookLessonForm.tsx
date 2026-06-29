@@ -1,6 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { listAvailableSlots, requestBooking } from "@/lib/booking/api";
+import {
+	listAvailableSlots,
+	listInstructors,
+	requestBooking,
+} from "@/lib/booking/api";
+import type { Instructor } from "@/lib/booking/types";
 import { MiniCalendar } from "./MiniCalendar";
 
 const pad = (n: number) => String(n).padStart(2, "0");
@@ -22,6 +27,7 @@ export function BookLessonForm({
 }) {
 	const { t, i18n } = useTranslation();
 	const today = todayISO();
+	const prefKey = `pd:prefInstructor:${schoolId}`;
 	const [day, setDay] = useState(today);
 	const [slots, setSlots] = useState<string[]>([]);
 	const [loadingSlots, setLoadingSlots] = useState(false);
@@ -29,16 +35,52 @@ export function BookLessonForm({
 	const [msg, setMsg] = useState<string | null>(null);
 	const [err, setErr] = useState<string | null>(null);
 	const [busy, setBusy] = useState(false);
+	const [instructors, setInstructors] = useState<Instructor[]>([]);
+	const [prefInstructor, setPrefInstructor] = useState<string>(() => {
+		try {
+			return localStorage.getItem(prefKey) ?? "";
+		} catch {
+			return "";
+		}
+	});
+
+	const changePref = (id: string) => {
+		setPrefInstructor(id);
+		try {
+			if (id) localStorage.setItem(prefKey, id);
+			else localStorage.removeItem(prefKey);
+		} catch {
+			/* ignore storage failures */
+		}
+	};
+
+	// load the school's instructors so the student can pick a preferred one
+	useEffect(() => {
+		listInstructors(schoolId)
+			.then((list) => setInstructors(list.filter((i) => i.active)))
+			.catch(() => setInstructors([]));
+	}, [schoolId]);
+
+	// drop a stored preference that no longer exists (instructor removed/deactivated)
+	useEffect(() => {
+		if (
+			prefInstructor &&
+			instructors.length > 0 &&
+			!instructors.some((i) => i.id === prefInstructor)
+		) {
+			changePref("");
+		}
+	}, [instructors]);
 
 	useEffect(() => {
 		setLoadingSlots(true);
 		setPicked(null);
 		setMsg(null);
-		listAvailableSlots(schoolId, day)
+		listAvailableSlots(schoolId, day, prefInstructor || undefined)
 			.then(setSlots)
 			.catch(() => setSlots([]))
 			.finally(() => setLoadingSlots(false));
-	}, [schoolId, day]);
+	}, [schoolId, day, prefInstructor]);
 
 	const fmtTime = (iso: string) =>
 		new Date(iso).toLocaleTimeString(i18n.language, {
@@ -73,7 +115,12 @@ export function BookLessonForm({
 		setErr(null);
 		setMsg(null);
 		try {
-			await requestBooking(schoolId, picked, schoolEmail);
+			await requestBooking(
+				schoolId,
+				picked,
+				schoolEmail,
+				prefInstructor || undefined,
+			);
 			setMsg(t("booking.book.success"));
 			setPicked(null);
 			setSlots((s) => s.filter((x) => x !== picked));
@@ -99,6 +146,25 @@ export function BookLessonForm({
 			<p className="mt-1 text-xs text-ink-muted">
 				{t("booking.book.duration", { min: durationMin })}
 			</p>
+
+			{/* preferred instructor — remembered for next time */}
+			{instructors.length > 0 && (
+				<label className="mt-5 block text-xs font-bold uppercase tracking-wide text-ink-muted">
+					{t("booking.book.preferredInstructor")}
+					<select
+						value={prefInstructor}
+						onChange={(e) => changePref(e.target.value)}
+						className="mt-1 block w-full rounded-md border border-line bg-bg px-3 py-2 text-sm font-medium normal-case tracking-normal text-ink focus:border-brand focus:outline-none"
+					>
+						<option value="">{t("booking.book.anyInstructor")}</option>
+						{instructors.map((i) => (
+							<option key={i.id} value={i.id}>
+								{i.name}
+							</option>
+						))}
+					</select>
+				</label>
+			)}
 
 			{/* day picker — month calendar */}
 			<p className="mt-5 text-xs font-bold uppercase tracking-wide text-ink-muted">

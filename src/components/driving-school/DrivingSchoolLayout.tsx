@@ -97,15 +97,15 @@ export function DrivingSchoolLayout({
 					))}
 				</aside>
 
-				{/* Mobile top tabs */}
-				<div className="md:hidden fixed top-20 left-0 right-0 z-40 bg-bg border-b border-line flex px-4 gap-1">
+				{/* Mobile top tabs — horizontally scrollable, never overflow the page */}
+				<div className="md:hidden fixed top-20 left-0 right-0 z-40 flex gap-1 overflow-x-auto border-b border-line bg-bg px-4 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
 					{NAV_ITEMS.map(({ href, icon: Icon, label, end }) => (
 						<NavLink
 							key={href}
 							to={href}
 							end={end}
 							className={({ isActive }) =>
-								`flex items-center gap-1.5 px-3 py-3 text-xs font-medium transition-colors border-b-2 -mb-px ${
+								`-mb-px flex shrink-0 items-center gap-1.5 whitespace-nowrap border-b-2 px-3 py-3 text-xs font-medium transition-colors ${
 									isActive
 										? "border-brand text-brand"
 										: "border-transparent text-ink-muted hover:text-ink"
@@ -118,8 +118,9 @@ export function DrivingSchoolLayout({
 					))}
 				</div>
 
-				{/* Main content */}
-				<main className="flex-1 px-6 py-8 md:px-10 pt-20 md:pt-8">
+				{/* Main content — min-w-0 so wide children (calendar, grids) scroll
+				    internally instead of pushing the whole page sideways. */}
+				<main className="min-w-0 flex-1 px-6 py-8 pt-20 md:px-10 md:pt-8">
 					{children}
 				</main>
 			</div>

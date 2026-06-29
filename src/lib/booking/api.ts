@@ -152,10 +152,12 @@ export async function setInstructorAvailability(
 export async function listAvailableSlots(
 	schoolId: string,
 	dayISO: string,
+	instructorId?: string,
 ): Promise<string[]> {
 	const { data, error } = await supabase.rpc("list_available_slots", {
 		p_school_id: schoolId,
 		p_day: dayISO,
+		p_instructor_id: instructorId ?? null,
 	});
 	if (error) throw error;
 	return (data as string[]) ?? [];
@@ -208,6 +210,18 @@ export async function createBookingAsSchool(
 	});
 	if (error) throw error;
 	return data as string;
+}
+
+/** Confirm every pending request at the school by assigning a free instructor.
+ * Returns how many were confirmed. Used when auto-confirm is switched on. */
+export async function confirmPendingRequests(
+	schoolId: string,
+): Promise<number> {
+	const { data, error } = await supabase.rpc("confirm_pending_requests", {
+		p_school_id: schoolId,
+	});
+	if (error) throw error;
+	return (data as number) ?? 0;
 }
 
 // ── service settings (RLS-guarded; owner policy on driving_schools) ──
@@ -275,10 +289,12 @@ export const requestBooking = async (
 	schoolId: string,
 	startsAt: string,
 	schoolEmail?: string,
+	preferredInstructorId?: string,
 ) => {
 	const id = await rpc("request_booking", {
 		p_school_id: schoolId,
 		p_starts_at: startsAt,
+		p_preferred_instructor_id: preferredInstructorId ?? null,
 	});
 	await notify("booking_requested", schoolEmail);
 	return id;

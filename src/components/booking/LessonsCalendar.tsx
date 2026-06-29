@@ -158,6 +158,12 @@ export function LessonsCalendar({
 			timezone: TZ,
 			weekOptions: { gridHeight: GRID_HEIGHT },
 			callbacks: {
+				// Keep week + month available on phones too. By default schedule-x
+				// drops every view whose hasSmallScreenCompat is false (week and
+				// month-grid) below ~700px and force-switches to day. Pinning this to
+				// false keeps all three views in the switcher at every width; the grid
+				// itself stays usable via its own scroll.
+				isCalendarSmall: () => false,
 				onClickDateTime: (dateTime: Temporal.ZonedDateTime) => {
 					// snap the clicked instant down to the nearest 15 minutes
 					const snapped = dateTime.round({

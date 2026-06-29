@@ -29,6 +29,7 @@ const errorMap = (
 		instructor_unavailable: t("booking.school.instructorUnavailable"),
 		outside_hours: t("booking.school.outsideHours"),
 		student_not_enrolled: t("booking.school.studentNotEnrolled"),
+		student_busy: t("booking.school.studentBusy"),
 		booking_disabled: t("booking.book.disabled"),
 		booking_not_pending: t("booking.book.error"),
 	})[code] ?? t(fallback);
@@ -259,7 +260,14 @@ export function EventDetailsPopover({
 	const dotColor = ins
 		? instructorColor(ins.color, instructorIndex)
 		: "oklch(0.70 0.15 75)"; // pending amber when unassigned
-	const [instructorId, setInstructorId] = useState(booking.instructor_id ?? "");
+	// prefill the school's picker with the student's preferred instructor
+	const [instructorId, setInstructorId] = useState(
+		booking.instructor_id ?? booking.preferred_instructor_id ?? "",
+	);
+	const preferredName = booking.preferred_instructor_id
+		? (instructors.find((i) => i.id === booking.preferred_instructor_id)
+				?.name ?? null)
+		: null;
 	const [busy, setBusy] = useState(false);
 	const [err, setErr] = useState<string | null>(null);
 
@@ -348,6 +356,11 @@ export function EventDetailsPopover({
 								</option>
 							))}
 						</select>
+						{preferredName && (
+							<span className="mt-1 block text-[11px] text-ink-faint">
+								{t("booking.school.studentPrefers", { name: preferredName })}
+							</span>
+						)}
 					</label>
 					{err && <p className="text-xs text-accent-ink">{err}</p>}
 					<div className="flex justify-end gap-2">
