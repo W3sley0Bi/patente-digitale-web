@@ -26,7 +26,13 @@
 			"pickDay": "اختر اليوم",
 			"chooseSlot": "الأوقات المتاحة",
 			"noSlots": "لا توجد أوقات متاحة في هذا اليوم",
-			"slotUnavailable": "هذا الوقت لم يعد متاحاً"
+			"slotUnavailable": "هذا الوقت لم يعد متاحاً",
+			"morning": "صباحاً",
+			"afternoon": "بعد الظهر",
+			"evening": "مساءً",
+			"selectedSummary": "اخترت",
+			"prevMonth": "الشهر السابق",
+			"nextMonth": "الشهر التالي"
 		},
 		"mine": {
 			"title": "دروسي",
@@ -52,10 +58,30 @@
 			"approve": "موافقة",
 			"reject": "رفض",
 			"activeElsewhere": "الطالب مسجّل بالفعل في مدرسة أخرى",
-			"calendar": "التقويم",
+			"calendar": "تقويم الدروس",
+			"legendConfirmed": "مؤكَّد",
+			"legendPending": "قيد الانتظار",
+			"expand": "ملء الشاشة",
+			"collapse": "تصغير",
+			"unassigned": "غير معيَّن",
+			"guideSubtitle": "أدر الطلبات والجدول والمدرّبين والتوافر في مكان واحد.",
+			"manageSection": "الإعدادات",
 			"instructors": "المدرّبون",
 			"addInstructor": "إضافة مدرّب",
 			"instructorName": "اسم المدرّب",
+			"noInstructors": "لا يوجد مدرّبون بعد. أضِف واحداً لتأكيد الدروس.",
+			"newAppointment": "موعد جديد",
+			"endsAt": "حتى {{time}}",
+			"student": "الطالب",
+			"selectStudent": "اختر الطالب",
+			"instructor": "المدرّب",
+			"create": "إنشاء الموعد",
+			"cancel": "إلغاء",
+			"noStudents": "لا يوجد طلاب مسجّلون نشطون.",
+			"selectStudentInstructor": "اختر طالباً ومدرّباً",
+			"instructorUnavailable": "المدرّب غير متاح في هذه الفترة",
+			"outsideHours": "خارج ساعات العمل",
+			"studentNotEnrolled": "الطالب غير مسجّل نشط",
 			"settings": "إعدادات الحجز",
 			"durationLabel": "مدة الدرس (دقائق)",
 			"enabledLabel": "الحجز مفعّل",
@@ -76,7 +102,22 @@
 				"5": "الجمعة",
 				"6": "السبت",
 				"7": "الأحد"
-			}
+			},
+			"scheduleTitle": "ساعات المدرّبين",
+			"scheduleHint": "هذه هي الأوقات التي يمكن للطلاب فيها حجز درس. يصبح الدرس قابلاً للحجز عندما يكون المدرّب متاحاً.",
+			"copyToWeek": "نسخ إلى كل الأيام",
+			"copyToInstructor": "نسخ الساعات إلى…",
+			"done": "تم",
+			"instructorActive": "نشط",
+			"color": "اللون",
+			"autoConfirmLabel": "تأكيد تلقائي",
+			"autoConfirmHint": "تُؤكَّد طلبات الدروس فوراً وتُسنَد إلى مدرّب متاح، دون موافقة يدوية.",
+			"cancelLesson": "إلغاء الدرس",
+			"statusLabel": "الحالة",
+			"statusPending": "قيد الانتظار",
+			"statusConfirmed": "مؤكَّد",
+			"edit": "تعديل",
+			"editAppointment": "تعديل الموعد"
 		}
 	},
 	"cerca": {
@@ -162,15 +203,15 @@
 			"submitting": "جارٍ الإرسال...",
 			"submit": "إرسال الطلب",
 			"notAuthenticated": "غير مصادق عليك.",
-				"errors": {
-					"websiteInvalid": "يرجى إدخال رابط صحيح (مثال: https://www.example.com).",
-					"requiredField": "هذا الحقل مطلوب.",
-					"alreadyHavePending": "لديك بالفعل طلب قيد المراجعة.",
-					"alreadyHavePendingCta": "اذهب إلى لوحة التحكم →"
-				},
-				"addressPlaceholder": "ابحث عن عنوان...",
-				"mapHint": "انقر على الخريطة لتحديد موقع مدرستك",
-				"mapCoords": "الموقع: {{lat}}, {{lng}}"
+			"errors": {
+				"websiteInvalid": "يرجى إدخال رابط صحيح (مثال: https://www.example.com).",
+				"requiredField": "هذا الحقل مطلوب.",
+				"alreadyHavePending": "لديك بالفعل طلب قيد المراجعة.",
+				"alreadyHavePendingCta": "اذهب إلى لوحة التحكم →"
+			},
+			"addressPlaceholder": "ابحث عن عنوان...",
+			"mapHint": "انقر على الخريطة لتحديد موقع مدرستك",
+			"mapCoords": "الموقع: {{lat}}, {{lng}}"
 		},
 		"search": {
 			"placeholder": "ابحث باسم المدرسة أو المدينة..."
@@ -199,9 +240,13 @@
 			"nav": {
 				"overview": "نظرة عامة",
 				"guide": "الدروس",
+				"students": "الطلاب",
 				"editListing": "القائمة",
 				"settings": "الإعدادات"
 			},
+			"studentsTitle": "طلابك",
+			"studentsCount_one": "طالب مسجّل واحد",
+			"studentsCount_other": "{{count}} طلاب مسجّلون",
 			"noClaim": {
 				"title": "Complete your claim",
 				"desc": "We couldn't find an active claim for your account. Complete the claim process to access your dashboard.",
@@ -297,13 +342,14 @@
 				"emphasis": "بدون"
 			},
 			"subhead": "ابحث عن مدرسة تعليم القيادة الخاصة بك، اخترها وسجل فيها خلال دقائق. كل ذلك عبر الإنترنت، بدون طوابير.",
-"searchPlaceholder": "ابحث بالمدينة أو الرمز البريدي...",
+			"searchPlaceholder": "ابحث بالمدينة أو الرمز البريدي...",
 			"cta": {
-			"primary": "ابحث عن مدرسة تعليم القيادة الخاصة بك",
-			"secondary": "كيف يعمل"
+				"primary": "ابحث عن مدرسة تعليم القيادة الخاصة بك",
+				"secondary": "كيف يعمل"
 			},
 			"mascotNote": "لجميع أنواع التراخيص، ليس فقط الفئة B",
-			"trust": "تم اختياره بالفعل من قبل أكثر من 12,000 طالب في 14 منطقة. مدفوعات آمنة باستخدام PayPal و Apple Pay و Google Pay.",			"trust.social": "+12,000 طالب سعيد",
+			"trust": "تم اختياره بالفعل من قبل أكثر من 12,000 طالب في 14 منطقة. مدفوعات آمنة باستخدام PayPal و Apple Pay و Google Pay.",
+			"trust.social": "+12,000 طالب سعيد",
 			"mascotAlt": "باتينتينو، تميمة Patentedigitale.it"
 		},
 		"howItWorks": {
@@ -369,7 +415,9 @@
 					"subCaption": "بين المسجلين في عام 2024"
 				}
 			},
-			"partners": { "title": "بعض شركائنا" }
+			"partners": {
+				"title": "بعض شركائنا"
+			}
 		},
 		"b2b": {
 			"eyebrow": "هل أنت مدرسة تعليم قيادة؟",

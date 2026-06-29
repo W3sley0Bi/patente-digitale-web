@@ -1,24 +1,24 @@
-import { useTranslation } from "react-i18next";
-import { Link } from "react-router";
 import {
-	ArrowRight,
 	ArrowDown,
+	ArrowRight,
 	BadgeCheck,
 	Check,
 	Download,
-	Search,
-	Zap,
 	FileCheck,
+	Search,
 	TrendingUp,
 	X,
+	Zap,
 } from "lucide-react";
-import { Nav } from "@/components/nav/Nav";
+import { useTranslation } from "react-i18next";
+import { Link } from "react-router";
+import managerIcon from "@/assets/autoscuola-manager-icon.png";
+import verifiedBadge from "@/assets/verified-autoscuola-green.png";
 import { Footer } from "@/components/layout/Footer";
 import { SectionEyebrow } from "@/components/layout/SectionEyebrow";
 import { Reveal } from "@/components/motion/Reveal";
+import { Nav } from "@/components/nav/Nav";
 import { Button } from "@/components/ui/button";
-import verifiedBadge from "@/assets/verified-autoscuola-green.png";
-import managerIcon from "@/assets/autoscuola-manager-icon.png";
 
 function DashboardMock() {
 	const { t } = useTranslation();
@@ -32,7 +32,12 @@ function DashboardMock() {
 					<span className="h-2.5 w-2.5 rounded-full bg-line-strong" />
 				</div>
 				<div className="ml-3 flex-1 flex items-center gap-2 rounded-md bg-bg border border-line px-3 py-1 truncate">
-					<img src={managerIcon} alt="" aria-hidden="true" className="h-4 w-4 rounded-sm object-cover shrink-0" />
+					<img
+						src={managerIcon}
+						alt=""
+						aria-hidden="true"
+						className="h-4 w-4 rounded-sm object-cover shrink-0"
+					/>
 					<span className="font-sans text-xs text-ink-faint truncate">
 						patentedigitale.it/dashboard
 					</span>
@@ -95,7 +100,10 @@ function DashboardMock() {
 					</span>
 					<ul className="mt-3 flex flex-col divide-y divide-line border border-line rounded-xl bg-bg overflow-hidden">
 						{[1, 2, 3].map((i) => (
-							<li key={i} className="flex items-center justify-between gap-3 px-4 py-3">
+							<li
+								key={i}
+								className="flex items-center justify-between gap-3 px-4 py-3"
+							>
 								<div className="flex items-center gap-3 min-w-0">
 									<div className="h-7 w-7 rounded-full bg-brand-soft flex items-center justify-center font-sans text-xs font-black text-brand-ink shrink-0">
 										{t(`autoscuole.dashboard.mock.student${i}`).slice(0, 1)}
@@ -168,7 +176,10 @@ export default function Autoscuole() {
 							</Reveal>
 
 							{/* Verified badge — branded asset */}
-							<Reveal delay={0.2} className="lg:col-span-5 flex justify-center lg:justify-end">
+							<Reveal
+								delay={0.2}
+								className="lg:col-span-5 flex justify-center lg:justify-end"
+							>
 								<div className="relative">
 									<div className="w-48 h-48 md:w-64 md:h-64 lg:w-72 lg:h-72 animate-float">
 										<img
@@ -195,13 +206,18 @@ export default function Autoscuole() {
 						href="#come-funziona"
 						className="group absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5 font-sans text-xs font-bold text-white/50 hover:text-white transition-colors"
 					>
-						<span className="uppercase tracking-widest">{t("autoscuole.hero.ctaSecondaryScroll")}</span>
+						<span className="uppercase tracking-widest">
+							{t("autoscuole.hero.ctaSecondaryScroll")}
+						</span>
 						<ArrowDown className="h-4 w-4 motion-safe:animate-bounce group-hover:text-white" />
 					</a>
 				</section>
 
 				{/* DASHBOARD MOCKUP — the visual proof */}
-				<section id="come-funziona" className="scroll-mt-20 py-24 md:py-32 bg-bg">
+				<section
+					id="come-funziona"
+					className="scroll-mt-20 py-24 md:py-32 bg-bg"
+				>
 					<div className="mx-auto max-w-(--container-wide) px-4 lg:px-8">
 						<div className="grid items-center gap-12 lg:grid-cols-12 lg:gap-16">
 							<Reveal className="lg:col-span-5">
@@ -229,7 +245,9 @@ export default function Autoscuole() {
 										</span>
 									</div>
 								</div>
-								<SectionEyebrow>{t("autoscuole.dashboard.eyebrow")}</SectionEyebrow>
+								<SectionEyebrow>
+									{t("autoscuole.dashboard.eyebrow")}
+								</SectionEyebrow>
 								<h2 className="mt-3 font-sans text-2xl font-black tracking-tight text-ink md:text-3xl lg:text-4xl">
 									{t("autoscuole.dashboard.heading")}
 								</h2>
@@ -418,7 +436,9 @@ export default function Autoscuole() {
 				<section className="py-24 md:py-32 bg-bg-sunken/30">
 					<div className="mx-auto max-w-(--container-wide) px-4 lg:px-8">
 						<Reveal>
-							<SectionEyebrow>{t("autoscuole.featureParity.eyebrow")}</SectionEyebrow>
+							<SectionEyebrow>
+								{t("autoscuole.featureParity.eyebrow")}
+							</SectionEyebrow>
 							<h2 className="mt-3 font-sans text-2xl font-black tracking-tight text-ink md:text-3xl">
 								{t("autoscuole.featureParity.heading")}
 							</h2>
@@ -453,10 +473,14 @@ export default function Autoscuole() {
 										>
 											<div className="min-w-0">
 												<span className="font-sans text-sm font-bold text-ink block">
-													{t(`autoscuole.featureParity.features.${feature}.label`)}
+													{t(
+														`autoscuole.featureParity.features.${feature}.label`,
+													)}
 												</span>
 												<span className="mt-0.5 font-sans text-xs leading-relaxed text-ink-muted block max-w-[50ch]">
-													{t(`autoscuole.featureParity.features.${feature}.detail`)}
+													{t(
+														`autoscuole.featureParity.features.${feature}.detail`,
+													)}
 												</span>
 											</div>
 											<div className="flex justify-center">
@@ -470,7 +494,7 @@ export default function Autoscuole() {
 												<Check className="h-5 w-5 text-brand" />
 											</div>
 										</div>
-									)
+									),
 								)}
 							</div>
 						</Reveal>
@@ -482,7 +506,9 @@ export default function Autoscuole() {
 					<div className="mx-auto max-w-(--container-wide) px-4 lg:px-8">
 						<div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
 							<Reveal className="lg:col-span-5">
-								<SectionEyebrow>{t("autoscuole.pricing.eyebrow")}</SectionEyebrow>
+								<SectionEyebrow>
+									{t("autoscuole.pricing.eyebrow")}
+								</SectionEyebrow>
 								<h2 className="mt-3 font-sans text-2xl font-black tracking-tight text-ink md:text-3xl max-w-[18ch]">
 									{t("autoscuole.pricing.heading")}
 								</h2>

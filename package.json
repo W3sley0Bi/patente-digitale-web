@@ -19,6 +19,7 @@
 		"@fontsource-variable/playfair-display": "^5.2.8",
 		"@fontsource/jetbrains-mono": "^5.2.8",
 		"@schedule-x/calendar": "^4.6.0",
+		"@schedule-x/current-time": "^4.6.0",
 		"@schedule-x/events-service": "^4.6.0",
 		"@schedule-x/react": "^4.1.0",
 		"@schedule-x/theme-default": "^4.6.0",

@@ -117,6 +117,8 @@ begin
 end;
 $$;
 
+-- default CREATE FUNCTION grants EXECUTE to PUBLIC (which includes anon); revoke it.
+revoke execute on function public.list_available_slots(uuid, date) from public;
 revoke execute on function public.list_available_slots(uuid, date) from anon;
 grant  execute on function public.list_available_slots(uuid, date) to authenticated;
 

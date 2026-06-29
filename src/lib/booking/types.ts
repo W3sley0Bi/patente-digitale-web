@@ -11,6 +11,7 @@ export interface Instructor {
 	school_id: string;
 	name: string;
 	active: boolean;
+	color: string | null; // calendar colour; null = palette fallback
 	created_at: string;
 }
 

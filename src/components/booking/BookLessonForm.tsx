@@ -1,7 +1,13 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { listAvailableSlots, requestBooking } from "@/lib/booking/api";
-import { nextDays } from "@/lib/booking/helpers";
+import { MiniCalendar } from "./MiniCalendar";
+
+const pad = (n: number) => String(n).padStart(2, "0");
+const todayISO = () => {
+	const n = new Date();
+	return `${n.getFullYear()}-${pad(n.getMonth() + 1)}-${pad(n.getDate())}`;
+};
 
 export function BookLessonForm({
 	schoolId,
@@ -15,8 +21,8 @@ export function BookLessonForm({
 	onBooked?: () => void;
 }) {
 	const { t, i18n } = useTranslation();
-	const days = nextDays(14);
-	const [day, setDay] = useState(days[0]);
+	const today = todayISO();
+	const [day, setDay] = useState(today);
 	const [slots, setSlots] = useState<string[]>([]);
 	const [loadingSlots, setLoadingSlots] = useState(false);
 	const [picked, setPicked] = useState<string | null>(null);
@@ -34,17 +40,32 @@ export function BookLessonForm({
 			.finally(() => setLoadingSlots(false));
 	}, [schoolId, day]);
 
-	const fmtDay = (iso: string) =>
-		new Date(`${iso}T00:00:00`).toLocaleDateString(i18n.language, {
-			weekday: "short",
-			day: "2-digit",
-			month: "short",
-		});
 	const fmtTime = (iso: string) =>
 		new Date(iso).toLocaleTimeString(i18n.language, {
 			hour: "2-digit",
 			minute: "2-digit",
 		});
+	const fmtPickedDay = (iso: string) =>
+		new Date(`${iso}T00:00:00`).toLocaleDateString(i18n.language, {
+			weekday: "long",
+			day: "2-digit",
+			month: "long",
+		});
+
+	// group available slots into morning / afternoon / evening
+	const groups = useMemo(() => {
+		const g: { key: string; label: string; items: string[] }[] = [
+			{ key: "morning", label: t("booking.book.morning"), items: [] },
+			{ key: "afternoon", label: t("booking.book.afternoon"), items: [] },
+			{ key: "evening", label: t("booking.book.evening"), items: [] },
+		];
+		for (const s of slots) {
+			const h = new Date(s).getHours();
+			const bucket = h < 12 ? 0 : h < 18 ? 1 : 2;
+			g[bucket].items.push(s);
+		}
+		return g.filter((x) => x.items.length > 0);
+	}, [slots, t]);
 
 	const submit = async () => {
 		if (!picked) return;
@@ -79,56 +100,79 @@ export function BookLessonForm({
 				{t("booking.book.duration", { min: durationMin })}
 			</p>
 
-			<label className="mt-4 block text-sm">
+			{/* day picker — month calendar */}
+			<p className="mt-5 text-xs font-bold uppercase tracking-wide text-ink-muted">
 				{t("booking.book.pickDay")}
-				<select
-					value={day}
-					onChange={(e) => setDay(e.target.value)}
-					className="mt-1 block rounded-md border border-line bg-bg px-3 py-1.5 text-sm"
-				>
-					{days.map((d) => (
-						<option key={d} value={d}>
-							{fmtDay(d)}
-						</option>
-					))}
-				</select>
-			</label>
+			</p>
+			<div className="mt-2">
+				<MiniCalendar value={day} onChange={setDay} minISO={today} />
+			</div>
 
-			<p className="mt-4 text-xs font-bold text-ink-muted">
+			{/* slots, grouped by part of day */}
+			<p className="mt-5 text-xs font-bold uppercase tracking-wide text-ink-muted">
 				{t("booking.book.chooseSlot")}
 			</p>
-			<div className="mt-2 flex flex-wrap gap-2">
-				{loadingSlots ? (
-					<span className="text-sm text-ink-faint">…</span>
-				) : slots.length === 0 ? (
-					<span className="rounded-md bg-bg px-3 py-1.5 text-sm text-ink-faint">
-						{t("booking.book.noSlots")}
-					</span>
-				) : (
-					slots.map((s) => (
-						<button
-							key={s}
-							type="button"
-							onClick={() => setPicked(s)}
-							className={`rounded-md border px-3 py-1.5 text-sm transition-colors ${
-								picked === s
-									? "border-brand bg-brand text-white"
-									: "border-line bg-bg text-ink hover:border-brand/40"
-							}`}
-						>
-							{fmtTime(s)}
-						</button>
-					))
-				)}
-			</div>
+			{loadingSlots ? (
+				<div className="mt-2 flex gap-2">
+					{[0, 1, 2, 3].map((k) => (
+						<div
+							key={k}
+							className="h-9 w-16 animate-pulse rounded-md bg-bg-sunken"
+						/>
+					))}
+				</div>
+			) : groups.length === 0 ? (
+				<p className="mt-2 rounded-md bg-bg px-3 py-2 text-sm text-ink-faint">
+					{t("booking.book.noSlots")}
+				</p>
+			) : (
+				<div className="mt-2 space-y-3">
+					{groups.map((grp) => (
+						<div key={grp.key}>
+							<p className="mb-1.5 text-[11px] font-semibold text-ink-faint">
+								{grp.label}
+							</p>
+							<div className="grid grid-cols-3 gap-2 sm:grid-cols-4">
+								{grp.items.map((s) => (
+									<button
+										key={s}
+										type="button"
+										onClick={() => setPicked(s)}
+										className={`rounded-md border px-2 py-2 text-sm font-medium transition-colors ${
+											picked === s
+												? "border-brand bg-brand text-white"
+												: "border-line bg-bg text-ink hover:border-brand/40"
+										}`}
+									>
+										{fmtTime(s)}
+									</button>
+								))}
+							</div>
+						</div>
+					))}
+				</div>
+			)}
+
+			{/* selection summary + confirm */}
+			{picked && (
+				<div className="mt-5 rounded-xl border border-brand/30 bg-brand-soft px-4 py-3">
+					<p className="text-xs text-ink-muted">
+						{t("booking.book.selectedSummary")}
+					</p>
+					<p className="text-sm font-bold text-brand-ink">
+						{fmtPickedDay(day)} · {fmtTime(picked)}
+					</p>
+				</div>
+			)}
 
 			{msg && <p className="mt-3 text-sm text-brand-ink">{msg}</p>}
 			{err && <p className="mt-3 text-sm text-red-600">{err}</p>}
+
 			<button
 				type="button"
 				onClick={submit}
 				disabled={busy || !picked}
-				className="mt-4 rounded-md bg-brand px-4 py-2 text-sm font-bold text-white disabled:opacity-50"
+				className="mt-4 w-full rounded-md bg-brand px-4 py-2.5 text-sm font-bold text-white transition-colors hover:bg-brand-hover disabled:opacity-50"
 			>
 				{t("booking.book.submit")}
 			</button>

@@ -114,3 +114,11 @@
 		to { transform: translateX(50%); }
 	}
 }
+
+/* Schedule-X renders its own .sx-react-calendar-wrapper around the calendar.
+   It ships with no height, which collapses the calendar's height:100% chain and
+   kills the time-grid's internal scroll. Force it to fill its (height-bounded)
+   parent so the week view scrolls like Google Calendar. */
+.sx-fill .sx-react-calendar-wrapper {
+	height: 100%;
+}

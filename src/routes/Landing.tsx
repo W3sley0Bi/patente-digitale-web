@@ -1,21 +1,31 @@
-import { Suspense, lazy, useEffect } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Footer } from "@/components/layout/Footer";
 import { Nav } from "@/components/nav/Nav";
+import { Comparison } from "@/components/sections/Comparison";
 import { Hero } from "@/components/sections/Hero";
-
 // Eager load fold-adjacent sections
 import { HowItWorks } from "@/components/sections/HowItWorks";
-import { WhyDigital } from "@/components/sections/WhyDigital";
-import { Comparison } from "@/components/sections/Comparison";
-
 import { Trust } from "@/components/sections/Trust";
+import { WhyDigital } from "@/components/sections/WhyDigital";
 
 // Lazy load deep sections
-const B2B = lazy(() => import("@/components/sections/B2B").then(m => ({ default: m.B2B })));
-const FAQ = lazy(() => import("@/components/sections/FAQ").then(m => ({ default: m.FAQ })));
-const Testimonials = lazy(() => import("@/components/sections/Testimonials").then(m => ({ default: m.Testimonials })));
-const FinalCta = lazy(() => import("@/components/sections/FinalCta").then(m => ({ default: m.FinalCta })));
+const B2B = lazy(() =>
+	import("@/components/sections/B2B").then((m) => ({ default: m.B2B })),
+);
+const FAQ = lazy(() =>
+	import("@/components/sections/FAQ").then((m) => ({ default: m.FAQ })),
+);
+const Testimonials = lazy(() =>
+	import("@/components/sections/Testimonials").then((m) => ({
+		default: m.Testimonials,
+	})),
+);
+const FinalCta = lazy(() =>
+	import("@/components/sections/FinalCta").then((m) => ({
+		default: m.FinalCta,
+	})),
+);
 
 // Minimal placeholder to avoid layout shift
 const SectionPlaceholder = () => <div className="min-h-[400px] w-full bg-bg" />;

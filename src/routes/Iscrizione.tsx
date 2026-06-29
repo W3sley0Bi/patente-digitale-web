@@ -1,26 +1,26 @@
-import { useEffect, useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { useSearchParams, Link } from "react-router";
 import {
-	Check,
-	MapPin,
 	ArrowLeft,
 	ArrowRight,
-	Phone,
-	Smartphone,
-	Mail,
-	Globe,
-	Clock,
 	BadgeCheck,
-	Zap,
-	ExternalLink,
-	X,
+	Check,
 	ChevronLeft,
 	ChevronRight,
-	Plus,
+	Clock,
+	ExternalLink,
+	Globe,
+	Mail,
+	MapPin,
 	Minus,
+	Phone,
+	Plus,
+	Smartphone,
 	Sparkles,
+	X,
+	Zap,
 } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Link, useSearchParams } from "react-router";
 
 function WhatsAppIcon({ className = "h-4 w-4" }: { className?: string }) {
 	return (
@@ -34,12 +34,13 @@ function WhatsAppIcon({ className = "h-4 w-4" }: { className?: string }) {
 		</svg>
 	);
 }
-import { Nav } from "@/components/nav/Nav";
+
+import { EnrollPaywall } from "@/components/iscrizione/EnrollPaywall";
 import { Footer } from "@/components/layout/Footer";
 import { MockupTest } from "@/components/mockup-test/MockupTest";
-import { EnrollPaywall } from "@/components/iscrizione/EnrollPaywall";
-import { supabase } from "@/lib/supabase";
+import { Nav } from "@/components/nav/Nav";
 import { useAuth } from "@/hooks/useAuth";
+import { supabase } from "@/lib/supabase";
 
 interface DrivingSchoolRow {
 	id: string;
@@ -95,32 +96,64 @@ const MOCK_LICENCE_INFO: Record<string, LicenceInfo> = {
 	AM: {
 		description: "Ciclomotori 50cc · da 14 anni",
 		mockPrice: 380,
-		includes: ["Iscrizione", "Materiale di studio", "Lezioni di teoria", "Esame teoria", "Prova pratica"],
+		includes: [
+			"Iscrizione",
+			"Materiale di studio",
+			"Lezioni di teoria",
+			"Esame teoria",
+			"Prova pratica",
+		],
 		vehicles: [{ name: "Piaggio Liberty 50", transmission: "automatica" }],
 	},
 	A1: {
 		description: "Motocicli 125cc · da 16 anni",
 		mockPrice: 480,
-		includes: ["Iscrizione", "Materiale di studio", "Lezioni di teoria", "5 ore di guida", "Esame teoria", "Esame pratico"],
+		includes: [
+			"Iscrizione",
+			"Materiale di studio",
+			"Lezioni di teoria",
+			"5 ore di guida",
+			"Esame teoria",
+			"Esame pratico",
+		],
 		vehicles: [{ name: "Honda CB 125F", transmission: "manuale" }],
 	},
 	A2: {
 		description: "Motocicli fino a 35kW · da 18 anni",
 		mockPrice: 620,
-		includes: ["Iscrizione", "Materiale di studio", "Lezioni di teoria", "8 ore di guida", "Esame teoria", "Esame pratico"],
+		includes: [
+			"Iscrizione",
+			"Materiale di studio",
+			"Lezioni di teoria",
+			"8 ore di guida",
+			"Esame teoria",
+			"Esame pratico",
+		],
 		vehicles: [{ name: "Yamaha MT-03", transmission: "manuale" }],
 		variants: [
 			{
 				key: "standard",
 				label: "Standard",
 				basePrice: 620,
-				includes: ["Iscrizione", "Materiale di studio", "Lezioni di teoria", "8 ore di guida", "Esame teoria", "Esame pratico"],
+				includes: [
+					"Iscrizione",
+					"Materiale di studio",
+					"Lezioni di teoria",
+					"8 ore di guida",
+					"Esame teoria",
+					"Esame pratico",
+				],
 			},
 			{
 				key: "premium",
 				label: "Premium",
 				basePrice: 850,
-				includes: ["Tutto in Standard", "14 ore di guida totali", "Garanzia ripetizione esame", "Supporto WhatsApp"],
+				includes: [
+					"Tutto in Standard",
+					"14 ore di guida totali",
+					"Garanzia ripetizione esame",
+					"Supporto WhatsApp",
+				],
 			},
 		],
 		extraHoursPricePerHour: 28,
@@ -128,7 +161,14 @@ const MOCK_LICENCE_INFO: Record<string, LicenceInfo> = {
 	A: {
 		description: "Motocicli senza limiti · da 24 anni o 20+A2",
 		mockPrice: 750,
-		includes: ["Iscrizione", "Materiale di studio", "Lezioni di teoria", "10 ore di guida", "Esame teoria", "Esame pratico"],
+		includes: [
+			"Iscrizione",
+			"Materiale di studio",
+			"Lezioni di teoria",
+			"10 ore di guida",
+			"Esame teoria",
+			"Esame pratico",
+		],
 		vehicles: [{ name: "Kawasaki Z650", transmission: "manuale" }],
 	},
 	B: {
@@ -197,25 +237,48 @@ const MOCK_LICENCE_INFO: Record<string, LicenceInfo> = {
 	C: {
 		description: "Camion oltre 3,5t",
 		mockPrice: 1850,
-		includes: ["Iscrizione", "Materiale di studio", "Lezioni di teoria", "15 ore di guida", "Esami teoria + pratico"],
+		includes: [
+			"Iscrizione",
+			"Materiale di studio",
+			"Lezioni di teoria",
+			"15 ore di guida",
+			"Esami teoria + pratico",
+		],
 		vehicles: [{ name: "Iveco Eurocargo", transmission: "manuale" }],
 	},
 	CE: {
 		description: "Camion con rimorchio",
 		mockPrice: 2200,
-		includes: ["Iscrizione", "Materiale di studio", "20 ore di guida", "Esami teoria + pratico"],
-		vehicles: [{ name: "Iveco Eurocargo + rimorchio", transmission: "manuale" }],
+		includes: [
+			"Iscrizione",
+			"Materiale di studio",
+			"20 ore di guida",
+			"Esami teoria + pratico",
+		],
+		vehicles: [
+			{ name: "Iveco Eurocargo + rimorchio", transmission: "manuale" },
+		],
 	},
 	D: {
 		description: "Autobus oltre 9 posti",
 		mockPrice: 2400,
-		includes: ["Iscrizione", "Materiale di studio", "20 ore di guida", "Esami teoria + pratico"],
+		includes: [
+			"Iscrizione",
+			"Materiale di studio",
+			"20 ore di guida",
+			"Esami teoria + pratico",
+		],
 		vehicles: [{ name: "Iveco Daily Bus", transmission: "manuale" }],
 	},
 	CQC: {
 		description: "Carta di qualificazione conducente",
 		mockPrice: 950,
-		includes: ["Iscrizione", "Lezioni in aula", "Materiali di studio", "Esame teoria"],
+		includes: [
+			"Iscrizione",
+			"Lezioni in aula",
+			"Materiali di studio",
+			"Esame teoria",
+		],
 		vehicles: [],
 	},
 };
@@ -289,14 +352,20 @@ export default function Iscrizione() {
 	const placeId = params.get("placeId") || "";
 	const queryName = params.get("name") || "";
 	const queryLicence = params.get("licence") || "";
-	const queryRating = params.get("rating") ? Number(params.get("rating")) : null;
-	const queryRatingCount = params.get("ratingCount") ? Number(params.get("ratingCount")) : null;
+	const queryRating = params.get("rating")
+		? Number(params.get("rating"))
+		: null;
+	const queryRatingCount = params.get("ratingCount")
+		? Number(params.get("ratingCount"))
+		: null;
 	const queryHours = useMemo<string[]>(() => {
 		try {
 			const raw = params.get("hours");
 			if (!raw) return [];
 			const parsed = JSON.parse(raw);
-			return Array.isArray(parsed) ? parsed.filter((v): v is string => typeof v === "string") : [];
+			return Array.isArray(parsed)
+				? parsed.filter((v): v is string => typeof v === "string")
+				: [];
 		} catch {
 			return [];
 		}
@@ -374,7 +443,9 @@ export default function Iscrizione() {
 
 	const openingHours = useMemo<string[]>(() => {
 		const oh = school?.opening_hours;
-		const fromDb = Array.isArray(oh) ? (oh.filter((v) => typeof v === "string") as string[]) : [];
+		const fromDb = Array.isArray(oh)
+			? (oh.filter((v) => typeof v === "string") as string[])
+			: [];
 		return fromDb.length > 0 ? fromDb : queryHours;
 	}, [school?.opening_hours, queryHours]);
 
@@ -406,7 +477,9 @@ export default function Iscrizione() {
 		if (school?.lat != null && school?.lng != null) {
 			return `https://www.google.com/maps/search/?api=1&query=${school.lat},${school.lng}`;
 		}
-		const q = [school?.name, school?.address, school?.city].filter(Boolean).join(", ");
+		const q = [school?.name, school?.address, school?.city]
+			.filter(Boolean)
+			.join(", ");
 		if (!q) return null;
 		return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q)}`;
 	}, [school?.lat, school?.lng, school?.name, school?.address, school?.city]);
@@ -423,11 +496,16 @@ export default function Iscrizione() {
 
 	const availableLicences = useMemo<string[]>(() => {
 		const fromSchool = Array.isArray(school?.licenses)
-			? (school?.licenses as unknown[]).filter((v): v is string => typeof v === "string")
+			? (school?.licenses as unknown[]).filter(
+					(v): v is string => typeof v === "string",
+				)
 			: [];
-		if (fromSchool.length > 0) return fromSchool.filter((l) => MOCK_LICENCE_INFO[l]);
+		if (fromSchool.length > 0)
+			return fromSchool.filter((l) => MOCK_LICENCE_INFO[l]);
 		if (licences.length > 0) {
-			return licences.map((l) => l.licence_code).filter((l) => MOCK_LICENCE_INFO[l]);
+			return licences
+				.map((l) => l.licence_code)
+				.filter((l) => MOCK_LICENCE_INFO[l]);
 		}
 		return DEFAULT_LICENCE_KEYS;
 	}, [school?.licenses, licences]);
@@ -444,7 +522,8 @@ export default function Iscrizione() {
 		setParams(next, { replace: true });
 	};
 
-	const selectedInfo = MOCK_LICENCE_INFO[selectedLicence] || MOCK_LICENCE_INFO.B;
+	const selectedInfo =
+		MOCK_LICENCE_INFO[selectedLicence] || MOCK_LICENCE_INFO.B;
 
 	// Variant + add-on local state. Reset when licence changes.
 	const [variantKey, setVariantKey] = useState<string>("standard");
@@ -465,19 +544,25 @@ export default function Iscrizione() {
 		selectedInfo.variants?.[0] ||
 		null;
 
-	const dbPrice = licences.find((l) => l.licence_code === selectedLicence)?.price;
+	const dbPrice = licences.find(
+		(l) => l.licence_code === selectedLicence,
+	)?.price;
 	const geoPriceStr = geoPrices.find(([k]) => k === selectedLicence)?.[1];
-	const geoPriceNum = geoPriceStr != null ? Number(String(geoPriceStr).replace(/[^\d.]/g, "")) : null;
-	const priceIsReal = dbPrice != null || (geoPriceNum != null && Number.isFinite(geoPriceNum));
+	const geoPriceNum =
+		geoPriceStr != null
+			? Number(String(geoPriceStr).replace(/[^\d.]/g, ""))
+			: null;
+	const priceIsReal =
+		dbPrice != null || (geoPriceNum != null && Number.isFinite(geoPriceNum));
 	const basePrice =
 		dbPrice != null
 			? dbPrice
 			: geoPriceNum != null && Number.isFinite(geoPriceNum)
 				? geoPriceNum
-				: activeVariant?.basePrice ?? selectedInfo.mockPrice;
+				: (activeVariant?.basePrice ?? selectedInfo.mockPrice);
 
 	const transmissionDelta =
-		transmission === "auto" ? selectedInfo.transmissionDeltaAuto ?? 0 : 0;
+		transmission === "auto" ? (selectedInfo.transmissionDeltaAuto ?? 0) : 0;
 	const hourlyRate = selectedInfo.extraHoursPricePerHour ?? 0;
 	const extraHoursRaw = extraHours * hourlyRate;
 	const hasPackDiscount = extraHours >= PACK_THRESHOLD && hourlyRate > 0;
@@ -495,8 +580,14 @@ export default function Iscrizione() {
 		if (lightboxIndex === null) return;
 		const onKey = (e: KeyboardEvent) => {
 			if (e.key === "Escape") setLightboxIndex(null);
-			if (e.key === "ArrowLeft") setLightboxIndex((i) => (i === null ? null : (i - 1 + MOCK_PHOTOS.length) % MOCK_PHOTOS.length));
-			if (e.key === "ArrowRight") setLightboxIndex((i) => (i === null ? null : (i + 1) % MOCK_PHOTOS.length));
+			if (e.key === "ArrowLeft")
+				setLightboxIndex((i) =>
+					i === null ? null : (i - 1 + MOCK_PHOTOS.length) % MOCK_PHOTOS.length,
+				);
+			if (e.key === "ArrowRight")
+				setLightboxIndex((i) =>
+					i === null ? null : (i + 1) % MOCK_PHOTOS.length,
+				);
 		};
 		window.addEventListener("keydown", onKey);
 		const prev = document.body.style.overflow;
@@ -549,7 +640,10 @@ export default function Iscrizione() {
 								</h1>
 								{isVerified && (
 									<span className="inline-flex items-center gap-1.5 rounded-full bg-brand-soft px-2.5 py-1">
-										<BadgeCheck className="h-3.5 w-3.5 text-brand" strokeWidth={3} />
+										<BadgeCheck
+											className="h-3.5 w-3.5 text-brand"
+											strokeWidth={3}
+										/>
 										<span className="font-sans text-[10px] font-bold uppercase tracking-widest text-brand-ink">
 											{t("iscrizione.verified")}
 										</span>
@@ -568,9 +662,13 @@ export default function Iscrizione() {
 										<span className="text-ink-faint">·</span>
 										<span className="inline-flex items-center gap-1">
 											<span className="text-amber-400">★</span>
-											<span className="font-semibold text-ink">{queryRating!.toFixed(1)}</span>
+											<span className="font-semibold text-ink">
+												{queryRating!.toFixed(1)}
+											</span>
 											{queryRatingCount != null && (
-												<span className="text-ink-faint">({queryRatingCount.toLocaleString()})</span>
+												<span className="text-ink-faint">
+													({queryRatingCount.toLocaleString()})
+												</span>
 											)}
 										</span>
 									</>
@@ -579,15 +677,24 @@ export default function Iscrizione() {
 									<>
 										<span className="text-ink-faint">·</span>
 										<span className="inline-flex items-center gap-1">
-											<Zap className="h-3 w-3 fill-amber-500 text-amber-500" strokeWidth={0} />
-											<span className="text-amber-600 font-semibold">{t("cerca.card.enrollBadge")}</span>
+											<Zap
+												className="h-3 w-3 fill-amber-500 text-amber-500"
+												strokeWidth={0}
+											/>
+											<span className="text-amber-600 font-semibold">
+												{t("cerca.card.enrollBadge")}
+											</span>
 										</span>
 									</>
 								)}
 								{school?.founded_year && (
 									<>
 										<span className="text-ink-faint">·</span>
-										<span>{t("iscrizione.detail.foundedSince", { year: school.founded_year })}</span>
+										<span>
+											{t("iscrizione.detail.foundedSince", {
+												year: school.founded_year,
+											})}
+										</span>
 									</>
 								)}
 								{school?.instructor_count && (
@@ -618,7 +725,9 @@ export default function Iscrizione() {
 										</span>
 										<dl className="mt-2.5 flex flex-col gap-2">
 											{school?.address && (
-												<InfoRow icon={<MapPin className="h-3.5 w-3.5 text-brand" />}>
+												<InfoRow
+													icon={<MapPin className="h-3.5 w-3.5 text-brand" />}
+												>
 													{mapsHref ? (
 														<a
 															href={mapsHref}
@@ -627,19 +736,25 @@ export default function Iscrizione() {
 															className="font-sans text-xs font-medium text-brand hover:text-brand-hover inline-flex items-start gap-1"
 														>
 															<span>
-																{[school.address, school.city, school.zip].filter(Boolean).join(", ")}
+																{[school.address, school.city, school.zip]
+																	.filter(Boolean)
+																	.join(", ")}
 															</span>
 															<ExternalLink className="h-2.5 w-2.5 mt-0.5 shrink-0" />
 														</a>
 													) : (
 														<span className="text-xs text-ink-muted">
-															{[school.address, school.city, school.zip].filter(Boolean).join(", ")}
+															{[school.address, school.city, school.zip]
+																.filter(Boolean)
+																.join(", ")}
 														</span>
 													)}
 												</InfoRow>
 											)}
 											{school?.phone && (
-												<InfoRow icon={<Phone className="h-3.5 w-3.5 text-brand" />}>
+												<InfoRow
+													icon={<Phone className="h-3.5 w-3.5 text-brand" />}
+												>
 													<a
 														href={`tel:${school.phone}`}
 														className="font-sans text-xs font-medium text-brand hover:text-brand-hover"
@@ -649,7 +764,11 @@ export default function Iscrizione() {
 												</InfoRow>
 											)}
 											{school?.mobile && (
-												<InfoRow icon={<Smartphone className="h-3.5 w-3.5 text-brand" />}>
+												<InfoRow
+													icon={
+														<Smartphone className="h-3.5 w-3.5 text-brand" />
+													}
+												>
 													<a
 														href={`tel:${school.mobile}`}
 														className="font-sans text-xs font-medium text-brand hover:text-brand-hover"
@@ -659,7 +778,9 @@ export default function Iscrizione() {
 												</InfoRow>
 											)}
 											{school?.email && (
-												<InfoRow icon={<Mail className="h-3.5 w-3.5 text-brand" />}>
+												<InfoRow
+													icon={<Mail className="h-3.5 w-3.5 text-brand" />}
+												>
 													<a
 														href={`mailto:${school.email}`}
 														className="font-sans text-xs font-medium text-brand hover:text-brand-hover break-all"
@@ -669,66 +790,66 @@ export default function Iscrizione() {
 												</InfoRow>
 											)}
 											{school?.website && (
-											<InfoRow icon={<Globe className="h-3.5 w-3.5 text-brand" />}>
-												<a
-													href={ensureUrl(school.website)}
-													target="_blank"
-													rel="noopener noreferrer"
-													className="font-sans text-xs font-medium text-brand hover:text-brand-hover inline-flex items-center gap-1"
+												<InfoRow
+													icon={<Globe className="h-3.5 w-3.5 text-brand" />}
 												>
-													{safeHostname(school.website)}
-													<ExternalLink className="h-2.5 w-2.5" />
-												</a>
-											</InfoRow>
-										)}
-									</dl>
+													<a
+														href={ensureUrl(school.website)}
+														target="_blank"
+														rel="noopener noreferrer"
+														className="font-sans text-xs font-medium text-brand hover:text-brand-hover inline-flex items-center gap-1"
+													>
+														{safeHostname(school.website)}
+														<ExternalLink className="h-2.5 w-2.5" />
+													</a>
+												</InfoRow>
+											)}
+										</dl>
+									</div>
+								)}
 
-								</div>
-							)}
-
-							{/* WhatsApp CTA — gated by auth */}
-							{placeId && (
-								user ? (
-									school?.whatsapp_business ? (
-										<a
-											href={`https://wa.me/${school.whatsapp_business.replace(/\D/g, "")}`}
-											target="_blank"
-											rel="noopener noreferrer"
-											className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#25D366] hover:bg-[#1ebe5d] text-white font-sans text-xs font-bold py-2.5 transition-colors shadow-sm"
-										>
-											<WhatsAppIcon className="h-4 w-4" />
-											WhatsApp Business
-										</a>
-									) : (
-										<MockupTest name="iscrizione-whatsapp">
-											<button
-												type="button"
-												disabled
-												className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#25D366]/60 text-white font-sans text-xs font-bold py-2.5 cursor-not-allowed"
+								{/* WhatsApp CTA — gated by auth */}
+								{placeId &&
+									(user ? (
+										school?.whatsapp_business ? (
+											<a
+												href={`https://wa.me/${school.whatsapp_business.replace(/\D/g, "")}`}
+												target="_blank"
+												rel="noopener noreferrer"
+												className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#25D366] hover:bg-[#1ebe5d] text-white font-sans text-xs font-bold py-2.5 transition-colors shadow-sm"
 											>
 												<WhatsAppIcon className="h-4 w-4" />
 												WhatsApp Business
-											</button>
-										</MockupTest>
-									)
-								) : (
-									<div className="rounded-xl border border-dashed border-brand/40 bg-brand-soft/30 px-4 py-4 text-center">
-										<WhatsAppIcon className="mx-auto mb-2 h-5 w-5 text-[#25D366]" />
-										<p className="font-sans text-xs text-ink-muted leading-relaxed">
-											{t("iscrizione.whatsappGate.hint")}
-										</p>
-										<Link
-											to={`/login?tab=signup&redirect=${encodeURIComponent(window.location.pathname + window.location.search)}`}
-											className="mt-2 inline-flex items-center gap-1 font-sans text-xs font-black text-brand hover:text-brand-hover"
-										>
-											{t("iscrizione.whatsappGate.cta")}
-											<ArrowRight className="h-3 w-3" />
-										</Link>
-									</div>
-								)
-							)}
+											</a>
+										) : (
+											<MockupTest name="iscrizione-whatsapp">
+												<button
+													type="button"
+													disabled
+													className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#25D366]/60 text-white font-sans text-xs font-bold py-2.5 cursor-not-allowed"
+												>
+													<WhatsAppIcon className="h-4 w-4" />
+													WhatsApp Business
+												</button>
+											</MockupTest>
+										)
+									) : (
+										<div className="rounded-xl border border-dashed border-brand/40 bg-brand-soft/30 px-4 py-4 text-center">
+											<WhatsAppIcon className="mx-auto mb-2 h-5 w-5 text-[#25D366]" />
+											<p className="font-sans text-xs text-ink-muted leading-relaxed">
+												{t("iscrizione.whatsappGate.hint")}
+											</p>
+											<Link
+												to={`/login?tab=signup&redirect=${encodeURIComponent(window.location.pathname + window.location.search)}`}
+												className="mt-2 inline-flex items-center gap-1 font-sans text-xs font-black text-brand hover:text-brand-hover"
+											>
+												{t("iscrizione.whatsappGate.cta")}
+												<ArrowRight className="h-3 w-3" />
+											</Link>
+										</div>
+									))}
 
-							{openingHours.length > 0 && (
+								{openingHours.length > 0 && (
 									<div className="rounded-xl border border-line bg-bg-raised p-4">
 										<div className="flex items-center justify-between">
 											<span className="font-sans text-[10px] font-bold uppercase tracking-widest text-ink-faint">
@@ -777,7 +898,9 @@ export default function Iscrizione() {
 														loading="lazy"
 														className="w-full h-full object-cover opacity-80 saturate-75 hover:opacity-100 hover:saturate-100 transition duration-300"
 														onError={(e) => {
-															(e.currentTarget as HTMLImageElement).style.display = "none";
+															(
+																e.currentTarget as HTMLImageElement
+															).style.display = "none";
 														}}
 													/>
 												</button>
@@ -837,7 +960,9 @@ export default function Iscrizione() {
 										<div className="flex items-baseline justify-between gap-3">
 											<div>
 												<h3 className="font-sans text-base font-bold text-ink">
-													{t("iscrizione.picker.patenteLabel", { code: selectedLicence })}
+													{t("iscrizione.picker.patenteLabel", {
+														code: selectedLicence,
+													})}
 												</h3>
 												<p className="mt-0.5 font-sans text-xs text-ink-muted">
 													{selectedInfo.description}
@@ -848,40 +973,43 @@ export default function Iscrizione() {
 													{displayPrice}
 												</div>
 												<span className="mt-1 inline-block font-sans text-[9px] uppercase tracking-widest text-ink-faint font-bold">
-													{priceIsReal ? t("iscrizione.picker.priceLabel") : t("iscrizione.detail.exampleLabel")}
+													{priceIsReal
+														? t("iscrizione.picker.priceLabel")
+														: t("iscrizione.detail.exampleLabel")}
 												</span>
 											</div>
 										</div>
 
 										{/* Variants — show only if licence has multiple packages */}
-										{selectedInfo.variants && selectedInfo.variants.length > 1 && (
-											<div className="mt-5">
-												<span className="font-sans text-[10px] font-bold uppercase tracking-widest text-ink-faint">
-													{t("iscrizione.picker.variantsLabel")}
-												</span>
-												<div className="mt-2 flex flex-wrap gap-1.5">
-													{selectedInfo.variants.map((v) => {
-														const isActive = v.key === variantKey;
-														return (
-															<button
-																key={v.key}
-																type="button"
-																onClick={() => setVariantKey(v.key)}
-																data-mockup-cta={`variant-${v.key}`}
-																aria-pressed={isActive}
-																className={
-																	isActive
-																		? "rounded-md bg-brand-soft border border-brand text-brand-ink px-2.5 py-1 font-sans text-[11px] font-black"
-																		: "rounded-md border border-line bg-bg text-ink-muted px-2.5 py-1 font-sans text-[11px] font-bold hover:border-line-strong hover:text-ink transition-colors"
-																}
-															>
-																{v.label}
-															</button>
-														);
-													})}
+										{selectedInfo.variants &&
+											selectedInfo.variants.length > 1 && (
+												<div className="mt-5">
+													<span className="font-sans text-[10px] font-bold uppercase tracking-widest text-ink-faint">
+														{t("iscrizione.picker.variantsLabel")}
+													</span>
+													<div className="mt-2 flex flex-wrap gap-1.5">
+														{selectedInfo.variants.map((v) => {
+															const isActive = v.key === variantKey;
+															return (
+																<button
+																	key={v.key}
+																	type="button"
+																	onClick={() => setVariantKey(v.key)}
+																	data-mockup-cta={`variant-${v.key}`}
+																	aria-pressed={isActive}
+																	className={
+																		isActive
+																			? "rounded-md bg-brand-soft border border-brand text-brand-ink px-2.5 py-1 font-sans text-[11px] font-black"
+																			: "rounded-md border border-line bg-bg text-ink-muted px-2.5 py-1 font-sans text-[11px] font-bold hover:border-line-strong hover:text-ink transition-colors"
+																	}
+																>
+																	{v.label}
+																</button>
+															);
+														})}
+													</div>
 												</div>
-											</div>
-										)}
+											)}
 
 										<div className="mt-5">
 											<span className="font-sans text-[10px] font-bold uppercase tracking-widest text-ink-faint">
@@ -903,51 +1031,57 @@ export default function Iscrizione() {
 									{/* Right: config options + CTA */}
 									<div className="px-5 py-5 md:px-6 md:py-6 bg-bg-sunken/20 flex flex-col gap-4">
 										{/* Transmission */}
-										{selectedInfo.transmissionOptions && selectedInfo.transmissionOptions.length > 1 && (
-											<div>
-												<span className="font-sans text-[10px] font-bold uppercase tracking-widest text-ink-faint">
-													{t("iscrizione.picker.transmissionLabel")}
-												</span>
-												<div className="mt-2 grid grid-cols-2 gap-1.5">
-													{(["manual", "auto"] as const).map((opt) => {
-														const isActive = transmission === opt;
-														const label = opt === "manual"
-															? t("iscrizione.picker.transmissionManual")
-															: t("iscrizione.picker.transmissionAuto");
-														const delta = opt === "auto" && selectedInfo.transmissionDeltaAuto
-															? `+${selectedInfo.transmissionDeltaAuto} €`
-															: null;
-														return (
-															<button
-																key={opt}
-																type="button"
-																onClick={() => setTransmission(opt)}
-																data-mockup-cta={`transmission-${opt}`}
-																aria-pressed={isActive}
-																className={
-																	isActive
-																		? "rounded-lg border border-brand bg-brand-soft px-3 py-2 text-left transition-colors"
-																		: "rounded-lg border border-line bg-bg-raised px-3 py-2 text-left hover:border-line-strong transition-colors"
-																}
-															>
-																<span className={
-																	isActive
-																		? "block font-sans text-xs font-black text-brand-ink"
-																		: "block font-sans text-xs font-bold text-ink"
-																}>
-																	{label}
-																</span>
-																{delta && (
-																	<span className="block mt-0.5 font-sans text-[10px] text-ink-muted">
-																		{delta}
+										{selectedInfo.transmissionOptions &&
+											selectedInfo.transmissionOptions.length > 1 && (
+												<div>
+													<span className="font-sans text-[10px] font-bold uppercase tracking-widest text-ink-faint">
+														{t("iscrizione.picker.transmissionLabel")}
+													</span>
+													<div className="mt-2 grid grid-cols-2 gap-1.5">
+														{(["manual", "auto"] as const).map((opt) => {
+															const isActive = transmission === opt;
+															const label =
+																opt === "manual"
+																	? t("iscrizione.picker.transmissionManual")
+																	: t("iscrizione.picker.transmissionAuto");
+															const delta =
+																opt === "auto" &&
+																selectedInfo.transmissionDeltaAuto
+																	? `+${selectedInfo.transmissionDeltaAuto} €`
+																	: null;
+															return (
+																<button
+																	key={opt}
+																	type="button"
+																	onClick={() => setTransmission(opt)}
+																	data-mockup-cta={`transmission-${opt}`}
+																	aria-pressed={isActive}
+																	className={
+																		isActive
+																			? "rounded-lg border border-brand bg-brand-soft px-3 py-2 text-left transition-colors"
+																			: "rounded-lg border border-line bg-bg-raised px-3 py-2 text-left hover:border-line-strong transition-colors"
+																	}
+																>
+																	<span
+																		className={
+																			isActive
+																				? "block font-sans text-xs font-black text-brand-ink"
+																				: "block font-sans text-xs font-bold text-ink"
+																		}
+																	>
+																		{label}
 																	</span>
-																)}
-															</button>
-														);
-													})}
+																	{delta && (
+																		<span className="block mt-0.5 font-sans text-[10px] text-ink-muted">
+																			{delta}
+																		</span>
+																	)}
+																</button>
+															);
+														})}
+													</div>
 												</div>
-											</div>
-										)}
+											)}
 
 										{/* Extra hours — counter with pack discount */}
 										{hourlyRate > 0 && (
@@ -957,7 +1091,8 @@ export default function Iscrizione() {
 														{t("iscrizione.picker.extraHoursLabel")}
 													</span>
 													<span className="font-sans text-[10px] text-ink-faint">
-														{hourlyRate} € {t("iscrizione.picker.extraHoursPricePer")}
+														{hourlyRate} €{" "}
+														{t("iscrizione.picker.extraHoursPricePer")}
 													</span>
 												</div>
 												<p className="mt-1 font-sans text-[10px] text-ink-muted">
@@ -966,9 +1101,13 @@ export default function Iscrizione() {
 												<div className="mt-2 flex items-center gap-2 rounded-lg border border-line bg-bg-raised p-1">
 													<button
 														type="button"
-														onClick={() => setExtraHours((h) => Math.max(0, h - 1))}
+														onClick={() =>
+															setExtraHours((h) => Math.max(0, h - 1))
+														}
 														disabled={extraHours === 0}
-														aria-label={t("iscrizione.picker.extraHoursDecrement")}
+														aria-label={t(
+															"iscrizione.picker.extraHoursDecrement",
+														)}
 														data-mockup-cta="extra-hours-decrement"
 														className="flex h-8 w-8 items-center justify-center rounded-md text-ink-muted hover:bg-bg-sunken hover:text-ink disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
 													>
@@ -986,9 +1125,15 @@ export default function Iscrizione() {
 													</div>
 													<button
 														type="button"
-														onClick={() => setExtraHours((h) => Math.min(EXTRA_HOURS_MAX, h + 1))}
+														onClick={() =>
+															setExtraHours((h) =>
+																Math.min(EXTRA_HOURS_MAX, h + 1),
+															)
+														}
 														disabled={extraHours >= EXTRA_HOURS_MAX}
-														aria-label={t("iscrizione.picker.extraHoursIncrement")}
+														aria-label={t(
+															"iscrizione.picker.extraHoursIncrement",
+														)}
 														data-mockup-cta="extra-hours-increment"
 														className="flex h-8 w-8 items-center justify-center rounded-md text-ink-muted hover:bg-bg-sunken hover:text-ink disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
 													>
@@ -1051,7 +1196,9 @@ export default function Iscrizione() {
 												onClick={() => setPaywallOpen(true)}
 												className="w-full rounded-pill bg-brand text-white font-sans text-xs font-black py-3 hover:bg-brand-hover transition-colors shadow-cta"
 											>
-												{t("iscrizione.picker.enrollCta", { code: selectedLicence })}
+												{t("iscrizione.picker.enrollCta", {
+													code: selectedLicence,
+												})}
 											</button>
 											<p className="font-sans text-[10px] text-ink-faint text-center">
 												{t("iscrizione.picker.paypalNote")}
@@ -1067,7 +1214,6 @@ export default function Iscrizione() {
 						</MockupTest>
 					</div>
 				</section>
-
 			</main>
 			<Footer />
 
@@ -1092,7 +1238,11 @@ export default function Iscrizione() {
 						type="button"
 						onClick={(e) => {
 							e.stopPropagation();
-							setLightboxIndex((i) => (i === null ? null : (i - 1 + MOCK_PHOTOS.length) % MOCK_PHOTOS.length));
+							setLightboxIndex((i) =>
+								i === null
+									? null
+									: (i - 1 + MOCK_PHOTOS.length) % MOCK_PHOTOS.length,
+							);
 						}}
 						aria-label="prev"
 						className="absolute left-4 md:left-8 h-12 w-12 rounded-full bg-white/10 text-white hover:bg-white/20 transition-colors flex items-center justify-center"
@@ -1118,7 +1268,9 @@ export default function Iscrizione() {
 						type="button"
 						onClick={(e) => {
 							e.stopPropagation();
-							setLightboxIndex((i) => (i === null ? null : (i + 1) % MOCK_PHOTOS.length));
+							setLightboxIndex((i) =>
+								i === null ? null : (i + 1) % MOCK_PHOTOS.length,
+							);
 						}}
 						aria-label="next"
 						className="absolute right-4 md:right-8 h-12 w-12 rounded-full bg-white/10 text-white hover:bg-white/20 transition-colors flex items-center justify-center"
@@ -1140,7 +1292,13 @@ export default function Iscrizione() {
 	);
 }
 
-function InfoRow({ icon, children }: { icon: React.ReactNode; children: React.ReactNode }) {
+function InfoRow({
+	icon,
+	children,
+}: {
+	icon: React.ReactNode;
+	children: React.ReactNode;
+}) {
 	return (
 		<div className="flex items-start gap-2.5">
 			<div className="mt-0.5 shrink-0">{icon}</div>

@@ -23,6 +23,9 @@ importers:
       '@schedule-x/calendar':
         specifier: ^4.6.0
         version: 4.6.0(@preact/signals@2.9.2(preact@10.29.3))(preact@10.29.3)(temporal-polyfill@1.0.1)
+      '@schedule-x/current-time':
+        specifier: ^4.6.0
+        version: 4.6.0
       '@schedule-x/events-service':
         specifier: ^4.6.0
         version: 4.6.0
@@ -810,6 +813,9 @@ packages:
       '@preact/signals': ^2.0.2
       preact: ^10.19.2
       temporal-polyfill: 0.3.0
+
+  '@schedule-x/current-time@4.6.0':
+    resolution: {integrity: sha512-AcGZHlHJ0SEgICm7Wl5tE79uZscpKHVhrxG0pnbUhVpPq+u8s2yknEdKMWkUPWNEK+WZCmYxnL73CZxZpd06pw==}
 
   '@schedule-x/events-service@4.6.0':
     resolution: {integrity: sha512-czUSPdanESNYgckCxId3weoL3omSG6FKuJMYMefCyzx/NFBxJM83b6PKQQ+pJeRnPuyax+KNKFc/DQFCC05YLA==}
@@ -3750,6 +3756,8 @@ snapshots:
       '@preact/signals': 2.9.2(preact@10.29.3)
       preact: 10.29.3
       temporal-polyfill: 1.0.1
+
+  '@schedule-x/current-time@4.6.0': {}
 
   '@schedule-x/events-service@4.6.0': {}
 

@@ -1,14 +1,17 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { AvailabilityEditor } from "@/components/booking/AvailabilityEditor";
-import { EnrollmentsInbox } from "@/components/booking/EnrollmentsInbox";
 import { InstructorsManager } from "@/components/booking/InstructorsManager";
 import { LessonsCalendar } from "@/components/booking/LessonsCalendar";
 import { RequestsInbox } from "@/components/booking/RequestsInbox";
 import { ServiceSettings } from "@/components/booking/ServiceSettings";
 import { DrivingSchoolLayout } from "@/components/driving-school/DrivingSchoolLayout";
 import { useAuth } from "@/hooks/useAuth";
-import { listInstructors, listSchoolBookings } from "@/lib/booking/api";
+import {
+	type EnrolledStudent,
+	listEnrolledStudents,
+	listInstructors,
+	listSchoolBookings,
+} from "@/lib/booking/api";
 import type { Booking, Instructor } from "@/lib/booking/types";
 import { supabase } from "@/lib/supabase";
 
@@ -17,6 +20,7 @@ interface SchoolRow {
 	name: string | null;
 	lesson_duration_min: number | null;
 	booking_enabled: boolean;
+	auto_confirm: boolean;
 }
 
 export default function DrivingSchoolGuide() {
@@ -26,13 +30,14 @@ export default function DrivingSchoolGuide() {
 	const [loading, setLoading] = useState(true);
 	const [bookings, setBookings] = useState<Booking[]>([]);
 	const [instructors, setInstructors] = useState<Instructor[]>([]);
+	const [students, setStudents] = useState<EnrolledStudent[]>([]);
 	const [tick, setTick] = useState(0);
 
 	useEffect(() => {
 		if (!user) return;
 		supabase
 			.from("driving_schools")
-			.select("id, name, lesson_duration_min, booking_enabled")
+			.select("id, name, lesson_duration_min, booking_enabled, auto_confirm")
 			.eq("user_id", user.id)
 			.eq("status", "accepted")
 			.order("created_at", { ascending: false })
@@ -46,10 +51,15 @@ export default function DrivingSchoolGuide() {
 
 	useEffect(() => {
 		if (!school?.id) return;
-		Promise.all([listSchoolBookings(school.id), listInstructors(school.id)])
-			.then(([b, i]) => {
+		Promise.all([
+			listSchoolBookings(school.id),
+			listInstructors(school.id),
+			listEnrolledStudents(school.id).catch(() => []),
+		])
+			.then(([b, i, s]) => {
 				setBookings(b);
 				setInstructors(i);
+				setStudents(s);
 			})
 			.catch(() => {});
 	}, [school?.id, tick]);
@@ -79,26 +89,50 @@ export default function DrivingSchoolGuide() {
 
 	return (
 		<DrivingSchoolLayout schoolName={school.name ?? undefined}>
-			<h1 className="text-2xl font-bold">{t("school.dashboard.nav.guide")}</h1>
+			<header className="mb-8">
+				<p className="text-xs font-bold uppercase tracking-[0.12em] text-brand-ink">
+					{t("school.dashboard.nav.guide")}
+				</p>
+				<h1 className="mt-1 text-xl font-extrabold tracking-tight text-ink sm:text-2xl">
+					{school.name ?? t("school.dashboard.nav.guide")}
+				</h1>
+				<p className="mt-1 max-w-[60ch] text-sm text-ink-muted">
+					{t("booking.school.guideSubtitle")}
+				</p>
+			</header>
 
-			<div className="mt-6">
+			{/* Pending requests, then the full-width schedule */}
+			<div className="flex flex-col gap-6">
 				<RequestsInbox schoolId={school.id} onChange={refresh} />
-			</div>
-
-			<div className="mt-6">
-				<LessonsCalendar bookings={bookings} instructors={instructors} />
-			</div>
-
-			<div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-2">
-				<EnrollmentsInbox schoolId={school.id} />
-				<InstructorsManager schoolId={school.id} onChange={refresh} />
-				<ServiceSettings
+				<LessonsCalendar
+					bookings={bookings}
+					instructors={instructors}
 					schoolId={school.id}
-					initialDuration={school.lesson_duration_min}
-					initialEnabled={school.booking_enabled}
-					onSaved={refresh}
+					durationMin={school.lesson_duration_min ?? 60}
+					students={students}
+					onChanged={refresh}
 				/>
-				<AvailabilityEditor schoolId={school.id} onSaved={refresh} />
+			</div>
+
+			{/* Configuration */}
+			<div className="mt-12">
+				<div className="mb-5 flex items-center gap-3">
+					<h2 className="text-xs font-bold uppercase tracking-[0.12em] text-ink-faint">
+						{t("booking.school.manageSection")}
+					</h2>
+					<span className="h-px flex-1 bg-line" />
+				</div>
+				<div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+					<div className="lg:col-span-2">
+						<InstructorsManager schoolId={school.id} onChange={refresh} />
+					</div>
+					<ServiceSettings
+						schoolId={school.id}
+						initialDuration={school.lesson_duration_min}
+						initialAutoConfirm={school.auto_confirm}
+						onSaved={refresh}
+					/>
+				</div>
 			</div>
 		</DrivingSchoolLayout>
 	);

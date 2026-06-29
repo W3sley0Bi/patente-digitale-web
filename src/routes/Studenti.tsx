@@ -1,14 +1,27 @@
+import {
+	ArrowDown,
+	BadgeCheck,
+	Camera,
+	Check,
+	MapPin,
+	ScanLine,
+	Star,
+} from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router";
-import { MapPin, Check, ArrowDown, Camera, ScanLine, BadgeCheck, Star } from "lucide-react";
-import { Nav } from "@/components/nav/Nav";
 import { Footer } from "@/components/layout/Footer";
 import { SectionEyebrow } from "@/components/layout/SectionEyebrow";
 import { Reveal } from "@/components/motion/Reveal";
+import { Nav } from "@/components/nav/Nav";
 import { Button } from "@/components/ui/button";
 
 const PayPalLogo = ({ className = "h-5 w-auto" }: { className?: string }) => (
-	<svg viewBox="0 0 101 32" className={className} aria-label="PayPal" role="img">
+	<svg
+		viewBox="0 0 101 32"
+		className={className}
+		aria-label="PayPal"
+		role="img"
+	>
 		<title>PayPal</title>
 		<path
 			fill="#253B80"
@@ -115,7 +128,9 @@ function SchoolCardMock() {
 													}
 												/>
 												<span className="font-sans text-xs leading-relaxed text-ink-muted">
-													{t(`studenti.bundles.mock.tiers.${tier}.features.${f}`)}
+													{t(
+														`studenti.bundles.mock.tiers.${tier}.features.${f}`,
+													)}
 												</span>
 											</li>
 										))}
@@ -163,7 +178,9 @@ export default function Studenti() {
 							<Reveal className="lg:col-span-8">
 								<SectionEyebrow>{t("studenti.hero.eyebrow")}</SectionEyebrow>
 								<h1 className="mt-4 font-sans text-4xl font-black leading-[1.05] tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
-									<span className="block text-ink">{t("studenti.hero.headline_part1")}</span>
+									<span className="block text-ink">
+										{t("studenti.hero.headline_part1")}
+									</span>
 									<span className="block text-brand mt-2">
 										{t("studenti.hero.headline_part2")}
 									</span>
@@ -174,13 +191,15 @@ export default function Studenti() {
 
 								<div className="mt-10">
 									<Link to="/search">
-										<Button size="lg" className="h-14 px-8 rounded-pill font-bold text-base gap-2">
+										<Button
+											size="lg"
+											className="h-14 px-8 rounded-pill font-bold text-base gap-2"
+										>
 											<MapPin className="h-5 w-5" />
 											{t("studenti.hero.cta")}
 										</Button>
 									</Link>
 								</div>
-
 							</Reveal>
 
 							{/* PayPal callout — vertical card, not centered */}
@@ -194,7 +213,9 @@ export default function Studenti() {
 									</div>
 									<div className="mt-4 flex items-center gap-3">
 										<PayPalLogo className="h-7 w-auto" />
-										<span className="font-sans text-2xl font-black text-ink">3 rate</span>
+										<span className="font-sans text-2xl font-black text-ink">
+											3 rate
+										</span>
 									</div>
 									<p className="mt-3 font-sans text-xs leading-relaxed text-ink-faint">
 										{t("studenti.hero.paypalNote")}
@@ -209,13 +230,18 @@ export default function Studenti() {
 						href="#come-funziona"
 						className="group absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5 font-sans text-xs font-bold text-ink-muted hover:text-brand transition-colors"
 					>
-						<span className="uppercase tracking-widest">{t("studenti.hero.ctaSecondary")}</span>
+						<span className="uppercase tracking-widest">
+							{t("studenti.hero.ctaSecondary")}
+						</span>
 						<ArrowDown className="h-4 w-4 motion-safe:animate-bounce group-hover:text-brand" />
 					</a>
 				</section>
 
 				{/* FLOW — split column: online vs in-person. NOT a card grid. */}
-				<section id="come-funziona" className="scroll-mt-20 py-24 md:py-32 bg-bg">
+				<section
+					id="come-funziona"
+					className="scroll-mt-20 py-24 md:py-32 bg-bg"
+				>
 					<div className="mx-auto max-w-(--container-wide) px-4 lg:px-8">
 						<Reveal>
 							<SectionEyebrow>{t("studenti.flow.eyebrow")}</SectionEyebrow>
@@ -402,7 +428,10 @@ export default function Studenti() {
 													<div className="h-2 bg-line rounded-full overflow-hidden">
 														<div
 															className="h-full bg-brand"
-															style={{ width: n === 1 ? "100%" : n === 2 ? "100%" : "100%" }}
+															style={{
+																width:
+																	n === 1 ? "100%" : n === 2 ? "100%" : "100%",
+															}}
 														/>
 													</div>
 												</div>

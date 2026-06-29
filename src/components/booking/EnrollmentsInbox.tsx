@@ -36,8 +36,8 @@ export function EnrollmentsInbox({ schoolId }: { schoolId: string }) {
 	};
 
 	return (
-		<div className="rounded-2xl border border-line bg-bg-raised p-6">
-			<h3 className="font-sans text-lg font-black text-ink">
+		<div className="rounded-[1.5rem] border border-line bg-bg-raised p-5">
+			<h3 className="text-base font-bold tracking-tight text-ink">
 				{t("booking.school.enrollments")}
 			</h3>
 			{err && <p className="mt-2 text-sm text-red-600">{err}</p>}

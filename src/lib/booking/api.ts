@@ -89,10 +89,23 @@ export async function setInstructorActive(
 		.eq("id", id);
 	if (error) throw error;
 }
-export async function renameInstructor(id: string, name: string): Promise<void> {
+export async function renameInstructor(
+	id: string,
+	name: string,
+): Promise<void> {
 	const { error } = await supabase
 		.from("instructors")
 		.update({ name })
+		.eq("id", id);
+	if (error) throw error;
+}
+export async function setInstructorColor(
+	id: string,
+	color: string,
+): Promise<void> {
+	const { error } = await supabase
+		.from("instructors")
+		.update({ color })
 		.eq("id", id);
 	if (error) throw error;
 }
@@ -107,8 +120,6 @@ export interface AvailabilityRow {
 	start_time: string; // "HH:MM" or "HH:MM:SS"
 	end_time: string;
 }
-export type BookingHours = Record<string, [string, string][]>; // key = isodow "1".."7"
-
 export async function listInstructorAvailability(
 	instructorId: string,
 ): Promise<AvailabilityRow[]> {
@@ -137,26 +148,6 @@ export async function setInstructorAvailability(
 	if (ins.error) throw ins.error;
 }
 
-export async function getBookingHours(schoolId: string): Promise<BookingHours> {
-	const { data, error } = await supabase
-		.from("driving_schools")
-		.select("booking_hours")
-		.eq("id", schoolId)
-		.maybeSingle();
-	if (error) throw error;
-	return ((data?.booking_hours as BookingHours) ?? {}) as BookingHours;
-}
-export async function setBookingHours(
-	schoolId: string,
-	hours: BookingHours,
-): Promise<void> {
-	const { error } = await supabase
-		.from("driving_schools")
-		.update({ booking_hours: hours })
-		.eq("id", schoolId);
-	if (error) throw error;
-}
-
 /** Available lesson start timestamps (ISO) for a school on a given day (YYYY-MM-DD). */
 export async function listAvailableSlots(
 	schoolId: string,
@@ -170,15 +161,69 @@ export async function listAvailableSlots(
 	return (data as string[]) ?? [];
 }
 
+export interface EnrolledStudent {
+	student_id: string;
+	full_name: string | null;
+	licence_code: string | null;
+}
+/** Active enrolled students at a school (for the school's assign picker). */
+export async function listEnrolledStudents(
+	schoolId: string,
+): Promise<EnrolledStudent[]> {
+	const { data, error } = await supabase.rpc("list_enrolled_students", {
+		p_school_id: schoolId,
+	});
+	if (error) throw error;
+	return (data as EnrolledStudent[]) ?? [];
+}
+
+/** School edits an existing lesson (student / instructor / start time). */
+export async function updateBookingAsSchool(
+	bookingId: string,
+	studentId: string,
+	instructorId: string,
+	startsAt: string,
+): Promise<void> {
+	const { error } = await supabase.rpc("update_booking_as_school", {
+		p_booking_id: bookingId,
+		p_student_id: studentId,
+		p_instructor_id: instructorId,
+		p_starts_at: startsAt,
+	});
+	if (error) throw error;
+}
+
+/** School schedules a confirmed lesson for a chosen student + instructor. */
+export async function createBookingAsSchool(
+	schoolId: string,
+	studentId: string,
+	instructorId: string,
+	startsAt: string,
+): Promise<string> {
+	const { data, error } = await supabase.rpc("create_booking_as_school", {
+		p_school_id: schoolId,
+		p_student_id: studentId,
+		p_instructor_id: instructorId,
+		p_starts_at: startsAt,
+	});
+	if (error) throw error;
+	return data as string;
+}
+
 // ── service settings (RLS-guarded; owner policy on driving_schools) ──
 export async function setServiceSettings(
 	schoolId: string,
 	durationMin: number,
 	enabled: boolean,
+	autoConfirm: boolean,
 ): Promise<void> {
 	const { error } = await supabase
 		.from("driving_schools")
-		.update({ lesson_duration_min: durationMin, booking_enabled: enabled })
+		.update({
+			lesson_duration_min: durationMin,
+			booking_enabled: enabled,
+			auto_confirm: autoConfirm,
+		})
 		.eq("id", schoolId);
 	if (error) throw error;
 }

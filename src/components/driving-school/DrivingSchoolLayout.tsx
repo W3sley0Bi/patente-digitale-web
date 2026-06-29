@@ -1,4 +1,10 @@
-import { CalendarDays, LayoutDashboard, Pencil, Settings } from "lucide-react";
+import {
+	CalendarDays,
+	LayoutDashboard,
+	Pencil,
+	Settings,
+	Users,
+} from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Link, NavLink } from "react-router";
 import { Mascot, Wordmark } from "@/components/brand/Brand";
@@ -15,6 +21,12 @@ const NAV_ITEMS = [
 		href: "/driving-school/dashboard/guide",
 		icon: CalendarDays,
 		label: "school.dashboard.nav.guide",
+		end: false,
+	},
+	{
+		href: "/driving-school/dashboard/students",
+		icon: Users,
+		label: "school.dashboard.nav.students",
 		end: false,
 	},
 	{
