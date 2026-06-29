@@ -13,6 +13,8 @@ const QuizOnline = lazy(() => import("./routes/QuizOnline"));
 const ResetPassword = lazy(() => import("./routes/ResetPassword"));
 const SignupDrivingSchool = lazy(() => import("./routes/SignupDrivingSchool"));
 const StudentDashboard = lazy(() => import("./routes/StudentDashboard"));
+const StudentGuide = lazy(() => import("./routes/StudentGuide"));
+const StudentProfile = lazy(() => import("./routes/StudentProfile"));
 const DrivingSchoolDashboard = lazy(
 	() => import("./routes/DrivingSchoolDashboard"),
 );
@@ -80,6 +82,22 @@ function App() {
 								element={
 									<ProtectedRoute requiredRole="student">
 										<StudentDashboard />
+									</ProtectedRoute>
+								}
+							/>
+							<Route
+								path="/student/dashboard/guide"
+								element={
+									<ProtectedRoute requiredRole="student">
+										<StudentGuide />
+									</ProtectedRoute>
+								}
+							/>
+							<Route
+								path="/student/dashboard/profile"
+								element={
+									<ProtectedRoute requiredRole="student">
+										<StudentProfile />
 									</ProtectedRoute>
 								}
 							/>

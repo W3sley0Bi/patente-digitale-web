@@ -17,6 +17,7 @@ import {
 	AppointmentFormPopover,
 	EventDetailsPopover,
 } from "./AppointmentPopovers";
+import { StatusPill } from "./StatusPill";
 
 type Anchor = { x: number; y: number };
 type PopoverState =
@@ -50,6 +51,9 @@ const PENDING = "oklch(0.70 0.15 75)"; // amber
 type SxEvent = {
 	id: string;
 	title: string;
+	student: string;
+	instructor: string;
+	licence: string | null;
 	color: string;
 	pending: boolean;
 	start: unknown;
@@ -58,10 +62,10 @@ type SxEvent = {
 
 /** Outlook-style event: confirmed = solid brand colour, pending = dashed + translucent. */
 function EventBox({ calendarEvent }: { calendarEvent: SxEvent }) {
-	const { color, pending, title } = calendarEvent;
+	const { color, pending, title, student, instructor, licence } = calendarEvent;
 	return (
 		<div
-			className="flex h-full w-full flex-col gap-0.5 overflow-hidden rounded-[0.5rem] px-2 py-1 text-[0.7rem] font-semibold leading-tight"
+			className="relative flex h-full w-full flex-col gap-0.5 overflow-hidden rounded-[0.5rem] px-2 py-1 pr-7 text-[0.7rem] font-semibold leading-tight"
 			style={
 				pending
 					? {
@@ -77,7 +81,24 @@ function EventBox({ calendarEvent }: { calendarEvent: SxEvent }) {
 			}
 			title={title}
 		>
-			<span className="truncate">{title}</span>
+			<span className="truncate">{student}</span>
+			<span className="truncate font-medium opacity-80">{instructor}</span>
+			{licence && (
+				<span
+					className="absolute bottom-1 right-1 rounded-[0.3rem] px-1 py-px text-[0.6rem] font-bold leading-none tabular-nums"
+					style={
+						pending
+							? {
+									backgroundColor: `color-mix(in oklch, ${color} 18%, transparent)`,
+								}
+							: {
+									backgroundColor: "color-mix(in oklch, #fff 24%, transparent)",
+								}
+					}
+				>
+					{licence}
+				</span>
+			)}
 		</div>
 	);
 }
@@ -133,19 +154,24 @@ export function LessonsCalendar({
 				.filter((b) => b.status === "confirmed" || b.status === "pending")
 				.map((b) => {
 					const pending = b.status === "pending";
-					const name =
+					const instructor =
 						instructors.find((i) => i.id === b.instructor_id)?.name ??
 						t("booking.school.unassigned");
+					const enrolled = students.find((s) => s.student_id === b.student_id);
+					const student = enrolled?.full_name ?? t("booking.school.student");
 					return {
 						id: b.id,
-						title: name,
+						title: `${student} · ${instructor}`,
+						student,
+						instructor,
+						licence: b.licence_code ?? enrolled?.licence_code ?? null,
 						color: pending ? PENDING : colorFor(b.instructor_id),
 						pending,
 						start: toZoned(b.starts_at),
 						end: toZoned(b.ends_at),
 					};
 				}),
-		[bookings, instructors, colorFor, t],
+		[bookings, instructors, students, colorFor, t],
 	);
 
 	const weekView = useMemo(() => createViewWeek(), []);
@@ -278,17 +304,12 @@ export function LessonsCalendar({
 				<h2 className="text-md font-extrabold tracking-tight text-ink">
 					{t("booking.school.calendar")}
 				</h2>
-				<div className="flex items-center gap-4 text-xs font-medium text-ink-muted">
+				<div className="flex items-center gap-3 text-xs font-medium text-ink-muted">
+					{/* Status key: lets schools read the pending-vs-confirmed coding at
+					    a glance, in the shared StatusPill language. */}
+					<StatusPill status="confirmed" />
 					<span className="flex items-center gap-1.5">
-						<span className="h-2.5 w-2.5 rounded-full bg-brand" />
-						{t("booking.school.legendConfirmed")}
-					</span>
-					<span className="flex items-center gap-1.5">
-						<span
-							className="h-2.5 w-2.5 rounded-full border-[1.5px] border-dashed"
-							style={{ borderColor: PENDING }}
-						/>
-						{t("booking.school.legendPending")}
+						<StatusPill status="pending" />
 						{pendingCount > 0 && (
 							<span className="rounded-full bg-warning/20 px-1.5 py-0.5 text-[0.65rem] font-bold text-ink">
 								{pendingCount}

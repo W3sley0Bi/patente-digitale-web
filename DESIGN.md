@@ -60,6 +60,17 @@ All neutrals are tinted toward green hue (`160`) at very low chroma so the page 
 | `--color-brand-ink` on `--color-bg`    | 8.2 : 1  | Brand-colored eyebrow / section label |
 | `--color-accent-ink` on `--color-bg`   | 6.7 : 1  | Error copy / red emphasis             |
 
+### Status soft/ink pairs (booking StatusPill)
+
+Added for the shared `StatusPill` (status = color + icon + label, never color-only). Each is a tinted-bg + readable-ink pair mirroring the existing `brand-soft`/`brand-ink` and `accent-soft`/`accent-ink` convention, low-chroma so pills sit quietly in dense lists, ink tuned to clear AA as text on its own soft background.
+
+| Token                   | OKLCH                     | Justification                                                                 |
+|-------------------------|---------------------------|-------------------------------------------------------------------------------|
+| `--color-warning-soft`  | `oklch(0.95 0.045 75)`    | Amber pill fill for `pending`. Same hue family as `--color-warning`, lightened to a soft surface tint. |
+| `--color-warning-ink`   | `oklch(0.46 0.11 75)`     | Amber text/icon on `warning-soft`. Darkened to read AA on the soft fill (amber needs a lower L than green to pass). |
+| `--color-info-soft`     | `oklch(0.95 0.035 230)`   | Cool-blue pill fill for `completed`. Soft surface tint off `--color-info`, used sparingly per DESIGN info rule. |
+| `--color-info-ink`      | `oklch(0.45 0.11 230)`    | Blue text/icon on `info-soft`. Tuned to AA on the soft fill for a calm "done" pill. |
+
 ## Typography
 
 ### Font selection

@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router";
-import { EnrollmentsInbox } from "@/components/booking/EnrollmentsInbox";
 import { DashboardPending } from "@/components/driving-school/DashboardPending";
 import { DrivingSchoolLayout } from "@/components/driving-school/DrivingSchoolLayout";
 import { Nav } from "@/components/nav/Nav";
@@ -215,18 +214,6 @@ export default function DrivingSchoolDashboard() {
 					</p>
 				</Link>
 			</div>
-
-			{claim?.id && (
-				<div className="mt-10">
-					<div className="mb-5 flex items-center gap-3">
-						<h2 className="text-xs font-bold uppercase tracking-[0.12em] text-ink-faint">
-							{t("booking.school.enrollments")}
-						</h2>
-						<span className="h-px flex-1 bg-line" />
-					</div>
-					<EnrollmentsInbox schoolId={claim.id} />
-				</div>
-			)}
 		</DrivingSchoolLayout>
 	);
 }

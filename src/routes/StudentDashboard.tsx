@@ -1,28 +1,197 @@
-import { Search } from "lucide-react";
-import { useEffect, useState } from "react";
+import { ArrowRight, CalendarClock, Search } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router";
-import { BookLessonForm } from "@/components/booking/BookLessonForm";
-import { MyLessons } from "@/components/booking/MyLessons";
-import { Nav } from "@/components/nav/Nav";
+import { CalendarPreference } from "@/components/student/CalendarPreference";
+import { StatusChangeBanner } from "@/components/student/StatusChangeBanner";
+import { StudentLayout } from "@/components/student/StudentLayout";
 import { useProfile } from "@/hooks/useProfile";
-import { getMyEnrollment } from "@/lib/booking/api";
-import type { Enrollment } from "@/lib/booking/types";
+import { getMyEnrollment, listMyBookings } from "@/lib/booking/api";
+import { effectiveStatus } from "@/lib/booking/helpers";
+import type { Booking, Enrollment } from "@/lib/booking/types";
 import { supabase } from "@/lib/supabase";
 
 type SchoolInfo = {
 	name: string | null;
-	lesson_duration_min: number | null;
-	email: string | null;
-	booking_enabled: boolean;
 };
 
-function StudentBookingPanel() {
+function EnrollmentStatusCard({
+	loading,
+	enrollment,
+	school,
+}: {
+	loading: boolean;
+	enrollment: Enrollment | null;
+	school: SchoolInfo | null;
+}) {
 	const { t } = useTranslation();
+
+	if (loading) {
+		return <div className="mt-6 h-16 animate-pulse rounded-2xl bg-bg-sunken" />;
+	}
+
+	const status = enrollment?.status;
+
+	// Not enrolled (or rejected/left) → point them to search
+	if (!enrollment || status === "rejected" || status === "left") {
+		return (
+			<div className="mt-6 rounded-2xl border border-line bg-bg-raised p-6 text-center">
+				<p className="text-sm text-ink-muted">
+					{t("booking.student.notEnrolled")}
+				</p>
+				<Link
+					to="/search"
+					className="mt-4 inline-flex items-center gap-2 rounded-md bg-brand px-4 py-2 text-sm font-bold text-white transition-colors hover:bg-brand-hover"
+				>
+					<Search size={15} aria-hidden="true" />
+					{t("booking.student.findSchool")}
+				</Link>
+			</div>
+		);
+	}
+
+	return (
+		<div className="mt-6 rounded-2xl border border-line bg-brand-soft/30 px-5 py-4">
+			<p className="text-sm font-bold text-brand-ink">
+				{status === "active"
+					? t("booking.student.enrolledAt", { school: school?.name ?? "—" })
+					: t("booking.student.pending", { school: school?.name ?? "—" })}
+			</p>
+		</div>
+	);
+}
+
+function LessonsGlance() {
+	const { t, i18n } = useTranslation();
+	const [bookings, setBookings] = useState<Booking[]>([]);
+
+	useEffect(() => {
+		listMyBookings()
+			.then(setBookings)
+			.catch(() => setBookings([]));
+	}, []);
+
+	const { nextLesson, pendingCount } = useMemo(() => {
+		const now = Date.now();
+		let next: Booking | null = null;
+		let pending = 0;
+		for (const b of bookings) {
+			const st = effectiveStatus(b);
+			if (st === "pending") pending += 1;
+			if (
+				st === "confirmed" &&
+				new Date(b.starts_at).getTime() >= now &&
+				(!next || b.starts_at < next.starts_at)
+			) {
+				next = b;
+			}
+		}
+		return { nextLesson: next, pendingCount: pending };
+	}, [bookings]);
+
+	const nextDatetime = nextLesson
+		? new Date(nextLesson.starts_at).toLocaleString(i18n.language, {
+				dateStyle: "medium",
+				timeStyle: "short",
+			})
+		: null;
+
+	return (
+		<div className="mt-6 rounded-2xl border border-line bg-bg-raised p-6">
+			<div className="flex items-start gap-3">
+				<CalendarClock
+					size={20}
+					aria-hidden="true"
+					className="mt-0.5 shrink-0 text-ink-muted"
+				/>
+				<div className="min-w-0">
+					<p className="text-xs font-bold uppercase tracking-wide text-ink-muted">
+						{t("student.dashboard.nextLesson")}
+					</p>
+					<p className="mt-1 text-sm font-bold text-ink">
+						{nextDatetime ?? t("student.dashboard.noUpcoming")}
+					</p>
+					{pendingCount > 0 && (
+						<p className="mt-1 text-sm text-ink-muted">
+							{t("student.dashboard.pendingCount", { count: pendingCount })}
+						</p>
+					)}
+				</div>
+			</div>
+
+			<Link
+				to="/student/dashboard/guide"
+				className="mt-5 inline-flex items-center gap-2 rounded-md bg-brand px-4 py-2.5 text-sm font-bold text-white transition-colors hover:bg-brand-hover"
+			>
+				{t("student.dashboard.goToGuide")}
+				<ArrowRight size={15} aria-hidden="true" />
+			</Link>
+		</div>
+	);
+}
+
+function CompleteNamePrompt() {
+	const { t } = useTranslation();
+	const { profile, refresh } = useProfile();
+	const [value, setValue] = useState("");
+	const [saving, setSaving] = useState(false);
+
+	if (!profile || profile.full_name?.trim()) return null;
+
+	const save = async (e: React.FormEvent) => {
+		e.preventDefault();
+		const full_name = value.trim();
+		if (!full_name) return;
+		setSaving(true);
+		const { error } = await supabase
+			.from("profiles")
+			.update({ full_name })
+			.eq("id", profile.id);
+		setSaving(false);
+		if (!error) await refresh();
+	};
+
+	return (
+		<form
+			onSubmit={save}
+			className="mt-6 rounded-2xl border border-line bg-brand-soft/30 p-5"
+		>
+			<p className="text-sm font-bold text-brand-ink">
+				{t("student.profile.completeTitle")}
+			</p>
+			<p className="mt-1 text-sm text-ink-muted">
+				{t("student.profile.completeBody")}
+			</p>
+			<div className="mt-3 flex gap-2">
+				<input
+					type="text"
+					value={value}
+					onChange={(e) => setValue(e.target.value)}
+					required
+					autoComplete="name"
+					placeholder={t("auth.form.fullName")}
+					className="flex-1 rounded-lg border bg-bg px-3 py-2.5 text-sm transition focus:outline-none focus:ring-2 focus:ring-ink/20"
+				/>
+				<button
+					type="submit"
+					disabled={saving}
+					className="rounded-md bg-brand px-4 py-2 text-sm font-bold text-white transition-colors hover:bg-brand-hover disabled:opacity-60"
+				>
+					{saving ? t("student.profile.saving") : t("student.profile.save")}
+				</button>
+			</div>
+		</form>
+	);
+}
+
+export default function StudentDashboard() {
+	const { t } = useTranslation();
+	const { profile } = useProfile();
+	const name = profile?.full_name?.split(" ")[0];
+
 	const [enrollment, setEnrollment] = useState<Enrollment | null>(null);
 	const [school, setSchool] = useState<SchoolInfo | null>(null);
 	const [loading, setLoading] = useState(true);
-	const [refresh, setRefresh] = useState(0);
 
 	useEffect(() => {
 		getMyEnrollment()
@@ -31,7 +200,7 @@ function StudentBookingPanel() {
 				if (e) {
 					const { data } = await supabase
 						.from("driving_schools")
-						.select("name, lesson_duration_min, email, booking_enabled")
+						.select("name")
 						.eq("id", e.school_id)
 						.maybeSingle();
 					setSchool((data as SchoolInfo) ?? null);
@@ -41,80 +210,27 @@ function StudentBookingPanel() {
 			.finally(() => setLoading(false));
 	}, []);
 
-	if (loading) {
-		return (
-			<div className="mt-8 flex min-h-[20vh] items-center justify-center">
-				<div className="h-8 w-8 animate-pulse rounded-full bg-brand/20" />
-			</div>
-		);
-	}
-
-	const status = enrollment?.status;
-
-	// Not enrolled (or rejected/left) → point them to search
-	if (!enrollment || status === "rejected" || status === "left") {
-		return (
-			<div className="mt-8 rounded-2xl border border-line bg-bg-raised p-8 text-center">
-				<p className="text-sm text-ink-muted">
-					{t("booking.student.notEnrolled")}
-				</p>
-				<Link
-					to="/search"
-					className="mt-4 inline-flex items-center gap-2 rounded-md bg-brand px-4 py-2 text-sm font-bold text-white transition-colors hover:bg-brand-hover"
-				>
-					<Search size={15} />
-					{t("booking.student.findSchool")}
-				</Link>
-			</div>
-		);
-	}
+	const isActive = enrollment?.status === "active";
 
 	return (
-		<div className="mt-8">
-			<div className="rounded-2xl border border-line bg-brand-soft/30 px-5 py-4">
-				<p className="text-sm font-bold text-brand-ink">
-					{status === "active"
-						? t("booking.student.enrolledAt", { school: school?.name ?? "—" })
-						: t("booking.student.pending", { school: school?.name ?? "—" })}
-				</p>
-			</div>
-
-			<div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-2">
-				{status === "active" &&
-					(school?.booking_enabled ? (
-						<BookLessonForm
-							schoolId={enrollment.school_id}
-							durationMin={school?.lesson_duration_min ?? 60}
-							schoolEmail={school?.email ?? undefined}
-							onBooked={() => setRefresh((n) => n + 1)}
-						/>
-					) : (
-						<div className="rounded-2xl border border-line bg-bg-raised p-6 text-sm text-ink-muted">
-							{t("booking.book.disabled")}
-						</div>
-					))}
-				<MyLessons refreshKey={refresh} />
-			</div>
-		</div>
-	);
-}
-
-export default function StudentDashboard() {
-	const { t } = useTranslation();
-	const { profile } = useProfile();
-	const name = profile?.full_name?.split(" ")[0];
-
-	return (
-		<div className="min-h-screen bg-bg text-ink">
-			<Nav />
-			<div className="mx-auto max-w-5xl px-6 pt-24 pb-12">
+		<StudentLayout>
+			<div className="mx-auto max-w-5xl pb-12">
 				<h1 className="text-2xl font-bold">
 					{name
 						? t("booking.student.greeting", { name })
 						: t("student.dashboard.title")}
 				</h1>
-				<StudentBookingPanel />
+				<CompleteNamePrompt />
+
+				<EnrollmentStatusCard
+					loading={loading}
+					enrollment={enrollment}
+					school={school}
+				/>
+				<StatusChangeBanner />
+				<LessonsGlance />
+				{isActive && <CalendarPreference />}
 			</div>
-		</div>
+		</StudentLayout>
 	);
 }

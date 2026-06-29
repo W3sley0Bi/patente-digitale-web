@@ -7,6 +7,7 @@ interface Profile {
   role: "student" | "autoscuola";
   approved: boolean;
   full_name: string | null;
+  phone: string | null;
 }
 
 interface AuthState {

@@ -13,7 +13,7 @@ describe("useProfile", () => {
       session: null,
       user: { id: "u1" } as never,
       authLoading: false,
-      profile: { id: "u1", role: "student", approved: true, full_name: "Mario" },
+      profile: { id: "u1", role: "student", approved: true, full_name: "Mario", phone: null },
       role: "student",
       approved: true,
       profileLoading: false,

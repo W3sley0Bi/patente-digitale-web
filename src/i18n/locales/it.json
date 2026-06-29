@@ -1,4 +1,27 @@
 {
+	"calendar": {
+		"add": {
+			"trigger": "Aggiungi al calendario",
+			"google": "Google",
+			"apple": "Apple / iCloud (.ics)"
+		},
+		"event": {
+			"title": "Guida",
+			"titleWithSchool": "Guida: {{school}}",
+			"instructor": "Istruttore: {{name}}",
+			"bookedVia": "Prenotata su Patentedigitale.it"
+		},
+		"preference": {
+			"title": "Sincronizza le guide col tuo calendario",
+			"description": "Tieni ogni guida confermata sul calendario che usi già.",
+			"autoToggle": "Aggiungi automaticamente tutte le guide confermate al mio calendario",
+			"subscribeTitle": "Iscriviti una volta",
+			"subscribeHelp": "Iscriviti nella tua app calendario e ogni guida futura resta sincronizzata in automatico, senza aggiungerle una a una.",
+			"subscribeApple": "Apple / iCloud",
+			"subscribeGoogle": "Google Calendar",
+			"secretNote": "Questo è il tuo link privato al calendario. Tienilo per te."
+		}
+	},
 	"booking": {
 		"student": {
 			"greeting": "Ciao, {{name}}",
@@ -41,6 +64,11 @@
 			"empty": "Nessuna guida ancora",
 			"cancel": "Annulla",
 			"cancelReason": "Motivo (facoltativo)",
+			"cancelTitle": "Annullare questa guida?",
+			"cancelBody": "Guida del {{datetime}}. Libera la fascia e non è reversibile.",
+			"cancelConfirm": "Annulla guida",
+			"cancelKeep": "Mantieni la guida",
+			"cancelling": "Annullamento…",
 			"status": {
 				"pending": "In attesa",
 				"confirmed": "Confermata",
@@ -134,7 +162,20 @@
 				"7": "Domenica"
 			},
 			"moreActions": "Altre azioni",
-			"autoConfirmBacklogWarn": "Hai {{count}} richieste in attesa. Attivando la conferma automatica verranno confermate tutte e assegnate a un istruttore libero. Vuoi procedere? Ricordati di salvare per rendere effettiva la modifica."
+			"autoConfirmBacklogWarn": "Hai {{count}} richieste in attesa. Attivando la conferma automatica verranno confermate tutte e assegnate a un istruttore libero. Vuoi procedere? Ricordati di salvare per rendere effettiva la modifica.",
+			"editStudent": "Modifica dati",
+			"emailLocked": "Email di accesso, non modificabile qui",
+			"studentPhone": "Telefono",
+			"studentLicence": "Patente",
+			"selectLicence": "Seleziona patente",
+			"noLicence": "Nessuna patente",
+			"noPhone": "Nessun telefono",
+			"saveStudent": "Salva modifiche",
+			"savingStudent": "Salvataggio…",
+			"updateError": "Salvataggio non riuscito. Riprova.",
+			"studentSaved": "Salvato",
+			"searchStudents": "Cerca studenti",
+			"noMatch": "Nessuno studente corrisponde alla ricerca."
 		}
 	},
 	"cerca": {
@@ -182,13 +223,49 @@
 		}
 	},
 	"student": {
+		"profile": {
+			"completeTitle": "Aggiungi il tuo nome",
+			"completeBody": "La tua autoscuola vede il tuo nome nella lista degli studenti. Aggiungilo così possono riconoscerti.",
+			"save": "Salva",
+			"saving": "Salvataggio…",
+			"title": "Profilo",
+			"heading": "I tuoi dati",
+			"subtitle": "Tienili aggiornati così la tua autoscuola può contattarti.",
+			"phone": "Telefono",
+			"phonePlaceholder": "+39 ...",
+			"email": "Email",
+			"emailLocked": "La tua email di accesso. Contatta il supporto per modificarla.",
+			"licence": "Patente che stai conseguendo",
+			"licenceManaged": "Gestita con la tua autoscuola.",
+			"notEnrolled": "Non ancora iscritto a un’autoscuola.",
+			"saved": "Salvato"
+		},
 		"dashboard": {
 			"title": "Dashboard studente",
-			"desc": "Quiz, autoscuola iscritta e monitoraggio progressi — prossimamente."
+			"desc": "Quiz, autoscuola iscritta e monitoraggio progressi — prossimamente.",
+			"goToGuide": "Prenota e gestisci le guide",
+			"nextLesson": "Prossima guida",
+			"noUpcoming": "Nessuna guida in programma",
+			"pendingCount_one": "{{count}} richiesta in attesa",
+			"pendingCount_other": "{{count}} richieste in attesa",
+			"change": {
+				"confirmed": "La tua guida del {{datetime}} è stata confermata {{when}}.",
+				"declined": "La tua guida del {{datetime}} è stata rifiutata {{when}}.",
+				"cancelled": "La tua guida del {{datetime}} è stata annullata {{when}}."
+			}
+		},
+		"guide": {
+			"title": "Le tue guide"
 		},
 		"quiz": {
 			"title": "Quiz online",
 			"desc": "Quiz ufficiali del Ministero e monitoraggio progressi — prossimamente."
+		},
+		"nav": {
+			"dashboard": "Dashboard",
+			"profile": "Profilo",
+			"findSchool": "Trova autoscuola",
+			"guide": "Guide"
 		}
 	},
 	"school": {
@@ -365,6 +442,7 @@
 			"desc": "Rivendica il tuo profilo e gestisci la tua autoscuola"
 		},
 		"form": {
+			"fullName": "Nome completo",
 			"email": "Email",
 			"password": "Password",
 			"loading": "...",

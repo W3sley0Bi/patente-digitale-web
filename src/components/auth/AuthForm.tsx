@@ -19,11 +19,12 @@ export function AuthForm({ mode, role = "student", fullName, emailRedirectTo, re
   const { t } = useTranslation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [magicSent, setMagicSent] = useState(false);
 
-  const metadata = { role, full_name: fullName ?? "" };
+  const metadata = { role, full_name: (fullName ?? name).trim() };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -94,6 +95,21 @@ export function AuthForm({ mode, role = "student", fullName, emailRedirectTo, re
       )}
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-3">
+        {mode === "signup" && fullName === undefined && (
+          <label className="flex flex-col gap-1 text-sm">
+            <span className="text-xs font-medium text-ink-muted uppercase tracking-wide">
+              {t("auth.form.fullName")}
+            </span>
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+              autoComplete="name"
+              className="border rounded-lg px-3 py-2.5 text-sm bg-bg focus:outline-none focus:ring-2 focus:ring-ink/20 transition"
+            />
+          </label>
+        )}
         <label className="flex flex-col gap-1 text-sm">
           <span className="text-xs font-medium text-ink-muted uppercase tracking-wide">
             {t("auth.form.email")}

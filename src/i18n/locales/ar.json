@@ -1,4 +1,27 @@
 {
+	"calendar": {
+		"add": {
+			"trigger": "أضف إلى التقويم",
+			"google": "Google",
+			"apple": "Apple / iCloud (.ics)"
+		},
+		"event": {
+			"title": "درس قيادة",
+			"titleWithSchool": "درس قيادة: {{school}}",
+			"instructor": "المدرّب: {{name}}",
+			"bookedVia": "تم الحجز عبر Patentedigitale.it"
+		},
+		"preference": {
+			"title": "زامِن الدروس مع تقويمك",
+			"description": "احتفظ بكل درس مؤكَّد على التقويم الذي تستخدمه بالفعل.",
+			"autoToggle": "أضِف تلقائيًا كل الدروس المؤكَّدة إلى تقويمي",
+			"subscribeTitle": "اشترك مرة واحدة",
+			"subscribeHelp": "اشترك في تطبيق التقويم لديك وكل درس قادم يبقى متزامنًا تلقائيًا، دون إضافته يدويًا واحدًا تلو الآخر.",
+			"subscribeApple": "Apple / iCloud",
+			"subscribeGoogle": "Google Calendar",
+			"secretNote": "هذا رابط التقويم الخاص بك. احتفظ به لنفسك."
+		}
+	},
 	"booking": {
 		"student": {
 			"greeting": "مرحباً، {{name}}",
@@ -41,6 +64,11 @@
 			"empty": "لا توجد دروس بعد",
 			"cancel": "إلغاء",
 			"cancelReason": "السبب (اختياري)",
+			"cancelTitle": "إلغاء هذا الدرس؟",
+			"cancelBody": "الدرس في {{datetime}}. هذا يحرّر الموعد ولا يمكن التراجع عنه.",
+			"cancelConfirm": "إلغاء الدرس",
+			"cancelKeep": "الإبقاء على الدرس",
+			"cancelling": "جارٍ الإلغاء…",
 			"status": {
 				"pending": "قيد الانتظار",
 				"confirmed": "مؤكَّد",
@@ -134,7 +162,20 @@
 				"7": "الأحد"
 			},
 			"moreActions": "إجراءات أخرى",
-			"autoConfirmBacklogWarn": "لديك {{count}} طلبات قيد الانتظار. تفعيل التأكيد التلقائي سيؤكّدها جميعاً ويسنِد مدرّباً متاحاً. متابعة؟ تذكّر الحفظ لتطبيق التغيير."
+			"autoConfirmBacklogWarn": "لديك {{count}} طلبات قيد الانتظار. تفعيل التأكيد التلقائي سيؤكّدها جميعاً ويسنِد مدرّباً متاحاً. متابعة؟ تذكّر الحفظ لتطبيق التغيير.",
+			"editStudent": "تعديل البيانات",
+			"emailLocked": "بريد الدخول، لا يمكن تغييره هنا",
+			"studentPhone": "الهاتف",
+			"studentLicence": "الرخصة",
+			"selectLicence": "اختر الرخصة",
+			"noLicence": "لا توجد رخصة",
+			"noPhone": "لا يوجد هاتف",
+			"saveStudent": "حفظ التغييرات",
+			"savingStudent": "جارٍ الحفظ…",
+			"updateError": "تعذر الحفظ. حاول مجددًا.",
+			"studentSaved": "تم الحفظ",
+			"searchStudents": "ابحث عن الطلاب",
+			"noMatch": "لا يوجد طلاب مطابقون."
 		}
 	},
 	"cerca": {
@@ -174,13 +215,49 @@
 		}
 	},
 	"student": {
+		"profile": {
+			"completeTitle": "أضف اسمك",
+			"completeBody": "ترى مدرسة القيادة اسمك في قائمة الطلاب. أضفه ليتمكنوا من التعرف عليك.",
+			"save": "حفظ",
+			"saving": "جارٍ الحفظ…",
+			"title": "الملف الشخصي",
+			"heading": "بياناتك",
+			"subtitle": "ابقها محدّثة لتتمكن مدرسة القيادة من التواصل معك.",
+			"phone": "الهاتف",
+			"phonePlaceholder": "+39 ...",
+			"email": "البريد الإلكتروني",
+			"emailLocked": "بريد الدخول الخاص بك. تواصل مع الدعم لتغييره.",
+			"licence": "الرخصة التي تسعى إليها",
+			"licenceManaged": "تدار مع مدرسة القيادة.",
+			"notEnrolled": "غير مسجل في مدرسة بعد.",
+			"saved": "تم الحفظ"
+		},
 		"dashboard": {
 			"title": "لوحة تحكم الطالب",
-			"desc": "الاختبارات والمدرسة المسجلة وتتبع التقدم — قريباً."
+			"desc": "الاختبارات والمدرسة المسجلة وتتبع التقدم — قريباً.",
+			"goToGuide": "احجز وأدر الدروس",
+			"nextLesson": "الدرس التالي",
+			"noUpcoming": "لا دروس قادمة",
+			"pendingCount_one": "طلب واحد قيد الانتظار",
+			"pendingCount_other": "{{count}} طلبات قيد الانتظار",
+			"change": {
+				"confirmed": "تم تأكيد درسك في {{datetime}} {{when}}.",
+				"declined": "تم رفض درسك في {{datetime}} {{when}}.",
+				"cancelled": "تم إلغاء درسك في {{datetime}} {{when}}."
+			}
+		},
+		"guide": {
+			"title": "دروس القيادة"
 		},
 		"quiz": {
 			"title": "اختبار أونلاين",
 			"desc": "الاختبارات الرسمية من الوزارة وتتبع التقدم — قريباً."
+		},
+		"nav": {
+			"dashboard": "لوحة التحكم",
+			"profile": "الملف الشخصي",
+			"findSchool": "ابحث عن مدرسة",
+			"guide": "الدروس"
 		}
 	},
 	"school": {
@@ -315,6 +392,7 @@
 			"desc": "المطالبة بقائمتك وإدارة ملفك الشخصي"
 		},
 		"form": {
+			"fullName": "الاسم الكامل",
 			"email": "البريد الإلكتروني",
 			"password": "كلمة المرور",
 			"loading": "...",

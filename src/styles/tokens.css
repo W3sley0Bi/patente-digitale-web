@@ -17,7 +17,11 @@
 	--color-accent-ink: oklch(0.42 0.18 25);
 	--color-success: var(--color-brand);
 	--color-warning: oklch(0.78 0.16 75);
+	--color-warning-soft: oklch(0.95 0.045 75);
+	--color-warning-ink: oklch(0.46 0.11 75);
 	--color-info: oklch(0.62 0.12 230);
+	--color-info-soft: oklch(0.95 0.035 230);
+	--color-info-ink: oklch(0.45 0.11 230);
 	--color-focus-ring: oklch(0.62 0.16 152 / 45%);
 
 	/* Typography Scale (fluid, modular, ratio 1.28) */

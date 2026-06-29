@@ -1,4 +1,27 @@
 {
+	"calendar": {
+		"add": {
+			"trigger": "Add to calendar",
+			"google": "Google",
+			"apple": "Apple / iCloud (.ics)"
+		},
+		"event": {
+			"title": "Driving lesson",
+			"titleWithSchool": "Driving lesson: {{school}}",
+			"instructor": "Instructor: {{name}}",
+			"bookedVia": "Booked via Patentedigitale.it"
+		},
+		"preference": {
+			"title": "Sync lessons to your calendar",
+			"description": "Keep every confirmed lesson on the calendar you already use.",
+			"autoToggle": "Auto-add all confirmed lessons to my calendar",
+			"subscribeTitle": "Subscribe once",
+			"subscribeHelp": "Subscribe in your calendar app and every future lesson stays in sync automatically, with no need to add them one by one.",
+			"subscribeApple": "Apple / iCloud",
+			"subscribeGoogle": "Google Calendar",
+			"secretNote": "This is your private calendar link. Keep it to yourself."
+		}
+	},
 	"booking": {
 		"student": {
 			"greeting": "Hi, {{name}}",
@@ -41,6 +64,11 @@
 			"empty": "No lessons yet",
 			"cancel": "Cancel",
 			"cancelReason": "Reason (optional)",
+			"cancelTitle": "Cancel this lesson?",
+			"cancelBody": "Lesson on {{datetime}}. This frees the slot and cannot be undone.",
+			"cancelConfirm": "Cancel lesson",
+			"cancelKeep": "Keep lesson",
+			"cancelling": "Cancelling…",
 			"status": {
 				"pending": "Pending",
 				"confirmed": "Confirmed",
@@ -134,7 +162,20 @@
 				"7": "Sunday"
 			},
 			"moreActions": "More actions",
-			"autoConfirmBacklogWarn": "You have {{count}} pending requests. Turning on auto-confirm will confirm them all and assign a free instructor. Proceed? Remember to save to apply the change."
+			"autoConfirmBacklogWarn": "You have {{count}} pending requests. Turning on auto-confirm will confirm them all and assign a free instructor. Proceed? Remember to save to apply the change.",
+			"editStudent": "Edit details",
+			"emailLocked": "Login email, can’t be changed here",
+			"studentPhone": "Phone",
+			"studentLicence": "Licence",
+			"selectLicence": "Select licence",
+			"noLicence": "No licence yet",
+			"noPhone": "No phone",
+			"saveStudent": "Save changes",
+			"savingStudent": "Saving…",
+			"updateError": "Couldn’t save. Try again.",
+			"studentSaved": "Saved",
+			"searchStudents": "Search students",
+			"noMatch": "No students match your search."
 		}
 	},
 	"cerca": {
@@ -179,13 +220,49 @@
 		}
 	},
 	"student": {
+		"profile": {
+			"completeTitle": "Add your name",
+			"completeBody": "Your driving school sees your name on their students list. Add it so they can recognise you.",
+			"save": "Save",
+			"saving": "Saving…",
+			"title": "Profile",
+			"heading": "Your details",
+			"subtitle": "Keep these current so your driving school can reach you.",
+			"phone": "Phone",
+			"phonePlaceholder": "+39 ...",
+			"email": "Email",
+			"emailLocked": "Your login email. Contact support to change it.",
+			"licence": "Licence you’re working towards",
+			"licenceManaged": "Managed with your driving school.",
+			"notEnrolled": "Not enrolled at a school yet.",
+			"saved": "Saved"
+		},
 		"dashboard": {
 			"title": "Student dashboard",
-			"desc": "Quiz, enrolled school, and progress tracking — coming soon."
+			"desc": "Quiz, enrolled school, and progress tracking — coming soon.",
+			"goToGuide": "Book and manage lessons",
+			"nextLesson": "Next lesson",
+			"noUpcoming": "No upcoming lessons",
+			"pendingCount_one": "{{count}} pending request",
+			"pendingCount_other": "{{count}} pending requests",
+			"change": {
+				"confirmed": "Your lesson on {{datetime}} was confirmed {{when}}.",
+				"declined": "Your lesson on {{datetime}} was declined {{when}}.",
+				"cancelled": "Your lesson on {{datetime}} was cancelled {{when}}."
+			}
+		},
+		"guide": {
+			"title": "Driving lessons"
 		},
 		"quiz": {
 			"title": "Quiz online",
 			"desc": "Official Ministry quizzes and progress tracking — coming soon."
+		},
+		"nav": {
+			"dashboard": "Dashboard",
+			"profile": "Profile",
+			"findSchool": "Find a school",
+			"guide": "Lessons"
 		}
 	},
 	"school": {
@@ -362,6 +439,7 @@
 			"desc": "Claim your listing and manage your profile"
 		},
 		"form": {
+			"fullName": "Full name",
 			"email": "Email",
 			"password": "Password",
 			"loading": "...",

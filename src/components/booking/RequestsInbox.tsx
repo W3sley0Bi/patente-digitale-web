@@ -1,6 +1,7 @@
 import { Check, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { StatusPill } from "@/components/booking/StatusPill";
 import {
 	confirmBooking,
 	declineBooking,
@@ -120,6 +121,9 @@ export function RequestsInbox({
 									<span className="text-xs text-ink-faint">
 										{b.duration_min}m
 									</span>
+								</div>
+								<div className="mt-2">
+									<StatusPill status={b.status} />
 								</div>
 								<div className="mt-2.5 flex items-center gap-2">
 									<select

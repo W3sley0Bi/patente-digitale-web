@@ -1,4 +1,4 @@
-import { Pencil, Trash2, X } from "lucide-react";
+import { GraduationCap, Pencil, Trash2, X } from "lucide-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
@@ -257,6 +257,7 @@ export function EventDetailsPopover({
 	const ins = instructors.find((i) => i.id === booking.instructor_id) ?? null;
 	const student = students.find((s) => s.student_id === booking.student_id);
 	const studentName = student?.full_name ?? booking.student_id.slice(0, 8);
+	const licence = booking.licence_code ?? student?.licence_code ?? null;
 	const dotColor = ins
 		? instructorColor(ins.color, instructorIndex)
 		: "oklch(0.70 0.15 75)"; // pending amber when unassigned
@@ -303,6 +304,12 @@ export function EventDetailsPopover({
 					<h2 className="truncate text-sm font-bold tracking-tight text-ink">
 						{studentName}
 					</h2>
+					{licence && (
+						<span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-brand-soft px-2 py-0.5 text-[0.7rem] font-semibold uppercase tracking-wide text-brand-ink">
+							<GraduationCap size={11} aria-hidden className="shrink-0" />
+							{licence}
+						</span>
+					)}
 				</div>
 				<button
 					type="button"

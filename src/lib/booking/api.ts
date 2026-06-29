@@ -39,6 +39,25 @@ export async function listSchoolEnrollments(
 	if (error) throw error;
 	return (data ?? []) as Enrollment[];
 }
+
+export interface EnrollmentRequest {
+	enrollment_id: string;
+	student_id: string;
+	full_name: string | null;
+	email: string | null;
+	licence_code: string | null;
+	created_at: string;
+}
+/** Pending enrollment requests at a school, resolved with student name + email. */
+export async function listEnrollmentRequests(
+	schoolId: string,
+): Promise<EnrollmentRequest[]> {
+	const { data, error } = await supabase.rpc("list_enrollment_requests", {
+		p_school_id: schoolId,
+	});
+	if (error) throw error;
+	return (data as EnrollmentRequest[]) ?? [];
+}
 /** Resolve a search-result place_id to its accepted driving_schools row (id + contact + booking flag). */
 export async function getAcceptedSchoolByPlaceId(placeId: string): Promise<{
 	id: string;
@@ -166,6 +185,8 @@ export async function listAvailableSlots(
 export interface EnrolledStudent {
 	student_id: string;
 	full_name: string | null;
+	email: string | null;
+	phone: string | null;
 	licence_code: string | null;
 }
 /** Active enrolled students at a school (for the school's assign picker). */
@@ -177,6 +198,31 @@ export async function listEnrolledStudents(
 	});
 	if (error) throw error;
 	return (data as EnrolledStudent[]) ?? [];
+}
+
+/**
+ * School edits a student's editable info (name, phone, licence). Email is the
+ * login identity and cannot be changed here. `null` fields are left unchanged;
+ * pass an empty string to clear phone/licence. Guarded server-side: caller must
+ * own the school (or be admin) and the student must be actively enrolled.
+ */
+export async function updateStudentAsSchool(
+	schoolId: string,
+	studentId: string,
+	fields: {
+		full_name?: string;
+		phone?: string | null;
+		licence_code?: string | null;
+	},
+): Promise<void> {
+	const { error } = await supabase.rpc("school_update_student", {
+		p_school_id: schoolId,
+		p_student_id: studentId,
+		p_full_name: fields.full_name ?? null,
+		p_phone: fields.phone ?? null,
+		p_licence_code: fields.licence_code ?? null,
+	});
+	if (error) throw error;
 }
 
 /** School edits an existing lesson (student / instructor / start time). */
