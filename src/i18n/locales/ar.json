@@ -34,7 +34,17 @@
 			"cta": "سجّل في هذه المدرسة",
 			"pending": "تم إرسال الطلب، في انتظار الموافقة",
 			"active": "أنت مسجّل",
-			"error": "تعذّر إرسال الطلب"
+			"error": "تعذّر إرسال الطلب",
+			"dialogTitle": "طلب التسجيل",
+			"dialogSubtitle": "أكمل هذه البيانات لإرسال طلبك إلى المدرسة.",
+			"dialogSubmit": "إرسال الطلب",
+			"dialogSending": "جارٍ الإرسال…",
+			"dialogCancel": "إلغاء",
+			"licenceLabel": "نوع الرخصة",
+			"licencePlaceholder": "اختر الفئة",
+			"licenceRequired": "اختر نوع الرخصة.",
+			"phoneLabel": "رقم الهاتف",
+			"phoneInvalid": "أدخل رقم هاتف صالحًا."
 		},
 		"book": {
 			"title": "احجز درساً",
@@ -408,7 +418,8 @@
 			"rateLimit": "Too many attempts. Please wait a few minutes and try again.",
 			"emailNotConfirmed": "Email not confirmed. Check your inbox and click the magic link, or use \"Forgot password?\" to set one.",
 			"sessionExpired": "Your session has expired. Please request a new link.",
-			"domainMismatch": "للتحقق التلقائي يجب استخدام بريد إلكتروني من النطاق @{{domain}}."
+			"domainMismatch": "للتحقق التلقائي يجب استخدام بريد إلكتروني من النطاق @{{domain}}.",
+			"fullNameRequired": "أدخل اسمك الكامل."
 		},
 		"forgotSentTitle": "Email sent!",
 		"backToLogin": "← Back to login",

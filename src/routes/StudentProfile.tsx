@@ -15,6 +15,7 @@ export default function StudentProfile() {
 
 	const [fullName, setFullName] = useState(profile?.full_name ?? "");
 	const [phone, setPhone] = useState(profile?.phone ?? "");
+	const [nameError, setNameError] = useState(false);
 	const [saving, setSaving] = useState(false);
 	const [saved, setSaved] = useState(false);
 
@@ -38,6 +39,12 @@ export default function StudentProfile() {
 	const handleSave = async (e: React.FormEvent) => {
 		e.preventDefault();
 		if (!profile) return;
+		// Name is compulsory; the DB also refuses to blank it, but stop here for
+		// immediate feedback rather than a silent no-op save.
+		if (!fullName.trim()) {
+			setNameError(true);
+			return;
+		}
 		setSaving(true);
 		setSaved(false);
 		const { error } = await supabase
@@ -90,10 +97,19 @@ export default function StudentProfile() {
 								id="full-name"
 								type="text"
 								value={fullName}
-								onChange={(e) => setFullName(e.target.value)}
+								onChange={(e) => {
+									setFullName(e.target.value);
+									if (nameError) setNameError(false);
+								}}
 								autoComplete="name"
+								aria-invalid={nameError}
 								className="rounded-lg border border-line bg-bg px-3 py-2.5 text-sm text-ink transition-colors duration-150 ease-out placeholder:text-ink-faint hover:border-line-strong focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-focus-ring)]"
 							/>
+							{nameError && (
+								<span className="text-xs text-accent-ink">
+									{t("auth.errors.fullNameRequired")}
+								</span>
+							)}
 						</div>
 
 						{/* Phone */}

@@ -34,7 +34,17 @@
 			"cta": "Iscriviti a questa autoscuola",
 			"pending": "Richiesta inviata, in attesa di conferma",
 			"active": "Sei iscritto",
-			"error": "Impossibile inviare la richiesta"
+			"error": "Impossibile inviare la richiesta",
+			"dialogTitle": "Richiedi l'iscrizione",
+			"dialogSubtitle": "Completa questi dati per inviare la richiesta all'autoscuola.",
+			"dialogSubmit": "Invia richiesta",
+			"dialogSending": "Invio…",
+			"dialogCancel": "Annulla",
+			"licenceLabel": "Tipo di patente",
+			"licencePlaceholder": "Seleziona la categoria",
+			"licenceRequired": "Seleziona il tipo di patente.",
+			"phoneLabel": "Numero di telefono",
+			"phoneInvalid": "Inserisci un numero di telefono valido."
 		},
 		"book": {
 			"title": "Prenota una guida",
@@ -458,7 +468,8 @@
 			"rateLimit": "Troppi tentativi. Attendi qualche minuto e riprova.",
 			"emailNotConfirmed": "Email non confermata. Controlla la tua casella e clicca il magic link, oppure usa \"Password dimenticata?\" per impostarne una.",
 			"sessionExpired": "La sessione è scaduta. Richiedi un nuovo link.",
-			"domainMismatch": "Per la verifica automatica devi usare un'email del dominio @{{domain}}."
+			"domainMismatch": "Per la verifica automatica devi usare un'email del dominio @{{domain}}.",
+			"fullNameRequired": "Inserisci il tuo nome completo."
 		},
 		"forgotSentTitle": "Email inviata!",
 		"backToLogin": "← Torna al login",

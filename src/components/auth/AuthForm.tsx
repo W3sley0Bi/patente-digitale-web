@@ -31,6 +31,13 @@ export function AuthForm({ mode, role = "student", fullName, emailRedirectTo, re
     setLoading(true);
     setError(null);
 
+    // Full name is compulsory at signup when this form owns the field.
+    if (mode === "signup" && fullName === undefined && !name.trim()) {
+      setError(t("auth.errors.fullNameRequired"));
+      setLoading(false);
+      return;
+    }
+
     if (requireEmailDomain) {
       const entered = email.trim().split("@")[1]?.toLowerCase() ?? "";
       const expected = requireEmailDomain.toLowerCase();

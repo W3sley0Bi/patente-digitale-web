@@ -21,7 +21,8 @@
       "Bash(pip3 install *)",
       "Bash(convert --version)",
       "Bash(/tmp/gifenv/bin/pip install *)",
-      "Bash(/tmp/gifenv/bin/python3 *)"
+      "Bash(/tmp/gifenv/bin/python3 *)",
+      "Bash(pnpm install *)"
     ]
   },
   "enabledMcpjsonServers": [

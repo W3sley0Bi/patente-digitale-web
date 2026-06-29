@@ -88,6 +88,20 @@ export async function getMyEnrollment(): Promise<Enrollment | null> {
 	return (data as Enrollment) ?? null;
 }
 
+/** Current student's saved phone, for prefilling the enrollment dialog. */
+export async function getMyContact(): Promise<{ phone: string | null } | null> {
+	const {
+		data: { user },
+	} = await supabase.auth.getUser();
+	if (!user) return null;
+	const { data } = await supabase
+		.from("profiles")
+		.select("phone")
+		.eq("id", user.id)
+		.maybeSingle();
+	return (data as { phone: string | null }) ?? null;
+}
+
 // ── instructor CRUD (RLS-guarded direct writes) ──
 export async function addInstructor(
 	schoolId: string,
@@ -314,12 +328,14 @@ async function rpc(
 
 export const requestEnrollment = async (
 	schoolId: string,
-	licence?: string,
+	licence: string,
+	phone: string,
 	schoolEmail?: string,
 ) => {
 	const id = await rpc("request_enrollment", {
 		p_school_id: schoolId,
-		p_licence_code: licence ?? null,
+		p_licence_code: licence,
+		p_phone: phone,
 	});
 	await notify("enrollment_requested", schoolEmail);
 	return id;

@@ -34,7 +34,17 @@
 			"cta": "Enroll at this school",
 			"pending": "Request sent, awaiting approval",
 			"active": "You're enrolled",
-			"error": "Could not send request"
+			"error": "Could not send request",
+			"dialogTitle": "Request enrollment",
+			"dialogSubtitle": "Complete these details to send your request to the school.",
+			"dialogSubmit": "Send request",
+			"dialogSending": "Sending…",
+			"dialogCancel": "Cancel",
+			"licenceLabel": "Licence type",
+			"licencePlaceholder": "Select a category",
+			"licenceRequired": "Select your licence type.",
+			"phoneLabel": "Phone number",
+			"phoneInvalid": "Enter a valid phone number."
 		},
 		"book": {
 			"title": "Book a lesson",
@@ -455,7 +465,8 @@
 			"rateLimit": "Too many attempts. Please wait a few minutes and try again.",
 			"emailNotConfirmed": "Email not confirmed. Check your inbox and click the magic link, or use \"Forgot password?\" to set one.",
 			"sessionExpired": "Your session has expired. Please request a new link.",
-			"domainMismatch": "For automatic verification you must use an @{{domain}} email."
+			"domainMismatch": "For automatic verification you must use an @{{domain}} email.",
+			"fullNameRequired": "Enter your full name."
 		},
 		"forgotSentTitle": "Email sent!",
 		"backToLogin": "← Back to login",

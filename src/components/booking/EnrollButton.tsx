@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { EnrollDialog } from "@/components/booking/EnrollDialog";
 import {
 	getAcceptedSchoolByPlaceId,
 	getMyEnrollment,
@@ -11,20 +12,14 @@ import {
  * by place_id, so we resolve it to the accepted driving_schools row before enrolling.
  * Renders nothing unless the place_id maps to an accepted school with booking enabled.
  */
-export function EnrollButton({
-	placeId,
-	licenceCode,
-}: {
-	placeId: string;
-	licenceCode?: string;
-}) {
+export function EnrollButton({ placeId }: { placeId: string }) {
 	const { t } = useTranslation();
 	const [school, setSchool] = useState<{
 		id: string;
 		email: string | null;
 	} | null>(null);
 	const [status, setStatus] = useState<"none" | "pending" | "active">("none");
-	const [err, setErr] = useState<string | null>(null);
+	const [dialogOpen, setDialogOpen] = useState(false);
 	const [ready, setReady] = useState(false);
 
 	useEffect(() => {
@@ -55,18 +50,15 @@ export function EnrollButton({
 
 	if (!ready || !school) return null;
 
-	const enroll = async () => {
-		setErr(null);
-		try {
-			await requestEnrollment(
-				school.id,
-				licenceCode,
-				school.email ?? undefined,
-			);
-			setStatus("pending");
-		} catch {
-			setErr(t("booking.enroll.error"));
-		}
+	// Throws on failure so EnrollDialog can surface the error inline.
+	const handleConfirm = async (licence: string, phone: string) => {
+		await requestEnrollment(
+			school.id,
+			licence,
+			phone,
+			school.email ?? undefined,
+		);
+		setStatus("pending");
 	};
 
 	if (status === "active")
@@ -85,12 +77,16 @@ export function EnrollButton({
 		<div>
 			<button
 				type="button"
-				onClick={enroll}
+				onClick={() => setDialogOpen(true)}
 				className="flex w-full items-center justify-center rounded-xl bg-brand px-4 py-3 text-sm font-bold text-white transition-colors hover:bg-brand-hover active:scale-95"
 			>
 				{t("booking.enroll.cta")}
 			</button>
-			{err && <p className="mt-2 text-sm text-red-600">{err}</p>}
+			<EnrollDialog
+				open={dialogOpen}
+				onOpenChange={setDialogOpen}
+				onConfirm={handleConfirm}
+			/>
 		</div>
 	);
 }
