@@ -282,7 +282,14 @@
 			"dashboard": "Dashboard",
 			"profile": "Profile",
 			"findSchool": "Find a school",
-			"guide": "Lessons"
+			"guide": "Lessons",
+			"settings": "Settings"
+		},
+		"settings": {
+			"heading": "Email notifications",
+			"subtitle": "Choose whether to receive emails about your lessons.",
+			"saved": "Preference saved.",
+			"error": "Couldn’t save. Please try again."
 		}
 	},
 	"school": {

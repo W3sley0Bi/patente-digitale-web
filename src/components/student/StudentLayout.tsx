@@ -1,4 +1,10 @@
-import { Car, LayoutDashboard, Search, UserRound } from "lucide-react";
+import {
+	Car,
+	LayoutDashboard,
+	Search,
+	Settings,
+	UserRound,
+} from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Link, NavLink } from "react-router";
 import { Mascot, Wordmark } from "@/components/brand/Brand";
@@ -21,6 +27,12 @@ const NAV_ITEMS = [
 		href: "/student/dashboard/profile",
 		icon: UserRound,
 		label: "student.nav.profile",
+		end: false,
+	},
+	{
+		href: "/student/dashboard/settings",
+		icon: Settings,
+		label: "student.nav.settings",
 		end: false,
 	},
 	{

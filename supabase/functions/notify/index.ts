@@ -10,21 +10,23 @@
 // notice on the school's toggle and the student confirmation on the student's own
 // preference, renders a branded HTML email, and attaches an .ics for confirmations.
 //
-// Sends over SMTP (e.g. Aruba). Required edge secrets:
-//   SMTP_HOST  (e.g. smtps.aruba.it)
-//   SMTP_PORT  (e.g. 465)
-//   SMTP_USER  (full mailbox address, e.g. noreply@patentedigitale.it)
-//   SMTP_PASS  (mailbox password)
-//   SMTP_FROM  (optional display From, defaults to "Patentedigitale <SMTP_USER>")
+// Sends over the Resend HTTP API (https://resend.com). A plain fetch() — no SMTP
+// socket, no denomailer — so it stays well inside the edge worker's memory/CPU
+// budget (the old SMTP path intermittently tripped WORKER_RESOURCE_LIMIT). Secrets:
+//   RESEND_API_KEY  (required, "re_...")
+//   RESEND_FROM     (optional display From, defaults to
+//                    "Patentedigitale <noreply@patentedigitale.it>"; the domain
+//                    must be verified in Resend for delivery to succeed)
 // Deploy: supabase functions deploy notify   (or via Supabase MCP)
 import { serve } from "https://deno.land/std@0.224.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { encodeBase64 as base64Encode } from "https://deno.land/std@0.224.0/encoding/base64.ts";
-import { SMTPClient } from "https://deno.land/x/denomailer@1.6.0/mod.ts";
 import { buildIcsEvent, googleCalendarUrl } from "./ics.ts";
 import { decideRecipients } from "./routing.ts";
 import {
+	schoolCancelledEmail,
 	schoolRequestEmail,
+	studentCancelledEmail,
 	studentConfirmationEmail,
 	studentDeclinedEmail,
 	type DriveDetails,
@@ -51,6 +53,7 @@ const BOOKING_EVENTS = new Set<Event>([
 	"booking_requested",
 	"booking_confirmed",
 	"booking_declined",
+	"booking_cancelled",
 ]);
 
 // App base URL for in-email links. Configurable via the APP_BASE_URL secret so
@@ -76,8 +79,10 @@ interface BookingRow {
 	status: string;
 	school_id: string;
 	instructor_id: string | null;
+	preferred_instructor_id: string | null;
 	student_id: string;
 	cancel_reason: string | null;
+	cancelled_by: string | null;
 }
 
 interface SchoolRow {
@@ -95,54 +100,50 @@ interface MailSpec {
 	ics?: string; // raw .ics text; base64-encoded when attached
 }
 
-/** Read SMTP config from edge secrets. Throws a clear error if unset. */
-function smtpConfig() {
-	const host = Deno.env.get("SMTP_HOST");
-	const portRaw = Deno.env.get("SMTP_PORT");
-	const user = Deno.env.get("SMTP_USER");
-	const pass = Deno.env.get("SMTP_PASS");
-	if (!host || !portRaw || !user || !pass)
-		throw new Error("smtp_not_configured");
-	const port = Number(portRaw);
-	const from = Deno.env.get("SMTP_FROM") ?? `Patentedigitale <${user}>`;
-	return { host, port, user, pass, from };
+/** Read Resend config from edge secrets. Throws a clear error if unset. */
+function resendConfig() {
+	const apiKey = Deno.env.get("RESEND_API_KEY");
+	if (!apiKey) throw new Error("resend_not_configured");
+	const from =
+		Deno.env.get("RESEND_FROM") ??
+		"Patentedigitale <noreply@patentedigitale.it>";
+	return { apiKey, from };
 }
 
-/** Send all queued emails over a single SMTP connection. */
+/** Send all queued emails via the Resend HTTP API, one request each. */
 async function sendAll(specs: MailSpec[]): Promise<void> {
 	if (specs.length === 0) return;
-	const cfg = smtpConfig();
-	const client = new SMTPClient({
-		connection: {
-			hostname: cfg.host,
-			port: cfg.port,
-			tls: cfg.port === 465, // implicit TLS on 465; STARTTLS otherwise
-			auth: { username: cfg.user, password: cfg.pass },
-		},
-	});
-	try {
-		for (const m of specs) {
-			await client.send({
-				from: cfg.from,
-				to: m.to,
-				subject: m.subject,
-				html: m.html,
-				...(m.ics
-					? {
-							attachments: [
-								{
-									filename: "guida.ics",
-									content: base64Encode(m.ics),
-									encoding: "base64",
-									contentType: "text/calendar; charset=utf-8; method=PUBLISH",
-								},
-							],
-						}
-					: {}),
-			});
+	const cfg = resendConfig();
+	for (const m of specs) {
+		const payload: Record<string, unknown> = {
+			from: cfg.from,
+			to: [m.to],
+			subject: m.subject,
+			html: m.html,
+			...(m.ics
+				? {
+						attachments: [
+							{
+								filename: "guida.ics",
+								content: base64Encode(m.ics), // base64 string
+								content_type: "text/calendar; charset=utf-8; method=PUBLISH",
+							},
+						],
+					}
+				: {}),
+		};
+		const res = await fetch("https://api.resend.com/emails", {
+			method: "POST",
+			headers: {
+				Authorization: `Bearer ${cfg.apiKey}`,
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify(payload),
+		});
+		if (!res.ok) {
+			const detail = await res.text();
+			throw new Error(`resend_send_failed ${res.status}: ${detail}`);
 		}
-	} finally {
-		await client.close();
 	}
 }
 
@@ -174,7 +175,11 @@ function buildCalendar(bookingId: string, details: DriveDetails, end: Date) {
 /** Booking-aware path: authorize, load, gate on toggles, render and send. */
 async function handleBookingEvent(
 	req: Request,
-	event: "booking_requested" | "booking_confirmed" | "booking_declined",
+	event:
+		| "booking_requested"
+		| "booking_confirmed"
+		| "booking_declined"
+		| "booking_cancelled",
 	bookingId: string,
 ): Promise<Response> {
 	const url = Deno.env.get("SUPABASE_URL");
@@ -210,7 +215,7 @@ async function handleBookingEvent(
 	const { data: bookingData, error: bookingError } = await admin
 		.from("bookings")
 		.select(
-			"id, starts_at, ends_at, duration_min, status, school_id, instructor_id, student_id, cancel_reason",
+			"id, starts_at, ends_at, duration_min, status, school_id, instructor_id, preferred_instructor_id, student_id, cancel_reason, cancelled_by",
 		)
 		.eq("id", bookingId)
 		.maybeSingle();
@@ -231,12 +236,16 @@ async function handleBookingEvent(
 		return new Response("school not found", { status: 404, headers: CORS });
 	const school = schoolData as SchoolRow;
 
+	// Prefer the assigned instructor; on a still-pending request none is assigned
+	// yet, so fall back to the student's preferred pick so the school's request
+	// email shows who the student asked for.
 	let instructorName = "";
-	if (booking.instructor_id) {
+	const instructorId = booking.instructor_id ?? booking.preferred_instructor_id;
+	if (instructorId) {
 		const { data: instructor } = await admin
 			.from("instructors")
 			.select("name")
-			.eq("id", booking.instructor_id)
+			.eq("id", instructorId)
 			.maybeSingle();
 		instructorName = (instructor as { name: string | null } | null)?.name ?? "";
 	}
@@ -282,6 +291,7 @@ async function handleBookingEvent(
 	const decision = decideRecipients({
 		event,
 		bookingStatus: booking.status,
+		cancelledBy: booking.cancelled_by,
 		emailSchoolRequest: school.email_school_request,
 		schoolRecipient,
 		studentWantsConfirmation,
@@ -289,38 +299,67 @@ async function handleBookingEvent(
 	});
 
 	const specs: MailSpec[] = [];
-	if (decision.school) {
-		// School gets a link to the admin calendar view — no calendar attachment.
+	const studentConfirmation = () => {
+		// Add-to-calendar (Google + .ics) and a link to the student's guides.
+		const { googleUrl, ics } = buildCalendar(booking.id, details, end);
 		specs.push({
-			to: schoolRecipient,
-			subject: SUBJECTS.booking_requested,
-			html: schoolRequestEmail(details, { calendarUrl: SCHOOL_CALENDAR_URL }),
+			to: studentEmail,
+			subject: SUBJECTS.booking_confirmed,
+			html: studentConfirmationEmail(details, {
+				googleUrl,
+				guideUrl: STUDENT_GUIDE_URL,
+			}),
+			ics,
 		});
-	}
-	if (decision.student) {
-		if (event === "booking_declined") {
-			// Rejection: no calendar; link back to the guide section to rebook.
-			specs.push({
-				to: studentEmail,
-				subject: SUBJECTS.booking_declined,
-				html: studentDeclinedEmail(details, {
-					guideUrl: STUDENT_GUIDE_URL,
-					reason: booking.cancel_reason,
-				}),
-			});
-		} else {
-			// Confirmation: add-to-calendar (Google + .ics) and a link to their guides.
-			const { googleUrl, ics } = buildCalendar(booking.id, details, end);
-			specs.push({
-				to: studentEmail,
-				subject: SUBJECTS.booking_confirmed,
-				html: studentConfirmationEmail(details, {
-					googleUrl,
-					guideUrl: STUDENT_GUIDE_URL,
-				}),
-				ics,
-			});
-		}
+	};
+
+	switch (event) {
+		case "booking_requested":
+			if (decision.school)
+				specs.push({
+					to: schoolRecipient,
+					subject: SUBJECTS.booking_requested,
+					html: schoolRequestEmail(details, {
+						calendarUrl: SCHOOL_CALENDAR_URL,
+					}),
+				});
+			if (decision.student) studentConfirmation(); // auto-confirm path
+			break;
+		case "booking_confirmed":
+			if (decision.student) studentConfirmation();
+			break;
+		case "booking_declined":
+			if (decision.student)
+				specs.push({
+					to: studentEmail,
+					subject: SUBJECTS.booking_declined,
+					html: studentDeclinedEmail(details, {
+						guideUrl: STUDENT_GUIDE_URL,
+						reason: booking.cancel_reason,
+					}),
+				});
+			break;
+		case "booking_cancelled":
+			// Notify the counterparty of whoever cancelled.
+			if (decision.student)
+				specs.push({
+					to: studentEmail,
+					subject: SUBJECTS.booking_cancelled,
+					html: studentCancelledEmail(details, {
+						guideUrl: STUDENT_GUIDE_URL,
+						reason: booking.cancel_reason,
+					}),
+				});
+			if (decision.school)
+				specs.push({
+					to: schoolRecipient,
+					subject: SUBJECTS.booking_cancelled,
+					html: schoolCancelledEmail(details, {
+						calendarUrl: SCHOOL_CALENDAR_URL,
+						reason: booking.cancel_reason,
+					}),
+				});
+			break;
 	}
 
 	if (specs.length === 0)
@@ -375,7 +414,11 @@ serve(async (req) => {
 		if (BOOKING_EVENTS.has(event) && payload.bookingId) {
 			return await handleBookingEvent(
 				req,
-				event as "booking_requested" | "booking_confirmed" | "booking_declined",
+				event as
+					| "booking_requested"
+					| "booking_confirmed"
+					| "booking_declined"
+					| "booking_cancelled",
 				payload.bookingId,
 			);
 		}

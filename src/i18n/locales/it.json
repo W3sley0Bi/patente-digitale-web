@@ -285,7 +285,14 @@
 			"dashboard": "Dashboard",
 			"profile": "Profilo",
 			"findSchool": "Trova autoscuola",
-			"guide": "Guide"
+			"guide": "Guide",
+			"settings": "Impostazioni"
+		},
+		"settings": {
+			"heading": "Notifiche email",
+			"subtitle": "Decidi se ricevere le email sulle tue guide.",
+			"saved": "Preferenza salvata.",
+			"error": "Impossibile salvare. Riprova."
 		}
 	},
 	"school": {

@@ -269,7 +269,11 @@ export async function createBookingAsSchool(
 		p_starts_at: startsAt,
 	});
 	if (error) throw error;
-	return data as string;
+	const id = data as string;
+	// School-created drives are confirmed on creation → email the student, same
+	// as a manual confirm. Best-effort; gated server-side by the student's pref.
+	await notifyBooking("booking_confirmed", id);
+	return id;
 }
 
 /** Confirm every pending request at the school by assigning a free instructor.
@@ -370,7 +374,11 @@ async function notify(
 /** Booking-aware notify: the edge function loads the drive + school toggles
  * server-side, so the client only passes the booking id. Best-effort. */
 async function notifyBooking(
-	event: "booking_confirmed" | "booking_requested" | "booking_declined",
+	event:
+		| "booking_confirmed"
+		| "booking_requested"
+		| "booking_declined"
+		| "booking_cancelled",
 	bookingId: string,
 ): Promise<void> {
 	try {
@@ -440,11 +448,7 @@ export const declineBooking = async (id: string, reason?: string) => {
 	await rpc("decline_booking", { p_booking_id: id, p_reason: reason ?? null });
 	await notifyBooking("booking_declined", id);
 };
-export const cancelBooking = async (
-	id: string,
-	reason?: string,
-	otherEmail?: string,
-) => {
+export const cancelBooking = async (id: string, reason?: string) => {
 	await rpc("cancel_booking", { p_booking_id: id, p_reason: reason ?? null });
-	await notify("booking_cancelled", otherEmail);
+	await notifyBooking("booking_cancelled", id);
 };

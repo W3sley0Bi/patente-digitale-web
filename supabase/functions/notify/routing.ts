@@ -9,30 +9,37 @@
 //     gated by the student's own `email_confirmations` preference and an address.
 //   • Student decline → sent when a request is rejected (`booking_declined`), gated by
 //     the same student preference and an address.
+//   • Cancellation → the OTHER party is notified (`booking_cancelled`): if the student
+//     cancels, the school is notified; if the school cancels (incl. drives it created
+//     directly for a student), the student is notified. Gated by the respective
+//     toggle + address.
 
 export type BookingEvent =
 	| "booking_requested"
 	| "booking_confirmed"
-	| "booking_declined";
+	| "booking_declined"
+	| "booking_cancelled";
 
 export interface RoutingInput {
 	event: BookingEvent;
 	/** Booking status after the RPC ran ("pending" | "confirmed" | ...). */
 	bookingStatus: string;
-	/** School toggle: notify the school on new requests. */
+	/** Who cancelled ("student" | "school"); only meaningful for booking_cancelled. */
+	cancelledBy?: string | null;
+	/** School toggle: notify the school on new requests / cancellations. */
 	emailSchoolRequest: boolean;
 	/** Resolved school recipient (driving_schools.email or owner fallback); "" if none. */
 	schoolRecipient: string;
-	/** Student toggle: student wants drive-confirmation emails. */
+	/** Student toggle: student wants drive emails. */
 	studentWantsConfirmation: boolean;
 	/** Student email; "" if none. */
 	studentEmail: string;
 }
 
 export interface RoutingDecision {
-	/** Send the "new request" notice to the school. */
+	/** Send an email to the school. */
 	school: boolean;
-	/** Send the "drive confirmed" email (with calendar) to the student. */
+	/** Send an email to the student. */
 	student: boolean;
 }
 
@@ -49,6 +56,16 @@ export function decideRecipients(i: RoutingInput): RoutingDecision {
 				i.bookingStatus === "confirmed" &&
 				i.studentWantsConfirmation &&
 				hasStudent,
+		};
+	}
+
+	if (i.event === "booking_cancelled") {
+		// Notify the counterparty of whoever cancelled.
+		return {
+			school:
+				i.cancelledBy === "student" && i.emailSchoolRequest && hasSchool,
+			student:
+				i.cancelledBy === "school" && i.studentWantsConfirmation && hasStudent,
 		};
 	}
 

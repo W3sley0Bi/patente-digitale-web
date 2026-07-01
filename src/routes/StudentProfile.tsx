@@ -1,15 +1,11 @@
-import { BellRing, Lock, Mail, Phone, Save, UserRound } from "lucide-react";
+import { Lock, Mail, Phone, Save, UserRound } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { StudentLayout } from "@/components/student/StudentLayout";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
 import { useProfile } from "@/hooks/useProfile";
-import {
-	getMyEmailConfirmations,
-	getMyEnrollment,
-	setMyEmailConfirmations,
-} from "@/lib/booking/api";
+import { getMyEnrollment } from "@/lib/booking/api";
 import { supabase } from "@/lib/supabase";
 
 export default function StudentProfile() {
@@ -27,10 +23,6 @@ export default function StudentProfile() {
 		undefined,
 	);
 
-	// Drive-confirmation email preference (student-controlled).
-	const [emailConfirm, setEmailConfirm] = useState(true);
-	const [emailConfirmSaving, setEmailConfirmSaving] = useState(false);
-
 	// Sync form fields when profile loads
 	useEffect(() => {
 		setFullName(profile?.full_name ?? "");
@@ -43,26 +35,6 @@ export default function StudentProfile() {
 			.then((e) => setLicenceCode(e?.licence_code ?? null))
 			.catch(() => setLicenceCode(null));
 	}, []);
-
-	// Load the email-confirmation preference
-	useEffect(() => {
-		getMyEmailConfirmations()
-			.then(setEmailConfirm)
-			.catch(() => {});
-	}, []);
-
-	const toggleEmailConfirm = async () => {
-		const next = !emailConfirm;
-		setEmailConfirm(next);
-		setEmailConfirmSaving(true);
-		try {
-			await setMyEmailConfirmations(next);
-		} catch {
-			setEmailConfirm(!next); // revert on failure
-		} finally {
-			setEmailConfirmSaving(false);
-		}
-	};
 
 	const handleSave = async (e: React.FormEvent) => {
 		e.preventDefault();
@@ -223,42 +195,6 @@ export default function StudentProfile() {
 							<p className="text-xs text-ink-faint">
 								{t("student.profile.licenceManaged")}
 							</p>
-						</div>
-					</div>
-				</div>
-
-				{/* Notification preferences */}
-				<div className="mt-4 rounded-xl border border-line bg-bg-raised p-6">
-					<div className="flex items-start gap-3">
-						<label className="relative mt-0.5 inline-block h-[25px] w-[50px] shrink-0">
-							<input
-								type="checkbox"
-								checked={emailConfirm}
-								onChange={toggleEmailConfirm}
-								disabled={emailConfirmSaving}
-								className="peer sr-only"
-							/>
-							<span
-								aria-hidden
-								className="absolute inset-0 rounded-full bg-gradient-to-b from-[#b3b3b3] to-[#e6e6e6] transition-colors peer-checked:from-[#4cd964] peer-checked:to-[#5de24e]"
-							/>
-							<span
-								aria-hidden
-								className="absolute top-px left-px h-[23px] w-[23px] rounded-full bg-white shadow-[0_1px_3px_rgba(0,0,0,0.3)] transition-transform peer-checked:translate-x-[25px]"
-							/>
-						</label>
-						<div className="flex flex-col gap-0.5">
-							<span className="flex items-center gap-1.5 text-sm font-semibold text-ink">
-								<BellRing
-									size={14}
-									aria-hidden="true"
-									className="text-ink-muted"
-								/>
-								{t("student.profile.emailConfirmLabel")}
-							</span>
-							<span className="text-xs text-ink-muted">
-								{t("student.profile.emailConfirmHint")}
-							</span>
 						</div>
 					</div>
 				</div>

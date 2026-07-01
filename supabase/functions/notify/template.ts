@@ -11,6 +11,11 @@ const DARK_INK = "#1f2922";
 const MUTED = "#5c6b63";
 const BORDER = "#e2e8e4";
 const CARD_BG = "#f6faf7";
+// Alert accent for negative outcomes (rejection / cancellation): red header bar,
+// red heading, and a tinted alert banner above the details card.
+const ALERT_RED = "#d64545";
+const ALERT_BG = "#fdf2f2";
+const ALERT_BORDER = "#f5c2c2";
 // TODO: swap this text wordmark for the hosted mascot logo once it lives at a
 // stable public URL (e.g. a public Supabase Storage bucket). See docs spec.
 
@@ -69,6 +74,8 @@ interface EmailContent {
 	buttons: EmailButton[];
 	/** Show the "an .ics is attached" note (only when we actually attach one). */
 	showIcsNote: boolean;
+	/** Negative outcome (rejection/cancellation): switch to the red alert theme. */
+	alert?: boolean;
 }
 
 /** One label/value row inside the details card. */
@@ -96,7 +103,22 @@ function buttonRow(b: EmailButton, primary: boolean): string {
 /** Shared shell: branded header, body, details card, CTAs, footer. */
 function renderShell(c: EmailContent): string {
 	const d = c.details;
+	const headerBg = c.alert ? ALERT_RED : BRAND_GREEN;
+	const headingColor = c.alert ? ALERT_RED : DARK_INK;
 	const buttons = c.buttons.map((b, i) => buttonRow(b, i === 0)).join("");
+	// Red alert banner shown above the details card on negative outcomes.
+	const alertBanner = c.alert
+		? `
+					<tr>
+						<td style="padding:0 32px 4px 32px;">
+							<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:${ALERT_BG};border:1px solid ${ALERT_BORDER};border-radius:10px;">
+								<tr>
+									<td style="padding:14px 18px;font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:1.5;color:${ALERT_RED};font-weight:600;">${esc(c.heading)}</td>
+								</tr>
+							</table>
+						</td>
+					</tr>`
+		: "";
 	const icsNote = c.showIcsNote
 		? `
 					<tr>
@@ -117,16 +139,16 @@ function renderShell(c: EmailContent): string {
 			<td align="center">
 				<table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background-color:#ffffff;border-radius:12px;overflow:hidden;border:1px solid ${BORDER};">
 					<tr>
-						<td align="center" style="background-color:${BRAND_GREEN};padding:26px 24px;">
+						<td align="center" style="background-color:${headerBg};padding:26px 24px;">
 							<span style="font-family:Arial,Helvetica,sans-serif;font-size:22px;font-weight:800;letter-spacing:0.3px;color:#ffffff;">patentedigitale<span style="font-weight:600;opacity:0.75;">.it</span></span>
 						</td>
 					</tr>
 					<tr>
 						<td style="padding:32px 32px 8px 32px;">
-							<h1 style="margin:0 0 12px 0;font-family:Arial,Helvetica,sans-serif;font-size:22px;line-height:1.3;color:${DARK_INK};">${esc(c.heading)}</h1>
+							<h1 style="margin:0 0 12px 0;font-family:Arial,Helvetica,sans-serif;font-size:22px;line-height:1.3;color:${headingColor};">${esc(c.heading)}</h1>
 							<p style="margin:0 0 20px 0;font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:1.5;color:${MUTED};">${esc(c.intro)}</p>
 						</td>
-					</tr>
+					</tr>${alertBanner}
 					<tr>
 						<td style="padding:0 32px;">
 							<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:${CARD_BG};border:1px solid ${BORDER};border-radius:10px;">
@@ -202,6 +224,49 @@ export function studentDeclinedEmail(
 		details,
 		buttons: [{ label: "Vai alle tue guide", url: opts.guideUrl }],
 		showIcsNote: false,
+		alert: true,
+	});
+}
+
+/**
+ * Student "Guida annullata" cancellation email (sent when the school cancels a
+ * drive, including drives it created directly). Link back to the guide section.
+ */
+export function studentCancelledEmail(
+	details: DriveDetails,
+	opts: { guideUrl: string; reason?: string | null },
+): string {
+	const reason = opts.reason?.trim();
+	return renderShell({
+		heading: "Guida annullata",
+		intro: reason
+			? `La tua guida è stata annullata. Motivo: ${reason}. Puoi richiedere un nuovo orario dalle tue guide.`
+			: "La tua guida è stata annullata. Puoi richiedere un nuovo orario dalle tue guide.",
+		details,
+		buttons: [{ label: "Vai alle tue guide", url: opts.guideUrl }],
+		showIcsNote: false,
+		alert: true,
+	});
+}
+
+/**
+ * School "Guida annullata" cancellation notice (sent when the student cancels a
+ * drive). Link to the admin calendar view.
+ */
+export function schoolCancelledEmail(
+	details: DriveDetails,
+	opts: { calendarUrl: string; reason?: string | null },
+): string {
+	const reason = opts.reason?.trim();
+	return renderShell({
+		heading: "Guida annullata",
+		intro: reason
+			? `Lo studente ha annullato una guida. Motivo: ${reason}. Trovi i dettagli qui sotto.`
+			: "Lo studente ha annullato una guida. Trovi i dettagli qui sotto.",
+		details,
+		buttons: [{ label: "Vai al calendario", url: opts.calendarUrl }],
+		showIcsNote: false,
+		alert: true,
 	});
 }
 

@@ -141,6 +141,58 @@ describe("decideRecipients — booking_declined (rejection)", () => {
 	});
 });
 
+describe("decideRecipients — booking_cancelled (notify the counterparty)", () => {
+	it("student cancels → notifies the school (toggle ON), not the student", () => {
+		const d = decideRecipients({
+			...base,
+			event: "booking_cancelled",
+			cancelledBy: "student",
+			emailSchoolRequest: true,
+		});
+		expect(d).toEqual({ school: true, student: false });
+	});
+
+	it("student cancels but school toggle OFF → nobody", () => {
+		const d = decideRecipients({
+			...base,
+			event: "booking_cancelled",
+			cancelledBy: "student",
+			emailSchoolRequest: false,
+		});
+		expect(d).toEqual({ school: false, student: false });
+	});
+
+	it("school cancels → notifies the student (toggle ON), not the school", () => {
+		const d = decideRecipients({
+			...base,
+			event: "booking_cancelled",
+			cancelledBy: "school",
+			studentWantsConfirmation: true,
+		});
+		expect(d).toEqual({ school: false, student: true });
+	});
+
+	it("school cancels but student toggle OFF → nobody", () => {
+		const d = decideRecipients({
+			...base,
+			event: "booking_cancelled",
+			cancelledBy: "school",
+			studentWantsConfirmation: false,
+		});
+		expect(d).toEqual({ school: false, student: false });
+	});
+
+	it("school cancels but there is no student email → nobody", () => {
+		const d = decideRecipients({
+			...base,
+			event: "booking_cancelled",
+			cancelledBy: "school",
+			studentEmail: "",
+		});
+		expect(d.student).toBe(false);
+	});
+});
+
 describe("decideRecipients — combined toggles on the auto-confirm request", () => {
 	it("both ON → both recipients", () => {
 		const d = decideRecipients({
