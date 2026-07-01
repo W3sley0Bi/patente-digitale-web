@@ -185,7 +185,15 @@
 			"updateError": "Couldn’t save. Try again.",
 			"studentSaved": "Saved",
 			"searchStudents": "Search students",
-			"noMatch": "No students match your search."
+			"noMatch": "No students match your search.",
+			"emailSettings": "Email notifications",
+			"emailSettingsSubtitle": "Choose which automatic emails to send for drives.",
+			"emailStudentConfirmLabel": "Send confirmation email to the student",
+			"emailStudentConfirmHint": "The student receives a confirmation email with a calendar event when a drive is confirmed.",
+			"emailSchoolRequestLabel": "Notify the school on every request",
+			"emailSchoolRequestHint": "The school receives an email whenever a student requests a drive.",
+			"emailSettingsSaved": "Settings saved.",
+			"emailSettingsError": "Could not save. Please try again."
 		}
 	},
 	"cerca": {
@@ -244,6 +252,8 @@
 			"emailLocked": "Your login email. Contact support to change it.",
 			"licence": "Licence you’re working towards",
 			"licenceManaged": "Managed with your driving school.",
+			"emailConfirmLabel": "Drive confirmation email",
+			"emailConfirmHint": "Get an email with the details and a calendar entry whenever a drive is confirmed.",
 			"notEnrolled": "Not enrolled at a school yet.",
 			"saved": "Saved"
 		},

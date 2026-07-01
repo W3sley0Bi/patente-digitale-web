@@ -185,7 +185,15 @@
 			"updateError": "Salvataggio non riuscito. Riprova.",
 			"studentSaved": "Salvato",
 			"searchStudents": "Cerca studenti",
-			"noMatch": "Nessuno studente corrisponde alla ricerca."
+			"noMatch": "Nessuno studente corrisponde alla ricerca.",
+			"emailSettings": "Notifiche email",
+			"emailSettingsSubtitle": "Decidi quali email automatiche inviare per le guide.",
+			"emailStudentConfirmLabel": "Invia email di conferma allo studente",
+			"emailStudentConfirmHint": "Lo studente riceve un'email di conferma con l'evento da aggiungere al calendario quando una guida viene confermata.",
+			"emailSchoolRequestLabel": "Avvisa la scuola a ogni richiesta",
+			"emailSchoolRequestHint": "La scuola riceve un'email ogni volta che uno studente richiede una guida.",
+			"emailSettingsSaved": "Impostazioni salvate.",
+			"emailSettingsError": "Salvataggio non riuscito. Riprova."
 		}
 	},
 	"cerca": {
@@ -247,6 +255,8 @@
 			"emailLocked": "La tua email di accesso. Contatta il supporto per modificarla.",
 			"licence": "Patente che stai conseguendo",
 			"licenceManaged": "Gestita con la tua autoscuola.",
+			"emailConfirmLabel": "Email di conferma guida",
+			"emailConfirmHint": "Ricevi un’email con i dettagli e il calendario quando una guida viene confermata.",
 			"notEnrolled": "Non ancora iscritto a un’autoscuola.",
 			"saved": "Salvato"
 		},

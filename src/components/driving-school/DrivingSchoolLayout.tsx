@@ -2,6 +2,7 @@ import {
 	CalendarDays,
 	LayoutDashboard,
 	Pencil,
+	Settings,
 	Users,
 } from "lucide-react";
 import { useTranslation } from "react-i18next";
@@ -34,12 +35,12 @@ const NAV_ITEMS = [
 		label: "school.dashboard.nav.editListing",
 		end: false,
 	},
-	// {
-	// 	href: "/driving-school/dashboard/settings",
-	// 	icon: Settings,
-	// 	label: "school.dashboard.nav.settings",
-	// 	end: false,
-	// },
+	{
+		href: "/driving-school/dashboard/settings",
+		icon: Settings,
+		label: "school.dashboard.nav.settings",
+		end: false,
+	},
 ];
 
 interface DrivingSchoolLayoutProps {

@@ -185,7 +185,15 @@
 			"updateError": "تعذر الحفظ. حاول مجددًا.",
 			"studentSaved": "تم الحفظ",
 			"searchStudents": "ابحث عن الطلاب",
-			"noMatch": "لا يوجد طلاب مطابقون."
+			"noMatch": "لا يوجد طلاب مطابقون.",
+			"emailSettings": "إشعارات البريد الإلكتروني",
+			"emailSettingsSubtitle": "اختر رسائل البريد الإلكتروني التلقائية التي تريد إرسالها للحصص.",
+			"emailStudentConfirmLabel": "إرسال بريد تأكيد إلى الطالب",
+			"emailStudentConfirmHint": "يتلقى الطالب بريد تأكيد مع حدث تقويم عند تأكيد الحصة.",
+			"emailSchoolRequestLabel": "إشعار المدرسة عند كل طلب",
+			"emailSchoolRequestHint": "تتلقى المدرسة بريدًا إلكترونيًا في كل مرة يطلب فيها الطالب حصة.",
+			"emailSettingsSaved": "تم حفظ الإعدادات.",
+			"emailSettingsError": "تعذر الحفظ. يرجى المحاولة مرة أخرى."
 		}
 	},
 	"cerca": {
@@ -239,6 +247,8 @@
 			"emailLocked": "بريد الدخول الخاص بك. تواصل مع الدعم لتغييره.",
 			"licence": "الرخصة التي تسعى إليها",
 			"licenceManaged": "تدار مع مدرسة القيادة.",
+			"emailConfirmLabel": "بريد تأكيد الحصة",
+			"emailConfirmHint": "استلم بريدًا إلكترونيًا يحتوي على التفاصيل وإدخال تقويم عند تأكيد أي حصة قيادة.",
 			"notEnrolled": "غير مسجل في مدرسة بعد.",
 			"saved": "تم الحفظ"
 		},

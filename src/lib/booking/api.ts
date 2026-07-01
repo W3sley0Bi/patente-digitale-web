@@ -302,6 +302,57 @@ export async function setServiceSettings(
 	if (error) throw error;
 }
 
+// ── school email settings (RLS-guarded; owner policy on driving_schools) ──
+export async function setEmailSettings(
+	schoolId: string,
+	schoolRequest: boolean,
+): Promise<void> {
+	const { error } = await supabase
+		.from("driving_schools")
+		.update({ email_school_request: schoolRequest })
+		.eq("id", schoolId);
+	if (error) throw error;
+}
+export async function getEmailSettings(
+	schoolId: string,
+): Promise<{ schoolRequest: boolean }> {
+	const { data, error } = await supabase
+		.from("driving_schools")
+		.select("email_school_request")
+		.eq("id", schoolId)
+		.single();
+	if (error) throw error;
+	const row = data as { email_school_request: boolean };
+	return { schoolRequest: row.email_school_request };
+}
+
+// ── student email preference (RLS-guarded; profiles_own_row) ──
+/** Whether the current student wants drive-confirmation emails. */
+export async function getMyEmailConfirmations(): Promise<boolean> {
+	const {
+		data: { user },
+	} = await supabase.auth.getUser();
+	if (!user) return true;
+	const { data, error } = await supabase
+		.from("profiles")
+		.select("email_confirmations")
+		.eq("id", user.id)
+		.single();
+	if (error) throw error;
+	return (data as { email_confirmations: boolean }).email_confirmations;
+}
+export async function setMyEmailConfirmations(value: boolean): Promise<void> {
+	const {
+		data: { user },
+	} = await supabase.auth.getUser();
+	if (!user) throw new Error("not_authenticated");
+	const { error } = await supabase
+		.from("profiles")
+		.update({ email_confirmations: value })
+		.eq("id", user.id);
+	if (error) throw error;
+}
+
 // ── notifications (best-effort, never blocks the user action) ──
 async function notify(
 	event: string,
@@ -311,6 +362,19 @@ async function notify(
 	if (!to) return;
 	try {
 		await supabase.functions.invoke("notify", { body: { event, to, body } });
+	} catch {
+		/* email is best-effort */
+	}
+}
+
+/** Booking-aware notify: the edge function loads the drive + school toggles
+ * server-side, so the client only passes the booking id. Best-effort. */
+async function notifyBooking(
+	event: "booking_confirmed" | "booking_requested" | "booking_declined",
+	bookingId: string,
+): Promise<void> {
+	try {
+		await supabase.functions.invoke("notify", { body: { event, bookingId } });
 	} catch {
 		/* email is best-effort */
 	}
@@ -350,37 +414,31 @@ export const rejectEnrollment = (id: string) =>
 export const requestBooking = async (
 	schoolId: string,
 	startsAt: string,
-	schoolEmail?: string,
 	preferredInstructorId?: string,
 ) => {
-	const id = await rpc("request_booking", {
+	const id = (await rpc("request_booking", {
 		p_school_id: schoolId,
 		p_starts_at: startsAt,
 		p_preferred_instructor_id: preferredInstructorId ?? null,
-	});
-	await notify("booking_requested", schoolEmail);
+	})) as string;
+	await notifyBooking("booking_requested", id);
 	return id;
 };
 export const confirmBooking = async (
 	id: string,
 	instructorId: string,
 	startsAt?: string,
-	studentEmail?: string,
 ) => {
 	await rpc("confirm_booking", {
 		p_booking_id: id,
 		p_instructor_id: instructorId,
 		p_starts_at: startsAt ?? null,
 	});
-	await notify("booking_confirmed", studentEmail);
+	await notifyBooking("booking_confirmed", id);
 };
-export const declineBooking = async (
-	id: string,
-	reason?: string,
-	studentEmail?: string,
-) => {
+export const declineBooking = async (id: string, reason?: string) => {
 	await rpc("decline_booking", { p_booking_id: id, p_reason: reason ?? null });
-	await notify("booking_declined", studentEmail);
+	await notifyBooking("booking_declined", id);
 };
 export const cancelBooking = async (
 	id: string,

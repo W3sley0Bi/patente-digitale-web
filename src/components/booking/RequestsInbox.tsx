@@ -13,9 +13,12 @@ import type { Booking, Instructor } from "@/lib/booking/types";
 export function RequestsInbox({
 	schoolId,
 	onChange,
+	refreshKey,
 }: {
 	schoolId: string;
 	onChange?: () => void;
+	/** Bump to force a reload (e.g. after a confirm elsewhere on the page). */
+	refreshKey?: number;
 }) {
 	const { t, i18n } = useTranslation();
 	const [bookings, setBookings] = useState<Booking[]>([]);
@@ -34,7 +37,7 @@ export function RequestsInbox({
 	};
 	useEffect(() => {
 		void load().catch(() => {});
-	}, [schoolId]);
+	}, [schoolId, refreshKey]);
 
 	const pending = bookings.filter((b) => b.status === "pending");
 

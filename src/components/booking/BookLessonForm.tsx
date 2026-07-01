@@ -17,12 +17,10 @@ const todayISO = () => {
 export function BookLessonForm({
 	schoolId,
 	durationMin,
-	schoolEmail,
 	onBooked,
 }: {
 	schoolId: string;
 	durationMin: number;
-	schoolEmail?: string;
 	onBooked?: () => void;
 }) {
 	const { t, i18n } = useTranslation();
@@ -115,12 +113,7 @@ export function BookLessonForm({
 		setErr(null);
 		setMsg(null);
 		try {
-			await requestBooking(
-				schoolId,
-				picked,
-				schoolEmail,
-				prefInstructor || undefined,
-			);
+			await requestBooking(schoolId, picked, prefInstructor || undefined);
 			setMsg(t("booking.book.success"));
 			setPicked(null);
 			setSlots((s) => s.filter((x) => x !== picked));

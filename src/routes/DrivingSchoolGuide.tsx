@@ -104,7 +104,11 @@ export default function DrivingSchoolGuide() {
 			{/* Pending requests (hidden when auto-confirm is on), then the schedule */}
 			<div className="flex flex-col gap-6">
 				{!school.auto_confirm && (
-					<RequestsInbox schoolId={school.id} onChange={refresh} />
+					<RequestsInbox
+						schoolId={school.id}
+						onChange={refresh}
+						refreshKey={tick}
+					/>
 				)}
 				<LessonsCalendar
 					bookings={bookings}

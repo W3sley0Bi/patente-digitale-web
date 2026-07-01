@@ -92,7 +92,6 @@ export default function StudentGuide() {
 									<BookLessonForm
 										schoolId={enrollment.school_id}
 										durationMin={school?.lesson_duration_min ?? 60}
-										schoolEmail={school?.email ?? undefined}
 										onBooked={() => setRefresh((n) => n + 1)}
 									/>
 								) : (
