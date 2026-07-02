@@ -247,7 +247,8 @@
 			"pricesTitle": "Listino prezzi",
 			"noPrices": "Prezzi non disponibili online",
 			"claimHint": "Sei il proprietario di questa autoscuola?",
-			"claimCta": "Rivendica questo profilo"
+			"claimCta": "Rivendica questo profilo",
+			"loginToEnroll": "Accedi per iscriverti"
 		}
 	},
 	"student": {

@@ -244,7 +244,8 @@
 			"partnerVerified": "Verified School",
 			"enroll": "View school profile",
 			"claimHint": "Are you the owner of this driving school?",
-			"claimCta": "Claim this profile"
+			"claimCta": "Claim this profile",
+			"loginToEnroll": "Log in to enroll"
 		}
 	},
 	"student": {

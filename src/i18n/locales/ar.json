@@ -240,7 +240,8 @@
 		},
 		"detail": {
 			"partnerVerified": "مدرسة معتمدة",
-			"enroll": "سجل الآن"
+			"enroll": "سجل الآن",
+			"loginToEnroll": "سجل الدخول للتسجيل"
 		}
 	},
 	"student": {

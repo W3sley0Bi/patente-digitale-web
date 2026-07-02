@@ -87,7 +87,7 @@ interface PanelContentProps {
 
 function PanelContent({ school, isVerified, onClose, t }: PanelContentProps) {
 	const [hoursExpanded, setHoursExpanded] = useState(false);
-	const { role } = useProfile();
+	const { role, loading } = useProfile();
 
 	// Get current day of week (0-6, Sunday-Saturday)
 	// Our data uses: Lunedì, Martedì, Mercoledì, Giovedì, Venerdì, Sabato, Domenica
@@ -335,6 +335,22 @@ function PanelContent({ school, isVerified, onClose, t }: PanelContentProps) {
 					<EnrollButton placeId={school._placeId} />
 				</div>
 			)}
+
+			{/* Login-to-enroll CTA — anonymous visitors on verified, enrollment-enabled schools */}
+			{!loading &&
+				!role &&
+				isVerified &&
+				school.enrollment_enabled &&
+				school._placeId && (
+					<div className="mt-auto shrink-0 border-t border-line px-5 pb-5 pt-4">
+						<Link
+							to={`/app/login?next=${encodeURIComponent(`/app/student?placeId=${school._placeId}`)}`}
+							className="flex w-full items-center justify-center rounded-xl bg-brand px-4 py-3 text-sm font-bold text-white transition-colors hover:bg-brand-hover active:scale-95"
+						>
+							{t("cerca.detail.loginToEnroll")}
+						</Link>
+					</div>
+				)}
 		</div>
 	);
 }
