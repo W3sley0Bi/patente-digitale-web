@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router";
+import { Link, useLocation } from "react-router";
 import { Nav } from "@/components/nav/Nav";
+import { useAuth } from "@/hooks/useAuth";
 
 interface Props {
 	error?: Error;
@@ -9,6 +10,9 @@ interface Props {
 
 export default function ServerError({ error, onReset }: Props) {
 	const { t } = useTranslation();
+	const { pathname } = useLocation();
+	const { user } = useAuth();
+	const homeHref = pathname.startsWith("/app") || user ? "/app" : "/";
 
 	const handleReload = () => {
 		if (onReset) onReset();
@@ -62,7 +66,7 @@ export default function ServerError({ error, onReset }: Props) {
 					</div>
 
 					<Link
-						to="/"
+						to={homeHref}
 						className="text-sm text-ink-muted hover:text-ink transition-colors underline underline-offset-2"
 					>
 						{t("landing.errors.server.home")}

@@ -1,10 +1,14 @@
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router";
+import { Link, useLocation } from "react-router";
 import mascotBackpack from "@/assets/mascot-backpack.png";
 import { Nav } from "@/components/nav/Nav";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function NotFound() {
 	const { t } = useTranslation();
+	const { pathname } = useLocation();
+	const { user } = useAuth();
+	const homeHref = pathname.startsWith("/app") || user ? "/app" : "/";
 
 	return (
 		<div className="min-h-screen bg-bg text-ink">
@@ -30,7 +34,7 @@ export default function NotFound() {
 
 					<div className="flex flex-col sm:flex-row gap-3 w-full">
 						<Link
-							to="/"
+							to={homeHref}
 							className="inline-flex items-center justify-center rounded-lg bg-brand px-5 py-2.5 text-sm font-medium text-white hover:bg-brand/90 transition-colors flex-1"
 						>
 							{t("landing.errors.notFound.cta")}

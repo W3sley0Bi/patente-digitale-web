@@ -12,7 +12,7 @@ import {
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router";
+import { Link, useLocation } from "react-router";
 import { Button } from "@/components/ui/button";
 import {
 	Sheet,
@@ -33,6 +33,8 @@ const NAV_LINKS: { href: string; label: string; icon: LucideIcon }[] = [
 
 export function Nav() {
 	const { t } = useTranslation();
+	const { pathname } = useLocation();
+	const isInApp = pathname.startsWith("/app");
 	const [isScrolled, setIsScrolled] = useState(false);
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
 	const [isContactOpen, setIsContactOpen] = useState(false);
@@ -202,11 +204,13 @@ export function Nav() {
 				</Link>
 
 				{/* Desktop links */}
-				<div className="hidden items-center gap-8 md:flex">
-					{NAV_LINKS.map((link) => (
-						<NavLink key={link.href} {...link} />
-					))}
-				</div>
+				{!isInApp && (
+					<div className="hidden items-center gap-8 md:flex">
+						{NAV_LINKS.map((link) => (
+							<NavLink key={link.href} {...link} />
+						))}
+					</div>
+				)}
 
 				{/* Desktop actions */}
 				<div className="hidden items-center gap-3 md:flex">
@@ -257,11 +261,13 @@ export function Nav() {
 							</div>
 
 							{/* Nav links */}
-							<nav className="flex flex-col flex-1 overflow-y-auto">
-								{NAV_LINKS.map((link) => (
-									<MobileNavLink key={link.href} {...link} />
-								))}
-							</nav>
+							{!isInApp && (
+								<nav className="flex flex-col flex-1 overflow-y-auto">
+									{NAV_LINKS.map((link) => (
+										<MobileNavLink key={link.href} {...link} />
+									))}
+								</nav>
+							)}
 
 							{/* Drawer footer */}
 							<div className="border-t border-line px-5 py-5 flex flex-col gap-3">
