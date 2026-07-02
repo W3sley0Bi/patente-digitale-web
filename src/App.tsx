@@ -48,8 +48,8 @@ function App() {
 					<Suspense fallback={<LoadingFallback />}>
 						<Routes>
 							<Route path="/" element={<Landing />} />
-							<Route path="/studenti" element={<Studenti />} />
-							<Route path="/autoscuole" element={<Autoscuole />} />
+							<Route path="/students" element={<Studenti />} />
+							<Route path="/driving-schools" element={<Autoscuole />} />
 							<Route
 								path="/cerca"
 								element={<Navigate to="/search" replace />}
@@ -60,10 +60,10 @@ function App() {
 								element={<Navigate to="/search" replace />}
 							/>
 							<Route path="/partner" element={<Partner />} />
-							<Route path="/login" element={<Login />} />
-							<Route path="/reset-password" element={<ResetPassword />} />
+							<Route path="/app/login" element={<Login />} />
+							<Route path="/app/reset-password" element={<ResetPassword />} />
 							<Route
-								path="/quiz"
+								path="/app/quiz"
 								element={
 									<ProtectedRoute requiredRole="student">
 										<QuizOnline />
@@ -71,15 +71,15 @@ function App() {
 								}
 							/>
 							<Route
-								path="/signup"
-								element={<Navigate to="/login?tab=signup" replace />}
+								path="/app/signup"
+								element={<Navigate to="/app/login?tab=signup" replace />}
 							/>
 							<Route
-								path="/signup/driving-school"
+								path="/app/signup/driving-school"
 								element={<SignupDrivingSchool />}
 							/>
 							<Route
-								path="/student/dashboard"
+								path="/app/student"
 								element={
 									<ProtectedRoute requiredRole="student">
 										<StudentDashboard />
@@ -87,7 +87,7 @@ function App() {
 								}
 							/>
 							<Route
-								path="/student/dashboard/guide"
+								path="/app/student/drive-bookings"
 								element={
 									<ProtectedRoute requiredRole="student">
 										<StudentGuide />
@@ -95,7 +95,7 @@ function App() {
 								}
 							/>
 							<Route
-								path="/student/dashboard/profile"
+								path="/app/student/profile"
 								element={
 									<ProtectedRoute requiredRole="student">
 										<StudentProfile />
@@ -103,7 +103,7 @@ function App() {
 								}
 							/>
 							<Route
-								path="/student/dashboard/settings"
+								path="/app/student/settings"
 								element={
 									<ProtectedRoute requiredRole="student">
 										<StudentSettings />
@@ -111,7 +111,7 @@ function App() {
 								}
 							/>
 							<Route
-								path="/driving-school/dashboard"
+								path="/app/driving-school"
 								element={
 									<ProtectedRoute requiredRole="autoscuola">
 										<DrivingSchoolDashboard />
@@ -119,7 +119,7 @@ function App() {
 								}
 							/>
 							<Route
-								path="/driving-school/dashboard/guide"
+								path="/app/driving-school/drive-bookings"
 								element={
 									<ProtectedRoute requiredRole="autoscuola" requireApproved>
 										<DrivingSchoolGuide />
@@ -127,7 +127,7 @@ function App() {
 								}
 							/>
 							<Route
-								path="/driving-school/dashboard/students"
+								path="/app/driving-school/students"
 								element={
 									<ProtectedRoute requiredRole="autoscuola" requireApproved>
 										<DrivingSchoolStudents />
@@ -135,7 +135,7 @@ function App() {
 								}
 							/>
 							<Route
-								path="/driving-school/dashboard/edit"
+								path="/app/driving-school/profile"
 								element={
 									<ProtectedRoute requiredRole="autoscuola" requireApproved>
 										<DrivingSchoolEdit />
@@ -143,7 +143,7 @@ function App() {
 								}
 							/>
 							<Route
-								path="/driving-school/dashboard/settings"
+								path="/app/driving-school/settings"
 								element={
 									<ProtectedRoute requiredRole="autoscuola" requireApproved>
 										<DrivingSchoolSettings />
@@ -151,7 +151,7 @@ function App() {
 								}
 							/>
 							<Route
-								path="/set-password"
+								path="/app/set-password"
 								element={
 									<ProtectedRoute>
 										<SetPassword />
