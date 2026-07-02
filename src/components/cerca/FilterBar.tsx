@@ -1,9 +1,17 @@
-import { BadgeCheck, ChevronDown, Locate, Loader2, X, Check, Zap } from "lucide-react";
-import { useRef, useState, useEffect } from "react";
+import {
+	BadgeCheck,
+	Check,
+	ChevronDown,
+	Loader2,
+	Locate,
+	X,
+	Zap,
+} from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { Checkbox } from "@/components/ui/checkbox";
 import { REGIONS } from "@/lib/italyGeo";
 import { cn } from "@/lib/utils";
-import { Checkbox } from "@/components/ui/checkbox";
 
 interface FilterBarProps {
 	city: string;
@@ -24,7 +32,9 @@ interface FilterBarProps {
 
 async function reverseGeocodeCity(lat: number, lon: number): Promise<string> {
 	const url = `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json&accept-language=it`;
-	const res = await fetch(url, { headers: { "User-Agent": "patentedigitale.it/1.0" } });
+	const res = await fetch(url, {
+		headers: { "User-Agent": "patentedigitale.it/1.0" },
+	});
 	if (!res.ok) throw new Error("geocode failed");
 	const data = await res.json();
 	return (
@@ -65,7 +75,8 @@ export function FilterBar({
 	const cityDropdownRef = useRef<HTMLDivElement>(null);
 	const regionDropdownRef = useRef<HTMLDivElement>(null);
 
-	const hasFilters = city || region || zip || name || verifiedOnly || enrollmentOnly;
+	const hasFilters =
+		city || region || zip || name || verifiedOnly || enrollmentOnly;
 
 	const filteredCities = cityOptions.filter((c) =>
 		c.toLowerCase().includes(city.toLowerCase()),
@@ -77,10 +88,16 @@ export function FilterBar({
 
 	useEffect(() => {
 		function handleClickOutside(e: MouseEvent) {
-			if (cityDropdownRef.current && !cityDropdownRef.current.contains(e.target as Node)) {
+			if (
+				cityDropdownRef.current &&
+				!cityDropdownRef.current.contains(e.target as Node)
+			) {
 				setIsCityOpen(false);
 			}
-			if (regionDropdownRef.current && !regionDropdownRef.current.contains(e.target as Node)) {
+			if (
+				regionDropdownRef.current &&
+				!regionDropdownRef.current.contains(e.target as Node)
+			) {
 				setIsRegionOpen(false);
 			}
 		}
@@ -95,7 +112,10 @@ export function FilterBar({
 		navigator.geolocation.getCurrentPosition(
 			async (pos) => {
 				try {
-					const found = await reverseGeocodeCity(pos.coords.latitude, pos.coords.longitude);
+					const found = await reverseGeocodeCity(
+						pos.coords.latitude,
+						pos.coords.longitude,
+					);
 					if (found) {
 						onCityChange(found);
 						cityInputRef.current?.focus();
@@ -107,14 +127,16 @@ export function FilterBar({
 					setLocating(false);
 				}
 			},
-			() => { setLocating(false); setLocError(true); },
+			() => {
+				setLocating(false);
+				setLocError(true);
+			},
 			{ timeout: 8000 },
 		);
 	}
 
 	return (
 		<div className="flex flex-col gap-2.5">
-
 			{/* Row 1: Name */}
 			<div className="relative">
 				<input
@@ -138,20 +160,27 @@ export function FilterBar({
 
 			{/* Input row: city (grows) | zip (fixed) | region (fixed) */}
 			<div className="flex flex-col gap-2 sm:flex-row sm:items-center">
-
 				{/* City */}
 				<div className="relative flex-1 min-w-0" ref={cityDropdownRef}>
 					<button
 						type="button"
 						onClick={handleLocate}
 						disabled={locating}
-						title={locError ? t("cerca.filters.locationError") : t("cerca.filters.locationBtn")}
+						title={
+							locError
+								? t("cerca.filters.locationError")
+								: t("cerca.filters.locationBtn")
+						}
 						className="absolute left-2.5 top-1/2 -translate-y-1/2 z-10 text-ink-faint hover:text-brand disabled:opacity-50 transition-colors"
 					>
-						{locating
-							? <Loader2 size={15} className="animate-spin text-brand" />
-							: <Locate size={15} className={locError ? "text-accent" : "text-brand"} />
-						}
+						{locating ? (
+							<Loader2 size={15} className="animate-spin text-brand" />
+						) : (
+							<Locate
+								size={15}
+								className={locError ? "text-accent" : "text-brand"}
+							/>
+						)}
 					</button>
 
 					<input
@@ -159,7 +188,10 @@ export function FilterBar({
 						type="text"
 						value={city}
 						onFocus={() => setIsCityOpen(true)}
-						onChange={(e) => { onCityChange(e.target.value); setIsCityOpen(true); }}
+						onChange={(e) => {
+							onCityChange(e.target.value);
+							setIsCityOpen(true);
+						}}
 						placeholder={t("cerca.filters.cityPlaceholder")}
 						className={cn(INPUT_BASE, "py-2 pl-9", city ? "pr-8" : "pr-3")}
 						autoComplete="off"
@@ -168,7 +200,10 @@ export function FilterBar({
 					{city && (
 						<button
 							type="button"
-							onClick={() => { onCityChange(""); setIsCityOpen(false); }}
+							onClick={() => {
+								onCityChange("");
+								setIsCityOpen(false);
+							}}
 							className="absolute right-2.5 top-1/2 -translate-y-1/2 text-ink-faint hover:text-ink transition-colors"
 						>
 							<X size={14} />
@@ -182,11 +217,16 @@ export function FilterBar({
 									<button
 										key={c}
 										type="button"
-										onClick={() => { onCityChange(c); setIsCityOpen(false); }}
+										onClick={() => {
+											onCityChange(c);
+											setIsCityOpen(false);
+										}}
 										className="flex w-full items-center justify-between px-3 py-2 text-left font-sans text-sm text-ink hover:bg-brand-soft/30 hover:text-brand transition-colors"
 									>
 										<span>{c}</span>
-										{city === c && <Check size={13} className="text-brand shrink-0" />}
+										{city === c && (
+											<Check size={13} className="text-brand shrink-0" />
+										)}
 									</button>
 								))}
 							</div>
@@ -224,7 +264,10 @@ export function FilterBar({
 						type="text"
 						value={region}
 						onFocus={() => setIsRegionOpen(true)}
-						onChange={(e) => { onRegionChange(e.target.value); setIsRegionOpen(true); }}
+						onChange={(e) => {
+							onRegionChange(e.target.value);
+							setIsRegionOpen(true);
+						}}
 						placeholder={t("cerca.filters.regionPlaceholder")}
 						className={cn(INPUT_BASE, "py-2 pl-3 pr-8")}
 						autoComplete="off"
@@ -233,7 +276,10 @@ export function FilterBar({
 					{region ? (
 						<button
 							type="button"
-							onClick={() => { onRegionChange(""); setIsRegionOpen(false); }}
+							onClick={() => {
+								onRegionChange("");
+								setIsRegionOpen(false);
+							}}
 							className="absolute right-2.5 top-1/2 -translate-y-1/2 text-ink-faint hover:text-ink transition-colors"
 						>
 							<X size={14} />
@@ -255,11 +301,16 @@ export function FilterBar({
 									<button
 										key={r}
 										type="button"
-										onClick={() => { onRegionChange(r); setIsRegionOpen(false); }}
+										onClick={() => {
+											onRegionChange(r);
+											setIsRegionOpen(false);
+										}}
 										className="flex w-full items-center justify-between px-3 py-2 text-left font-sans text-sm text-ink hover:bg-brand-soft/30 hover:text-brand transition-colors"
 									>
 										<span>{r}</span>
-										{region === r && <Check size={13} className="shrink-0 text-brand" />}
+										{region === r && (
+											<Check size={13} className="shrink-0 text-brand" />
+										)}
 									</button>
 								))}
 							</div>
@@ -280,13 +331,18 @@ export function FilterBar({
 						/>
 						<BadgeCheck
 							size={13}
-							className={cn("shrink-0 transition-colors", verifiedOnly ? "text-brand" : "text-ink-faint")}
+							className={cn(
+								"shrink-0 transition-colors",
+								verifiedOnly ? "text-brand" : "text-ink-faint",
+							)}
 							strokeWidth={2.5}
 						/>
-						<span className={cn(
-							"font-sans text-sm font-semibold tracking-tight transition-colors",
-							verifiedOnly ? "text-brand" : "text-ink-muted",
-						)}>
+						<span
+							className={cn(
+								"font-sans text-sm font-semibold tracking-tight transition-colors",
+								verifiedOnly ? "text-brand" : "text-ink-muted",
+							)}
+						>
 							{t("cerca.filters.partnerOnly")}
 						</span>
 					</label>
@@ -300,13 +356,20 @@ export function FilterBar({
 						/>
 						<Zap
 							size={13}
-							className={cn("shrink-0 transition-colors", enrollmentOnly ? "fill-amber-500 text-amber-500" : "text-ink-faint")}
+							className={cn(
+								"shrink-0 transition-colors",
+								enrollmentOnly
+									? "fill-amber-500 text-amber-500"
+									: "text-ink-faint",
+							)}
 							strokeWidth={enrollmentOnly ? 0 : 2}
 						/>
-						<span className={cn(
-							"font-sans text-sm font-semibold tracking-tight transition-colors",
-							enrollmentOnly ? "text-amber-700" : "text-ink-muted",
-						)}>
+						<span
+							className={cn(
+								"font-sans text-sm font-semibold tracking-tight transition-colors",
+								enrollmentOnly ? "text-amber-700" : "text-ink-muted",
+							)}
+						>
 							{t("cerca.filters.enrollmentOnly")}
 						</span>
 					</label>

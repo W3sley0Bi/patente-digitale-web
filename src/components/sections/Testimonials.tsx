@@ -1,5 +1,5 @@
-import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
+import useEmblaCarousel from "embla-carousel-react";
 import { useTranslation } from "react-i18next";
 import { SectionEyebrow } from "../layout/SectionEyebrow";
 import { Reveal } from "../motion/Reveal";

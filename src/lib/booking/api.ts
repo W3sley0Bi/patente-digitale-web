@@ -14,7 +14,9 @@ export async function listSchoolBookings(schoolId: string): Promise<Booking[]> {
 export async function listMyBookings(): Promise<Booking[]> {
 	const { data, error } = await supabase
 		.from("bookings")
-		.select("*")
+		.select(
+			"*, driving_school:driving_schools ( cancellation_policy, cancellation_cutoff_hours )",
+		)
 		.order("starts_at", { ascending: false });
 	if (error) throw error;
 	return (data ?? []) as Booking[];
@@ -294,6 +296,8 @@ export async function setServiceSettings(
 	durationMin: number,
 	enabled: boolean,
 	autoConfirm: boolean,
+	cancellationPolicy: "always" | "no_cancel" | "custom",
+	cancellationCutoffHours: number,
 ): Promise<void> {
 	const { error } = await supabase
 		.from("driving_schools")
@@ -301,6 +305,8 @@ export async function setServiceSettings(
 			lesson_duration_min: durationMin,
 			booking_enabled: enabled,
 			auto_confirm: autoConfirm,
+			cancellation_policy: cancellationPolicy,
+			cancellation_cutoff_hours: cancellationCutoffHours,
 		})
 		.eq("id", schoolId);
 	if (error) throw error;

@@ -1,7 +1,25 @@
 import type { Booking, BookingStatus } from "./types";
 
-export function isCancellable(b: Booking): boolean {
-	return b.status === "pending" || b.status === "confirmed";
+export function isCancellable(b: Booking, now: Date = new Date()): boolean {
+	if (b.status !== "pending" && b.status !== "confirmed") {
+		return false;
+	}
+
+	if (b.driving_school) {
+		const { cancellation_policy, cancellation_cutoff_hours } = b.driving_school;
+		if (cancellation_policy === "no_cancel") {
+			return false;
+		}
+		if (cancellation_policy === "custom") {
+			const starts = new Date(b.starts_at).getTime();
+			const limit = starts - cancellation_cutoff_hours * 60 * 60 * 1000;
+			if (now.getTime() >= limit) {
+				return false;
+			}
+		}
+	}
+
+	return true;
 }
 
 /** Confirmed lessons whose end is in the past read as completed; everything else unchanged. */
@@ -30,7 +48,11 @@ export function nextDays(n: number, from: Date = new Date()): string[] {
 	const out: string[] = [];
 	for (let i = 0; i < n; i++) {
 		const d = new Date(
-			Date.UTC(from.getUTCFullYear(), from.getUTCMonth(), from.getUTCDate() + i),
+			Date.UTC(
+				from.getUTCFullYear(),
+				from.getUTCMonth(),
+				from.getUTCDate() + i,
+			),
 		);
 		out.push(d.toISOString().slice(0, 10));
 	}

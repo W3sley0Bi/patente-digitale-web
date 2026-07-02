@@ -37,6 +37,42 @@ describe("isCancellable", () => {
 		expect(isCancellable(mk({ status: "declined" }))).toBe(false);
 		expect(isCancellable(mk({ status: "completed" }))).toBe(false);
 	});
+	it("respects driving school cancellation policies", () => {
+		const bAlways = mk({
+			status: "confirmed",
+			driving_school: {
+				cancellation_policy: "always",
+				cancellation_cutoff_hours: 24,
+			},
+		});
+		expect(isCancellable(bAlways)).toBe(true);
+
+		const bNoCancel = mk({
+			status: "confirmed",
+			driving_school: {
+				cancellation_policy: "no_cancel",
+				cancellation_cutoff_hours: 24,
+			},
+		});
+		expect(isCancellable(bNoCancel)).toBe(false);
+
+		// cutoff: 24 hours. lesson starts at 2030-01-01T10:00:00Z.
+		// cutoff time is 2029-12-31T10:00:00Z.
+		const bCustom = mk({
+			status: "confirmed",
+			starts_at: "2030-01-01T10:00:00Z",
+			driving_school: {
+				cancellation_policy: "custom",
+				cancellation_cutoff_hours: 24,
+			},
+		});
+		// safe time: 25 hours before starts_at (2029-12-31T09:00:00Z)
+		expect(isCancellable(bCustom, new Date("2029-12-31T09:00:00Z"))).toBe(true);
+		// unsafe time: 23 hours before starts_at (2029-12-31T11:00:00Z)
+		expect(isCancellable(bCustom, new Date("2029-12-31T11:00:00Z"))).toBe(
+			false,
+		);
+	});
 });
 
 describe("effectiveStatus", () => {

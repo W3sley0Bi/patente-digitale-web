@@ -41,4 +41,8 @@ export interface Booking {
 	created_at: string;
 	updated_at: string;
 	decided_at: string | null;
+	driving_school?: {
+		cancellation_policy: "always" | "no_cancel" | "custom";
+		cancellation_cutoff_hours: number;
+	} | null;
 }

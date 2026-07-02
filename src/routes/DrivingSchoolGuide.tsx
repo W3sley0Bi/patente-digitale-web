@@ -21,6 +21,8 @@ interface SchoolRow {
 	lesson_duration_min: number | null;
 	booking_enabled: boolean;
 	auto_confirm: boolean;
+	cancellation_policy: "always" | "no_cancel" | "custom";
+	cancellation_cutoff_hours: number;
 }
 
 export default function DrivingSchoolGuide() {
@@ -37,7 +39,9 @@ export default function DrivingSchoolGuide() {
 		if (!user) return;
 		supabase
 			.from("driving_schools")
-			.select("id, name, lesson_duration_min, booking_enabled, auto_confirm")
+			.select(
+				"id, name, lesson_duration_min, booking_enabled, auto_confirm, cancellation_policy, cancellation_cutoff_hours",
+			)
 			.eq("user_id", user.id)
 			.eq("status", "accepted")
 			.order("created_at", { ascending: false })
@@ -136,14 +140,23 @@ export default function DrivingSchoolGuide() {
 						schoolId={school.id}
 						initialDuration={school.lesson_duration_min}
 						initialAutoConfirm={school.auto_confirm}
+						initialCancellationPolicy={school.cancellation_policy}
+						initialCancellationCutoffHours={school.cancellation_cutoff_hours}
 						pendingCount={bookings.filter((b) => b.status === "pending").length}
-						onSaved={({ duration, autoConfirm }) => {
+						onSaved={({
+							duration,
+							autoConfirm,
+							cancellationPolicy,
+							cancellationCutoffHours,
+						}) => {
 							setSchool((s) =>
 								s
 									? {
 											...s,
 											lesson_duration_min: duration,
 											auto_confirm: autoConfirm,
+											cancellation_policy: cancellationPolicy,
+											cancellation_cutoff_hours: cancellationCutoffHours,
 										}
 									: s,
 							);

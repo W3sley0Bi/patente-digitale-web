@@ -1,9 +1,9 @@
 import { MapPin } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router";
+import mascotBackpack from "@/assets/mascot-backpack.png";
 import { Button } from "@/components/ui/button";
 import { Reveal } from "../motion/Reveal";
-import mascotBackpack from "@/assets/mascot-backpack.png";
 
 export function FinalCta() {
 	const { t } = useTranslation();

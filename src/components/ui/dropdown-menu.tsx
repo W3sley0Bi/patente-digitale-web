@@ -60,10 +60,7 @@ function DropdownMenuLabel({
 	return (
 		<MenuPrimitive.GroupLabel
 			data-slot="dropdown-menu-label"
-			className={cn(
-				"px-2 py-1 text-xs font-medium text-ink-muted",
-				className,
-			)}
+			className={cn("px-2 py-1 text-xs font-medium text-ink-muted", className)}
 			{...props}
 		/>
 	);
@@ -212,7 +209,10 @@ function DropdownMenuShortcut({
 	return (
 		<span
 			data-slot="dropdown-menu-shortcut"
-			className={cn("ms-auto text-xs tracking-widest text-ink-faint", className)}
+			className={cn(
+				"ms-auto text-xs tracking-widest text-ink-faint",
+				className,
+			)}
 			{...props}
 		/>
 	);

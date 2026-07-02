@@ -1,5 +1,5 @@
-import { useTranslation } from "react-i18next";
 import { Check, X, Zap } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { SectionEyebrow } from "@/components/layout/SectionEyebrow";
 import { Reveal } from "@/components/motion/Reveal";
 

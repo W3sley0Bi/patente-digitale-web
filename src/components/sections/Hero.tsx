@@ -1,12 +1,12 @@
 import { motion } from "framer-motion";
-import { ArrowDown, Search, Locate, Loader2, Check } from "lucide-react";
+import { ArrowDown, Check, Loader2, Locate, Search } from "lucide-react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
-import { useState } from "react";
-import { revealVariants, staggerContainer } from "@/lib/motion";
+import nonSoloBSlogan from "@/assets/non-solo-b-slogan.png";
 import { reverseGeocode } from "@/lib/geocode";
 import { getRegionForCoords } from "@/lib/italyGeo";
-import nonSoloBSlogan from "@/assets/non-solo-b-slogan.png";
+import { revealVariants, staggerContainer } from "@/lib/motion";
 
 export function Hero() {
 	const { t } = useTranslation();
@@ -21,9 +21,10 @@ export function Hero() {
 		const trimmed = searchQuery.trim();
 		if (!trimmed) return;
 		const isZip = /^\d+$/.test(trimmed);
-		navigate(isZip
-			? `/cerca?zip=${encodeURIComponent(trimmed)}`
-			: `/cerca?city=${encodeURIComponent(trimmed)}`
+		navigate(
+			isZip
+				? `/cerca?zip=${encodeURIComponent(trimmed)}`
+				: `/cerca?city=${encodeURIComponent(trimmed)}`,
 		);
 	};
 
@@ -75,8 +76,10 @@ export function Hero() {
 						className="max-w-[15ch] font-sans text-4xl font-black leading-[1.1] tracking-tight text-ink sm:text-5xl md:text-6xl lg:text-7xl"
 					>
 						<span className="relative inline-block px-4">
-							<span className="relative z-10 text-white">{t("landing.hero.headline.line1")}</span>
-							<motion.div 
+							<span className="relative z-10 text-white">
+								{t("landing.hero.headline.line1")}
+							</span>
+							<motion.div
 								initial={{ scaleX: 0, opacity: 0 }}
 								animate={{ scaleX: 1, opacity: 1 }}
 								transition={{ delay: 0.5, duration: 0.4, ease: "easeOut" }}
@@ -86,7 +89,7 @@ export function Hero() {
 									transform: "skew(-2deg)",
 								}}
 							/>
-							<motion.div 
+							<motion.div
 								initial={{ scaleX: 0, opacity: 0 }}
 								animate={{ scaleX: 1, opacity: 1 }}
 								transition={{ delay: 0.6, duration: 0.3, ease: "easeOut" }}
@@ -99,7 +102,9 @@ export function Hero() {
 						</span>{" "}
 						<br className="sm:hidden" />
 						<span className="relative inline-block font-serif italic text-accent px-1">
-							<span className="relative z-10">{t("landing.hero.headline.emphasis")}</span>
+							<span className="relative z-10">
+								{t("landing.hero.headline.emphasis")}
+							</span>
 							<svg
 								className="absolute -bottom-1.5 left-0 w-full h-2.5 text-accent/60"
 								viewBox="0 0 100 12"
@@ -126,20 +131,30 @@ export function Hero() {
 					</motion.p>
 
 					{/* Search Bar */}
-					<motion.div variants={revealVariants} className="mt-12 w-full max-w-[400px] relative">
+					<motion.div
+						variants={revealVariants}
+						className="mt-12 w-full max-w-[400px] relative"
+					>
 						<form onSubmit={handleSearch} className="relative">
 							<div className="group relative flex items-center bg-white rounded-full border border-line-strong/10 shadow-sm focus-within:border-line-strong/30 transition-all duration-300">
 								<button
 									type="button"
 									onClick={handleLocate}
 									disabled={locating}
-									title={locError ? t("cerca.filters.locationError") : t("cerca.filters.locationBtn")}
+									title={
+										locError
+											? t("cerca.filters.locationError")
+											: t("cerca.filters.locationBtn")
+									}
 									className="absolute left-2 flex items-center justify-center text-ink-faint hover:text-brand disabled:opacity-50 transition-colors"
 								>
-									{locating
-										? <Loader2 className="h-4 w-4 animate-spin text-brand" />
-										: <Locate className={`h-4 w-4 ${locError ? "text-accent" : ""}`} />
-									}
+									{locating ? (
+										<Loader2 className="h-4 w-4 animate-spin text-brand" />
+									) : (
+										<Locate
+											className={`h-4 w-4 ${locError ? "text-accent" : ""}`}
+										/>
+									)}
 								</button>
 								<input
 									type="text"
@@ -164,7 +179,10 @@ export function Hero() {
 						)}
 					</motion.div>
 
-					<motion.div variants={revealVariants} className="mt-8 flex justify-center">
+					<motion.div
+						variants={revealVariants}
+						className="mt-8 flex justify-center"
+					>
 						<div className="inline-flex items-center gap-2 rounded-full border border-line bg-bg px-4 py-2 shadow-sm">
 							<Check className="h-3.5 w-3.5 text-brand shrink-0" />
 							<span className="font-sans text-xs font-medium text-ink-muted">
@@ -173,10 +191,7 @@ export function Hero() {
 						</div>
 					</motion.div>
 
-					<motion.div
-						variants={revealVariants}
-						className="mt-6"
-					>
+					<motion.div variants={revealVariants} className="mt-6">
 						<a
 							href="#how-it-works"
 							className="group flex flex-col items-center gap-1 font-sans text-sm font-bold text-ink-muted hover:text-brand transition-colors duration-300"
@@ -195,8 +210,8 @@ export function Hero() {
 				transition={{ delay: 1.2, duration: 0.8, ease: "easeOut" }}
 				className="absolute bottom-0 right-0 pointer-events-none select-none w-[60vw] sm:w-[35vw] max-w-[240px] sm:max-w-[320px] md:max-w-[420px] lg:max-w-[560px] z-10"
 			>
-				<img 
-					src={nonSoloBSlogan} 
+				<img
+					src={nonSoloBSlogan}
 					alt={t("landing.hero.mascotNote")}
 					className="w-full h-auto drop-shadow-sm opacity-95 sm:opacity-100"
 				/>
@@ -204,4 +219,3 @@ export function Hero() {
 		</section>
 	);
 }
-

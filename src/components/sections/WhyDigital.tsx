@@ -1,8 +1,8 @@
 import { useTranslation } from "react-i18next";
+import foglioRosaIcon from "@/assets/foglio-rosa-icon.png";
 import { cn } from "@/lib/utils";
 import { SectionEyebrow } from "../layout/SectionEyebrow";
 import { Reveal } from "../motion/Reveal";
-import foglioRosaIcon from "@/assets/foglio-rosa-icon.png";
 
 const ROWS = [
 	{
@@ -29,10 +29,7 @@ export function WhyDigital() {
 					{ROWS.map((row, index) => (
 						<div
 							key={row.id}
-							className={cn(
-								"grid items-center gap-12 lg:grid-cols-2",
-								false,
-							)}
+							className={cn("grid items-center gap-12 lg:grid-cols-2", false)}
 						>
 							<Reveal
 								className={cn(

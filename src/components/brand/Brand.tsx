@@ -1,5 +1,5 @@
-import { cn } from "@/lib/utils";
 import mascotLogo from "@/assets/mascot-logo.png";
+import { cn } from "@/lib/utils";
 
 interface MascotProps {
 	size?: "sm" | "md" | "lg";
@@ -14,13 +14,7 @@ export function Mascot({ size = "md", className }: MascotProps) {
 	};
 
 	return (
-		<div
-			className={cn(
-				"relative overflow-hidden",
-				sizes[size],
-				className,
-			)}
-		>
+		<div className={cn("relative overflow-hidden", sizes[size], className)}>
 			<img
 				src={mascotLogo}
 				alt="Patentino"

@@ -1,38 +1,51 @@
 import "leaflet/dist/leaflet.css";
-import { useEffect } from "react";
-import { MapContainer, TileLayer, Marker, ZoomControl, useMap } from "react-leaflet";
 import L from "leaflet";
-import { useTranslation } from "react-i18next";
-
-import markerIcon2x from "leaflet/dist/images/marker-icon-2x.png";
 import markerIcon from "leaflet/dist/images/marker-icon.png";
+import markerIcon2x from "leaflet/dist/images/marker-icon-2x.png";
 import markerShadow from "leaflet/dist/images/marker-shadow.png";
+import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
+import {
+	MapContainer,
+	Marker,
+	TileLayer,
+	useMap,
+	ZoomControl,
+} from "react-leaflet";
 
 // Vite doesn't bundle Leaflet's default icon URLs automatically
-delete (L.Icon.Default.prototype as unknown as Record<string, unknown>)._getIconUrl;
-L.Icon.Default.mergeOptions({ iconUrl: markerIcon, iconRetinaUrl: markerIcon2x, shadowUrl: markerShadow });
+delete (L.Icon.Default.prototype as unknown as Record<string, unknown>)
+	._getIconUrl;
+L.Icon.Default.mergeOptions({
+	iconUrl: markerIcon,
+	iconRetinaUrl: markerIcon2x,
+	shadowUrl: markerShadow,
+});
 
 const ITALY_CENTER: [number, number] = [41.87, 12.57];
 
 interface Props {
-  position: [number, number] | null;
+	position: [number, number] | null;
 }
 
 function FlyTo({ position }: { position: [number, number] | null }) {
-  const map = useMap();
-  useEffect(() => {
-    if (position) map.flyTo(position, 14, { duration: 0.8 });
-  }, [position, map]);
-  return null;
+	const map = useMap();
+	useEffect(() => {
+		if (position) map.flyTo(position, 14, { duration: 0.8 });
+	}, [position, map]);
+	return null;
 }
 
 export function DraggableMarkerMap({ position }: Props) {
-  const { t } = useTranslation();
+	const { t } = useTranslation();
 
-  return (
-    <div className="flex flex-col gap-1.5">
-      <div className="rounded-xl overflow-hidden border border-ink/10 shadow-sm" style={{ height: 240 }}>
-        <style>{`
+	return (
+		<div className="flex flex-col gap-1.5">
+			<div
+				className="rounded-xl overflow-hidden border border-ink/10 shadow-sm"
+				style={{ height: 240 }}
+			>
+				<style>{`
           .leaflet-container { background: #f8f9fa !important; font-family: Satoshi, sans-serif !important; }
           .leaflet-bar {
             border: 1px solid oklch(0.92 0.008 160) !important;
@@ -62,32 +75,35 @@ export function DraggableMarkerMap({ position }: Props) {
             border-top-left-radius: 4px;
           }
         `}</style>
-        <MapContainer
-          center={position ?? ITALY_CENTER}
-          zoom={position ? 14 : 6}
-          style={{ height: "100%", width: "100%" }}
-          zoomControl={false}
-          scrollWheelZoom={false}
-        >
-          <TileLayer
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
-            url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
-            subdomains="abcd"
-            maxZoom={20}
-          />
-          <ZoomControl position="topright" />
-          <FlyTo position={position} />
-          {position && <Marker position={position} />}
-        </MapContainer>
-      </div>
-      <p className="text-xs text-ink-faint">
-        {position
-          ? t("school.claimForm.mapCoords", {
-              lat: position[0].toFixed(5),
-              lng: position[1].toFixed(5),
-            })
-          : t("school.claimForm.mapHintReadonly", "Pick an address above to drop the pin.")}
-      </p>
-    </div>
-  );
+				<MapContainer
+					center={position ?? ITALY_CENTER}
+					zoom={position ? 14 : 6}
+					style={{ height: "100%", width: "100%" }}
+					zoomControl={false}
+					scrollWheelZoom={false}
+				>
+					<TileLayer
+						attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
+						url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
+						subdomains="abcd"
+						maxZoom={20}
+					/>
+					<ZoomControl position="topright" />
+					<FlyTo position={position} />
+					{position && <Marker position={position} />}
+				</MapContainer>
+			</div>
+			<p className="text-xs text-ink-faint">
+				{position
+					? t("school.claimForm.mapCoords", {
+							lat: position[0].toFixed(5),
+							lng: position[1].toFixed(5),
+						})
+					: t(
+							"school.claimForm.mapHintReadonly",
+							"Pick an address above to drop the pin.",
+						)}
+			</p>
+		</div>
+	);
 }

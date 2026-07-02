@@ -1,5 +1,5 @@
-import { BookOpen, FileSignature, MapPin } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
+import { BookOpen, FileSignature, MapPin } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { SectionEyebrow } from "@/components/layout/SectionEyebrow";
 import { Reveal } from "@/components/motion/Reveal";
@@ -20,9 +20,7 @@ export function HowItWorks() {
 					{/* Left sticky header column */}
 					<div className="lg:col-span-5 lg:sticky lg:top-32">
 						<Reveal>
-							<SectionEyebrow>
-								{t("landing.howItWorks.eyebrow")}
-							</SectionEyebrow>
+							<SectionEyebrow>{t("landing.howItWorks.eyebrow")}</SectionEyebrow>
 							<h2 className="mt-3 font-sans text-2xl font-black tracking-tight text-ink md:text-3xl lg:text-4xl max-w-[22ch] leading-[1.1]">
 								{t("landing.howItWorks.heading")}
 							</h2>
@@ -55,7 +53,9 @@ export function HowItWorks() {
 															{t(`landing.howItWorks.steps.${step.id}.title`)}
 														</h3>
 														<p className="mt-1 font-sans text-sm leading-relaxed text-ink-muted md:text-base max-w-[52ch]">
-															{t(`landing.howItWorks.steps.${step.id}.description`)}
+															{t(
+																`landing.howItWorks.steps.${step.id}.description`,
+															)}
 														</p>
 													</div>
 													<Icon

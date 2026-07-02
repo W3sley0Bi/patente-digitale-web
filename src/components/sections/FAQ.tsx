@@ -44,11 +44,7 @@ export function FAQ() {
 						<Reveal delay={0.1}>
 							<Accordion className="w-full space-y-4">
 								{FAQ_ITEMS.map((id) => (
-									<AccordionItem
-										key={id}
-										value={`item-${id}`}
-										className=""
-									>
+									<AccordionItem key={id} value={`item-${id}`} className="">
 										<AccordionTrigger>
 											{t(`landing.faq.items.${id}.q`)}
 										</AccordionTrigger>

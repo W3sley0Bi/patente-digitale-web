@@ -1,4 +1,4 @@
-import { useEffect, useRef, type ReactNode } from "react";
+import { type ReactNode, useEffect, useRef } from "react";
 import { cn } from "@/lib/utils";
 
 interface MockupTestProps {
@@ -8,7 +8,12 @@ interface MockupTestProps {
 	className?: string;
 }
 
-export function MockupTest({ name, children, badge = true, className }: MockupTestProps) {
+export function MockupTest({
+	name,
+	children,
+	badge = true,
+	className,
+}: MockupTestProps) {
 	const ref = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
@@ -43,7 +48,11 @@ export function MockupTest({ name, children, badge = true, className }: MockupTe
 	);
 }
 
-function track(event: "impression" | "click", name: string, meta?: Record<string, unknown>) {
+function track(
+	event: "impression" | "click",
+	name: string,
+	meta?: Record<string, unknown>,
+) {
 	if (typeof window === "undefined") return;
 	const payload = { event, name, ...(meta || {}), ts: Date.now() };
 	console.info(`[mockup-test:${event}]`, payload);
