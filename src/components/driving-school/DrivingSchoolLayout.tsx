@@ -1,7 +1,7 @@
 import {
 	CalendarDays,
+	IdCard,
 	LayoutDashboard,
-	Pencil,
 	Settings,
 	Users,
 } from "lucide-react";
@@ -31,7 +31,7 @@ const NAV_ITEMS = [
 	},
 	{
 		href: "/app/driving-school/profile",
-		icon: Pencil,
+		icon: IdCard,
 		label: "school.dashboard.nav.editListing",
 		end: false,
 	},

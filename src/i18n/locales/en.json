@@ -370,7 +370,6 @@
 				"piva": "VAT number",
 				"founded_year": "Year founded",
 				"description": "Description",
-				"instructor_count": "Number of instructors",
 				"social_instagram": "Instagram",
 				"social_facebook": "Facebook",
 				"social_tiktok": "TikTok",
@@ -383,12 +382,11 @@
 				"address": "Address",
 				"hours": "Hours",
 				"licenses": "Licenses and prices",
-				"staff": "Staff",
 				"social": "Social"
 			},
 			"priceFor": "{{licence}} price (€)",
 			"licenses": "Licenses offered",
-			"openingHours": "Opening hours (one per line, e.g. \"Lunedì: 9:00–19:00\")",
+			"closed": "Closed",
 			"saving": "Saving...",
 			"save": "Save changes",
 			"saved": "Saved. Changes visible on the map within minutes."
@@ -441,9 +439,14 @@
 		},
 		"edit": {
 			"backToDashboard": "← Dashboard",
+			"backToProfile": "← Back to profile",
 			"title": "Edit your listing",
 			"noData": "No school data found. Contact",
 			"support": "support"
+		},
+		"profile": {
+			"title": "Your profile",
+			"edit": "Edit profile"
 		}
 	},
 	"auth": {

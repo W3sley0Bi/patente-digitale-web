@@ -25,6 +25,9 @@ const DrivingSchoolStudents = lazy(
 	() => import("./routes/DrivingSchoolStudents"),
 );
 const DrivingSchoolEdit = lazy(() => import("./routes/DrivingSchoolEdit"));
+const DrivingSchoolProfile = lazy(
+	() => import("./routes/DrivingSchoolProfile"),
+);
 const SetPassword = lazy(() => import("./routes/SetPassword"));
 const DrivingSchoolSettings = lazy(
 	() => import("./routes/DrivingSchoolSettings"),
@@ -138,6 +141,14 @@ function App() {
 							/>
 							<Route
 								path="/app/driving-school/profile"
+								element={
+									<ProtectedRoute requiredRole="autoscuola" requireApproved>
+										<DrivingSchoolProfile />
+									</ProtectedRoute>
+								}
+							/>
+							<Route
+								path="/app/driving-school/profile/edit"
 								element={
 									<ProtectedRoute requiredRole="autoscuola" requireApproved>
 										<DrivingSchoolEdit />

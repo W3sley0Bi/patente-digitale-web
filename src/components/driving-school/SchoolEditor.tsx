@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { supabase } from "@/lib/supabase";
 
 export interface SchoolEditorData {
+	id: string;
 	place_id: string;
 	name?: string | null;
 	address?: string | null;
@@ -54,6 +55,47 @@ const ALL_LICENSES = [
 const SOCIAL_KEYS = ["instagram", "facebook", "tiktok", "youtube"] as const;
 type SocialKey = (typeof SOCIAL_KEYS)[number];
 
+const DAYS = [
+	"Lunedì",
+	"Martedì",
+	"Mercoledì",
+	"Giovedì",
+	"Venerdì",
+	"Sabato",
+	"Domenica",
+] as const;
+
+interface DayHours {
+	closed: boolean;
+	open: string;
+	close: string;
+}
+
+const DEFAULT_DAY_HOURS: DayHours = { closed: false, open: "09:00", close: "18:00" };
+
+function parseOpeningHours(lines: string[]): DayHours[] {
+	return DAYS.map((day) => {
+		const line = lines.find((l) => l.startsWith(`${day}:`));
+		if (!line) return { ...DEFAULT_DAY_HOURS };
+		const value = line.slice(day.length + 1).trim();
+		if (/chius[oa]/i.test(value)) return { closed: true, open: "", close: "" };
+		const [open, close] = value.split(/[–-]/).map((s) => s.trim());
+		return {
+			closed: false,
+			open: open || DEFAULT_DAY_HOURS.open,
+			close: close || DEFAULT_DAY_HOURS.close,
+		};
+	});
+}
+
+function serializeOpeningHours(hours: DayHours[]): string[] {
+	return DAYS.map((day, i) => {
+		const h = hours[i];
+		if (h.closed) return `${day}: Chiuso`;
+		return `${day}: ${h.open}–${h.close}`;
+	});
+}
+
 const isRecord = (v: unknown): v is Record<string, unknown> =>
 	typeof v === "object" && v !== null && !Array.isArray(v);
 
@@ -69,6 +111,18 @@ export function SchoolEditor({ initial, userId, onSaved }: SchoolEditorProps) {
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState<string | null>(null);
 	const [saved, setSaved] = useState(false);
+	const [dayHours, setDayHours] = useState<DayHours[]>(() =>
+		parseOpeningHours(Array.isArray(initial.opening_hours) ? initial.opening_hours : []),
+	);
+
+	const setDayHour = <K extends keyof DayHours>(
+		index: number,
+		key: K,
+		value: DayHours[K],
+	) =>
+		setDayHours((prev) =>
+			prev.map((d, i) => (i === index ? { ...d, [key]: value } : d)),
+		);
 
 	const setField = <K extends keyof SchoolEditorData>(
 		key: K,
@@ -76,9 +130,6 @@ export function SchoolEditor({ initial, userId, onSaved }: SchoolEditorProps) {
 	) => setForm((f) => ({ ...f, [key]: value }));
 
 	const licensesArr = Array.isArray(form.licenses) ? form.licenses : [];
-	const openingHoursArr = Array.isArray(form.opening_hours)
-		? form.opening_hours
-		: [];
 	const pricesObj: Record<string, number> = isRecord(form.prices)
 		? (form.prices as Record<string, number>)
 		: {};
@@ -152,8 +203,6 @@ export function SchoolEditor({ initial, userId, onSaved }: SchoolEditorProps) {
 		}
 
 		const payload = {
-			place_id: form.place_id,
-			user_id: userId,
 			name: trimToNull(form.name),
 			address: trimToNull(form.address),
 			city: trimToNull(form.city),
@@ -167,8 +216,7 @@ export function SchoolEditor({ initial, userId, onSaved }: SchoolEditorProps) {
 			piva: trimToNull(form.piva),
 			founded_year: intOrNull(form.founded_year),
 			description: trimToNull(form.description),
-			instructor_count: intOrNull(form.instructor_count),
-			opening_hours: openingHoursArr,
+			opening_hours: serializeOpeningHours(dayHours),
 			licenses: cleanLicenses,
 			prices: cleanPrices,
 			social: cleanSocial,
@@ -177,7 +225,9 @@ export function SchoolEditor({ initial, userId, onSaved }: SchoolEditorProps) {
 
 		const { error: err } = await supabase
 			.from("driving_schools")
-			.upsert(payload, { onConflict: "place_id" });
+			.update(payload)
+			.eq("id", form.id)
+			.eq("user_id", userId);
 
 		if (err) setError(err.message);
 		else {
@@ -384,17 +434,43 @@ export function SchoolEditor({ initial, userId, onSaved }: SchoolEditorProps) {
 				<legend className={sectionHeader}>
 					{t("school.editor.sections.hours")}
 				</legend>
-				<label className="flex flex-col gap-1 text-sm">
-					<span className={labelSpan}>{t("school.editor.openingHours")}</span>
-					<textarea
-						rows={7}
-						value={openingHoursArr.join("\n")}
-						onChange={(e) =>
-							setField("opening_hours", e.target.value.split("\n"))
-						}
-						className={`${inputCls} font-mono`}
-					/>
-				</label>
+				<div className="flex flex-col gap-2">
+					{DAYS.map((day, i) => {
+						const h = dayHours[i];
+						return (
+							<div key={day} className="flex flex-wrap items-center gap-3">
+								<span className="w-24 shrink-0 text-sm">{day}</span>
+								<label className="flex items-center gap-1.5 text-xs text-ink-muted">
+									<input
+										type="checkbox"
+										checked={h.closed}
+										onChange={(e) =>
+											setDayHour(i, "closed", e.target.checked)
+										}
+									/>
+									{t("school.editor.closed")}
+								</label>
+								{!h.closed && (
+									<>
+										<input
+											type="time"
+											value={h.open}
+											onChange={(e) => setDayHour(i, "open", e.target.value)}
+											className={`${inputCls} w-32`}
+										/>
+										<span className="text-ink-faint text-sm">–</span>
+										<input
+											type="time"
+											value={h.close}
+											onChange={(e) => setDayHour(i, "close", e.target.value)}
+											className={`${inputCls} w-32`}
+										/>
+									</>
+								)}
+							</div>
+						);
+					})}
+				</div>
 			</fieldset>
 
 			{/* Patenti e prezzi */}
@@ -436,30 +512,6 @@ export function SchoolEditor({ initial, userId, onSaved }: SchoolEditorProps) {
 						))}
 					</div>
 				)}
-			</fieldset>
-
-			{/* Staff */}
-			<fieldset>
-				<legend className={sectionHeader}>
-					{t("school.editor.sections.staff")}
-				</legend>
-				<label className="flex flex-col gap-1 text-sm md:w-1/2">
-					<span className={labelSpan}>
-						{t("school.editor.fields.instructor_count")}
-					</span>
-					<input
-						type="number"
-						min={0}
-						value={form.instructor_count ?? ""}
-						onChange={(e) =>
-							setField(
-								"instructor_count",
-								e.target.value === "" ? null : Number(e.target.value),
-							)
-						}
-						className={inputCls}
-					/>
-				</label>
 			</fieldset>
 
 			{/* Social */}

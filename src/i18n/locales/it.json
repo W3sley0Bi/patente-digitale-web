@@ -373,7 +373,6 @@
 				"piva": "Partita IVA",
 				"founded_year": "Anno di fondazione",
 				"description": "Descrizione",
-				"instructor_count": "Numero di istruttori",
 				"social_instagram": "Instagram",
 				"social_facebook": "Facebook",
 				"social_tiktok": "TikTok",
@@ -386,12 +385,11 @@
 				"address": "Indirizzo",
 				"hours": "Orari",
 				"licenses": "Patenti e prezzi",
-				"staff": "Staff",
 				"social": "Social"
 			},
 			"priceFor": "Prezzo {{licence}} (€)",
 			"licenses": "Patenti erogate",
-			"openingHours": "Orari di apertura (uno per riga, es. \"Lunedì: 9:00–19:00\")",
+			"closed": "Chiuso",
 			"saving": "Salvataggio...",
 			"save": "Salva modifiche",
 			"saved": "Salvato. Le modifiche saranno visibili sulla mappa entro pochi minuti."
@@ -444,9 +442,14 @@
 		},
 		"edit": {
 			"backToDashboard": "← Dashboard",
+			"backToProfile": "← Torna al profilo",
 			"title": "Modifica il tuo profilo",
 			"noData": "Nessun dato trovato. Contatta il",
 			"support": "supporto"
+		},
+		"profile": {
+			"title": "Il tuo profilo",
+			"edit": "Modifica profilo"
 		}
 	},
 	"auth": {
