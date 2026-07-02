@@ -1,7 +1,7 @@
 import { BookOpen, LayoutDashboard, LogOut, User } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Link, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
 import { useProfile } from "@/hooks/useProfile";
@@ -28,8 +28,14 @@ export function UserMenu({ onClose }: { onClose?: () => void }) {
 		return () => document.removeEventListener("mousedown", handleClickOutside);
 	}, []);
 
+	const location = useLocation();
 	const dashboardHref =
-		role === "autoscuola" ? "/driving-school/dashboard" : "/student/dashboard";
+		role === "autoscuola" ? "/app/driving-school" : "/app/student";
+	const isInApp = location.pathname.startsWith("/app");
+	const switchHref = isInApp ? "/" : dashboardHref;
+	const switchLabel = isInApp
+		? t("landing.nav.goToWebsite")
+		: t("landing.nav.goToApp");
 
 	const handleLogout = async () => {
 		setOpen(false);
@@ -57,12 +63,12 @@ export function UserMenu({ onClose }: { onClose?: () => void }) {
 		return (
 			<div className="flex flex-col">
 				<Link
-					to={dashboardHref}
+					to={switchHref}
 					onClick={onClose}
 					className="flex items-center gap-3 px-4 py-2.5 text-sm text-ink hover:bg-brand-soft/30 hover:text-brand transition-colors rounded-lg"
 				>
 					<LayoutDashboard size={15} className="text-ink-muted" />
-					{t("landing.nav.dashboard")}
+					{switchLabel}
 				</Link>
 				<div
 					aria-disabled="true"
@@ -103,12 +109,12 @@ export function UserMenu({ onClose }: { onClose?: () => void }) {
 				<div className="absolute right-0 top-full mt-2 w-52 overflow-hidden rounded-xl border border-line bg-bg shadow-lg z-50 animate-in fade-in zoom-in-95 duration-100">
 					<div className="py-1">
 						<Link
-							to={dashboardHref}
+							to={switchHref}
 							onClick={() => setOpen(false)}
 							className="flex items-center gap-3 px-4 py-2.5 text-sm text-ink hover:bg-brand-soft/30 hover:text-brand transition-colors"
 						>
 							<LayoutDashboard size={15} className="text-ink-muted" />
-							{t("landing.nav.dashboard")}
+							{switchLabel}
 						</Link>
 						<div
 							aria-disabled="true"
