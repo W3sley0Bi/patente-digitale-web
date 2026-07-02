@@ -14,7 +14,6 @@
 		"preference": {
 			"title": "Sincronizza le guide col tuo calendario",
 			"description": "Tieni ogni guida confermata sul calendario che usi già.",
-			"autoToggle": "Aggiungi automaticamente tutte le guide confermate al mio calendario",
 			"subscribeTitle": "Iscriviti una volta",
 			"subscribeHelp": "Iscriviti nella tua app calendario e ogni guida futura resta sincronizzata in automatico, senza aggiungerle una a una.",
 			"subscribeApple": "Apple / iCloud",

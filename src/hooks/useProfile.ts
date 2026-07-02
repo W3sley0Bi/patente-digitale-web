@@ -7,7 +7,6 @@ interface Profile {
 	full_name: string | null;
 	phone: string | null;
 	calendar_feed_token: string | null;
-	calendar_auto: boolean | null;
 }
 
 interface UseProfileReturn {
@@ -28,8 +27,8 @@ export function useProfile(): UseProfileReturn {
 		profileError,
 		refreshProfile,
 	} = useAuthContext();
-	// AuthContext selects `*` from profiles, so calendar_feed_token / calendar_auto
-	// are present at runtime even though its narrower Profile type omits them.
+	// AuthContext selects `*` from profiles, so calendar_feed_token
+	// is present at runtime even though its narrower Profile type omits it.
 	return {
 		profile: profile as unknown as Profile | null,
 		role,

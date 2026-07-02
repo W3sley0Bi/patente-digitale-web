@@ -1,27 +1,17 @@
 import { Apple, CalendarCheck, CalendarSync } from "lucide-react";
-import { useId, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Checkbox } from "@/components/ui/checkbox";
 import { useProfile } from "@/hooks/useProfile";
-import { supabase } from "@/lib/supabase";
 
 /**
- * Dashboard widget that lets a student auto-sync every confirmed lesson to their
- * own calendar via a personal secret .ics subscription feed.
- *
- * - A toggle persists `profiles.calendar_auto`.
- * - When on, two subscribe affordances appear (Apple/iCloud via webcal:// and
- *   Google via the add-by-URL screen). Subscribing once keeps every future
- *   lesson in sync, no per-lesson action needed.
+ * Dashboard widget that lets a student subscribe to a personal secret .ics feed
+ * of every confirmed lesson. Subscribing once keeps every future lesson in
+ * sync automatically, no per-lesson action or extra opt-in needed.
  */
 export function CalendarPreference() {
 	const { t } = useTranslation();
-	const { profile, refresh } = useProfile();
-	const [saving, setSaving] = useState(false);
-	const switchId = useId();
+	const { profile } = useProfile();
 
 	const token = profile?.calendar_feed_token;
-	const auto = profile?.calendar_auto ?? false;
 
 	if (!profile || !token) return null;
 
@@ -31,16 +21,6 @@ export function CalendarPreference() {
 	const googleUrl = `https://calendar.google.com/calendar/r?cid=${encodeURIComponent(
 		webcalUrl,
 	)}`;
-
-	const handleToggle = async (checked: boolean) => {
-		setSaving(true);
-		const { error } = await supabase
-			.from("profiles")
-			.update({ calendar_auto: checked })
-			.eq("id", profile.id);
-		setSaving(false);
-		if (!error) await refresh();
-	};
 
 	return (
 		<section className="mt-6 rounded-2xl border border-line bg-bg-raised p-5">
@@ -57,21 +37,6 @@ export function CalendarPreference() {
 					</p>
 				</div>
 			</div>
-
-			<label
-				htmlFor={switchId}
-				className="mt-4 flex cursor-pointer items-center gap-3 rounded-xl bg-bg-sunken px-4 py-3 transition-colors"
-			>
-				<Checkbox
-					id={switchId}
-					checked={auto}
-					disabled={saving}
-					onCheckedChange={(checked) => void handleToggle(checked)}
-				/>
-				<span className="text-sm font-medium text-ink">
-					{t("calendar.preference.autoToggle")}
-				</span>
-			</label>
 
 			<div className="mt-4">
 				<p className="text-sm font-medium text-ink">
