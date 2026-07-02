@@ -1,9 +1,9 @@
-import { Clock, Search } from "lucide-react";
+import { Clock } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router";
 import { BookLessonForm } from "@/components/booking/BookLessonForm";
 import { MyLessons } from "@/components/booking/MyLessons";
+import { AppSchoolFinderPanel } from "@/components/booking/school-finder/AppSchoolFinderPanel";
 import { StudentLayout } from "@/components/student/StudentLayout";
 import { getMyEnrollment } from "@/lib/booking/api";
 import type { Enrollment } from "@/lib/booking/types";
@@ -53,18 +53,14 @@ export default function StudentGuide() {
 						<div className="h-8 w-8 animate-pulse rounded-full bg-brand/20" />
 					</div>
 				) : !enrollment || status === "rejected" || status === "left" ? (
-					// Not enrolled (or rejected/left) → point them to search
-					<div className="mt-8 rounded-2xl border border-line bg-bg-raised p-8 text-center">
-						<p className="text-sm text-ink-muted">
-							{t("booking.student.notEnrolled")}
-						</p>
-						<Link
-							to="/search"
-							className="mt-4 inline-flex items-center gap-2 rounded-md bg-brand px-4 py-2 text-sm font-bold text-white transition-colors hover:bg-brand-hover"
-						>
-							<Search size={15} aria-hidden="true" />
-							{t("booking.student.findSchool")}
-						</Link>
+					// Not enrolled (or rejected/left) → the finder panel renders below this message
+					<div className="mt-8">
+						<div className="rounded-2xl border border-line bg-bg-raised p-8 text-center">
+							<p className="text-sm text-ink-muted">
+								{t("booking.student.notEnrolled")}
+							</p>
+						</div>
+						<AppSchoolFinderPanel />
 					</div>
 				) : (
 					<div className="mt-8 space-y-6">
