@@ -200,7 +200,7 @@ export function Nav() {
 					className="flex items-center gap-2.5"
 				>
 					<Mascot size="sm" />
-					<Wordmark />
+					<Wordmark className="text-sm md:text-lg" />
 				</Link>
 
 				{/* Desktop links */}
@@ -221,6 +221,7 @@ export function Nav() {
 
 				{/* Mobile actions */}
 				<div className="flex items-center gap-1 md:hidden">
+					<UserMenu />
 					<Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
 						<SheetTrigger
 							render={
@@ -277,11 +278,31 @@ export function Nav() {
 									</span>
 									<LangSwitch />
 								</div>
-								<UserMenu onClose={() => setIsMenuOpen(false)} />
+								<div className="flex flex-col gap-2">
+									<span className="font-sans text-xs uppercase tracking-widest text-ink-faint">
+										{t("landing.nav.contact")}
+									</span>
+									<div className="flex items-center gap-2">
+										<a
+											href="mailto:supporto@patentedigitale.it"
+											onClick={() => setIsMenuOpen(false)}
+											className="flex items-center gap-2 rounded-lg border border-line px-3 py-2 font-sans text-sm text-ink hover:bg-brand-soft/30 hover:text-brand transition-colors"
+										>
+											<Mail size={16} />
+											<span>Email</span>
+										</a>
+										<button
+											type="button"
+											className="flex items-center gap-2 rounded-lg border border-line px-3 py-2 font-sans text-sm text-ink hover:bg-brand-soft/30 hover:text-brand transition-colors"
+										>
+											<MessageCircle size={16} />
+											<span>WhatsApp</span>
+										</button>
+									</div>
+								</div>
 							</div>
 						</SheetContent>
 					</Sheet>
-					<ContactDropdown />
 				</div>
 			</nav>
 		</header>

@@ -32,7 +32,9 @@
 			"schoolFinder": {
 				"title": "ابحث عن مدرسة قيادة",
 				"closeModal": "إغلاق",
-				"noSelection": "اختر مدرسة قيادة لعرض التفاصيل"
+				"noSelection": "اختر مدرسة قيادة لعرض التفاصيل",
+				"showMap": "إظهار الخريطة",
+				"hideMap": "إخفاء الخريطة"
 			}
 		},
 		"enroll": {
@@ -465,8 +467,7 @@
 			"findSchool": "ابحث عن مدرسة",
 			"goToApp": "الذهاب إلى التطبيق",
 			"goToWebsite": "الذهاب إلى الموقع",
-			"quizOnline": "اختبار أونلاين",
-			"comingSoon": "قريباً",
+			"language": "اللغة",
 			"logout": "تسجيل الخروج",
 			"setPassword": "تعيين كلمة مرور"
 		},

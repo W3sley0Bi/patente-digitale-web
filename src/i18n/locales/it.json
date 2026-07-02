@@ -31,7 +31,9 @@
 			"schoolFinder": {
 				"title": "Trova un'autoscuola",
 				"closeModal": "Chiudi",
-				"noSelection": "Seleziona un'autoscuola per vederne i dettagli"
+				"noSelection": "Seleziona un'autoscuola per vederne i dettagli",
+				"showMap": "Mostra mappa",
+				"hideMap": "Nascondi mappa"
 			}
 		},
 		"enroll": {
@@ -515,8 +517,7 @@
 			"findSchool": "Cerca autoscuola",
 			"goToApp": "Vai all'app",
 			"goToWebsite": "Vai al sito",
-			"quizOnline": "Quiz online",
-			"comingSoon": "Presto disponibile",
+			"language": "Lingua",
 			"logout": "Esci",
 			"setPassword": "Imposta password",
 			"home": "Home"

@@ -24,6 +24,9 @@ export function EnrollButton({ placeId }: { placeId: string }) {
 
 	useEffect(() => {
 		let cancelled = false;
+		setReady(false);
+		setSchool(null);
+		setStatus("none");
 		(async () => {
 			try {
 				const s = await getAcceptedSchoolByPlaceId(placeId);

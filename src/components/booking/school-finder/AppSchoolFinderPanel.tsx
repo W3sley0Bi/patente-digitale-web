@@ -1,7 +1,10 @@
+import { ChevronDown, ChevronUp, Map as MapIcon } from "lucide-react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FilterBar } from "@/components/cerca/FilterBar";
 import { ResultsList } from "@/components/cerca/ResultsList";
 import { SchoolMap } from "@/components/cerca/SchoolMap";
+import { Button } from "@/components/ui/button";
 import { useCerca } from "@/hooks/useCerca";
 import { AppSchoolDetailPanel } from "./AppSchoolDetailPanel";
 
@@ -13,6 +16,7 @@ import { AppSchoolDetailPanel } from "./AppSchoolDetailPanel";
  */
 export function AppSchoolFinderPanel() {
 	const { t } = useTranslation();
+	const [isMapVisible, setIsMapVisible] = useState(false);
 	const {
 		city,
 		region,
@@ -62,8 +66,22 @@ export function AppSchoolFinderPanel() {
 				/>
 			</div>
 
-			<div className="mt-4 flex flex-col gap-4 md:h-[420px] md:flex-row">
-				<div className="flex overflow-hidden rounded-xl border border-line md:h-full md:w-72 md:shrink-0 md:flex-col">
+			<Button
+				type="button"
+				variant="ghost"
+				size="sm"
+				onClick={() => setIsMapVisible(!isMapVisible)}
+				className="mt-3 flex items-center gap-2 text-ink-muted md:hidden"
+			>
+				<MapIcon size={14} />
+				{isMapVisible
+					? t("booking.student.schoolFinder.hideMap")
+					: t("booking.student.schoolFinder.showMap")}
+				{isMapVisible ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+			</Button>
+
+			<div className="relative mt-4 flex flex-col gap-4 overflow-hidden md:h-[420px] md:flex-row">
+				<div className="flex h-64 flex-col overflow-y-auto rounded-xl border border-line p-3 md:h-full md:w-72 md:shrink-0">
 					<ResultsList
 						schools={results}
 						selected={selected}
@@ -73,7 +91,11 @@ export function AppSchoolFinderPanel() {
 						stacked
 					/>
 				</div>
-				<div className="relative h-[260px] flex-1 overflow-hidden rounded-xl md:h-full">
+				<div
+					className={`relative h-[260px] overflow-hidden rounded-xl md:h-full md:flex-1 ${
+						isMapVisible ? "block" : "hidden md:block"
+					}`}
+				>
 					{!loading && (
 						<SchoolMap
 							schools={results}
@@ -82,11 +104,17 @@ export function AppSchoolFinderPanel() {
 							onSelect={setSelected}
 						/>
 					)}
-					<AppSchoolDetailPanel
-						school={selected}
-						onClose={() => setSelected(null)}
-					/>
 				</div>
+
+				{/*
+				 * A sibling of the map div (not nested inside it) so the mobile
+				 * bottom sheet still shows even while the map itself is toggled
+				 * closed (that div is display:none on mobile by default).
+				 */}
+				<AppSchoolDetailPanel
+					school={selected}
+					onClose={() => setSelected(null)}
+				/>
 			</div>
 		</div>
 	);

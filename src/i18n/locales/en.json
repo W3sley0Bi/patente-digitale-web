@@ -31,7 +31,9 @@
 			"schoolFinder": {
 				"title": "Find a driving school",
 				"closeModal": "Close",
-				"noSelection": "Select a driving school to see details"
+				"noSelection": "Select a driving school to see details",
+				"showMap": "Show map",
+				"hideMap": "Hide map"
 			}
 		},
 		"enroll": {
@@ -512,8 +514,7 @@
 			"findSchool": "Find a driving school",
 			"goToApp": "Go to app",
 			"goToWebsite": "Go to website",
-			"quizOnline": "Quiz online",
-			"comingSoon": "Coming soon",
+			"language": "Language",
 			"logout": "Log out",
 			"setPassword": "Set password",
 			"home": "Home"

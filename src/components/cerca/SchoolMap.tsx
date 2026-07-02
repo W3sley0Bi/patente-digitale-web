@@ -43,6 +43,28 @@ function FitBounds({
 	return null;
 }
 
+// Leaflet measures its container on mount. If the container is display:none
+// at that point (e.g. behind a hidden-by-default mobile toggle), the map
+// initializes at 0x0 and stays blank even after the container becomes
+// visible. Re-measure whenever the container's size actually changes.
+function InvalidateOnResize({
+	containerRef,
+}: {
+	containerRef: React.RefObject<HTMLDivElement | null>;
+}) {
+	const map = useMap();
+
+	useEffect(() => {
+		const el = containerRef.current;
+		if (!el) return;
+		const observer = new ResizeObserver(() => map.invalidateSize());
+		observer.observe(el);
+		return () => observer.disconnect();
+	}, [map, containerRef]);
+
+	return null;
+}
+
 function PanToSelected({ selected }: { selected: NormalizedSchool | null }) {
 	const map = useMap();
 	const prevId = useRef<string | null>(null);
@@ -128,9 +150,13 @@ export function SchoolMap({
 		// Verified schools last so they are drawn on top
 		return aV - bV;
 	});
+	const containerRef = useRef<HTMLDivElement>(null);
 
 	return (
-		<div className="h-full w-full relative overflow-hidden isolate">
+		<div
+			ref={containerRef}
+			className="h-full w-full relative overflow-hidden isolate"
+		>
 			{/* Custom CSS to clean up Leaflet UI and refine map feel */}
 			<style>{`
         .leaflet-container {
@@ -195,6 +221,7 @@ export function SchoolMap({
 					maxZoom={20}
 				/>
 				<ZoomControl position="topright" />
+				<InvalidateOnResize containerRef={containerRef} />
 				<FitBounds schools={schools} filterKey={filterKey} />
 				<PanToSelected selected={selected} />
 				{sortedSchools.map((school) => (

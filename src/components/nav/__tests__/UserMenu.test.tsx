@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router";
 import { describe, expect, it, vi } from "vitest";
 
@@ -31,9 +31,10 @@ describe("UserMenu site/app switcher", () => {
 		mockLoggedInStudent();
 		render(
 			<MemoryRouter initialEntries={["/students"]}>
-				<UserMenu onClose={() => {}} />
+				<UserMenu />
 			</MemoryRouter>,
 		);
+		fireEvent.click(screen.getByLabelText("User menu"));
 		const link = screen.getByText("Go to app").closest("a");
 		expect(link).toHaveAttribute("href", "/app/student");
 	});
@@ -42,9 +43,10 @@ describe("UserMenu site/app switcher", () => {
 		mockLoggedInStudent();
 		render(
 			<MemoryRouter initialEntries={["/app/student/profile"]}>
-				<UserMenu onClose={() => {}} />
+				<UserMenu />
 			</MemoryRouter>,
 		);
+		fireEvent.click(screen.getByLabelText("User menu"));
 		const link = screen.getByText("Go to website").closest("a");
 		expect(link).toHaveAttribute("href", "/");
 	});
