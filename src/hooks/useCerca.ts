@@ -63,6 +63,9 @@ export function useCerca(): UseCercaReturn {
 
 	const allSchoolsRef = useRef<NormalizedSchool[]>([]);
 
+	// Captured once on mount — a one-time initial-selection signal, not a persistent filter.
+	const initialPlaceIdRef = useRef(searchParams.get("placeId"));
+
 	useEffect(() => {
 		Promise.all([
 			fetch("/data/autoscuole.geojson").then((res) => {
@@ -93,6 +96,22 @@ export function useCerca(): UseCercaReturn {
 				setError(err instanceof Error ? err.message : "Errore nel caricamento");
 			});
 	}, []);
+
+	// Auto-select the school referenced by ?placeId= once results have loaded,
+	// unless the user has already made an explicit selection.
+	useEffect(() => {
+		if (loading) return;
+		if (!initialPlaceIdRef.current) return;
+		if (selected) return;
+
+		const match = allSchoolsRef.current.find(
+			(s) => s._placeId === initialPlaceIdRef.current,
+		);
+		if (match) {
+			setSelectedState(match);
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [loading, selected]);
 
 	// Sync state TO URL — debounced for text, immediate for toggles
 	useEffect(() => {

@@ -11,6 +11,7 @@ const MOCK_GEOJSON = {
 			type: "Feature",
 			geometry: { type: "Point", coordinates: [12.49, 41.89] },
 			properties: {
+				_placeId: "place-roma-centro",
 				name: "Autoscuola Roma Centro",
 				city: "Roma",
 				zip: "00100",
@@ -24,6 +25,7 @@ const MOCK_GEOJSON = {
 			type: "Feature",
 			geometry: { type: "Point", coordinates: [9.19, 45.46] },
 			properties: {
+				_placeId: "place-milano-nord",
 				name: "Autoscuola Milano Nord",
 				city: "Milano",
 				zip: "20100",
@@ -84,5 +86,52 @@ describe("useCerca", () => {
 		);
 		const { result } = renderHook(() => useCerca(), { wrapper });
 		await waitFor(() => expect(result.current.error).toBeTruthy());
+	});
+});
+
+describe("useCerca placeId auto-select", () => {
+	const placeIdWrapper = ({ children }: { children: React.ReactNode }) =>
+		createElement(
+			MemoryRouter,
+			{ initialEntries: ["/search?placeId=place-roma-centro"] },
+			children,
+		);
+
+	it("auto-selects the school matching ?placeId= once results load", async () => {
+		const { result } = renderHook(() => useCerca(), {
+			wrapper: placeIdWrapper,
+		});
+		await waitFor(() => expect(result.current.loading).toBe(false));
+		await waitFor(() =>
+			expect(result.current.selected?._placeId).toBe("place-roma-centro"),
+		);
+	});
+
+	it("does not select anything when placeId doesn't match any school", async () => {
+		const noMatchWrapper = ({ children }: { children: React.ReactNode }) =>
+			createElement(
+				MemoryRouter,
+				{ initialEntries: ["/search?placeId=does-not-exist"] },
+				children,
+			);
+		const { result } = renderHook(() => useCerca(), {
+			wrapper: noMatchWrapper,
+		});
+		await waitFor(() => expect(result.current.loading).toBe(false));
+		expect(result.current.selected).toBeNull();
+	});
+
+	it("does not override an explicit user selection with the placeId match", async () => {
+		const { result } = renderHook(() => useCerca(), {
+			wrapper: placeIdWrapper,
+		});
+		const otherSchool = {
+			...MOCK_GEOJSON.features[1].properties,
+			latlng: [45.46, 9.19] as [number, number],
+			id: "other",
+		};
+		act(() => result.current.setSelected(otherSchool as never));
+		await waitFor(() => expect(result.current.loading).toBe(false));
+		expect(result.current.selected?._placeId).toBe("place-milano-nord");
 	});
 });
