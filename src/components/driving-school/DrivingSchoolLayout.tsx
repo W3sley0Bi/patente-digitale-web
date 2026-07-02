@@ -12,31 +12,31 @@ import { UserMenu } from "@/components/nav/UserMenu";
 
 const NAV_ITEMS = [
 	{
-		href: "/driving-school/dashboard",
+		href: "/app/driving-school",
 		icon: LayoutDashboard,
 		label: "school.dashboard.nav.overview",
 		end: true,
 	},
 	{
-		href: "/driving-school/dashboard/guide",
+		href: "/app/driving-school/drive-bookings",
 		icon: CalendarDays,
 		label: "school.dashboard.nav.guide",
 		end: false,
 	},
 	{
-		href: "/driving-school/dashboard/students",
+		href: "/app/driving-school/students",
 		icon: Users,
 		label: "school.dashboard.nav.students",
 		end: false,
 	},
 	{
-		href: "/driving-school/dashboard/edit",
+		href: "/app/driving-school/profile",
 		icon: Pencil,
 		label: "school.dashboard.nav.editListing",
 		end: false,
 	},
 	{
-		href: "/driving-school/dashboard/settings",
+		href: "/app/driving-school/settings",
 		icon: Settings,
 		label: "school.dashboard.nav.settings",
 		end: false,
@@ -60,7 +60,7 @@ export function DrivingSchoolLayout({
 			<header className="fixed top-0 z-[60] w-full bg-bg/90 shadow-sm backdrop-blur-md">
 				<div className="mx-auto flex h-20 max-w-(--container-wide) items-center justify-between px-4 lg:px-8">
 					<Link
-						to="/driving-school/dashboard"
+						to="/app/driving-school"
 						className="flex items-center gap-2.5"
 					>
 						<Mascot size="sm" />

@@ -1,8 +1,19 @@
-import { Headset, Menu, X, Mail, MessageCircle, Home, GraduationCap, Car, Search } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
-import { useEffect, useState, useRef } from "react";
+import {
+	Car,
+	GraduationCap,
+	Headset,
+	Home,
+	Mail,
+	Menu,
+	MessageCircle,
+	Search,
+	X,
+} from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router";
+import { Button } from "@/components/ui/button";
 import {
 	Sheet,
 	SheetContent,
@@ -12,15 +23,13 @@ import {
 import { Mascot, Wordmark } from "../brand/Brand";
 import { LangSwitch } from "./LangSwitch";
 import { UserMenu } from "./UserMenu";
-import { Button } from "@/components/ui/button";
 
 const NAV_LINKS: { href: string; label: string; icon: LucideIcon }[] = [
 	{ href: "/", label: "landing.nav.home", icon: Home },
-	{ href: "/studenti", label: "landing.nav.howItWorks", icon: GraduationCap },
-	{ href: "/autoscuole", label: "landing.nav.partners", icon: Car },
+	{ href: "/students", label: "landing.nav.howItWorks", icon: GraduationCap },
+	{ href: "/driving-schools", label: "landing.nav.partners", icon: Car },
 	{ href: "/search", label: "landing.nav.findSchool", icon: Search },
 ];
-
 
 export function Nav() {
 	const { t } = useTranslation();
@@ -66,9 +75,18 @@ export function Nav() {
 		};
 	}, []);
 
-	const NavLink = ({ href, label, icon: Icon }: { href: string; label: string; icon: LucideIcon }) => {
+	const NavLink = ({
+		href,
+		label,
+		icon: Icon,
+	}: {
+		href: string;
+		label: string;
+		icon: LucideIcon;
+	}) => {
 		const isInternal = href.startsWith("/");
-		const className = "flex items-center gap-1.5 font-sans text-sm font-medium text-ink-muted transition-colors hover:text-brand";
+		const className =
+			"flex items-center gap-1.5 font-sans text-sm font-medium text-ink-muted transition-colors hover:text-brand";
 		const content = (
 			<>
 				<Icon className="h-4 w-4" aria-hidden="true" />
@@ -91,9 +109,18 @@ export function Nav() {
 		);
 	};
 
-	const MobileNavLink = ({ href, label, icon: Icon }: { href: string; label: string; icon: LucideIcon }) => {
+	const MobileNavLink = ({
+		href,
+		label,
+		icon: Icon,
+	}: {
+		href: string;
+		label: string;
+		icon: LucideIcon;
+	}) => {
 		const isInternal = href.startsWith("/");
-		const className = "flex items-center gap-3 px-5 py-4 font-sans text-base font-semibold text-ink border-b border-line/60 hover:bg-brand-soft/30 hover:text-brand transition-colors";
+		const className =
+			"flex items-center gap-3 px-5 py-4 font-sans text-base font-semibold text-ink border-b border-line/60 hover:bg-brand-soft/30 hover:text-brand transition-colors";
 		const content = (
 			<>
 				<Icon className="h-5 w-5 text-ink-muted" aria-hidden="true" />
@@ -114,11 +141,7 @@ export function Nav() {
 		}
 
 		return (
-			<a
-				href={href}
-				onClick={() => setIsMenuOpen(false)}
-				className={className}
-			>
+			<a href={href} onClick={() => setIsMenuOpen(false)} className={className}>
 				{content}
 			</a>
 		);
@@ -162,7 +185,9 @@ export function Nav() {
 	return (
 		<header
 			className={`fixed top-0 z-[60] w-full transition-all duration-300 ${
-				isScrolled || isMenuOpen ? "bg-bg/90 shadow-sm backdrop-blur-md" : "bg-transparent"
+				isScrolled || isMenuOpen
+					? "bg-bg/90 shadow-sm backdrop-blur-md"
+					: "bg-transparent"
 			}`}
 		>
 			<nav className="mx-auto flex h-20 max-w-(--container-wide) items-center justify-between px-4 lg:px-8">
@@ -193,7 +218,15 @@ export function Nav() {
 				{/* Mobile actions */}
 				<div className="flex items-center gap-1 md:hidden">
 					<Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
-						<SheetTrigger render={<Button variant="ghost" size="icon" className="relative z-[60]" />}>
+						<SheetTrigger
+							render={
+								<Button
+									variant="ghost"
+									size="icon"
+									className="relative z-[60]"
+								/>
+							}
+						>
 							{isMenuOpen ? (
 								<X className="h-5 w-5" />
 							) : (

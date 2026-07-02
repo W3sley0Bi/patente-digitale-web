@@ -12,25 +12,25 @@ import { UserMenu } from "@/components/nav/UserMenu";
 
 const NAV_ITEMS = [
 	{
-		href: "/student/dashboard",
+		href: "/app/student",
 		icon: LayoutDashboard,
 		label: "student.nav.dashboard",
 		end: true,
 	},
 	{
-		href: "/student/dashboard/guide",
+		href: "/app/student/drive-bookings",
 		icon: Car,
 		label: "student.nav.guide",
 		end: false,
 	},
 	{
-		href: "/student/dashboard/profile",
+		href: "/app/student/profile",
 		icon: UserRound,
 		label: "student.nav.profile",
 		end: false,
 	},
 	{
-		href: "/student/dashboard/settings",
+		href: "/app/student/settings",
 		icon: Settings,
 		label: "student.nav.settings",
 		end: false,
@@ -55,7 +55,7 @@ export function StudentLayout({ children }: StudentLayoutProps) {
 			{/* Student top bar — logo links to student dashboard */}
 			<header className="fixed top-0 z-[60] w-full bg-bg/90 shadow-sm backdrop-blur-md">
 				<div className="mx-auto flex h-20 max-w-(--container-wide) items-center justify-between px-4 lg:px-8">
-					<Link to="/student/dashboard" className="flex items-center gap-2.5">
+					<Link to="/app/student" className="flex items-center gap-2.5">
 						<Mascot size="sm" />
 						<Wordmark />
 					</Link>
