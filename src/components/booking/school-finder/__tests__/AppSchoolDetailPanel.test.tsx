@@ -14,7 +14,9 @@ vi.mock("@/components/booking/EnrollButton", () => ({
 import { AppSchoolDetailPanel } from "@/components/booking/school-finder/AppSchoolDetailPanel";
 import type { NormalizedSchool } from "@/lib/geojson";
 
-function makeSchool(overrides: Partial<NormalizedSchool> = {}): NormalizedSchool {
+function makeSchool(
+	overrides: Partial<NormalizedSchool> = {},
+): NormalizedSchool {
 	return {
 		id: "school-1",
 		name: "Autoscuola Roma Centro",
@@ -60,7 +62,10 @@ describe("AppSchoolDetailPanel", () => {
 		render(<AppSchoolDetailPanel school={makeSchool()} onClose={vi.fn()} />);
 		const links = screen.queryAllByRole("link");
 		for (const link of links) {
-			expect(link).not.toHaveAttribute("href", expect.stringContaining("/search"));
+			expect(link).not.toHaveAttribute(
+				"href",
+				expect.stringContaining("/search"),
+			);
 			expect(link).not.toHaveAttribute(
 				"href",
 				expect.stringContaining("/app/signup/driving-school"),
