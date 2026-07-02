@@ -33,7 +33,22 @@ export function RequestsInbox({
 			listInstructors(schoolId),
 		]);
 		setBookings(b);
-		setInstructors(i.filter((x) => x.active));
+		const active = i.filter((x) => x.active);
+		setInstructors(active);
+		const activeIds = new Set(active.map((x) => x.id));
+		setPicked((prev) => {
+			const next = { ...prev };
+			for (const booking of b) {
+				if (
+					next[booking.id] === undefined &&
+					booking.preferred_instructor_id &&
+					activeIds.has(booking.preferred_instructor_id)
+				) {
+					next[booking.id] = booking.preferred_instructor_id;
+				}
+			}
+			return next;
+		});
 	};
 	useEffect(() => {
 		void load().catch(() => {});
