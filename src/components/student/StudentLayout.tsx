@@ -1,10 +1,4 @@
-import {
-	Car,
-	LayoutDashboard,
-	Search,
-	Settings,
-	UserRound,
-} from "lucide-react";
+import { Car, LayoutDashboard, Settings, UserRound } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Link, NavLink } from "react-router";
 import { Mascot, Wordmark } from "@/components/brand/Brand";
@@ -33,12 +27,6 @@ const NAV_ITEMS = [
 		href: "/app/student/settings",
 		icon: Settings,
 		label: "student.nav.settings",
-		end: false,
-	},
-	{
-		href: "/search",
-		icon: Search,
-		label: "student.nav.findSchool",
 		end: false,
 	},
 ];
