@@ -65,6 +65,8 @@ export function useCerca(): UseCercaReturn {
 
 	// Captured once on mount — a one-time initial-selection signal, not a persistent filter.
 	const initialPlaceIdRef = useRef(searchParams.get("placeId"));
+	// Latches once the auto-select effect has run, so it never fires more than once.
+	const autoSelectAttemptedRef = useRef(false);
 
 	useEffect(() => {
 		Promise.all([
@@ -101,8 +103,10 @@ export function useCerca(): UseCercaReturn {
 	// unless the user has already made an explicit selection.
 	useEffect(() => {
 		if (loading) return;
+		if (autoSelectAttemptedRef.current) return;
 		if (!initialPlaceIdRef.current) return;
-		if (selected) return;
+		autoSelectAttemptedRef.current = true;
+		if (selected) return; // user already picked something before load finished
 
 		const match = allSchoolsRef.current.find(
 			(s) => s._placeId === initialPlaceIdRef.current,

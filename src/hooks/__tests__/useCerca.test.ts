@@ -121,7 +121,7 @@ describe("useCerca placeId auto-select", () => {
 		expect(result.current.selected).toBeNull();
 	});
 
-	it("does not override an explicit user selection with the placeId match", async () => {
+	it("preserves a selection made before schools finish loading", async () => {
 		const { result } = renderHook(() => useCerca(), {
 			wrapper: placeIdWrapper,
 		});
@@ -133,5 +133,22 @@ describe("useCerca placeId auto-select", () => {
 		act(() => result.current.setSelected(otherSchool as never));
 		await waitFor(() => expect(result.current.loading).toBe(false));
 		expect(result.current.selected?._placeId).toBe("place-milano-nord");
+	});
+
+	it("lets the user deselect the auto-selected school and keeps it deselected", async () => {
+		const { result } = renderHook(() => useCerca(), {
+			wrapper: placeIdWrapper,
+		});
+		await waitFor(() => expect(result.current.loading).toBe(false));
+		await waitFor(() =>
+			expect(result.current.selected?._placeId).toBe("place-roma-centro"),
+		);
+
+		act(() => result.current.setSelected(null));
+		expect(result.current.selected).toBeNull();
+
+		// Wait a tick to ensure the auto-select effect doesn't re-fire and re-select.
+		await new Promise((resolve) => setTimeout(resolve, 0));
+		expect(result.current.selected).toBeNull();
 	});
 });
