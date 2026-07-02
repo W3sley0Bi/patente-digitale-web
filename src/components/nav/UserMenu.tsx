@@ -46,7 +46,7 @@ export function UserMenu({ onClose }: { onClose?: () => void }) {
 
 	if (!user) {
 		return (
-			<Link to="/login" onClick={onClose}>
+			<Link to="/app/login" onClick={onClose}>
 				<Button variant="ghost" size="sm" className="gap-1.5">
 					<User className="h-4 w-4" />
 					{t("landing.nav.signIn")}

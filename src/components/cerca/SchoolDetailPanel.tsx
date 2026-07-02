@@ -243,7 +243,7 @@ function PanelContent({ school, isVerified, onClose, t }: PanelContentProps) {
 							{t("cerca.detail.claimHint")}
 						</p>
 						<Link
-							to={`/signup/driving-school?placeId=${encodeURIComponent(school._placeId)}`}
+							to={`/app/signup/driving-school?placeId=${encodeURIComponent(school._placeId)}`}
 							onClick={(e) => e.stopPropagation()}
 							className="mt-1.5 inline-flex items-center gap-1 font-sans text-xs font-black text-brand hover:text-brand-hover"
 						>

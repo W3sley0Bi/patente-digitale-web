@@ -156,7 +156,7 @@ export default function Autoscuole() {
 									{t("autoscuole.hero.subhead")}
 								</p>
 								<div className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center">
-									<Link to="/signup/driving-school">
+									<Link to="/app/signup/driving-school">
 										<Button
 											size="lg"
 											className="h-14 px-8 rounded-pill bg-brand text-white hover:bg-brand-hover font-bold gap-2 shadow-cta"
@@ -571,7 +571,7 @@ export default function Autoscuole() {
 							</Reveal>
 							<Reveal delay={0.1}>
 								<div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-									<Link to="/signup/driving-school">
+									<Link to="/app/signup/driving-school">
 										<Button
 											size="lg"
 											className="h-14 px-10 rounded-pill bg-white text-brand hover:bg-white/90 font-bold text-base gap-2 shadow-lg"

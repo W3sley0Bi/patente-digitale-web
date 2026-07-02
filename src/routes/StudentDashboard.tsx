@@ -120,7 +120,7 @@ function LessonsGlance() {
 			</div>
 
 			<Link
-				to="/student/dashboard/guide"
+				to="/app/student/drive-bookings"
 				className="mt-5 inline-flex items-center gap-2 rounded-md bg-brand px-4 py-2.5 text-sm font-bold text-white transition-colors hover:bg-brand-hover"
 			>
 				{t("student.dashboard.goToGuide")}

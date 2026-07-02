@@ -45,12 +45,12 @@ export default function SetPassword() {
 	const [sessionExpired, setSessionExpired] = useState(false);
 
 	const dashboardHref =
-		role === "autoscuola" ? "/driving-school/dashboard" : "/student/dashboard";
+		role === "autoscuola" ? "/app/driving-school" : "/app/student";
 
 	// Redirect to /login if not authenticated and no hash error (ProtectedRoute defence-in-depth)
 	useEffect(() => {
 		if (!authLoading && !user && !hashError) {
-			navigate("/login", { replace: true });
+			navigate("/app/login", { replace: true });
 		}
 	}, [authLoading, user, hashError, navigate]);
 
@@ -140,7 +140,7 @@ export default function SetPassword() {
 						>
 							<p className="text-amber-800 text-sm">{hashErrorMessage}</p>
 							<Link
-								to="/login"
+								to="/app/login"
 								className="text-xs font-medium text-amber-900 underline underline-offset-2 self-start hover:opacity-70 transition-opacity"
 							>
 								{t("auth.requestNewLink")}
@@ -177,7 +177,7 @@ export default function SetPassword() {
 										{t("auth.errors.sessionExpired")}
 									</p>
 									<Link
-										to="/login"
+										to="/app/login"
 										className="text-xs font-medium text-amber-900 underline underline-offset-2 self-start hover:opacity-70 transition-opacity"
 									>
 										{t("auth.requestNewLink")}

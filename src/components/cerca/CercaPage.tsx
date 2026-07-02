@@ -1,13 +1,13 @@
+import { ChevronDown, ChevronUp, SlidersHorizontal } from "lucide-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router";
-import { ChevronDown, ChevronUp, SlidersHorizontal } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { useCerca } from "@/hooks/useCerca";
 import { FilterBar } from "./FilterBar";
 import { ResultsList } from "./ResultsList";
-import { SchoolMap } from "./SchoolMap";
 import { SchoolDetailPanel } from "./SchoolDetailPanel";
-import { Button } from "@/components/ui/button";
+import { SchoolMap } from "./SchoolMap";
 
 export function CercaPage() {
 	const { t } = useTranslation();
@@ -37,7 +37,9 @@ export function CercaPage() {
 	const filterKey = [city, region, zip, name].filter(Boolean).join("|");
 
 	const resultsCountLabel =
-		!loading && !error ? t("cerca.resultsCount", { count: results.length }) : null;
+		!loading && !error
+			? t("cerca.resultsCount", { count: results.length })
+			: null;
 
 	return (
 		<div className="flex h-full flex-col overflow-hidden px-4 md:px-8">
@@ -54,7 +56,11 @@ export function CercaPage() {
 						className="md:hidden flex items-center gap-2 text-ink-muted"
 					>
 						<SlidersHorizontal size={14} />
-						{isFiltersVisible ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+						{isFiltersVisible ? (
+							<ChevronUp size={16} />
+						) : (
+							<ChevronDown size={16} />
+						)}
 					</Button>
 				</div>
 
@@ -153,7 +159,7 @@ function OwnerCallout({ t }: { t: any }) {
 			<p className="font-sans text-xs text-ink-muted">
 				{t("cerca.ownerCallout.label")}{" "}
 				<Link
-					to="/signup/driving-school"
+					to="/app/signup/driving-school"
 					className="font-semibold text-brand hover:text-brand-hover transition-colors"
 				>
 					{t("cerca.ownerCallout.link")} →

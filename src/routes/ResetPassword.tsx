@@ -41,7 +41,7 @@ export default function ResetPassword() {
 							</p>
 							<button
 								type="button"
-								onClick={() => navigate("/login")}
+								onClick={() => navigate("/app/login")}
 								className="text-xs text-ink-muted hover:text-ink self-start transition-colors"
 							>
 								{t("auth.loginLink")} →

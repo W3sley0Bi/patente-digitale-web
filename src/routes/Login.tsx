@@ -56,9 +56,9 @@ export default function Login() {
 			return;
 		}
 		if (role === "autoscuola")
-			navigate("/driving-school/dashboard", { replace: true });
+			navigate("/app/driving-school", { replace: true });
 		else if (role === "student")
-			navigate("/student/dashboard", { replace: true });
+			navigate("/app/student", { replace: true });
 	}, [user, role, loading, navigate, searchParams]);
 
 	const goLogin = () => {
@@ -196,7 +196,7 @@ export default function Login() {
 								</button>
 								<button
 									type="button"
-									onClick={() => navigate("/signup/driving-school")}
+									onClick={() => navigate("/app/signup/driving-school")}
 									className="border rounded-xl p-4 text-left hover:border-ink transition-colors"
 								>
 									<div className="font-semibold text-sm">
@@ -221,7 +221,7 @@ export default function Login() {
 								<AuthForm
 									mode="signup"
 									role="student"
-									onSuccess={() => navigate("/student/dashboard")}
+									onSuccess={() => navigate("/app/student")}
 								/>
 							</div>
 						)}

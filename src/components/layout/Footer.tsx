@@ -116,7 +116,7 @@ export function Footer() {
 							))}
 							<li>
 								<Link
-									to="/login"
+									to="/app/login"
 									className="font-sans text-sm text-ink-muted hover:text-brand transition-colors"
 								>
 									{t("landing.nav.signIn")}

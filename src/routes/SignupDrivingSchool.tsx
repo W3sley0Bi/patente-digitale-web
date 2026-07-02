@@ -170,7 +170,7 @@ export default function SignupDrivingSchool() {
 		setStep("done");
 	};
 
-	const handleDone = () => navigate("/driving-school/dashboard");
+	const handleDone = () => navigate("/app/driving-school");
 
 	return (
 		<div className="min-h-screen bg-bg text-ink">
@@ -255,7 +255,7 @@ export default function SignupDrivingSchool() {
 								mode="magic-link"
 								role="autoscuola"
 								requireEmailDomain={domain}
-								emailRedirectTo={`${window.location.origin}/set-password?next=/driving-school/dashboard`}
+								emailRedirectTo={`${window.location.origin}/app/set-password?next=/app/driving-school`}
 								onSuccess={() => {
 									console.info(
 										"[domain-email onSuccess] storing domain_claim:",

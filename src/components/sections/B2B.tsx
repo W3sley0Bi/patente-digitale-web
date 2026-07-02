@@ -1,10 +1,10 @@
 import { ArrowRight } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router";
-import { Button } from "@/components/ui/button";
-import { Reveal } from "../motion/Reveal";
 import managerImage from "@/assets/autoscuola-manager-image.jpg";
 import verifiedBadge from "@/assets/verified-autoscuola-green.png";
+import { Button } from "@/components/ui/button";
+import { Reveal } from "../motion/Reveal";
 
 export function B2B() {
 	const { t } = useTranslation();
@@ -20,7 +20,6 @@ export function B2B() {
 
 			<div className="mx-auto max-w-(--container-wide) px-4 lg:px-8">
 				<div className="grid items-center gap-12 lg:grid-cols-12 lg:gap-16">
-					
 					{/* Image Column - First on Mobile */}
 					<div className="order-first lg:order-last lg:col-span-5">
 						<Reveal
@@ -36,7 +35,7 @@ export function B2B() {
 										loading="lazy"
 									/>
 								</div>
-								
+
 								{/* Verified Badge Overlay - Adjusted for Mobile first */}
 								<div className="absolute -top-12 -left-12 sm:-top-16 sm:-left-16 md:-top-24 md:-left-20 lg:-top-32 lg:-left-28 w-40 h-40 sm:w-48 sm:h-48 md:w-64 md:h-64 drop-shadow-[0_20px_50px_rgba(0,0,0,0.5)] animate-float z-10">
 									<img
@@ -64,7 +63,7 @@ export function B2B() {
 							</p>
 
 							<div className="mt-10 flex flex-col items-stretch gap-4 sm:flex-row sm:items-center sm:gap-6">
-								<Link to="/signup/driving-school" className="w-full sm:w-auto">
+								<Link to="/app/signup/driving-school" className="w-full sm:w-auto">
 									<Button
 										size="lg"
 										className="h-14 w-full px-8 rounded-pill bg-white text-ink hover:bg-brand hover:text-white transition-all duration-300 font-bold group shadow-md"
@@ -74,7 +73,7 @@ export function B2B() {
 									</Button>
 								</Link>
 								<Link
-									to="/autoscuole"
+									to="/driving-schools"
 									className="flex items-center justify-center gap-2 font-sans text-sm font-bold text-brand hover:text-brand-hover transition-colors px-4 py-3 rounded-lg hover:bg-white/5"
 								>
 									{t("landing.b2b.linkSecondary")}

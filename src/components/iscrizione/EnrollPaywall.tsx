@@ -1,8 +1,8 @@
+import type { LucideProps } from "lucide-react";
+import { ArrowRight, CreditCard, LogOut, UserPlus, X } from "lucide-react";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
-import { X, ArrowRight, CreditCard, LogOut, UserPlus } from "lucide-react";
-import type { LucideProps } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { useProfile } from "@/hooks/useProfile";
 
@@ -53,8 +53,8 @@ export function EnrollPaywall({
 
 	const isLoading = authLoading || profileLoading;
 	const nextParam = encodeURIComponent(returnTo);
-	const signupHref = `/login?tab=signup&next=${nextParam}`;
-	const loginHref = `/login?next=${nextParam}`;
+	const signupHref = `/app/login?tab=signup&next=${nextParam}`;
+	const loginHref = `/app/login?next=${nextParam}`;
 
 	const handleSignOut = async () => {
 		await signOut();
@@ -136,7 +136,9 @@ function StateHeader({
 			</div>
 			<div>
 				<h3 className="font-sans text-base font-black text-ink">{heading}</h3>
-				<p className="mt-1 font-sans text-sm text-ink-muted leading-relaxed">{body}</p>
+				<p className="mt-1 font-sans text-sm text-ink-muted leading-relaxed">
+					{body}
+				</p>
 			</div>
 		</div>
 	);

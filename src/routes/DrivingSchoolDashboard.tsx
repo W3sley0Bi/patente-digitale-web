@@ -192,7 +192,7 @@ export default function DrivingSchoolDashboard() {
 			</p>
 			<div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
 				<Link
-					to="/driving-school/dashboard/edit"
+					to="/app/driving-school/profile"
 					className="rounded-xl border border-line p-5 hover:border-brand/40 hover:bg-brand-soft/20 transition-colors group"
 				>
 					<p className="font-semibold text-sm group-hover:text-brand transition-colors">
@@ -203,7 +203,7 @@ export default function DrivingSchoolDashboard() {
 					</p>
 				</Link>
 				<Link
-					to="/driving-school/dashboard/guide"
+					to="/app/driving-school/drive-bookings"
 					className="rounded-xl border border-line p-5 hover:border-brand/40 hover:bg-brand-soft/20 transition-colors group"
 				>
 					<p className="font-semibold text-sm group-hover:text-brand transition-colors">
