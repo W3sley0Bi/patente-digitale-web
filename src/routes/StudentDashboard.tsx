@@ -1,7 +1,8 @@
-import { ArrowRight, CalendarClock, Search } from "lucide-react";
+import { ArrowRight, CalendarClock } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router";
+import { AppSchoolFinderPanel } from "@/components/booking/school-finder/AppSchoolFinderPanel";
 import { CalendarPreference } from "@/components/student/CalendarPreference";
 import { StatusChangeBanner } from "@/components/student/StatusChangeBanner";
 import { StudentLayout } from "@/components/student/StudentLayout";
@@ -32,20 +33,13 @@ function EnrollmentStatusCard({
 
 	const status = enrollment?.status;
 
-	// Not enrolled (or rejected/left) → point them to search
+	// Not enrolled (or rejected/left) → the finder panel renders below this card
 	if (!enrollment || status === "rejected" || status === "left") {
 		return (
 			<div className="mt-6 rounded-2xl border border-line bg-bg-raised p-6 text-center">
 				<p className="text-sm text-ink-muted">
 					{t("booking.student.notEnrolled")}
 				</p>
-				<Link
-					to="/search"
-					className="mt-4 inline-flex items-center gap-2 rounded-md bg-brand px-4 py-2 text-sm font-bold text-white transition-colors hover:bg-brand-hover"
-				>
-					<Search size={15} aria-hidden="true" />
-					{t("booking.student.findSchool")}
-				</Link>
 			</div>
 		);
 	}
@@ -227,6 +221,7 @@ export default function StudentDashboard() {
 					enrollment={enrollment}
 					school={school}
 				/>
+				{!loading && !isActive && <AppSchoolFinderPanel />}
 				<StatusChangeBanner />
 				<LessonsGlance />
 				{isActive && <CalendarPreference />}
