@@ -1,5 +1,6 @@
 import { lazy, Suspense } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router";
+import { AppHomeRedirect } from "@/components/auth/AppHomeRedirect";
 import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { AuthProvider } from "@/lib/AuthContext";
@@ -60,6 +61,7 @@ function App() {
 								element={<Navigate to="/search" replace />}
 							/>
 							<Route path="/partner" element={<Partner />} />
+							<Route path="/app" element={<AppHomeRedirect />} />
 							<Route path="/app/login" element={<Login />} />
 							<Route path="/app/reset-password" element={<ResetPassword />} />
 							<Route
