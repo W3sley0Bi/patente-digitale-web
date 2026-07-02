@@ -27,7 +27,12 @@
 			"notEnrolled": "You're not enrolled at a driving school yet.",
 			"findSchool": "Find your driving school",
 			"pending": "Request sent to {{school}} — awaiting approval.",
-			"enrolledAt": "Enrolled at {{school}}"
+			"enrolledAt": "Enrolled at {{school}}",
+			"schoolFinder": {
+				"title": "Find a driving school",
+				"closeModal": "Close",
+				"noSelection": "Select a driving school to see details"
+			}
 		},
 		"enroll": {
 			"cta": "Enroll at this school",

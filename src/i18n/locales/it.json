@@ -27,7 +27,12 @@
 			"notEnrolled": "Non sei ancora iscritto a un'autoscuola.",
 			"findSchool": "Trova la tua autoscuola",
 			"pending": "Richiesta inviata a {{school}} — in attesa di conferma.",
-			"enrolledAt": "Iscritto a {{school}}"
+			"enrolledAt": "Iscritto a {{school}}",
+			"schoolFinder": {
+				"title": "Trova un'autoscuola",
+				"closeModal": "Chiudi",
+				"noSelection": "Seleziona un'autoscuola per vederne i dettagli"
+			}
 		},
 		"enroll": {
 			"cta": "Iscriviti a questa autoscuola",

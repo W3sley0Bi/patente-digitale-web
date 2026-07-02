@@ -28,7 +28,12 @@
 			"notEnrolled": "لست مسجّلاً في مدرسة قيادة بعد.",
 			"findSchool": "ابحث عن مدرسة القيادة",
 			"pending": "تم إرسال الطلب إلى {{school}} — في انتظار الموافقة.",
-			"enrolledAt": "مسجّل في {{school}}"
+			"enrolledAt": "مسجّل في {{school}}",
+			"schoolFinder": {
+				"title": "ابحث عن مدرسة قيادة",
+				"closeModal": "إغلاق",
+				"noSelection": "اختر مدرسة قيادة لعرض التفاصيل"
+			}
 		},
 		"enroll": {
 			"cta": "سجّل في هذه المدرسة",
