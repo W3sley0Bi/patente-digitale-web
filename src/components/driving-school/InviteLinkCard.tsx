@@ -80,17 +80,17 @@ export function InviteLinkCard({ placeId, schoolName }: InviteLinkCardProps) {
 	};
 
 	return (
-		<div className="ml-auto flex w-full max-w-sm items-center gap-2 rounded-lg border border-line bg-bg p-2 sm:justify-end">
+		<div className="ml-auto flex w-full max-w-[13rem] flex-col items-center gap-2 rounded-lg border border-line bg-bg p-2.5">
 			{qrDataUrl && (
 				<img
 					src={qrDataUrl}
 					alt={t("school.editor.invite.qrAlt")}
-					width={44}
-					height={44}
-					className="shrink-0 rounded-md border border-line"
+					width={96}
+					height={96}
+					className="rounded-md border border-line"
 				/>
 			)}
-			<div className="flex min-w-0 flex-1 flex-col gap-1">
+			<div className="flex w-full flex-col items-center gap-1">
 				<div className="flex items-center gap-1">
 					<p className="truncate text-xs font-semibold text-ink">
 						{t("school.editor.invite.heading")}
@@ -107,19 +107,19 @@ export function InviteLinkCard({ placeId, schoolName }: InviteLinkCardProps) {
 						</TooltipContent>
 					</Tooltip>
 				</div>
-				<div className="flex items-center gap-1">
-					<input
-						readOnly
-						value={inviteUrl}
-						onFocus={(e) => e.currentTarget.select()}
-						aria-label={t("school.editor.invite.description")}
-						className="min-w-0 flex-1 rounded-md border border-line bg-bg-raised px-2 py-1 text-[11px] text-ink"
-					/>
+				<input
+					readOnly
+					value={inviteUrl}
+					onFocus={(e) => e.currentTarget.select()}
+					aria-label={t("school.editor.invite.description")}
+					className="w-full rounded-md border border-line bg-bg-raised px-2 py-1 text-center text-[11px] text-ink"
+				/>
+				<div className="flex w-full items-center gap-1">
 					<button
 						type="button"
 						onClick={handleCopy}
 						aria-live="polite"
-						className="shrink-0 rounded-md border border-line px-2 py-1 text-[11px] font-semibold text-ink hover:bg-line/30"
+						className="flex-1 rounded-md border border-line px-2 py-1 text-[11px] font-semibold text-ink hover:bg-line/30"
 					>
 						{copied
 							? t("school.editor.invite.copied")
@@ -130,7 +130,7 @@ export function InviteLinkCard({ placeId, schoolName }: InviteLinkCardProps) {
 							type="button"
 							onClick={handleDownloadPoster}
 							disabled={generatingPoster}
-							className="shrink-0 rounded-md border border-line px-2 py-1 text-[11px] font-semibold text-ink hover:bg-line/30 disabled:opacity-60"
+							className="flex-1 rounded-md border border-line px-2 py-1 text-[11px] font-semibold text-ink hover:bg-line/30 disabled:opacity-60"
 						>
 							{generatingPoster
 								? t("school.editor.invite.generatingPoster")
