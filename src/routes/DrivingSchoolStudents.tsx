@@ -3,6 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { EnrollmentsInbox } from "@/components/booking/EnrollmentsInbox";
 import { DrivingSchoolLayout } from "@/components/driving-school/DrivingSchoolLayout";
+import { InviteLinkCard } from "@/components/driving-school/InviteLinkCard";
 import { StudentEditSheet } from "@/components/driving-school/StudentEditSheet";
 import { useAuth } from "@/hooks/useAuth";
 import { type EnrolledStudent, listEnrolledStudents } from "@/lib/booking/api";
@@ -23,6 +24,7 @@ export default function DrivingSchoolStudents() {
 
 	const [schoolId, setSchoolId] = useState<string | null>(null);
 	const [schoolName, setSchoolName] = useState<string | null>(null);
+	const [placeId, setPlaceId] = useState<string | null>(null);
 	const [students, setStudents] = useState<EnrolledStudent[]>([]);
 	const [loading, setLoading] = useState(true);
 	const [query, setQuery] = useState("");
@@ -35,15 +37,20 @@ export default function DrivingSchoolStudents() {
 		if (!user) return;
 		supabase
 			.from("driving_schools")
-			.select("id, name")
+			.select("id, name, place_id")
 			.eq("user_id", user.id)
 			.eq("status", "accepted")
 			.order("created_at", { ascending: false })
 			.limit(1)
 			.maybeSingle()
 			.then(async ({ data }) => {
-				const row = data as { id: string; name: string | null } | null;
+				const row = data as {
+					id: string;
+					name: string | null;
+					place_id: string | null;
+				} | null;
 				setSchoolName(row?.name ?? null);
+				setPlaceId(row?.place_id ?? null);
 				if (row?.id) {
 					setSchoolId(row.id);
 					setStudents(await listEnrolledStudents(row.id).catch(() => []));
@@ -88,6 +95,18 @@ export default function DrivingSchoolStudents() {
 						: t("school.dashboard.studentsCount", { count: students.length })}
 				</p>
 			</header>
+
+			{placeId && (
+				<section className="mb-8">
+					<div className="mb-4 flex items-center gap-3">
+						<h2 className="text-xs font-bold uppercase tracking-[0.12em] text-ink-faint">
+							{t("school.editor.sections.invite")}
+						</h2>
+						<span className="h-px flex-1 bg-line" />
+					</div>
+					<InviteLinkCard placeId={placeId} />
+				</section>
+			)}
 
 			{schoolId && (
 				<section className="mb-8">

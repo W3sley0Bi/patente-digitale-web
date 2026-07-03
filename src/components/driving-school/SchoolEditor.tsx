@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
-import { InviteLinkCard } from "@/components/driving-school/InviteLinkCard";
 import { supabase } from "@/lib/supabase";
 
 export interface SchoolEditorData {
@@ -310,14 +309,6 @@ export function SchoolEditor({ initial, userId, onSaved }: SchoolEditorProps) {
 						className={inputCls}
 					/>
 				</label>
-			</fieldset>
-
-			{/* Invito studenti */}
-			<fieldset>
-				<legend className={sectionHeader}>
-					{t("school.editor.sections.invite")}
-				</legend>
-				<InviteLinkCard placeId={form.place_id} />
 			</fieldset>
 
 			{/* Contatti */}
