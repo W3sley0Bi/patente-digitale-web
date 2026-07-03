@@ -24,6 +24,7 @@ export function InviteLinkCard({ placeId, schoolName }: InviteLinkCardProps) {
 	const [copied, setCopied] = useState(false);
 	const [qrDataUrl, setQrDataUrl] = useState<string | null>(null);
 	const [generatingPoster, setGeneratingPoster] = useState(false);
+	const [infoOpen, setInfoOpen] = useState(false);
 	const copiedTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
 	const inviteUrl = `${window.location.origin}/cerca?placeId=${encodeURIComponent(placeId)}`;
@@ -89,9 +90,25 @@ export function InviteLinkCard({ placeId, schoolName }: InviteLinkCardProps) {
 				/>
 			)}
 			<div className="flex flex-1 flex-col gap-2">
-				<p className="text-sm text-ink-muted">
-					{t("school.editor.invite.description")}
-				</p>
+				<div className="flex items-center gap-1.5">
+					<p className="text-sm font-semibold text-ink">
+						{t("school.editor.invite.heading")}
+					</p>
+					<button
+						type="button"
+						onClick={() => setInfoOpen((v) => !v)}
+						aria-expanded={infoOpen}
+						aria-label={t("school.editor.invite.moreInfo")}
+						className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full border border-line text-[10px] font-bold text-ink-faint hover:border-line-strong hover:text-ink"
+					>
+						i
+					</button>
+				</div>
+				{infoOpen && (
+					<p className="text-xs text-ink-muted">
+						{t("school.editor.invite.description")}
+					</p>
+				)}
 				<div className="flex flex-wrap items-center gap-2">
 					<input
 						readOnly

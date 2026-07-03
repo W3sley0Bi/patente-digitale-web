@@ -390,6 +390,8 @@
 				"social": "Social"
 			},
 			"invite": {
+				"heading": "Invita studenti con QR!",
+				"moreInfo": "Maggiori informazioni",
 				"description": "Condividi questo link o il codice QR con i tuoi studenti: chi lo apre viene portato dritto alla pagina di iscrizione a questa autoscuola.",
 				"copy": "Copia link",
 				"copied": "Copiato!",

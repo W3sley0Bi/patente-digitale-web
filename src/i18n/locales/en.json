@@ -387,6 +387,8 @@
 				"social": "Social"
 			},
 			"invite": {
+				"heading": "Invite students with a QR code!",
+				"moreInfo": "More information",
 				"description": "Share this link or QR code with your students — anyone who opens it lands straight on the enrollment page for this school.",
 				"copy": "Copy link",
 				"copied": "Copied!",

@@ -26,6 +26,26 @@ describe("InviteLinkCard", () => {
 		vi.restoreAllMocks();
 	});
 
+	it("shows the short heading and hides the longer description until the info toggle is opened", async () => {
+		const user = userEvent.setup();
+		render(<InviteLinkCard placeId="place-42" schoolName="Autoscuola Test" />);
+
+		expect(
+			screen.getByText("school.editor.invite.heading"),
+		).toBeInTheDocument();
+		expect(
+			screen.queryByText("school.editor.invite.description"),
+		).not.toBeInTheDocument();
+
+		await user.click(
+			screen.getByLabelText("school.editor.invite.moreInfo"),
+		);
+
+		expect(
+			screen.getByText("school.editor.invite.description"),
+		).toBeInTheDocument();
+	});
+
 	it("shows the invite link built from the school's place_id", () => {
 		render(<InviteLinkCard placeId="place-42" schoolName="Autoscuola Test" />);
 		const input = screen.getByDisplayValue(
