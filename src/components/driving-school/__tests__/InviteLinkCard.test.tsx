@@ -26,7 +26,7 @@ describe("InviteLinkCard", () => {
 		vi.restoreAllMocks();
 	});
 
-	it("shows the short heading and hides the longer description until the info toggle is opened", async () => {
+	it("shows the short heading and reveals the longer description in a tooltip on hover", async () => {
 		const user = userEvent.setup();
 		render(<InviteLinkCard placeId="place-42" schoolName="Autoscuola Test" />);
 
@@ -37,12 +37,16 @@ describe("InviteLinkCard", () => {
 			screen.queryByText("school.editor.invite.description"),
 		).not.toBeInTheDocument();
 
-		await user.click(
+		await user.hover(
 			screen.getByLabelText("school.editor.invite.moreInfo"),
 		);
 
 		expect(
-			screen.getByText("school.editor.invite.description"),
+			await screen.findByText(
+				"school.editor.invite.description",
+				{},
+				{ timeout: 2000 },
+			),
 		).toBeInTheDocument();
 	});
 
