@@ -79,15 +79,19 @@ export async function getAcceptedSchoolByPlaceId(placeId: string): Promise<{
 	);
 }
 
+/** Prefers an active enrollment over a stale pending one at another school
+ * (a student can hold a pending request elsewhere while already active
+ * somewhere else — see approve_enrollment, which only decides the row it's
+ * given). Fetches all matching rows and picks deterministically in JS rather
+ * than relying on an unspecified Postgres row order. */
 export async function getMyEnrollment(): Promise<Enrollment | null> {
 	const { data, error } = await supabase
 		.from("enrollments")
 		.select("*")
-		.in("status", ["pending", "active"])
-		.limit(1)
-		.maybeSingle();
+		.in("status", ["pending", "active"]);
 	if (error) throw error;
-	return (data as Enrollment) ?? null;
+	const rows = (data as Enrollment[]) ?? [];
+	return rows.find((r) => r.status === "active") ?? rows[0] ?? null;
 }
 
 /** Current student's saved phone, for prefilling the enrollment dialog. */
