@@ -96,7 +96,7 @@ export default function DrivingSchoolStudents() {
 				</p>
 			</header>
 
-			{placeId && (
+			{placeId && schoolName && (
 				<section className="mb-8">
 					<div className="mb-4 flex items-center gap-3">
 						<h2 className="text-xs font-bold uppercase tracking-[0.12em] text-ink-faint">
@@ -104,7 +104,7 @@ export default function DrivingSchoolStudents() {
 						</h2>
 						<span className="h-px flex-1 bg-line" />
 					</div>
-					<InviteLinkCard placeId={placeId} />
+					<InviteLinkCard placeId={placeId} schoolName={schoolName} />
 				</section>
 			)}
 

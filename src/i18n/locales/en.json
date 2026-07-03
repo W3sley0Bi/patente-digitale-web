@@ -391,6 +391,8 @@
 				"copy": "Copy link",
 				"copied": "Copied!",
 				"downloadQr": "Download QR",
+				"generatingPoster": "Generating…",
+				"posterTagline": "Scan to enroll online",
 				"qrAlt": "Enrollment QR code"
 			},
 			"priceFor": "{{licence}} price (€)",

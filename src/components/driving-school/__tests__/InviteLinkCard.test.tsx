@@ -1,6 +1,6 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { describe, expect, it, vi } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 
 vi.mock("react-i18next", () => ({
 	useTranslation: () => ({ t: (key: string) => key }),
@@ -12,11 +12,22 @@ vi.mock("qrcode", () => ({
 	},
 }));
 
+vi.mock("@/lib/invitePoster", () => ({
+	generateInvitePosterDataUrl: vi
+		.fn()
+		.mockResolvedValue("data:image/png;base64,fake-poster"),
+}));
+
 import { InviteLinkCard } from "@/components/driving-school/InviteLinkCard";
+import { generateInvitePosterDataUrl } from "@/lib/invitePoster";
 
 describe("InviteLinkCard", () => {
+	afterEach(() => {
+		vi.restoreAllMocks();
+	});
+
 	it("shows the invite link built from the school's place_id", () => {
-		render(<InviteLinkCard placeId="place-42" />);
+		render(<InviteLinkCard placeId="place-42" schoolName="Autoscuola Test" />);
 		const input = screen.getByDisplayValue(
 			`${window.location.origin}/cerca?placeId=place-42`,
 		);
@@ -24,7 +35,7 @@ describe("InviteLinkCard", () => {
 	});
 
 	it("renders the generated QR code image once ready", async () => {
-		render(<InviteLinkCard placeId="place-42" />);
+		render(<InviteLinkCard placeId="place-42" schoolName="Autoscuola Test" />);
 		const img = await screen.findByAltText("school.editor.invite.qrAlt");
 		expect(img).toHaveAttribute("src", "data:image/png;base64,fake");
 	});
@@ -39,7 +50,7 @@ describe("InviteLinkCard", () => {
 			configurable: true,
 		});
 
-		render(<InviteLinkCard placeId="place-42" />);
+		render(<InviteLinkCard placeId="place-42" schoolName="Autoscuola Test" />);
 		await user.click(screen.getByText("school.editor.invite.copy"));
 
 		expect(writeText).toHaveBeenCalledWith(
@@ -52,16 +63,56 @@ describe("InviteLinkCard", () => {
 		);
 	});
 
-	it("offers a download link for the QR image once ready", async () => {
-		render(<InviteLinkCard placeId="place-42" />);
-		const link = await screen.findByText("school.editor.invite.downloadQr");
-		expect(link.closest("a")).toHaveAttribute(
-			"href",
-			"data:image/png;base64,fake",
+	it("generates and downloads an A4 poster (not the bare QR) when the download button is clicked", async () => {
+		const clickSpy = vi
+			.spyOn(HTMLAnchorElement.prototype, "click")
+			.mockImplementation(() => {});
+		const user = userEvent.setup();
+
+		render(<InviteLinkCard placeId="place-42" schoolName="Autoscuola Test" />);
+		await user.click(
+			await screen.findByText("school.editor.invite.downloadQr"),
 		);
-		expect(link.closest("a")).toHaveAttribute(
-			"download",
-			"invito-autoscuola-place-42.png",
+
+		await waitFor(() => expect(clickSpy).toHaveBeenCalledTimes(1));
+
+		expect(generateInvitePosterDataUrl).toHaveBeenCalledWith({
+			schoolName: "Autoscuola Test",
+			inviteUrl: `${window.location.origin}/cerca?placeId=place-42`,
+			tagline: "school.editor.invite.posterTagline",
+		});
+
+		const link = clickSpy.mock.instances[0] as unknown as HTMLAnchorElement;
+		expect(link.href).toBe("data:image/png;base64,fake-poster");
+		expect(link.download).toBe("invito-autoscuola-place-42.png");
+	});
+
+	it("shows a generating state while the poster is being built", async () => {
+		vi.spyOn(HTMLAnchorElement.prototype, "click").mockImplementation(
+			() => {},
+		);
+		let resolvePoster!: (url: string) => void;
+		vi.mocked(generateInvitePosterDataUrl).mockReturnValueOnce(
+			new Promise((resolve) => {
+				resolvePoster = resolve;
+			}),
+		);
+		const user = userEvent.setup();
+
+		render(<InviteLinkCard placeId="place-42" schoolName="Autoscuola Test" />);
+		await user.click(
+			await screen.findByText("school.editor.invite.downloadQr"),
+		);
+
+		expect(
+			screen.getByText("school.editor.invite.generatingPoster"),
+		).toBeInTheDocument();
+
+		resolvePoster("data:image/png;base64,fake-poster");
+		await waitFor(() =>
+			expect(
+				screen.getByText("school.editor.invite.downloadQr"),
+			).toBeInTheDocument(),
 		);
 	});
 });

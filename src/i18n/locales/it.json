@@ -394,6 +394,8 @@
 				"copy": "Copia link",
 				"copied": "Copiato!",
 				"downloadQr": "Scarica QR",
+				"generatingPoster": "Creazione…",
+				"posterTagline": "Scansiona per iscriverti online",
 				"qrAlt": "Codice QR per l'iscrizione"
 			},
 			"priceFor": "Prezzo {{licence}} (€)",

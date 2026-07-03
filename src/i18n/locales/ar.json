@@ -371,6 +371,8 @@
 				"copy": "نسخ الرابط",
 				"copied": "تم النسخ!",
 				"downloadQr": "تنزيل رمز QR",
+				"generatingPoster": "جارٍ الإنشاء…",
+				"posterTagline": "امسح للتسجيل عبر الإنترنت",
 				"qrAlt": "رمز QR للتسجيل"
 			},
 			"saving": "جارٍ الحفظ...",
