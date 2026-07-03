@@ -59,6 +59,10 @@ function renderLogin(initialPath: string) {
 					}
 				/>
 				<Route path="/app/student" element={<div>Student dashboard</div>} />
+				<Route
+					path="/app/driving-school"
+					element={<div>Driving school dashboard</div>}
+				/>
 			</Routes>
 		</MemoryRouter>,
 	);
@@ -84,8 +88,11 @@ describe("Login next-param preservation", () => {
 	});
 
 	it("navigates to next on signup success instead of the hardcoded dashboard", async () => {
+		// `next` points somewhere clearly distinct from the hardcoded
+		// "/app/student" fallback so this test can only pass if onSuccess
+		// genuinely reads searchParams.get("next").
 		const user = userEvent.setup();
-		renderLogin("/app/login?next=%2Fapp%2Fstudent%3FplaceId%3Dplace-1");
+		renderLogin("/app/login?next=%2Fapp%2Fdriving-school");
 
 		await user.click(screen.getByText("auth.signupLink"));
 		await user.click(screen.getByText("auth.student.title"));
@@ -93,6 +100,8 @@ describe("Login next-param preservation", () => {
 		expect(mockOnSuccess.current).not.toBeNull();
 		mockOnSuccess.current?.();
 
-		expect(await screen.findByText("Student dashboard")).toBeInTheDocument();
+		expect(
+			await screen.findByText("Driving school dashboard"),
+		).toBeInTheDocument();
 	});
 });
