@@ -63,12 +63,26 @@ export default function Login() {
 
 	const goLogin = () => {
 		setView("login");
-		setSearchParams({}, { replace: true });
+		setSearchParams(
+			(p) => {
+				const n = new URLSearchParams(p);
+				n.delete("tab");
+				return n;
+			},
+			{ replace: true },
+		);
 	};
 
 	const goSignup = () => {
 		setView("signup-pick");
-		setSearchParams({ tab: "signup" }, { replace: true });
+		setSearchParams(
+			(p) => {
+				const n = new URLSearchParams(p);
+				n.set("tab", "signup");
+				return n;
+			},
+			{ replace: true },
+		);
 	};
 
 	const heading =
@@ -221,7 +235,9 @@ export default function Login() {
 								<AuthForm
 									mode="signup"
 									role="student"
-									onSuccess={() => navigate("/app/student")}
+									onSuccess={() =>
+										navigate(searchParams.get("next") || "/app/student")
+									}
 								/>
 							</div>
 						)}
