@@ -382,11 +382,19 @@
 			},
 			"sections": {
 				"identity": "Identità",
+				"invite": "Invito studenti",
 				"contacts": "Contatti",
 				"address": "Indirizzo",
 				"hours": "Orari",
 				"licenses": "Patenti e prezzi",
 				"social": "Social"
+			},
+			"invite": {
+				"description": "Condividi questo link o il codice QR con i tuoi studenti: chi lo apre viene portato dritto alla pagina di iscrizione a questa autoscuola.",
+				"copy": "Copia link",
+				"copied": "Copiato!",
+				"downloadQr": "Scarica QR",
+				"qrAlt": "Codice QR per l'iscrizione"
 			},
 			"priceFor": "Prezzo {{licence}} (€)",
 			"licenses": "Patenti erogate",

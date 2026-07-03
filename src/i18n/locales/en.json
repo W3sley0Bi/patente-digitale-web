@@ -379,11 +379,19 @@
 			},
 			"sections": {
 				"identity": "Identity",
+				"invite": "Student invite",
 				"contacts": "Contacts",
 				"address": "Address",
 				"hours": "Hours",
 				"licenses": "Licenses and prices",
 				"social": "Social"
+			},
+			"invite": {
+				"description": "Share this link or QR code with your students — anyone who opens it lands straight on the enrollment page for this school.",
+				"copy": "Copy link",
+				"copied": "Copied!",
+				"downloadQr": "Download QR",
+				"qrAlt": "Enrollment QR code"
 			},
 			"priceFor": "{{licence}} price (€)",
 			"licenses": "Licenses offered",
