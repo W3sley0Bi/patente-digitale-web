@@ -40,6 +40,7 @@
 			"cta": "Enroll at this school",
 			"pending": "Request sent, awaiting approval",
 			"active": "You're enrolled",
+			"blockedElsewhere": "You're already enrolled at another school",
 			"error": "Could not send request",
 			"dialogTitle": "Request enrollment",
 			"dialogSubtitle": "Complete these details to send your request to the school.",

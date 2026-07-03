@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useSearchParams } from "react-router";
 import { EnrollDialog } from "@/components/booking/EnrollDialog";
 import {
 	getAcceptedSchoolByPlaceId,
@@ -7,20 +8,28 @@ import {
 	requestEnrollment,
 } from "@/lib/booking/api";
 
+type Status = "none" | "pending" | "active" | "blocked";
+
 /**
  * Enroll entry point shown on a school's detail panel. The search data is keyed
  * by place_id, so we resolve it to the accepted driving_schools row before enrolling.
  * Renders nothing unless the place_id maps to an accepted school with booking enabled.
+ *
+ * When this school's place_id matches the page's ?placeId= query param (an
+ * invite link / QR deep link), the request dialog opens automatically once,
+ * instead of waiting for a manual tap.
  */
 export function EnrollButton({ placeId }: { placeId: string }) {
 	const { t } = useTranslation();
+	const [searchParams] = useSearchParams();
 	const [school, setSchool] = useState<{
 		id: string;
 		email: string | null;
 	} | null>(null);
-	const [status, setStatus] = useState<"none" | "pending" | "active">("none");
+	const [status, setStatus] = useState<Status>("none");
 	const [dialogOpen, setDialogOpen] = useState(false);
 	const [ready, setReady] = useState(false);
+	const autoOpenedRef = useRef(false);
 
 	useEffect(() => {
 		let cancelled = false;
@@ -38,8 +47,14 @@ export function EnrollButton({ placeId }: { placeId: string }) {
 				setSchool({ id: s.id, email: s.email });
 				const e = await getMyEnrollment();
 				if (cancelled) return;
-				if (e && e.school_id === s.id)
+				if (e && e.school_id === s.id) {
 					setStatus(e.status === "active" ? "active" : "pending");
+				} else if (e && e.status === "active") {
+					// Active at a *different* school — the DB only allows one
+					// active enrollment per student, so block instead of letting
+					// the request fail with an unhandled constraint error.
+					setStatus("blocked");
+				}
 			} catch {
 				/* leave hidden on resolve failure */
 			} finally {
@@ -50,6 +65,14 @@ export function EnrollButton({ placeId }: { placeId: string }) {
 			cancelled = true;
 		};
 	}, [placeId]);
+
+	useEffect(() => {
+		if (autoOpenedRef.current) return;
+		if (!ready || status !== "none") return;
+		if (searchParams.get("placeId") !== placeId) return;
+		autoOpenedRef.current = true;
+		setDialogOpen(true);
+	}, [ready, status, placeId, searchParams]);
 
 	if (!ready || !school) return null;
 
@@ -74,6 +97,12 @@ export function EnrollButton({ placeId }: { placeId: string }) {
 		return (
 			<span className="text-sm text-ink-muted">
 				{t("booking.enroll.pending")}
+			</span>
+		);
+	if (status === "blocked")
+		return (
+			<span className="text-sm text-ink-muted">
+				{t("booking.enroll.blockedElsewhere")}
 			</span>
 		);
 	return (

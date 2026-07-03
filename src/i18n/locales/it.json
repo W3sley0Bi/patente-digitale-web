@@ -40,6 +40,7 @@
 			"cta": "Iscriviti a questa autoscuola",
 			"pending": "Richiesta inviata, in attesa di conferma",
 			"active": "Sei iscritto",
+			"blockedElsewhere": "Sei già iscritto a un'altra autoscuola",
 			"error": "Impossibile inviare la richiesta",
 			"dialogTitle": "Richiedi l'iscrizione",
 			"dialogSubtitle": "Completa questi dati per inviare la richiesta all'autoscuola.",
