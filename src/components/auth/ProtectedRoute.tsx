@@ -22,7 +22,7 @@ export function ProtectedRoute({
 	if (!user) {
 		return (
 			<Navigate
-				to={`/app/login?next=${encodeURIComponent(location.pathname)}`}
+				to={`/app/login?next=${encodeURIComponent(location.pathname + location.search)}`}
 				replace
 			/>
 		);

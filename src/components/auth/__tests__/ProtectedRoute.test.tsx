@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import { MemoryRouter, Route, Routes } from "react-router";
+import { MemoryRouter, Route, Routes, useSearchParams } from "react-router";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 vi.mock("@/hooks/useAuth", () => ({ useAuth: vi.fn() }));
@@ -9,12 +9,18 @@ import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 import { useAuth } from "@/hooks/useAuth";
 import { useProfile } from "@/hooks/useProfile";
 
-function Wrap({ element }: { element: React.ReactNode }) {
+function Wrap({
+	element,
+	initialPath = "/protected",
+}: {
+	element: React.ReactNode;
+	initialPath?: string;
+}) {
 	return (
-		<MemoryRouter initialEntries={["/protected"]}>
+		<MemoryRouter initialEntries={[initialPath]}>
 			<Routes>
 				<Route path="/protected" element={element} />
-				<Route path="/app/login" element={<div>Login page</div>} />
+				<Route path="/app/login" element={<LoginProbe />} />
 				<Route
 					path="/app/driving-school"
 					element={<div>DS dashboard</div>}
@@ -22,6 +28,11 @@ function Wrap({ element }: { element: React.ReactNode }) {
 			</Routes>
 		</MemoryRouter>
 	);
+}
+
+function LoginProbe() {
+	const [params] = useSearchParams();
+	return <div>Login page next={params.get("next")}</div>;
 }
 
 describe("ProtectedRoute", () => {
@@ -52,8 +63,24 @@ describe("ProtectedRoute", () => {
 				}
 			/>,
 		);
-		expect(screen.getByText("Login page")).toBeInTheDocument();
+		expect(screen.getByText("Login page next=/protected")).toBeInTheDocument();
 		expect(screen.queryByText("Secret")).not.toBeInTheDocument();
+	});
+
+	it("preserves the query string in the next redirect", () => {
+		render(
+			<Wrap
+				initialPath="/protected?placeId=abc123"
+				element={
+					<ProtectedRoute requiredRole="student">
+						<div>Secret</div>
+					</ProtectedRoute>
+				}
+			/>,
+		);
+		expect(
+			screen.getByText("Login page next=/protected?placeId=abc123"),
+		).toBeInTheDocument();
 	});
 
 	it("renders children when role matches", () => {
