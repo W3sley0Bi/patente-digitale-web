@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useSearchParams } from "react-router";
+import { EnrollBlockedDialog } from "@/components/booking/EnrollBlockedDialog";
 import { EnrollDialog } from "@/components/booking/EnrollDialog";
 import {
 	getAcceptedSchoolByPlaceId,
@@ -15,19 +15,34 @@ type Status = "none" | "pending" | "active" | "blocked";
  * by place_id, so we resolve it to the accepted driving_schools row before enrolling.
  * Renders nothing unless the place_id maps to an accepted school with booking enabled.
  *
- * When this school's place_id matches the page's ?placeId= query param (an
- * invite link / QR deep link), the request dialog opens automatically once,
- * instead of waiting for a manual tap.
+ * `autoOpen` is set by the caller when this school was reached via the initial
+ * ?placeId= deep link (invite link / QR). It opens the request dialog once
+ * without waiting for a manual tap — or, when the student is blocked because
+ * of an active enrollment at another school, an explanatory modal instead.
+ * It must NOT be derived from the live URL: selecting a school also writes
+ * placeId= to the URL (useCerca selection sync), and that must never
+ * auto-open anything.
  */
-export function EnrollButton({ placeId }: { placeId: string }) {
+export function EnrollButton({
+	placeId,
+	autoOpen = false,
+	schoolName,
+	schoolAddress,
+}: {
+	placeId: string;
+	autoOpen?: boolean;
+	/** Displayed in the enroll dialog so the student can confirm the school. */
+	schoolName?: string;
+	schoolAddress?: string;
+}) {
 	const { t } = useTranslation();
-	const [searchParams] = useSearchParams();
 	const [school, setSchool] = useState<{
 		id: string;
 		email: string | null;
 	} | null>(null);
 	const [status, setStatus] = useState<Status>("none");
 	const [dialogOpen, setDialogOpen] = useState(false);
+	const [blockedDialogOpen, setBlockedDialogOpen] = useState(false);
 	const [ready, setReady] = useState(false);
 	const autoOpenedRef = useRef(false);
 
@@ -66,13 +81,19 @@ export function EnrollButton({ placeId }: { placeId: string }) {
 		};
 	}, [placeId]);
 
+	// Deep-link auto-open: fires at most once per mount, and only when the
+	// caller flagged this school as the initial deep-link target.
 	useEffect(() => {
 		if (autoOpenedRef.current) return;
-		if (!ready || status !== "none") return;
-		if (searchParams.get("placeId") !== placeId) return;
-		autoOpenedRef.current = true;
-		setDialogOpen(true);
-	}, [ready, status, placeId, searchParams]);
+		if (!autoOpen || !ready) return;
+		if (status === "none") {
+			autoOpenedRef.current = true;
+			setDialogOpen(true);
+		} else if (status === "blocked") {
+			autoOpenedRef.current = true;
+			setBlockedDialogOpen(true);
+		}
+	}, [autoOpen, ready, status]);
 
 	if (!ready || !school) return null;
 
@@ -101,9 +122,15 @@ export function EnrollButton({ placeId }: { placeId: string }) {
 		);
 	if (status === "blocked")
 		return (
-			<span className="text-sm text-ink-muted">
-				{t("booking.enroll.blockedElsewhere")}
-			</span>
+			<>
+				<span className="text-sm text-ink-muted">
+					{t("booking.enroll.blockedElsewhere")}
+				</span>
+				<EnrollBlockedDialog
+					open={blockedDialogOpen}
+					onOpenChange={setBlockedDialogOpen}
+				/>
+			</>
 		);
 	return (
 		<div>
@@ -118,6 +145,8 @@ export function EnrollButton({ placeId }: { placeId: string }) {
 				open={dialogOpen}
 				onOpenChange={setDialogOpen}
 				onConfirm={handleConfirm}
+				schoolName={schoolName}
+				schoolAddress={schoolAddress}
 			/>
 		</div>
 	);

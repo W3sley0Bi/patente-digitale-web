@@ -1,13 +1,18 @@
 import { ArrowRight, CalendarClock } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router";
+import { Link, useSearchParams } from "react-router";
+import { EnrollBlockedDialog } from "@/components/booking/EnrollBlockedDialog";
 import { AppSchoolFinderPanel } from "@/components/booking/school-finder/AppSchoolFinderPanel";
 import { CalendarPreference } from "@/components/student/CalendarPreference";
 import { StatusChangeBanner } from "@/components/student/StatusChangeBanner";
 import { StudentLayout } from "@/components/student/StudentLayout";
 import { useProfile } from "@/hooks/useProfile";
-import { getMyEnrollment, listMyBookings } from "@/lib/booking/api";
+import {
+	getAcceptedSchoolByPlaceId,
+	getMyEnrollment,
+	listMyBookings,
+} from "@/lib/booking/api";
 import { effectiveStatus } from "@/lib/booking/helpers";
 import type { Booking, Enrollment } from "@/lib/booking/types";
 import { supabase } from "@/lib/supabase";
@@ -53,6 +58,42 @@ function EnrollmentStatusCard({
 			</p>
 		</div>
 	);
+}
+
+/**
+ * Handles an enrollment deep link (?placeId=) for students who already have an
+ * ACTIVE enrollment. In that case the school finder isn't rendered at all, so
+ * EnrollButton can never surface its "blocked" state — this covers the gap by
+ * popping a dismissable modal explaining that the account can't enroll at
+ * another school. Arriving with the placeId of the school they're already
+ * enrolled at shows nothing: the status card above already says so.
+ */
+function DeepLinkBlockedCheck({ enrollment }: { enrollment: Enrollment }) {
+	const [searchParams] = useSearchParams();
+	// Only the placeId present when the dashboard mounted counts as a deep link.
+	const deepLinkPlaceIdRef = useRef(searchParams.get("placeId"));
+	const checkedRef = useRef(false);
+	const [open, setOpen] = useState(false);
+
+	useEffect(() => {
+		const placeId = deepLinkPlaceIdRef.current;
+		if (!placeId || checkedRef.current) return;
+		checkedRef.current = true;
+		let cancelled = false;
+		getAcceptedSchoolByPlaceId(placeId)
+			.then((s) => {
+				// Different school than the active enrollment → explain the block.
+				if (!cancelled && s && s.id !== enrollment.school_id) setOpen(true);
+			})
+			.catch(() => {
+				/* unresolvable placeId → nothing to explain */
+			});
+		return () => {
+			cancelled = true;
+		};
+	}, [enrollment.school_id]);
+
+	return <EnrollBlockedDialog open={open} onOpenChange={setOpen} />;
 }
 
 function LessonsGlance() {
@@ -222,6 +263,9 @@ export default function StudentDashboard() {
 					school={school}
 				/>
 				{!loading && !isActive && <AppSchoolFinderPanel />}
+				{!loading && isActive && enrollment && (
+					<DeepLinkBlockedCheck enrollment={enrollment} />
+				)}
 				<StatusChangeBanner />
 				<LessonsGlance />
 				{isActive && <CalendarPreference />}

@@ -20,6 +20,13 @@ interface UseCercaReturn {
 	results: NormalizedSchool[];
 	cityOptions: string[];
 	selected: NormalizedSchool | null;
+	/**
+	 * The ?placeId= captured from the URL on mount (an invite link / QR deep
+	 * link). Cleared as soon as the user makes a manual selection, so consumers
+	 * (e.g. EnrollButton auto-open) can distinguish the initial deep link from
+	 * placeId values later written to the URL by selection sync.
+	 */
+	deepLinkPlaceId: string | null;
 	loading: boolean;
 	error: string | null;
 	setCity: (v: string) => void;
@@ -63,8 +70,12 @@ export function useCerca(): UseCercaReturn {
 
 	const allSchoolsRef = useRef<NormalizedSchool[]>([]);
 
-	// Captured once on mount — a one-time initial-selection signal, not a persistent filter.
-	const initialPlaceIdRef = useRef(searchParams.get("placeId"));
+	// Captured once on mount — a one-time initial-selection signal, not a
+	// persistent filter. Cleared on manual selection so it can only ever drive
+	// the initial deep-link flow (auto-select + auto-open enroll dialog).
+	const [deepLinkPlaceId, setDeepLinkPlaceId] = useState<string | null>(() =>
+		searchParams.get("placeId"),
+	);
 	// Latches once the auto-select effect has run, so it never fires more than once.
 	const autoSelectAttemptedRef = useRef(false);
 
@@ -104,18 +115,21 @@ export function useCerca(): UseCercaReturn {
 	useEffect(() => {
 		if (loading) return;
 		if (autoSelectAttemptedRef.current) return;
-		if (!initialPlaceIdRef.current) return;
+		if (!deepLinkPlaceId) return;
 		autoSelectAttemptedRef.current = true;
 		if (selected) return; // user already picked something before load finished
 
 		const match = allSchoolsRef.current.find(
-			(s) => s._placeId === initialPlaceIdRef.current,
+			(s) => s._placeId === deepLinkPlaceId,
 		);
 		if (match) {
 			setSelectedState(match);
+		} else {
+			// Nothing to auto-select — the deep link is spent.
+			setDeepLinkPlaceId(null);
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [loading, selected]);
+	}, [loading, selected, deepLinkPlaceId]);
 
 	// Sync state TO URL — debounced for text, immediate for toggles
 	useEffect(() => {
@@ -134,6 +148,12 @@ export function useCerca(): UseCercaReturn {
 					filters.enrollmentOnly
 						? n.set("enrollment", "1")
 						: n.delete("enrollment");
+					// Keep the selected school shareable/restorable via the URL.
+					// While the initial deep link hasn't been consumed yet (data
+					// still loading), leave its placeId in place instead of
+					// wiping it before auto-select had a chance to run.
+					const urlPlaceId = selected ? selected._placeId : deepLinkPlaceId;
+					urlPlaceId ? n.set("placeId", urlPlaceId) : n.delete("placeId");
 					return n;
 				},
 				{ replace: true },
@@ -141,7 +161,7 @@ export function useCerca(): UseCercaReturn {
 		}, 300); // Small debounce to avoid thrashing URL bar
 
 		return () => clearTimeout(timer);
-	}, [filters, setSearchParams]);
+	}, [filters, selected, deepLinkPlaceId, setSearchParams]);
 
 	// Filtered results — used for both the list and the map
 	const results = useMemo(() => {
@@ -235,6 +255,10 @@ export function useCerca(): UseCercaReturn {
 	}, []);
 
 	const setSelected = useCallback((school: NormalizedSchool | null) => {
+		// Any manual (de)selection consumes the deep link: from here on the
+		// placeId in the URL only mirrors the selection, and must never
+		// re-trigger deep-link behavior like the enroll dialog auto-open.
+		setDeepLinkPlaceId(null);
 		setSelectedState(school);
 	}, []);
 
@@ -269,6 +293,7 @@ export function useCerca(): UseCercaReturn {
 		results,
 		cityOptions,
 		selected,
+		deepLinkPlaceId,
 		loading,
 		error,
 		setCity,

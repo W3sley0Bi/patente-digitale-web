@@ -22,9 +22,19 @@ import type { NormalizedSchool } from "@/lib/geojson";
 interface SchoolDetailPanelProps {
 	school: NormalizedSchool | null;
 	onClose: () => void;
+	/**
+	 * The initial ?placeId= deep link (from useCerca). When it matches the shown
+	 * school, EnrollButton auto-opens its dialog. Must be the mount-captured
+	 * value, never the live URL param — selection sync also writes placeId=.
+	 */
+	deepLinkPlaceId?: string | null;
 }
 
-export function SchoolDetailPanel({ school, onClose }: SchoolDetailPanelProps) {
+export function SchoolDetailPanel({
+	school,
+	onClose,
+	deepLinkPlaceId,
+}: SchoolDetailPanelProps) {
 	const { t } = useTranslation();
 	const isVerified = school?.partner === true;
 	const visible = school !== null;
@@ -43,6 +53,7 @@ export function SchoolDetailPanel({ school, onClose }: SchoolDetailPanelProps) {
 						school={school}
 						isVerified={isVerified}
 						onClose={onClose}
+						deepLinkPlaceId={deepLinkPlaceId}
 						t={t}
 					/>
 				)}
@@ -61,6 +72,7 @@ export function SchoolDetailPanel({ school, onClose }: SchoolDetailPanelProps) {
 						school={school}
 						isVerified={isVerified}
 						onClose={onClose}
+						deepLinkPlaceId={deepLinkPlaceId}
 						t={t}
 					/>
 				)}
@@ -81,11 +93,18 @@ interface PanelContentProps {
 	school: NormalizedSchool;
 	isVerified: boolean;
 	onClose: () => void;
+	deepLinkPlaceId?: string | null;
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	t: any;
 }
 
-function PanelContent({ school, isVerified, onClose, t }: PanelContentProps) {
+function PanelContent({
+	school,
+	isVerified,
+	onClose,
+	deepLinkPlaceId,
+	t,
+}: PanelContentProps) {
 	const [hoursExpanded, setHoursExpanded] = useState(false);
 	const { role, loading } = useProfile();
 
@@ -332,7 +351,14 @@ function PanelContent({ school, isVerified, onClose, t }: PanelContentProps) {
           EnrollButton self-hides if the place_id doesn't map to an accepted school. */}
 			{role === "student" && school._placeId && (
 				<div className="mt-auto shrink-0 border-t border-line px-5 pb-5 pt-4">
-					<EnrollButton placeId={school._placeId} />
+					<EnrollButton
+						placeId={school._placeId}
+						autoOpen={deepLinkPlaceId === school._placeId}
+						schoolName={school.name}
+						schoolAddress={[school.address, school.city, school.zip]
+							.filter(Boolean)
+							.join(", ")}
+					/>
 				</div>
 			)}
 

@@ -13,9 +13,10 @@ interface InviteLinkCardProps {
 /**
  * A static, reusable enroll link + QR code for a single school, built purely
  * from its own place_id — no invite tokens, no expiry, no tracking. The link
- * points at the existing marketing deep-link route (/cerca?placeId=...),
- * which already auto-selects the school and surfaces the right enroll CTA
- * for both signed-in and anonymous visitors.
+ * points into the app signup flow (/app/login?tab=signup&next=/app/student?placeId=...):
+ * new visitors land on the student signup tab, already-authenticated users are
+ * redirected straight to the `next` destination, and after signup the student
+ * dashboard receives the placeId to connect them to this school.
  *
  * "Download" produces a printable A4 poster (our branding + school name +
  * QR code), not a bare QR image — schools print this and hang it in their
@@ -28,7 +29,7 @@ export function InviteLinkCard({ placeId, schoolName }: InviteLinkCardProps) {
 	const [generatingPoster, setGeneratingPoster] = useState(false);
 	const copiedTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-	const inviteUrl = `${window.location.origin}/cerca?placeId=${encodeURIComponent(placeId)}`;
+	const inviteUrl = `${window.location.origin}/app/login?tab=signup&next=${encodeURIComponent(`/app/student?placeId=${placeId}`)}`;
 
 	useEffect(() => {
 		return () => {

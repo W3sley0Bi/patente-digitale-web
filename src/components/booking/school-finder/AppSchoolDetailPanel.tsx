@@ -19,6 +19,12 @@ import type { NormalizedSchool } from "@/lib/geojson";
 interface AppSchoolDetailPanelProps {
 	school: NormalizedSchool | null;
 	onClose: () => void;
+	/**
+	 * The initial ?placeId= deep link (from useCerca). When it matches the shown
+	 * school, EnrollButton auto-opens its dialog. Must be the mount-captured
+	 * value, never the live URL param — selection sync also writes placeId=.
+	 */
+	deepLinkPlaceId?: string | null;
 }
 
 /**
@@ -37,6 +43,7 @@ interface AppSchoolDetailPanelProps {
 export function AppSchoolDetailPanel({
 	school,
 	onClose,
+	deepLinkPlaceId,
 }: AppSchoolDetailPanelProps) {
 	const { t } = useTranslation();
 	const isVerified = school?.partner === true;
@@ -56,6 +63,7 @@ export function AppSchoolDetailPanel({
 						school={school}
 						isVerified={isVerified}
 						onClose={onClose}
+						deepLinkPlaceId={deepLinkPlaceId}
 						t={t}
 					/>
 				)}
@@ -74,6 +82,7 @@ export function AppSchoolDetailPanel({
 						school={school}
 						isVerified={isVerified}
 						onClose={onClose}
+						deepLinkPlaceId={deepLinkPlaceId}
 						t={t}
 					/>
 				)}
@@ -94,11 +103,18 @@ interface PanelContentProps {
 	school: NormalizedSchool;
 	isVerified: boolean;
 	onClose: () => void;
+	deepLinkPlaceId?: string | null;
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	t: any;
 }
 
-function PanelContent({ school, isVerified, onClose, t }: PanelContentProps) {
+function PanelContent({
+	school,
+	isVerified,
+	onClose,
+	deepLinkPlaceId,
+	t,
+}: PanelContentProps) {
 	const [hoursExpanded, setHoursExpanded] = useState(false);
 
 	// Map JS getDay() (0=Sunday) to our typical Monday-indexed data order.
@@ -278,7 +294,14 @@ function PanelContent({ school, isVerified, onClose, t }: PanelContentProps) {
 
 			{school._placeId && (
 				<div className="mt-auto shrink-0 border-t border-line px-5 pb-5 pt-4">
-					<EnrollButton placeId={school._placeId} />
+					<EnrollButton
+						placeId={school._placeId}
+						autoOpen={deepLinkPlaceId === school._placeId}
+						schoolName={school.name}
+						schoolAddress={[school.address, school.city, school.zip]
+							.filter(Boolean)
+							.join(", ")}
+					/>
 				</div>
 			)}
 		</div>

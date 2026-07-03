@@ -27,6 +27,7 @@ export function AppSchoolFinderPanel() {
 		results,
 		cityOptions,
 		selected,
+		deepLinkPlaceId,
 		loading,
 		error,
 		setCity,
@@ -114,6 +115,7 @@ export function AppSchoolFinderPanel() {
 				<AppSchoolDetailPanel
 					school={selected}
 					onClose={() => setSelected(null)}
+					deepLinkPlaceId={deepLinkPlaceId}
 				/>
 			</div>
 		</div>

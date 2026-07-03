@@ -25,10 +25,15 @@ export function EnrollDialog({
 	open,
 	onOpenChange,
 	onConfirm,
+	schoolName,
+	schoolAddress,
 }: {
 	open: boolean;
 	onOpenChange: (open: boolean) => void;
 	onConfirm: (licence: string, phone: string) => Promise<void>;
+	/** Shown in the dialog so the student can confirm they're enrolling at the right school. */
+	schoolName?: string;
+	schoolAddress?: string;
 }) {
 	const { t } = useTranslation();
 	const [licence, setLicence] = useState("");
@@ -88,6 +93,18 @@ export function EnrollDialog({
 						{t("booking.enroll.dialogSubtitle")}
 					</DialogDescription>
 				</DialogHeader>
+
+				{schoolName && (
+					<div className="rounded-(--radius-sm) border border-line bg-bg px-3 py-2.5">
+						<p className="text-xs text-ink-muted">
+							{t("booking.enroll.dialogSchoolLabel")}
+						</p>
+						<p className="text-sm font-bold text-ink">{schoolName}</p>
+						{schoolAddress && (
+							<p className="text-xs text-ink-muted">{schoolAddress}</p>
+						)}
+					</div>
+				)}
 
 				<div className="flex flex-col gap-4">
 					<label className="flex flex-col gap-1.5 text-sm">

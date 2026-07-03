@@ -22,6 +22,7 @@ export function CercaPage() {
 		results,
 		cityOptions,
 		selected,
+		deepLinkPlaceId,
 		loading,
 		error,
 		setCity,
@@ -114,6 +115,7 @@ export function CercaPage() {
 					<SchoolDetailPanel
 						school={selected}
 						onClose={() => setSelected(null)}
+						deepLinkPlaceId={deepLinkPlaceId}
 					/>
 				</div>
 			</div>
@@ -146,6 +148,7 @@ export function CercaPage() {
 				<SchoolDetailPanel
 					school={selected}
 					onClose={() => setSelected(null)}
+					deepLinkPlaceId={deepLinkPlaceId}
 				/>
 			</div>
 		</div>

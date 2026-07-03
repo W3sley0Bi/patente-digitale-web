@@ -21,6 +21,9 @@ vi.mock("@/lib/invitePoster", () => ({
 import { InviteLinkCard } from "@/components/driving-school/InviteLinkCard";
 import { generateInvitePosterDataUrl } from "@/lib/invitePoster";
 
+const expectedInviteUrl = (placeId: string) =>
+	`${window.location.origin}/app/login?tab=signup&next=${encodeURIComponent(`/app/student?placeId=${placeId}`)}`;
+
 describe("InviteLinkCard", () => {
 	afterEach(() => {
 		vi.restoreAllMocks();
@@ -52,9 +55,7 @@ describe("InviteLinkCard", () => {
 
 	it("shows the invite link built from the school's place_id", () => {
 		render(<InviteLinkCard placeId="place-42" schoolName="Autoscuola Test" />);
-		const input = screen.getByDisplayValue(
-			`${window.location.origin}/cerca?placeId=place-42`,
-		);
+		const input = screen.getByDisplayValue(expectedInviteUrl("place-42"));
 		expect(input).toBeInTheDocument();
 	});
 
@@ -77,9 +78,7 @@ describe("InviteLinkCard", () => {
 		render(<InviteLinkCard placeId="place-42" schoolName="Autoscuola Test" />);
 		await user.click(screen.getByText("school.editor.invite.copy"));
 
-		expect(writeText).toHaveBeenCalledWith(
-			`${window.location.origin}/cerca?placeId=place-42`,
-		);
+		expect(writeText).toHaveBeenCalledWith(expectedInviteUrl("place-42"));
 		await waitFor(() =>
 			expect(
 				screen.getByText("school.editor.invite.copied"),
@@ -102,7 +101,7 @@ describe("InviteLinkCard", () => {
 
 		expect(generateInvitePosterDataUrl).toHaveBeenCalledWith({
 			schoolName: "Autoscuola Test",
-			inviteUrl: `${window.location.origin}/cerca?placeId=place-42`,
+			inviteUrl: expectedInviteUrl("place-42"),
 			tagline: "school.editor.invite.posterTagline",
 		});
 

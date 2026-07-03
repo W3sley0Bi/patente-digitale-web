@@ -1,5 +1,11 @@
 import { lazy, Suspense } from "react";
-import { BrowserRouter, Navigate, Route, Routes } from "react-router";
+import {
+	BrowserRouter,
+	Navigate,
+	Route,
+	Routes,
+	useLocation,
+} from "react-router";
 import { AppHomeRedirect } from "@/components/auth/AppHomeRedirect";
 import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
@@ -37,6 +43,12 @@ const Autoscuole = lazy(() => import("./routes/Autoscuole"));
 const NotFound = lazy(() => import("./routes/NotFound"));
 const ServerError = lazy(() => import("./routes/ServerError"));
 
+/** Redirect that preserves the query string (e.g. old /cerca?placeId=... QR posters). */
+const SearchRedirect = () => {
+	const location = useLocation();
+	return <Navigate to={`/search${location.search}`} replace />;
+};
+
 const LoadingFallback = () => (
 	<div className="flex min-h-screen items-center justify-center bg-bg">
 		<div className="h-8 w-8 animate-pulse rounded-full bg-brand/20" />
@@ -54,15 +66,9 @@ function App() {
 							<Route path="/" element={<Landing />} />
 							<Route path="/students" element={<Studenti />} />
 							<Route path="/driving-schools" element={<Autoscuole />} />
-							<Route
-								path="/cerca"
-								element={<Navigate to="/search" replace />}
-							/>
+							<Route path="/cerca" element={<SearchRedirect />} />
 							<Route path="/search" element={<Cerca />} />
-							<Route
-								path="/iscrizione"
-								element={<Navigate to="/search" replace />}
-							/>
+							<Route path="/iscrizione" element={<SearchRedirect />} />
 							<Route path="/partner" element={<Partner />} />
 							<Route path="/app" element={<AppHomeRedirect />} />
 							<Route path="/app/login" element={<Login />} />

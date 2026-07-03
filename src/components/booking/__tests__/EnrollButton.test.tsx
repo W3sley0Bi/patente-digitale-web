@@ -24,10 +24,10 @@ import {
 	getMyEnrollment,
 } from "@/lib/booking/api";
 
-function renderAt(path: string, placeId = "place-1") {
+function renderAt(path: string, placeId = "place-1", autoOpen = false) {
 	return render(
 		<MemoryRouter initialEntries={[path]}>
-			<EnrollButton placeId={placeId} />
+			<EnrollButton placeId={placeId} autoOpen={autoOpen} />
 		</MemoryRouter>,
 	);
 }
@@ -108,19 +108,19 @@ describe("EnrollButton", () => {
 		expect(await screen.findByText("booking.enroll.cta")).toBeInTheDocument();
 	});
 
-	it("auto-opens the enroll dialog when arriving via a matching ?placeId= deep link", async () => {
+	it("auto-opens the enroll dialog when flagged as the deep-link target", async () => {
 		vi.mocked(getAcceptedSchoolByPlaceId).mockResolvedValue({
 			id: "school-1",
 			email: "school@example.com",
 		});
 		vi.mocked(getMyEnrollment).mockResolvedValue(null);
 
-		renderAt("/app/student?placeId=place-1", "place-1");
+		renderAt("/app/student?placeId=place-1", "place-1", true);
 
 		expect(await screen.findByTestId("enroll-dialog-open")).toBeInTheDocument();
 	});
 
-	it("does not auto-open the dialog when the URL placeId doesn't match this button", async () => {
+	it("does not auto-open the dialog when a placeId is in the URL but autoOpen is not set (manual selection sync)", async () => {
 		vi.mocked(getAcceptedSchoolByPlaceId).mockResolvedValue({
 			id: "school-1",
 			email: "school@example.com",
@@ -133,7 +133,7 @@ describe("EnrollButton", () => {
 		expect(screen.queryByTestId("enroll-dialog-open")).not.toBeInTheDocument();
 	});
 
-	it("does not auto-open the dialog when blocked, even with a matching deep link", async () => {
+	it("opens the blocked modal instead of the enroll dialog when blocked via a deep link", async () => {
 		vi.mocked(getAcceptedSchoolByPlaceId).mockResolvedValue({
 			id: "school-1",
 			email: "school@example.com",
@@ -148,17 +148,24 @@ describe("EnrollButton", () => {
 			decided_at: "2026-01-02",
 		});
 
-		renderAt("/app/student?placeId=place-1", "place-1");
+		renderAt("/app/student?placeId=place-1", "place-1", true);
 
 		await screen.findByText("booking.enroll.blockedElsewhere");
 		expect(screen.queryByTestId("enroll-dialog-open")).not.toBeInTheDocument();
+		expect(
+			await screen.findByText("booking.enroll.blockedDialogTitle"),
+		).toBeInTheDocument();
 	});
 
 	it("waits for the auto-open effect asynchronously without throwing", async () => {
 		vi.mocked(getAcceptedSchoolByPlaceId).mockResolvedValue(null);
 		vi.mocked(getMyEnrollment).mockResolvedValue(null);
 
-		const { container } = renderAt("/app/student?placeId=place-1", "place-1");
+		const { container } = renderAt(
+			"/app/student?placeId=place-1",
+			"place-1",
+			true,
+		);
 
 		await waitFor(() => expect(container.textContent).toBe(""));
 	});
