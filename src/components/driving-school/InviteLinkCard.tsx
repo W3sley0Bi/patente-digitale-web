@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import QRCode from "qrcode";
 
@@ -17,8 +17,15 @@ export function InviteLinkCard({ placeId }: InviteLinkCardProps) {
 	const { t } = useTranslation();
 	const [copied, setCopied] = useState(false);
 	const [qrDataUrl, setQrDataUrl] = useState<string | null>(null);
+	const copiedTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
 	const inviteUrl = `${window.location.origin}/cerca?placeId=${encodeURIComponent(placeId)}`;
+
+	useEffect(() => {
+		return () => {
+			if (copiedTimeoutRef.current) clearTimeout(copiedTimeoutRef.current);
+		};
+	}, []);
 
 	useEffect(() => {
 		let cancelled = false;
@@ -37,7 +44,11 @@ export function InviteLinkCard({ placeId }: InviteLinkCardProps) {
 	const handleCopy = async () => {
 		await navigator.clipboard.writeText(inviteUrl);
 		setCopied(true);
-		setTimeout(() => setCopied(false), 2000);
+		if (copiedTimeoutRef.current) clearTimeout(copiedTimeoutRef.current);
+		copiedTimeoutRef.current = setTimeout(() => {
+			setCopied(false);
+			copiedTimeoutRef.current = null;
+		}, 2000);
 	};
 
 	return (
@@ -60,11 +71,13 @@ export function InviteLinkCard({ placeId }: InviteLinkCardProps) {
 						readOnly
 						value={inviteUrl}
 						onFocus={(e) => e.currentTarget.select()}
+						aria-label={t("school.editor.invite.description")}
 						className="min-w-0 flex-1 rounded-lg border border-line bg-bg-raised px-3 py-2 text-xs text-ink"
 					/>
 					<button
 						type="button"
 						onClick={handleCopy}
+						aria-live="polite"
 						className="rounded-lg border border-line px-3 py-2 text-xs font-semibold text-ink hover:bg-line/30"
 					>
 						{copied
