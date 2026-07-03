@@ -82,31 +82,27 @@ export default function DrivingSchoolStudents() {
 
 	return (
 		<DrivingSchoolLayout schoolName={schoolName ?? undefined}>
-			<header className="mb-8">
-				<p className="text-xs font-bold uppercase tracking-[0.12em] text-brand-ink">
-					{t("school.dashboard.nav.students")}
-				</p>
-				<h1 className="mt-1 text-xl font-extrabold tracking-tight text-ink sm:text-2xl">
-					{t("school.dashboard.studentsTitle")}
-				</h1>
-				<p className="mt-1 max-w-[60ch] text-sm text-ink-muted">
-					{loading
-						? ""
-						: t("school.dashboard.studentsCount", { count: students.length })}
-				</p>
-			</header>
+			<header className="mb-8 flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+				<div>
+					<p className="text-xs font-bold uppercase tracking-[0.12em] text-brand-ink">
+						{t("school.dashboard.nav.students")}
+					</p>
+					<h1 className="mt-1 text-xl font-extrabold tracking-tight text-ink sm:text-2xl">
+						{t("school.dashboard.studentsTitle")}
+					</h1>
+					<p className="mt-1 max-w-[60ch] text-sm text-ink-muted">
+						{loading
+							? ""
+							: t("school.dashboard.studentsCount", { count: students.length })}
+					</p>
+				</div>
 
-			{placeId && schoolName && (
-				<section className="mb-8">
-					<div className="mb-4 flex items-center gap-3">
-						<h2 className="text-xs font-bold uppercase tracking-[0.12em] text-ink-faint">
-							{t("school.editor.sections.invite")}
-						</h2>
-						<span className="h-px flex-1 bg-line" />
+				{placeId && schoolName && (
+					<div className="w-full shrink-0 lg:max-w-md">
+						<InviteLinkCard placeId={placeId} schoolName={schoolName} />
 					</div>
-					<InviteLinkCard placeId={placeId} schoolName={schoolName} />
-				</section>
-			)}
+				)}
+			</header>
 
 			{schoolId && (
 				<section className="mb-8">
