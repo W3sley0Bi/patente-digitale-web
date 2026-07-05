@@ -18,18 +18,19 @@
 //                    "Patentedigitale <noreply@patentedigitale.it>"; the domain
 //                    must be verified in Resend for delivery to succeed)
 // Deploy: supabase functions deploy notify   (or via Supabase MCP)
+
+import { encodeBase64 as base64Encode } from "https://deno.land/std@0.224.0/encoding/base64.ts";
 import { serve } from "https://deno.land/std@0.224.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
-import { encodeBase64 as base64Encode } from "https://deno.land/std@0.224.0/encoding/base64.ts";
 import { buildIcsEvent, googleCalendarUrl } from "./ics.ts";
 import { decideRecipients } from "./routing.ts";
 import {
+	type DriveDetails,
 	schoolCancelledEmail,
 	schoolRequestEmail,
 	studentCancelledEmail,
 	studentConfirmationEmail,
 	studentDeclinedEmail,
-	type DriveDetails,
 } from "./template.ts";
 
 type Event =
@@ -250,22 +251,45 @@ async function handleBookingEvent(
 		instructorName = (instructor as { name: string | null } | null)?.name ?? "";
 	}
 
-	// Student email lives in auth.users; read via the auth admin API.
-	const { data: userData, error: userError } =
-		await admin.auth.admin.getUserById(booking.student_id);
-	if (userError)
-		return new Response(userError.message, { status: 500, headers: CORS });
-	const studentEmail = userData?.user?.email ?? "";
-
-	// Student-controlled preference for receiving confirmation emails.
-	const { data: studentProfile } = await admin
-		.from("profiles")
-		.select("email_confirmations")
+	// booking.student_id is a students.id. Email resolution rule:
+	// claimed row → auth.users email; unclaimed → students.email.
+	const { data: studentData, error: studentRowError } = await admin
+		.from("students")
+		.select("auth_user_id, email")
 		.eq("id", booking.student_id)
 		.maybeSingle();
-	const studentWantsConfirmation =
-		(studentProfile as { email_confirmations: boolean } | null)
-			?.email_confirmations ?? true;
+	if (studentRowError)
+		return new Response(studentRowError.message, {
+			status: 500,
+			headers: CORS,
+		});
+	const studentRow = studentData as {
+		auth_user_id: string | null;
+		email: string | null;
+	} | null;
+
+	let studentEmail = "";
+	let studentWantsConfirmation = true;
+	if (studentRow?.auth_user_id) {
+		const { data: userData, error: userError } =
+			await admin.auth.admin.getUserById(studentRow.auth_user_id);
+		if (userError)
+			return new Response(userError.message, { status: 500, headers: CORS });
+		studentEmail = userData?.user?.email ?? "";
+
+		// Student-controlled preference; unclaimed students have no account to
+		// opt out with, so they default to receiving confirmations.
+		const { data: studentProfile } = await admin
+			.from("profiles")
+			.select("email_confirmations")
+			.eq("id", studentRow.auth_user_id)
+			.maybeSingle();
+		studentWantsConfirmation =
+			(studentProfile as { email_confirmations: boolean } | null)
+				?.email_confirmations ?? true;
+	} else {
+		studentEmail = studentRow?.email ?? "";
+	}
 
 	// School recipient: prefer the configured address, else fall back to the
 	// owner's login email so the notice always has somewhere to go.
