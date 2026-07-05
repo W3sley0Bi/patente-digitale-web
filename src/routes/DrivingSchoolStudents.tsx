@@ -1,7 +1,17 @@
-import { GraduationCap, Mail, Pencil, Phone, Search } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import {
+	Check,
+	GraduationCap,
+	Link2,
+	Mail,
+	Pencil,
+	Phone,
+	Search,
+	UserPlus,
+} from "lucide-react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { EnrollmentsInbox } from "@/components/booking/EnrollmentsInbox";
+import { AddStudentDialog } from "@/components/driving-school/AddStudentDialog";
 import { DrivingSchoolLayout } from "@/components/driving-school/DrivingSchoolLayout";
 import { InviteLinkCard } from "@/components/driving-school/InviteLinkCard";
 import { StudentEditSheet } from "@/components/driving-school/StudentEditSheet";
@@ -32,6 +42,30 @@ export default function DrivingSchoolStudents() {
 	// Sheet state
 	const [editTarget, setEditTarget] = useState<EnrolledStudent | null>(null);
 	const [sheetOpen, setSheetOpen] = useState(false);
+
+	// Add-student dialog + claim-link copy feedback
+	const [addOpen, setAddOpen] = useState(false);
+	const [copiedId, setCopiedId] = useState<string | null>(null);
+	const copiedTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+	useEffect(() => {
+		return () => {
+			if (copiedTimeoutRef.current) clearTimeout(copiedTimeoutRef.current);
+		};
+	}, []);
+
+	async function copyClaimLink(s: EnrolledStudent) {
+		if (!s.claim_token) return;
+		await navigator.clipboard.writeText(
+			`${window.location.origin}/claim/${s.claim_token}`,
+		);
+		setCopiedId(s.student_id);
+		if (copiedTimeoutRef.current) clearTimeout(copiedTimeoutRef.current);
+		copiedTimeoutRef.current = setTimeout(() => {
+			setCopiedId(null);
+			copiedTimeoutRef.current = null;
+		}, 2000);
+	}
 
 	useEffect(() => {
 		if (!user) return;
@@ -95,6 +129,14 @@ export default function DrivingSchoolStudents() {
 							? ""
 							: t("school.dashboard.studentsCount", { count: students.length })}
 					</p>
+					<button
+						type="button"
+						onClick={() => setAddOpen(true)}
+						className="mt-3 inline-flex items-center justify-center gap-2 rounded-lg bg-brand px-5 py-2.5 text-sm font-medium text-white hover:bg-brand/90 transition-colors"
+					>
+						<UserPlus size={15} aria-hidden />
+						{t("booking.school.addStudent")}
+					</button>
 				</div>
 
 				{placeId && schoolName && (
@@ -171,13 +213,20 @@ export default function DrivingSchoolStudents() {
 
 									{/* Main info */}
 									<div className="min-w-0 flex-1">
-										<p className="truncate text-sm font-semibold text-ink">
-											{s.full_name ?? (
-												<span className="text-ink-faint">
-													{t("booking.school.student")}
+										<div className="flex items-center gap-2">
+											<p className="truncate text-sm font-semibold text-ink">
+												{s.full_name ?? (
+													<span className="text-ink-faint">
+														{t("booking.school.student")}
+													</span>
+												)}
+											</p>
+											{!s.is_claimed && (
+												<span className="inline-flex shrink-0 items-center rounded-full bg-bg-sunken px-2 py-0.5 text-[0.65rem] font-semibold uppercase tracking-wide text-ink-faint">
+													{t("booking.school.unclaimedBadge")}
 												</span>
 											)}
-										</p>
+										</div>
 
 										<div className="mt-0.5 flex flex-wrap items-center gap-x-3 gap-y-0.5">
 											{s.email && (
@@ -218,6 +267,27 @@ export default function DrivingSchoolStudents() {
 										)}
 									</div>
 
+									{/* Copy claim link (unclaimed rows only) */}
+									{!s.is_claimed && s.claim_token && (
+										<button
+											type="button"
+											aria-label={
+												copiedId === s.student_id
+													? t("booking.school.claimLinkCopied")
+													: t("booking.school.copyClaimLink")
+											}
+											aria-live="polite"
+											onClick={() => copyClaimLink(s)}
+											className="ml-1 flex shrink-0 items-center justify-center rounded-[0.5rem] p-1.5 text-ink-faint transition-colors duration-150 hover:bg-bg hover:text-brand focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-focus-ring)]"
+										>
+											{copiedId === s.student_id ? (
+												<Check size={15} aria-hidden className="text-brand" />
+											) : (
+												<Link2 size={15} aria-hidden />
+											)}
+										</button>
+									)}
+
 									{/* Edit button */}
 									<button
 										type="button"
@@ -232,6 +302,15 @@ export default function DrivingSchoolStudents() {
 						</ul>
 					)}
 				</>
+			)}
+
+			{schoolId && (
+				<AddStudentDialog
+					schoolId={schoolId}
+					open={addOpen}
+					onOpenChange={setAddOpen}
+					onAdded={handleSaved}
+				/>
 			)}
 
 			{schoolId && (
