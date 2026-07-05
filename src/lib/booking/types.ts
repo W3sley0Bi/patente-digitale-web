@@ -15,11 +15,15 @@ export interface Instructor {
 	created_at: string;
 }
 
-export interface Enrollment {
+export interface Student {
 	id: string;
 	school_id: string;
-	student_id: string;
+	auth_user_id: string | null; // null = unclaimed (manually added, not registered)
+	full_name: string | null;
+	email: string | null; // contact email while unclaimed; null once claimed
+	phone: string | null;
 	status: EnrollmentStatus;
+	source: "self" | "manual";
 	licence_code: string | null;
 	created_at: string;
 	decided_at: string | null;
@@ -28,7 +32,7 @@ export interface Enrollment {
 export interface Booking {
 	id: string;
 	school_id: string;
-	student_id: string;
+	student_id: string; // students.id (not an auth uid)
 	instructor_id: string | null;
 	preferred_instructor_id: string | null; // student's soft choice at request time
 	starts_at: string; // ISO

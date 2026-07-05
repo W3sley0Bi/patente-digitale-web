@@ -1,5 +1,5 @@
 import { supabase } from "@/lib/supabase";
-import type { Booking, Enrollment, Instructor } from "./types";
+import type { Booking, Instructor, Student } from "./types";
 
 // ── reads ──
 export async function listSchoolBookings(schoolId: string): Promise<Booking[]> {
@@ -32,14 +32,14 @@ export async function listInstructors(schoolId: string): Promise<Instructor[]> {
 }
 export async function listSchoolEnrollments(
 	schoolId: string,
-): Promise<Enrollment[]> {
+): Promise<Student[]> {
 	const { data, error } = await supabase
-		.from("enrollments")
+		.from("students")
 		.select("*")
 		.eq("school_id", schoolId)
 		.order("created_at", { ascending: false });
 	if (error) throw error;
-	return (data ?? []) as Enrollment[];
+	return (data ?? []) as Student[];
 }
 
 export interface EnrollmentRequest {
@@ -84,13 +84,13 @@ export async function getAcceptedSchoolByPlaceId(placeId: string): Promise<{
  * somewhere else — see approve_enrollment, which only decides the row it's
  * given). Fetches all matching rows and picks deterministically in JS rather
  * than relying on an unspecified Postgres row order. */
-export async function getMyEnrollment(): Promise<Enrollment | null> {
+export async function getMyEnrollment(): Promise<Student | null> {
 	const { data, error } = await supabase
-		.from("enrollments")
+		.from("students")
 		.select("*")
 		.in("status", ["pending", "active"]);
 	if (error) throw error;
-	const rows = (data as Enrollment[]) ?? [];
+	const rows = (data as Student[]) ?? [];
 	return rows.find((r) => r.status === "active") ?? rows[0] ?? null;
 }
 
@@ -203,11 +203,13 @@ export async function listAvailableSlots(
 }
 
 export interface EnrolledStudent {
-	student_id: string;
+	student_id: string; // students.id
 	full_name: string | null;
 	email: string | null;
 	phone: string | null;
 	licence_code: string | null;
+	is_claimed: boolean;
+	claim_token: string | null; // set only while unclaimed
 }
 /** Active enrolled students at a school (for the school's assign picker). */
 export async function listEnrolledStudents(
@@ -233,6 +235,7 @@ export async function updateStudentAsSchool(
 		full_name?: string;
 		phone?: string | null;
 		licence_code?: string | null;
+		email?: string; // editable only while the student is unclaimed
 	},
 ): Promise<void> {
 	const { error } = await supabase.rpc("school_update_student", {
@@ -241,6 +244,7 @@ export async function updateStudentAsSchool(
 		p_full_name: fields.full_name ?? null,
 		p_phone: fields.phone ?? null,
 		p_licence_code: fields.licence_code ?? null,
+		p_email: fields.email ?? null,
 	});
 	if (error) throw error;
 }
@@ -428,6 +432,33 @@ export const approveEnrollment = async (id: string, studentEmail?: string) => {
 };
 export const rejectEnrollment = (id: string) =>
 	rpc("reject_enrollment", { p_enrollment_id: id });
+
+/** School manually adds a student who hasn't registered. Returns students.id. */
+export const addStudentManual = (
+	schoolId: string,
+	fields: {
+		full_name: string;
+		email: string;
+		phone?: string;
+		licence_code?: string;
+	},
+) =>
+	rpc("add_student_manual", {
+		p_school_id: schoolId,
+		p_full_name: fields.full_name,
+		p_email: fields.email,
+		p_phone: fields.phone ?? null,
+		p_licence_code: fields.licence_code ?? null,
+	}) as Promise<string>;
+
+/** Logged-in student claims a manually-added record via its token. */
+export const claimStudentRecord = (token: string) =>
+	rpc("claim_student_record", { p_token: token }) as Promise<string>;
+
+/** Remove a student: hard-delete for unclaimed mistake rows without bookings,
+ * soft (status='left') otherwise. */
+export const removeStudent = (studentId: string) =>
+	rpc("remove_student", { p_student_id: studentId }) as Promise<void>;
 
 export const requestBooking = async (
 	schoolId: string,
