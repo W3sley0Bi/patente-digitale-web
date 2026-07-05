@@ -52,15 +52,23 @@ create index students_authuser_idx      on public.students (auth_user_id);
 create unique index students_claim_token_idx on public.students (claim_token);
 
 -- when an auth user is deleted the FK nulls auth_user_id; snapshot their email
--- first so the school keeps a contact address (best-effort: skip on conflict
--- with the unclaimed-email unique index)
+-- first so the school keeps a contact address. Best-effort: skip rows where
+-- the snapshot would collide with an existing unclaimed row on the partial
+-- unique index once the FK set-null runs — skipped rows end with email NULL,
+-- and NULLs never collide, so the auth.users delete always succeeds.
 create or replace function public.students_snapshot_email_on_user_delete()
 returns trigger language plpgsql security definer set search_path = '' as $$
 begin
-  update public.students set email = lower(old.email)
-    where auth_user_id = old.id;
-  return old;
-exception when unique_violation then
+  update public.students st
+    set email = lower(old.email)
+    where st.auth_user_id = old.id
+      and not exists (
+        select 1 from public.students s2
+        where s2.school_id = st.school_id
+          and s2.auth_user_id is null
+          and s2.status <> 'left'
+          and lower(s2.email) = lower(old.email)
+      );
   return old;
 end;
 $$;
