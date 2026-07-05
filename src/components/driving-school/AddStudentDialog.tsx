@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import {
@@ -39,19 +39,25 @@ export function AddStudentDialog({
 	const [saving, setSaving] = useState(false);
 	const [error, setError] = useState<string | null>(null);
 
-	function reset() {
-		setFullName("");
-		setEmail("");
-		setPhone("");
-		setLicenceCode("");
-		setError(null);
-	}
+	// Start from a blank form every time the dialog is (re)opened
+	useEffect(() => {
+		if (open) {
+			setFullName("");
+			setEmail("");
+			setPhone("");
+			setLicenceCode("");
+			setError(null);
+		}
+	}, [open]);
 
 	async function handleSubmit(e: React.FormEvent) {
 		e.preventDefault();
 		const name = fullName.trim();
 		const mail = email.trim();
-		if (!name || !mail) return;
+		if (!name || !mail) {
+			setError(t("school.claimForm.errors.requiredField"));
+			return;
+		}
 		setSaving(true);
 		setError(null);
 		try {
@@ -61,7 +67,6 @@ export function AddStudentDialog({
 				phone: phone.trim() || undefined,
 				licence_code: licenceCode || undefined,
 			});
-			reset();
 			onOpenChange(false);
 			onAdded();
 		} catch (err) {

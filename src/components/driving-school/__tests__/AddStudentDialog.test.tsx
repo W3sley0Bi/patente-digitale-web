@@ -128,6 +128,66 @@ describe("AddStudentDialog", () => {
 		expect(onAdded).not.toHaveBeenCalled();
 	});
 
+	it("shows a validation error when submitting with empty name/email", async () => {
+		const { onAdded } = renderDialog();
+
+		fireEvent.click(
+			screen.getByRole("button", { name: "booking.school.addStudentSubmit" }),
+		);
+
+		expect(
+			await screen.findByText("school.claimForm.errors.requiredField"),
+		).toBeInTheDocument();
+		expect(addStudentManual).not.toHaveBeenCalled();
+		expect(onAdded).not.toHaveBeenCalled();
+	});
+
+	it("resets fields and error when the dialog is reopened", async () => {
+		const { rerender } = render(
+			<AddStudentDialog
+				schoolId="school-1"
+				open
+				onOpenChange={vi.fn()}
+				onAdded={vi.fn()}
+			/>,
+		);
+
+		fireEvent.change(screen.getByLabelText("booking.school.addStudentName"), {
+			target: { value: "Mario Rossi" },
+		});
+		// Trigger the empty-email validation error so we can assert it clears
+		fireEvent.click(
+			screen.getByRole("button", { name: "booking.school.addStudentSubmit" }),
+		);
+		expect(
+			await screen.findByText("school.claimForm.errors.requiredField"),
+		).toBeInTheDocument();
+
+		rerender(
+			<AddStudentDialog
+				schoolId="school-1"
+				open={false}
+				onOpenChange={vi.fn()}
+				onAdded={vi.fn()}
+			/>,
+		);
+		rerender(
+			<AddStudentDialog
+				schoolId="school-1"
+				open
+				onOpenChange={vi.fn()}
+				onAdded={vi.fn()}
+			/>,
+		);
+
+		expect(screen.getByLabelText("booking.school.addStudentName")).toHaveValue(
+			"",
+		);
+		expect(
+			screen.queryByText("school.claimForm.errors.requiredField"),
+		).not.toBeInTheDocument();
+	});
+
 	it("shows a generic error on other failures", async () => {
 		vi.mocked(addStudentManual).mockRejectedValue(new Error("boom"));
 		const { onAdded } = renderDialog();

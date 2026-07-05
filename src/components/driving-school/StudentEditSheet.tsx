@@ -9,7 +9,11 @@ import {
 	SheetHeader,
 	SheetTitle,
 } from "@/components/ui/sheet";
-import { type EnrolledStudent, updateStudentAsSchool } from "@/lib/booking/api";
+import {
+	type EnrolledStudent,
+	removeStudent,
+	updateStudentAsSchool,
+} from "@/lib/booking/api";
 import { PATENTE_CATEGORIES } from "@/lib/booking/licence";
 
 interface StudentEditSheetProps {
@@ -32,7 +36,9 @@ export function StudentEditSheet({
 	const [fullName, setFullName] = useState("");
 	const [phone, setPhone] = useState("");
 	const [licenceCode, setLicenceCode] = useState("");
+	const [email, setEmail] = useState("");
 	const [saving, setSaving] = useState(false);
+	const [removing, setRemoving] = useState(false);
 	const [error, setError] = useState<string | null>(null);
 
 	// Sync form fields whenever the sheet opens or the student changes
@@ -41,6 +47,7 @@ export function StudentEditSheet({
 			setFullName(student.full_name ?? "");
 			setPhone(student.phone ?? "");
 			setLicenceCode(student.licence_code ?? "");
+			setEmail(student.email ?? "");
 			setError(null);
 		}
 	}, [open, student]);
@@ -48,6 +55,10 @@ export function StudentEditSheet({
 	async function handleSave(e: React.FormEvent) {
 		e.preventDefault();
 		if (!student) return;
+		if (!student.is_claimed && !email.trim()) {
+			setError(t("school.claimForm.errors.requiredField"));
+			return;
+		}
 		setSaving(true);
 		setError(null);
 		try {
@@ -55,13 +66,34 @@ export function StudentEditSheet({
 				full_name: fullName.trim() || undefined,
 				phone: phone.trim() || null,
 				licence_code: licenceCode || null,
+				...(student.is_claimed ? {} : { email: email.trim() }),
 			});
 			onSaved();
 			onOpenChange(false);
+		} catch (err) {
+			setError(
+				err instanceof Error && err.message === "student_email_exists"
+					? t("booking.school.addStudentEmailExists")
+					: t("booking.school.updateError"),
+			);
+		} finally {
+			setSaving(false);
+		}
+	}
+
+	async function handleRemove() {
+		if (!student) return;
+		if (!window.confirm(t("booking.school.removeStudent"))) return;
+		setRemoving(true);
+		setError(null);
+		try {
+			await removeStudent(student.student_id);
+			onOpenChange(false);
+			onSaved();
 		} catch {
 			setError(t("booking.school.updateError"));
 		} finally {
-			setSaving(false);
+			setRemoving(false);
 		}
 	}
 
@@ -143,7 +175,7 @@ export function StudentEditSheet({
 						</select>
 					</div>
 
-					{/* Email (read-only) */}
+					{/* Email — editable while unclaimed, locked once claimed */}
 					<div className="flex flex-col gap-1.5">
 						<label
 							htmlFor="student-email"
@@ -151,17 +183,31 @@ export function StudentEditSheet({
 						>
 							Email
 						</label>
-						<input
-							id="student-email"
-							type="email"
-							value={student?.email ?? ""}
-							disabled
-							className={inputBase}
-							aria-describedby="student-email-locked"
-						/>
-						<p id="student-email-locked" className="text-xs text-ink-faint">
-							{t("booking.school.emailLocked")}
-						</p>
+						{student?.is_claimed ? (
+							<>
+								<input
+									id="student-email"
+									type="email"
+									value={student?.email ?? ""}
+									disabled
+									className={inputBase}
+									aria-describedby="student-email-locked"
+								/>
+								<p id="student-email-locked" className="text-xs text-ink-faint">
+									{t("booking.school.emailLocked")}
+								</p>
+							</>
+						) : (
+							<input
+								id="student-email"
+								type="email"
+								required
+								value={email}
+								onChange={(e) => setEmail(e.target.value)}
+								className={inputBase}
+								autoComplete="off"
+							/>
+						)}
 					</div>
 
 					{/* Error */}
@@ -178,17 +224,27 @@ export function StudentEditSheet({
 				<SheetFooter className="gap-2 px-4">
 					<Button
 						type="button"
+						variant="destructive"
+						size="sm"
+						onClick={handleRemove}
+						disabled={saving || removing}
+						className="sm:mr-auto"
+					>
+						{t("booking.school.removeStudent")}
+					</Button>
+					<Button
+						type="button"
 						variant="outline"
 						size="sm"
 						onClick={() => onOpenChange(false)}
-						disabled={saving}
+						disabled={saving || removing}
 					>
 						{t("booking.school.cancel")}
 					</Button>
 					<Button
 						type="submit"
 						size="sm"
-						disabled={saving}
+						disabled={saving || removing}
 						onClick={handleSave}
 					>
 						{saving

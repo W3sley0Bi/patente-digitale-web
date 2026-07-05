@@ -223,10 +223,12 @@ export async function listEnrolledStudents(
 }
 
 /**
- * School edits a student's editable info (name, phone, licence). Email is the
- * login identity and cannot be changed here. `null` fields are left unchanged;
- * pass an empty string to clear phone/licence. Guarded server-side: caller must
- * own the school (or be admin) and the student must be actively enrolled.
+ * School edits a student's editable info (name, phone, licence, and — only
+ * while the student is unclaimed — email). Once the record is claimed the
+ * email is the login identity and the server rejects email edits
+ * (`email_not_editable`). `null` fields are left unchanged; pass an empty
+ * string to clear phone/licence. Guarded server-side: caller must own the
+ * school (or be admin) and the student must be actively enrolled.
  */
 export async function updateStudentAsSchool(
 	schoolId: string,
