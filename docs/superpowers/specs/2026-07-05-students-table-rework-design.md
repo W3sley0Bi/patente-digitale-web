@@ -17,8 +17,13 @@ school and *optionally* links to an auth user. Manually added students are rows 
 `auth_user_id IS NULL`; when the person later signs up, the **same row** is claimed by
 setting `auth_user_id` — booking history carries over with no merge step.
 
-`profiles` is **kept** (its role check backs ~30 RLS policies/RPCs) but slimmed to
-identity-only: `id`, `role`, `approved`. `full_name` and `phone` move to `students`.
+`profiles` is **kept** (its role check backs ~30 RLS policies/RPCs). It also keeps
+`full_name` and `phone`: they are the student's *account* identity, shown on
+account pages (AuthContext, StudentProfile, StudentDashboard) before any
+enrollment exists. `students.full_name`/`phone` are the *school's roster copy* —
+seeded from `profiles` at self-enrollment, thereafter owned and edited by the
+school via `school_update_student` (which no longer touches `profiles`).
+Divergence between the two is allowed and harmless (roster label vs account name).
 
 We are pre-production: one clean migration, backfill existing data, drop `enrollments`.
 No dual-model period.
@@ -30,7 +35,8 @@ create table public.students (
   id            uuid primary key default gen_random_uuid(),
   school_id     uuid not null references public.driving_schools(id) on delete cascade,
   auth_user_id  uuid references auth.users(id) on delete set null,   -- NULLABLE
-  full_name     text not null,
+  full_name     text,          -- nullable: legacy profiles rows may lack a name;
+                               -- manual-add RPC enforces it at the API layer
   email         text,          -- contact email for UNCLAIMED students only (see Email Resolution)
   phone         text,
   licence_code  text,
@@ -69,8 +75,8 @@ Soft removal (`status='left'`) is the normal path; hard delete of a student with
 bookings is blocked (fix #6). A dedicated RPC may hard-delete a mistake row only when
 it has no bookings.
 
-`profiles` drops `full_name` and `phone` (moved to `students`); the blank-name guard
-trigger from migration 021 is dropped with them.
+`profiles` keeps `full_name`/`phone` (account identity — see Decision); its
+blank-name guard trigger stays. `school_update_student` stops writing to `profiles`.
 
 ## Email Resolution (fix #1)
 
@@ -114,8 +120,9 @@ student-side RLS simply never matches their rows until claimed.
 
 ## RLS / RPC Surface
 
-- **students RLS:** school owner full access to own school's rows; student sees rows
-  where `auth_user_id = auth.uid()`; admin all. (Mirrors current enrollments policies.)
+- **students RLS:** school owner *reads* own school's rows; student reads rows where
+  `auth_user_id = auth.uid()`; admin all. Writes go through SECURITY DEFINER RPCs
+  only (consistent with how enrollments/bookings are written today).
 - **bookings RLS:** student-side predicates change from `auth.uid() = student_id` to
   `exists (select 1 from students s where s.id = bookings.student_id
   and s.auth_user_id = auth.uid())`.
@@ -136,8 +143,10 @@ student-side RLS simply never matches their rows until claimed.
 3. Add `bookings.student_id_new`, populate via `(school_id, old student_id)` → new
    `students.id` mapping, swap column, restore indexes/FK (`on delete restrict`).
 4. Rewrite RLS policies and RPCs listed above.
-5. Drop `enrollments`; drop `profiles.full_name` / `profiles.phone` and the name-guard
-   trigger.
+5. Drop `enrollments`. (`profiles.full_name`/`phone` stay — see Decision.)
+
+Backfill reuses `enrollments.id` as `students.id`, so the bookings remap is a
+single UPDATE joining on `(school_id, old auth-uid student_id)`.
 
 ## Frontend
 
