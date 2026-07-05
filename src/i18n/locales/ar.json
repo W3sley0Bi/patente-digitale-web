@@ -211,7 +211,20 @@
 			"emailSchoolRequestLabel": "إشعار المدرسة عند كل طلب",
 			"emailSchoolRequestHint": "تتلقى المدرسة بريدًا إلكترونيًا في كل مرة يطلب فيها الطالب حصة.",
 			"emailSettingsSaved": "تم حفظ الإعدادات.",
-			"emailSettingsError": "تعذر الحفظ. يرجى المحاولة مرة أخرى."
+			"emailSettingsError": "تعذر الحفظ. يرجى المحاولة مرة أخرى.",
+			"addStudent": "إضافة طالب",
+			"addStudentTitle": "أضف طالبًا",
+			"addStudentHint": "سيتلقى الطالب رسائل الإشعار بدروس القيادة على هذا العنوان. تأكد من حصولك على موافقته على التواصل معه.",
+			"addStudentName": "الاسم الكامل",
+			"addStudentEmail": "البريد الإلكتروني",
+			"addStudentPhone": "الهاتف (اختياري)",
+			"addStudentLicence": "رخصة القيادة (اختياري)",
+			"addStudentSubmit": "إضافة",
+			"addStudentEmailExists": "يوجد بالفعل طالب بهذا البريد الإلكتروني.",
+			"unclaimedBadge": "غير مسجّل",
+			"copyClaimLink": "نسخ رابط التسجيل",
+			"claimLinkCopied": "تم نسخ الرابط",
+			"removeStudent": "إزالة الطالب"
 		}
 	},
 	"cerca": {
@@ -655,5 +668,11 @@
 				"home": "الذهاب إلى الصفحة الرئيسية"
 			}
 		}
+	},
+	"claim": {
+		"working": "جارٍ ربط ملفك…",
+		"success": "تم ربط ملفك! يمكنك الآن رؤية دروس القيادة الخاصة بك.",
+		"notFound": "الرابط غير صالح أو تم استخدامه بالفعل.",
+		"activeElsewhere": "أنت مسجّل بالفعل في مدرسة قيادة أخرى."
 	}
 }

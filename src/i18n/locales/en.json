@@ -210,7 +210,20 @@
 			"emailSchoolRequestLabel": "Notify the school on every request",
 			"emailSchoolRequestHint": "The school receives an email whenever a student requests a drive.",
 			"emailSettingsSaved": "Settings saved.",
-			"emailSettingsError": "Could not save. Please try again."
+			"emailSettingsError": "Could not save. Please try again.",
+			"addStudent": "Add student",
+			"addStudentTitle": "Add a student",
+			"addStudentHint": "The student will receive drive notification emails at this address. Confirm you have their consent to be contacted.",
+			"addStudentName": "Full name",
+			"addStudentEmail": "Email",
+			"addStudentPhone": "Phone (optional)",
+			"addStudentLicence": "Licence (optional)",
+			"addStudentSubmit": "Add",
+			"addStudentEmailExists": "A student with this email already exists.",
+			"unclaimedBadge": "Not registered",
+			"copyClaimLink": "Copy registration link",
+			"claimLinkCopied": "Link copied",
+			"removeStudent": "Remove student"
 		}
 	},
 	"cerca": {
@@ -1124,5 +1137,11 @@
 				"mockLabel": "Preview · payment not active"
 			}
 		}
+	},
+	"claim": {
+		"working": "Linking your record…",
+		"success": "Record linked! You can now see your drives.",
+		"notFound": "Invalid or already-used link.",
+		"activeElsewhere": "You are already enrolled at another driving school."
 	}
 }
