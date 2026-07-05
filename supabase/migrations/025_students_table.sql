@@ -24,11 +24,12 @@ create table public.students (
                 check (source in ('self','manual')),
   claim_token   uuid not null default gen_random_uuid(),
   created_at    timestamptz not null default now(),
-  decided_at    timestamptz,
-  -- unclaimed students must be reachable by email
-  constraint students_unclaimed_needs_email
-    check (auth_user_id is not null or email is not null)
+  decided_at    timestamptz
 );
+-- NOTE: email-required-while-unclaimed is enforced at the RPC layer
+-- (add_student_manual raises 'email_required'), NOT as a check constraint:
+-- a constraint would make deleting a claimed auth user fail (the FK nulls
+-- auth_user_id while email is already null).
 
 comment on column public.students.email is
   'Contact email while unclaimed. NULL once auth_user_id is set: claimed rows resolve email from auth.users.';
@@ -41,13 +42,32 @@ create unique index students_school_authuser_uq
 create unique index students_one_active_per_user
   on public.students (auth_user_id) where status = 'active' and auth_user_id is not null;
 
--- no duplicate manual adds of the same email within one school
+-- no duplicate manual adds of the same email within one school ('left' rows
+-- excluded so a soft-removed student's email can be re-added)
 create unique index students_school_email_unclaimed_uq
-  on public.students (school_id, lower(email)) where auth_user_id is null;
+  on public.students (school_id, lower(email)) where auth_user_id is null and status <> 'left';
 
 create index students_school_status_idx on public.students (school_id, status);
 create index students_authuser_idx      on public.students (auth_user_id);
-create index students_claim_token_idx   on public.students (claim_token);
+create unique index students_claim_token_idx on public.students (claim_token);
+
+-- when an auth user is deleted the FK nulls auth_user_id; snapshot their email
+-- first so the school keeps a contact address (best-effort: skip on conflict
+-- with the unclaimed-email unique index)
+create or replace function public.students_snapshot_email_on_user_delete()
+returns trigger language plpgsql security definer set search_path = '' as $$
+begin
+  update public.students set email = lower(old.email)
+    where auth_user_id = old.id;
+  return old;
+exception when unique_violation then
+  return old;
+end;
+$$;
+
+create trigger students_snapshot_email_before_user_delete
+  before delete on auth.users
+  for each row execute function public.students_snapshot_email_on_user_delete();
 
 -- ──── 2. backfill from enrollments (reuse ids → trivial bookings remap) ────
 
@@ -118,6 +138,18 @@ create policy "instructors_enrolled_read" on public.instructors
               and s.status = 'active')
   );
 
+-- instructor_availability: the 009 policy referenced enrollments (blocks the
+-- drop below) — same access shape, enrollments → students
+drop policy "ia_enrolled_read" on public.instructor_availability;
+create policy "ia_enrolled_read" on public.instructor_availability
+  for select using (
+    exists (select 1 from public.students s
+            join public.instructors i on i.id = instructor_availability.instructor_id
+            where s.school_id = i.school_id
+              and s.auth_user_id = auth.uid()
+              and s.status = 'active')
+  );
+
 -- ──── 5. enrollment lifecycle RPCs (names kept — frontend calls unchanged) ────
 
 -- Self-enrollment. NEW: if the school holds an unclaimed row whose email matches
@@ -137,14 +169,19 @@ declare
   v_phone text := nullif(btrim(p_phone), '');
 begin
   if v_uid is null then raise exception 'not_authenticated'; end if;
-  if (select role from public.profiles where id = v_uid) <> 'student' then
+  if (select role from public.profiles where id = v_uid) is distinct from 'student' then
     raise exception 'role_must_be_student';
   end if;
   if v_licence is null then raise exception 'licence_required'; end if;
 
-  select lower(u.email::text) into v_email from auth.users u where u.id = v_uid;
+  -- only trust CONFIRMED emails for claim-by-email; v_email stays null for
+  -- unconfirmed accounts, so the claim update matches nothing
+  select lower(u.email::text) into v_email from auth.users u
+    where u.id = v_uid and u.email_confirmed_at is not null;
 
-  -- claim a matching unclaimed row at this school, if any
+  -- claim a matching unclaimed row at this school, if any (only when the
+  -- caller has no row at this school yet, so the same-school unique index
+  -- can never fire here — any unique_violation is students_one_active_per_user)
   update public.students
     set auth_user_id = v_uid,
         email        = null,
@@ -154,6 +191,9 @@ begin
     where school_id = p_school_id
       and auth_user_id is null
       and lower(email) = v_email
+      and status = 'active'
+      and not exists (select 1 from public.students s2
+                      where s2.school_id = p_school_id and s2.auth_user_id = v_uid)
     returning id into v_id;
   if v_id is not null then
     if v_phone is not null then
@@ -191,6 +231,7 @@ create or replace function public.approve_enrollment(p_enrollment_id uuid)
 returns void language plpgsql security definer set search_path = '' as $$
 declare v_school uuid;
 begin
+  if auth.uid() is null then raise exception 'not_authenticated'; end if;
   select school_id into v_school from public.students where id = p_enrollment_id;
   if v_school is null then raise exception 'enrollment_not_found'; end if;
   if auth.uid() <> (select user_id from public.driving_schools where id = v_school)
@@ -209,6 +250,7 @@ create or replace function public.reject_enrollment(p_enrollment_id uuid)
 returns void language plpgsql security definer set search_path = '' as $$
 declare v_school uuid;
 begin
+  if auth.uid() is null then raise exception 'not_authenticated'; end if;
   select school_id into v_school from public.students where id = p_enrollment_id;
   if v_school is null then raise exception 'enrollment_not_found'; end if;
   if auth.uid() <> (select user_id from public.driving_schools where id = v_school)
@@ -237,6 +279,7 @@ declare
   v_email text := lower(nullif(btrim(p_email), ''));
   v_id uuid;
 begin
+  if auth.uid() is null then raise exception 'not_authenticated'; end if;
   if auth.uid() <> (select user_id from public.driving_schools where id = p_school_id)
      and (select role from public.profiles where id = auth.uid()) <> 'admin' then
     raise exception 'forbidden';
@@ -267,7 +310,7 @@ declare
   v_id uuid;
 begin
   if v_uid is null then raise exception 'not_authenticated'; end if;
-  if (select role from public.profiles where id = v_uid) <> 'student' then
+  if (select role from public.profiles where id = v_uid) is distinct from 'student' then
     raise exception 'role_must_be_student';
   end if;
 
@@ -280,8 +323,16 @@ begin
   if v_id is null then raise exception 'claim_not_found'; end if;
   return v_id;
 exception when unique_violation then
-  -- active elsewhere, or already has a row at this school
-  raise exception 'student_active_elsewhere';
+  declare v_constraint text;
+  begin
+    get stacked diagnostics v_constraint = constraint_name;
+    if v_constraint = 'students_school_authuser_uq' then
+      -- the caller already has a row at this school
+      raise exception 'already_enrolled_at_school';
+    end if;
+    -- students_one_active_per_user: active at another school
+    raise exception 'student_active_elsewhere';
+  end;
 end;
 $$;
 revoke execute on function public.claim_student_record(uuid) from public, anon;
@@ -293,6 +344,7 @@ create or replace function public.remove_student(p_student_id uuid)
 returns void language plpgsql security definer set search_path = '' as $$
 declare v_school uuid; v_claimed boolean;
 begin
+  if auth.uid() is null then raise exception 'not_authenticated'; end if;
   select school_id, auth_user_id is not null into v_school, v_claimed
     from public.students where id = p_student_id;
   if v_school is null then raise exception 'student_not_found'; end if;
@@ -303,7 +355,13 @@ begin
 
   if not v_claimed
      and not exists (select 1 from public.bookings where student_id = p_student_id) then
-    delete from public.students where id = p_student_id;
+    begin
+      delete from public.students where id = p_student_id;
+    exception when foreign_key_violation then
+      -- a booking slipped in concurrently — fall back to soft removal
+      update public.students set status = 'left', decided_at = now()
+        where id = p_student_id;
+    end;
   else
     update public.students set status = 'left', decided_at = now()
       where id = p_student_id;
@@ -329,6 +387,7 @@ returns table(
 )
 language plpgsql security definer set search_path = '' as $$
 begin
+  if auth.uid() is null then raise exception 'not_authenticated'; end if;
   if auth.uid() <> (select user_id from public.driving_schools where id = p_school_id)
      and (select role from public.profiles where id = auth.uid()) <> 'admin' then
     raise exception 'forbidden';
@@ -345,6 +404,7 @@ begin
     order by s.full_name nulls last;
 end;
 $$;
+revoke execute on function public.list_enrolled_students(uuid) from public, anon;
 grant execute on function public.list_enrolled_students(uuid) to authenticated;
 
 create or replace function public.list_enrollment_requests(p_school_id uuid)
@@ -358,6 +418,7 @@ returns table(
 )
 language plpgsql security definer set search_path = '' as $$
 begin
+  if auth.uid() is null then raise exception 'not_authenticated'; end if;
   if auth.uid() <> (select user_id from public.driving_schools where id = p_school_id)
      and (select role from public.profiles where id = auth.uid()) <> 'admin' then
     raise exception 'forbidden';
@@ -372,6 +433,7 @@ begin
     order by s.created_at desc;
 end;
 $$;
+revoke execute on function public.list_enrollment_requests(uuid) from public, anon;
 grant execute on function public.list_enrollment_requests(uuid) to authenticated;
 
 -- School edits roster data on the students row only (profiles untouched).
@@ -388,6 +450,7 @@ create function public.school_update_student(
 returns void language plpgsql security definer set search_path = '' as $$
 declare v_claimed boolean;
 begin
+  if auth.uid() is null then raise exception 'not_authenticated'; end if;
   if auth.uid() <> (select user_id from public.driving_schools where id = p_school_id)
      and (select role from public.profiles where id = auth.uid()) <> 'admin' then
     raise exception 'forbidden';
@@ -398,6 +461,10 @@ begin
     where id = p_student_id and school_id = p_school_id and status = 'active';
   if v_claimed is null then raise exception 'not_enrolled'; end if;
   if p_email is not null and v_claimed then raise exception 'email_not_editable'; end if;
+  -- unclaimed rows must stay reachable: refuse blanking the email
+  if p_email is not null and not v_claimed and nullif(btrim(p_email), '') is null then
+    raise exception 'email_required';
+  end if;
 
   update public.students
     set full_name    = coalesce(nullif(btrim(p_full_name), ''), full_name),
@@ -412,6 +479,7 @@ exception when unique_violation then
   raise exception 'student_email_exists';
 end;
 $$;
+revoke execute on function public.school_update_student(uuid, uuid, text, text, text, text) from public, anon;
 grant execute on function public.school_update_student(uuid, uuid, text, text, text, text) to authenticated;
 
 -- ──── 8. booking RPCs: student identity now lives in students ────
