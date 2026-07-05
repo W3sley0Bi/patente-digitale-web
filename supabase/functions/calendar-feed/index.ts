@@ -100,10 +100,27 @@ serve(async (req) => {
 		now.getTime() - PAST_WINDOW_DAYS * 24 * 60 * 60 * 1000,
 	).toISOString();
 
+	// bookings.student_id is a students.id — collect this user's student rows first
+	const { data: studentRows, error: studentRowsError } = await admin
+		.from("students")
+		.select("id")
+		.eq("auth_user_id", (profile as { id: string }).id);
+	if (studentRowsError)
+		return new Response(studentRowsError.message, {
+			status: 500,
+			headers: CORS,
+		});
+	const studentIds = ((studentRows ?? []) as { id: string }[]).map((r) => r.id);
+
 	const { data: bookings, error: bookingsError } = await admin
 		.from("bookings")
 		.select("id, school_id, starts_at, ends_at, status")
-		.eq("student_id", (profile as { id: string }).id)
+		.in(
+			"student_id",
+			studentIds.length > 0
+				? studentIds
+				: ["00000000-0000-0000-0000-000000000000"],
+		)
 		.in("status", ["confirmed", "completed"])
 		.gte("ends_at", since)
 		.order("starts_at", { ascending: true });
