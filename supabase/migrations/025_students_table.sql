@@ -326,7 +326,7 @@ begin
     set auth_user_id = v_uid,
         email        = null,
         claim_token  = gen_random_uuid()
-    where claim_token = p_token and auth_user_id is null
+    where claim_token = p_token and auth_user_id is null and status <> 'left'
     returning id into v_id;
   if v_id is null then raise exception 'claim_not_found'; end if;
   return v_id;
