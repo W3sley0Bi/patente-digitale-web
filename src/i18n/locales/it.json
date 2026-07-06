@@ -450,25 +450,24 @@
 			},
 			"refreshStatus": "Aggiorna stato",
 			"rpcError": "Errore durante la verifica automatica: {{message}}. Puoi riprovare dalla pagina di registrazione.",
-			"mock": {
-				"metricsLabel": "Questo mese",
-				"metric1": {
-					"value": "12",
-					"label": "Iscrizioni"
-				},
-				"metric2": {
-					"value": "47",
-					"label": "Visite al profilo"
-				},
-				"recentLabel": "Iscrizioni recenti",
-				"student1": "Marco R. — Patente B",
-				"student2": "Sara L. — Patente B",
-				"student3": "Luca M. — Patente A2",
-				"time1": "2 ore fa",
-				"time2": "ieri",
-				"time3": "3 giorni fa",
-				"exportCsv": "Esporta CSV",
-				"verified": "Profilo verificato"
+			"stats": {
+				"activeStudents": "Studenti attivi",
+				"lessonsThisWeek": "Guide questa settimana",
+				"pendingRequests": "Richieste in sospeso",
+				"activeInstructors": "Istruttori attivi"
+			},
+			"attention": {
+				"title": "Da controllare",
+				"empty": "Tutto in ordine — nessuna richiesta in sospeso.",
+				"viewAll": "Vedi tutte",
+				"type": {
+					"enrollment": "vuole iscriversi",
+					"booking": "ha richiesto una guida"
+				}
+			},
+			"upcoming": {
+				"title": "Prossime guide",
+				"empty": "Nessuna guida in programma."
 			}
 		},
 		"edit": {

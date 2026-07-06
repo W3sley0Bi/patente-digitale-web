@@ -1,12 +1,38 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router";
+import type { AttentionItem } from "@/components/driving-school/DashboardAttention";
+import { DashboardAttention } from "@/components/driving-school/DashboardAttention";
 import { DashboardPending } from "@/components/driving-school/DashboardPending";
+import { DashboardStats } from "@/components/driving-school/DashboardStats";
+import type { UpcomingLesson } from "@/components/driving-school/DashboardUpcoming";
+import { DashboardUpcoming } from "@/components/driving-school/DashboardUpcoming";
 import { DrivingSchoolLayout } from "@/components/driving-school/DrivingSchoolLayout";
 import { Nav } from "@/components/nav/Nav";
 import { useAuth } from "@/hooks/useAuth";
 import { useProfile } from "@/hooks/useProfile";
+import type { EnrollmentRequest } from "@/lib/booking/api";
+import {
+	listEnrollmentRequests,
+	listInstructors,
+	listSchoolBookings,
+	listSchoolEnrollments,
+} from "@/lib/booking/api";
+import { effectiveStatus, isInCurrentWeek } from "@/lib/booking/helpers";
+import type { Booking, Instructor, Student } from "@/lib/booking/types";
 import { supabase } from "@/lib/supabase";
+
+interface DashboardData {
+	students: Student[];
+	bookings: Booking[];
+	instructors: Instructor[];
+	enrollmentRequests: EnrollmentRequest[];
+}
+const EMPTY_DATA: DashboardData = {
+	students: [],
+	bookings: [],
+	instructors: [],
+	enrollmentRequests: [],
+};
 
 interface ClaimRow {
 	id: string;
@@ -31,6 +57,8 @@ export default function DrivingSchoolDashboard() {
 	const [refreshing, setRefreshing] = useState(false);
 	const retryCountRef = useRef(0);
 	const MAX_RETRIES = 1;
+	const [data, setData] = useState<DashboardData>(EMPTY_DATA);
+	const [dataLoading, setDataLoading] = useState(true);
 
 	const fetchClaim = async (userId: string) => {
 		const { data } = await supabase
@@ -144,6 +172,96 @@ export default function DrivingSchoolDashboard() {
 		setRefreshing(false);
 	};
 
+	useEffect(() => {
+		if (!approved || !claim?.id) return;
+		setDataLoading(true);
+		Promise.all([
+			listSchoolEnrollments(claim.id),
+			listSchoolBookings(claim.id),
+			listInstructors(claim.id),
+			listEnrollmentRequests(claim.id),
+		])
+			.then(([students, bookings, instructors, enrollmentRequests]) => {
+				setData({ students, bookings, instructors, enrollmentRequests });
+			})
+			.catch(() => setData(EMPTY_DATA))
+			.finally(() => setDataLoading(false));
+	}, [approved, claim?.id]);
+
+	const {
+		activeStudents,
+		lessonsThisWeek,
+		activeInstructors,
+		upcomingLessons,
+	} = useMemo(() => {
+		const studentNameById = new Map(
+			data.students.map((s) => [s.id, s.full_name ?? "—"]),
+		);
+		const instructorNameById = new Map(
+			data.instructors.map((i) => [i.id, i.name]),
+		);
+		const now = new Date();
+		const activeStudents = data.students.filter(
+			(s) => s.status === "active",
+		).length;
+		const activeInstructors = data.instructors.filter((i) => i.active).length;
+		const lessonsThisWeek = data.bookings.filter(
+			(b) =>
+				effectiveStatus(b, now) === "confirmed" &&
+				isInCurrentWeek(b.starts_at, now),
+		).length;
+		const upcomingLessons: UpcomingLesson[] = data.bookings
+			.filter(
+				(b) =>
+					effectiveStatus(b, now) === "confirmed" &&
+					new Date(b.starts_at).getTime() >= now.getTime(),
+			)
+			.sort((a, b) => a.starts_at.localeCompare(b.starts_at))
+			.slice(0, 5)
+			.map((b) => ({
+				id: b.id,
+				studentName: studentNameById.get(b.student_id) ?? "—",
+				instructorName: b.instructor_id
+					? (instructorNameById.get(b.instructor_id) ?? "—")
+					: t("booking.school.unassigned"),
+				startsAt: b.starts_at,
+			}));
+		return {
+			activeStudents,
+			lessonsThisWeek,
+			activeInstructors,
+			upcomingLessons,
+		};
+	}, [data, t]);
+
+	const attentionItems: AttentionItem[] = useMemo(() => {
+		const studentNameById = new Map(
+			data.students.map((s) => [s.id, s.full_name ?? "—"]),
+		);
+		const now = new Date();
+		const enrollmentItems: AttentionItem[] = data.enrollmentRequests.map(
+			(r) => ({
+				id: r.enrollment_id,
+				type: "enrollment",
+				name: r.full_name ?? r.email ?? "—",
+				createdAt: r.created_at,
+				href: "/app/driving-school/students",
+			}),
+		);
+		const bookingItems: AttentionItem[] = data.bookings
+			.filter((b) => effectiveStatus(b, now) === "pending")
+			.map((b) => ({
+				id: b.id,
+				type: "booking",
+				name: studentNameById.get(b.student_id) ?? "—",
+				createdAt: b.created_at,
+				href: "/app/driving-school/drive-bookings",
+			}));
+		return [...enrollmentItems, ...bookingItems].sort((a, b) =>
+			b.createdAt.localeCompare(a.createdAt),
+		);
+	}, [data]);
+
 	if (profileLoading || claimLoading) {
 		return (
 			<div className="min-h-screen bg-bg flex items-center justify-center">
@@ -190,30 +308,30 @@ export default function DrivingSchoolDashboard() {
 			<p className="text-ink-muted mt-1 text-sm">
 				{t("school.dashboard.subtitle")}
 			</p>
-			<div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
-				<Link
-					to="/app/driving-school/profile"
-					className="rounded-xl border border-line p-5 hover:border-brand/40 hover:bg-brand-soft/20 transition-colors group"
-				>
-					<p className="font-semibold text-sm group-hover:text-brand transition-colors">
-						{t("school.dashboard.editListing")}
-					</p>
-					<p className="text-xs text-ink-muted mt-1">
-						{t("school.dashboard.editListingDesc")}
-					</p>
-				</Link>
-				<Link
-					to="/app/driving-school/drive-bookings"
-					className="rounded-xl border border-line p-5 hover:border-brand/40 hover:bg-brand-soft/20 transition-colors group"
-				>
-					<p className="font-semibold text-sm group-hover:text-brand transition-colors">
-						{t("school.dashboard.nav.guide")}
-					</p>
-					<p className="text-xs text-ink-muted mt-1">
-						{t("booking.school.requests")}
-					</p>
-				</Link>
-			</div>
+			{dataLoading ? (
+				<div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-4">
+					{Array.from({ length: 4 }).map((_, i) => (
+						<div
+							// biome-ignore lint/suspicious/noArrayIndexKey: static placeholder count
+							key={i}
+							className="h-24 animate-pulse rounded-2xl bg-bg-sunken"
+						/>
+					))}
+				</div>
+			) : (
+				<>
+					<div className="mt-8">
+						<DashboardStats
+							activeStudents={activeStudents}
+							lessonsThisWeek={lessonsThisWeek}
+							pendingCount={attentionItems.length}
+							activeInstructors={activeInstructors}
+						/>
+					</div>
+					<DashboardAttention items={attentionItems} />
+					<DashboardUpcoming lessons={upcomingLessons} />
+				</>
+			)}
 		</DrivingSchoolLayout>
 	);
 }

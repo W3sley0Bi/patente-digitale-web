@@ -3,6 +3,7 @@ import {
 	effectiveStatus,
 	groupByDay,
 	isCancellable,
+	isInCurrentWeek,
 	nextDays,
 	overlaps,
 } from "./helpers";
@@ -131,6 +132,28 @@ describe("groupByDay", () => {
 		]);
 		expect(Object.keys(g).sort()).toEqual(["2030-01-01", "2030-01-02"]);
 		expect(g["2030-01-01"].map((x) => x.id)).toEqual(["a"]);
+	});
+});
+
+describe("isInCurrentWeek", () => {
+	// Wed 2026-07-08 (local) → week is Mon 2026-07-06 .. Sun 2026-07-12.
+	const now = new Date(2026, 6, 8, 12, 0, 0);
+
+	it("includes a date later in the same week", () => {
+		const fri = new Date(2026, 6, 10, 9, 0, 0).toISOString();
+		expect(isInCurrentWeek(fri, now)).toBe(true);
+	});
+	it("excludes a date from the previous week", () => {
+		const prevSun = new Date(2026, 6, 5, 9, 0, 0).toISOString();
+		expect(isInCurrentWeek(prevSun, now)).toBe(false);
+	});
+	it("includes the Monday start boundary", () => {
+		const monday = new Date(2026, 6, 6, 0, 0, 0).toISOString();
+		expect(isInCurrentWeek(monday, now)).toBe(true);
+	});
+	it("excludes the following Monday (exclusive end boundary)", () => {
+		const nextMonday = new Date(2026, 6, 13, 0, 0, 0).toISOString();
+		expect(isInCurrentWeek(nextMonday, now)).toBe(false);
 	});
 });
 

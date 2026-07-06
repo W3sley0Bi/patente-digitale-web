@@ -447,25 +447,24 @@
 			},
 			"refreshStatus": "Refresh status",
 			"rpcError": "Automatic verification failed: {{message}}. You can retry from the registration page.",
-			"mock": {
-				"metricsLabel": "This month",
-				"metric1": {
-					"value": "12",
-					"label": "Enrolments"
-				},
-				"metric2": {
-					"value": "47",
-					"label": "Profile views"
-				},
-				"recentLabel": "Recent enrolments",
-				"student1": "Marco R. — Licence B",
-				"student2": "Sara L. — Licence B",
-				"student3": "Luca M. — Licence A2",
-				"time1": "2 hours ago",
-				"time2": "yesterday",
-				"time3": "3 days ago",
-				"exportCsv": "Export CSV",
-				"verified": "Verified profile"
+			"stats": {
+				"activeStudents": "Active students",
+				"lessonsThisWeek": "Lessons this week",
+				"pendingRequests": "Pending requests",
+				"activeInstructors": "Active instructors"
+			},
+			"attention": {
+				"title": "Needs attention",
+				"empty": "All caught up — no pending requests.",
+				"viewAll": "View all",
+				"type": {
+					"enrollment": "wants to enroll",
+					"booking": "requested a lesson"
+				}
+			},
+			"upcoming": {
+				"title": "Upcoming lessons",
+				"empty": "No upcoming lessons scheduled."
 			}
 		},
 		"edit": {

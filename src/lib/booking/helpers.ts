@@ -59,6 +59,19 @@ export function nextDays(n: number, from: Date = new Date()): string[] {
 	return out;
 }
 
+/** True if `iso` falls within the Monday–Sunday calendar week containing `now` (local time). */
+export function isInCurrentWeek(iso: string, now: Date = new Date()): boolean {
+	const day = now.getDay(); // 0=Sun..6=Sat
+	const mondayOffset = day === 0 ? -6 : 1 - day;
+	const weekStart = new Date(now);
+	weekStart.setHours(0, 0, 0, 0);
+	weekStart.setDate(now.getDate() + mondayOffset);
+	const weekEnd = new Date(weekStart);
+	weekEnd.setDate(weekStart.getDate() + 7);
+	const target = new Date(iso).getTime();
+	return target >= weekStart.getTime() && target < weekEnd.getTime();
+}
+
 /** Group bookings by UTC date (YYYY-MM-DD), each bucket sorted by start time. */
 export function groupByDay(bookings: Booking[]): Record<string, Booking[]> {
 	const out: Record<string, Booking[]> = {};
