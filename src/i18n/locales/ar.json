@@ -224,7 +224,8 @@
 			"unclaimedBadge": "غير مسجّل",
 			"copyClaimLink": "نسخ رابط التسجيل",
 			"claimLinkCopied": "تم نسخ الرابط",
-			"removeStudent": "إزالة الطالب"
+			"removeStudent": "إزالة الطالب",
+			"removeStudentConfirm": "هل تريد إزالة هذا الطالب من مدرسة القيادة الخاصة بك؟ ستبقى دروس القيادة السابقة محفوظة."
 		}
 	},
 	"cerca": {

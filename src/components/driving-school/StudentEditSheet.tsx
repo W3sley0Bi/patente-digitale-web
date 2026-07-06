@@ -83,7 +83,7 @@ export function StudentEditSheet({
 
 	async function handleRemove() {
 		if (!student) return;
-		if (!window.confirm(t("booking.school.removeStudent"))) return;
+		if (!window.confirm(t("booking.school.removeStudentConfirm"))) return;
 		setRemoving(true);
 		setError(null);
 		try {

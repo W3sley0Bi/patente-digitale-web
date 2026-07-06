@@ -172,3 +172,18 @@ single UPDATE joining on `(school_id, old auth-uid student_id)`.
   already-claimed, active-elsewhere), email-match claim via invite flow, booking as
   school for unclaimed student, notify email resolution both branches.
 - RLS: student cannot read other students' rows; school cannot read other schools'.
+
+## As-built deviations
+
+- **Email-match claim is not invite-scoped.** `request_enrollment` claims a matching
+  unclaimed row for ANY self-enrollment at the school when the caller's confirmed
+  auth email matches — the RPC cannot distinguish invite-link arrival from organic
+  enrollment. The "surface the match to the school for confirmation" idea was cut.
+- **No unclaimed-needs-email check constraint.** Replaced by RPC-level enforcement
+  (unclaimed rows always get an email via `add_student_manual` / school edits) plus
+  a best-effort email snapshot trigger on `auth.users` delete, so account deletion
+  never fails on a constraint.
+- **Uniqueness details.** The claim token index is unique; the unclaimed-email
+  uniqueness index excludes rows with `status = 'left'`.
+- **Claim route/auth.** The claim page redirects unauthenticated users via the
+  app's existing `/app/login?next=` pattern, and `/claim/:token` is a public route.

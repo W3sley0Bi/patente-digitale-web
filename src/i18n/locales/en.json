@@ -223,7 +223,8 @@
 			"unclaimedBadge": "Not registered",
 			"copyClaimLink": "Copy registration link",
 			"claimLinkCopied": "Link copied",
-			"removeStudent": "Remove student"
+			"removeStudent": "Remove student",
+			"removeStudentConfirm": "Remove this student from your driving school? Past drives remain saved."
 		}
 	},
 	"cerca": {

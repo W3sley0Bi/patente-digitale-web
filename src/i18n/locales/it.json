@@ -223,7 +223,8 @@
 			"unclaimedBadge": "Non registrato",
 			"copyClaimLink": "Copia link di registrazione",
 			"claimLinkCopied": "Link copiato",
-			"removeStudent": "Rimuovi allievo"
+			"removeStudent": "Rimuovi allievo",
+			"removeStudentConfirm": "Rimuovere questo allievo dalla tua autoscuola? Le guide passate restano salvate."
 		}
 	},
 	"cerca": {

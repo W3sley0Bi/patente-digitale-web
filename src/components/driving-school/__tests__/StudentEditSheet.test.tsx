@@ -155,7 +155,9 @@ describe("StudentEditSheet", () => {
 		);
 
 		await waitFor(() => expect(onSaved).toHaveBeenCalled());
-		expect(window.confirm).toHaveBeenCalledWith("booking.school.removeStudent");
+		expect(window.confirm).toHaveBeenCalledWith(
+			"booking.school.removeStudentConfirm",
+		);
 		expect(removeStudent).toHaveBeenCalledWith("stu-1");
 		expect(onOpenChange).toHaveBeenCalledWith(false);
 	});
