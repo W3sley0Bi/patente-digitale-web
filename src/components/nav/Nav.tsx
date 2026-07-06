@@ -20,6 +20,7 @@ import {
 	SheetTitle,
 	SheetTrigger,
 } from "@/components/ui/sheet";
+import { useProfile } from "@/hooks/useProfile";
 import { Mascot, Wordmark } from "../brand/Brand";
 import { LangSwitch } from "./LangSwitch";
 import { UserMenu } from "./UserMenu";
@@ -35,6 +36,8 @@ export function Nav() {
 	const { t } = useTranslation();
 	const { pathname } = useLocation();
 	const isInApp = pathname.startsWith("/app");
+	const { role } = useProfile();
+	const brandVariant = isInApp && role === "autoscuola" ? "autoscuola" : "default";
 	const [isScrolled, setIsScrolled] = useState(false);
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
 	const [isContactOpen, setIsContactOpen] = useState(false);
@@ -199,8 +202,8 @@ export function Nav() {
 					onClick={() => setIsMenuOpen(false)}
 					className="flex items-center gap-2.5"
 				>
-					<Mascot size="sm" />
-					<Wordmark className="text-sm md:text-lg" />
+					<Mascot size="sm" variant={brandVariant} />
+					<Wordmark className="text-sm md:text-lg" variant={brandVariant} />
 				</Link>
 
 				{/* Desktop links */}

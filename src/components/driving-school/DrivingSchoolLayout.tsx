@@ -63,8 +63,8 @@ export function DrivingSchoolLayout({
 						to="/app/driving-school"
 						className="flex items-center gap-2.5"
 					>
-						<Mascot size="sm" />
-						<Wordmark />
+						<Mascot size="sm" variant="autoscuola" />
+						<Wordmark variant="autoscuola" />
 					</Link>
 					<UserMenu />
 				</div>
