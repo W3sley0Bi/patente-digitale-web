@@ -419,14 +419,20 @@ export const requestEnrollment = async (
 	licence: string,
 	phone: string,
 	schoolEmail?: string,
-) => {
-	const id = await rpc("request_enrollment", {
+): Promise<Student | null> => {
+	await rpc("request_enrollment", {
 		p_school_id: schoolId,
 		p_licence_code: licence,
 		p_phone: phone,
 	});
-	await notify("enrollment_requested", schoolEmail);
-	return id;
+	// The RPC may claim a matching unclaimed roster row (student is instantly
+	// active) instead of creating a pending request. Refetch to learn which
+	// branch fired: only a real pending request warrants the school email.
+	const student = await getMyEnrollment();
+	if (student?.status !== "active") {
+		await notify("enrollment_requested", schoolEmail);
+	}
+	return student;
 };
 export const approveEnrollment = async (id: string, studentEmail?: string) => {
 	await rpc("approve_enrollment", { p_enrollment_id: id });

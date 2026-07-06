@@ -19,6 +19,7 @@ const mkStudent = (over: Partial<Student>): Student => ({
 let queryResult: { data: Student[] | null; error: unknown };
 
 const rpcMock = vi.hoisted(() => vi.fn());
+const invokeMock = vi.hoisted(() => vi.fn());
 
 vi.mock("@/lib/supabase", () => ({
 	supabase: {
@@ -28,6 +29,9 @@ vi.mock("@/lib/supabase", () => ({
 			}),
 		}),
 		rpc: (...args: unknown[]) => rpcMock(...args),
+		functions: {
+			invoke: (...args: unknown[]) => invokeMock(...args),
+		},
 	},
 }));
 
@@ -36,11 +40,14 @@ import {
 	claimStudentRecord,
 	getMyEnrollment,
 	removeStudent,
+	requestEnrollment,
 } from "../api";
 
 beforeEach(() => {
 	rpcMock.mockReset();
 	rpcMock.mockResolvedValue({ data: null, error: null });
+	invokeMock.mockReset();
+	invokeMock.mockResolvedValue({ data: null, error: null });
 });
 
 describe("getMyEnrollment", () => {
@@ -74,6 +81,60 @@ describe("getMyEnrollment", () => {
 	it("returns null when there are no matching rows", async () => {
 		queryResult = { data: [], error: null };
 		expect(await getMyEnrollment()).toBeNull();
+	});
+});
+
+describe("requestEnrollment", () => {
+	it("notifies the school and returns the pending row when a request was created", async () => {
+		const pending = mkStudent({ id: "p1", status: "pending" });
+		queryResult = { data: [pending], error: null };
+
+		const result = await requestEnrollment(
+			"school-1",
+			"B",
+			"333 1234567",
+			"school@example.com",
+		);
+
+		expect(rpcMock).toHaveBeenCalledWith("request_enrollment", {
+			p_school_id: "school-1",
+			p_licence_code: "B",
+			p_phone: "333 1234567",
+		});
+		expect(invokeMock).toHaveBeenCalledWith("notify", {
+			body: {
+				event: "enrollment_requested",
+				to: "school@example.com",
+				body: undefined,
+			},
+		});
+		expect(result).toEqual(pending);
+	});
+
+	it("skips the request email and returns the active row when the RPC claimed a matching record", async () => {
+		const active = mkStudent({ id: "a1", status: "active" });
+		queryResult = { data: [active], error: null };
+
+		const result = await requestEnrollment(
+			"school-1",
+			"B",
+			"333 1234567",
+			"school@example.com",
+		);
+
+		expect(invokeMock).not.toHaveBeenCalled();
+		expect(result).toEqual(active);
+	});
+
+	it("throws the rpc error without notifying", async () => {
+		rpcMock.mockResolvedValue({
+			data: null,
+			error: new Error("student_active_elsewhere"),
+		});
+		await expect(
+			requestEnrollment("school-1", "B", "333", "school@example.com"),
+		).rejects.toThrow("student_active_elsewhere");
+		expect(invokeMock).not.toHaveBeenCalled();
 	});
 });
 
