@@ -2,13 +2,23 @@ import {
 	CalendarDays,
 	IdCard,
 	LayoutDashboard,
+	Lock,
+	MessageCircle,
 	Settings,
 	Users,
 } from "lucide-react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, NavLink } from "react-router";
 import { Mascot, Wordmark } from "@/components/brand/Brand";
 import { UserMenu } from "@/components/nav/UserMenu";
+import {
+	Dialog,
+	DialogContent,
+	DialogDescription,
+	DialogHeader,
+	DialogTitle,
+} from "@/components/ui/dialog";
 
 const NAV_ITEMS = [
 	{
@@ -23,6 +33,14 @@ const NAV_ITEMS = [
 		label: "school.dashboard.nav.guide",
 		end: false,
 	},
+];
+
+const LOCKED_NAV_ITEM = {
+	icon: MessageCircle,
+	label: "school.dashboard.nav.whatsappBusiness",
+};
+
+const NAV_ITEMS_AFTER_LOCKED = [
 	{
 		href: "/app/driving-school/students",
 		icon: Users,
@@ -53,6 +71,7 @@ export function DrivingSchoolLayout({
 	schoolName,
 }: DrivingSchoolLayoutProps) {
 	const { t } = useTranslation();
+	const [lockedDialogOpen, setLockedDialogOpen] = useState(false);
 
 	return (
 		<div className="min-h-screen bg-bg text-ink">
@@ -95,11 +114,63 @@ export function DrivingSchoolLayout({
 							{t(label)}
 						</NavLink>
 					))}
+					<button
+						type="button"
+						onClick={() => setLockedDialogOpen(true)}
+						className="flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm font-medium text-ink-muted transition-colors hover:bg-brand-soft/40 hover:text-ink"
+					>
+						<LOCKED_NAV_ITEM.icon size={16} />
+						<span className="flex-1 text-left">{t(LOCKED_NAV_ITEM.label)}</span>
+						<Lock size={14} className="text-ink-faint" />
+					</button>
+					{NAV_ITEMS_AFTER_LOCKED.map(({ href, icon: Icon, label, end }) => (
+						<NavLink
+							key={href}
+							to={href}
+							end={end}
+							className={({ isActive }) =>
+								`flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
+									isActive
+										? "bg-brand-soft text-brand"
+										: "text-ink-muted hover:bg-brand-soft/40 hover:text-ink"
+								}`
+							}
+						>
+							<Icon size={16} />
+							{t(label)}
+						</NavLink>
+					))}
 				</aside>
 
 				{/* Mobile top tabs — horizontally scrollable, never overflow the page */}
 				<div className="md:hidden fixed top-20 left-0 right-0 z-40 flex gap-1 overflow-x-auto border-b border-line bg-bg px-4 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
 					{NAV_ITEMS.map(({ href, icon: Icon, label, end }) => (
+						<NavLink
+							key={href}
+							to={href}
+							end={end}
+							className={({ isActive }) =>
+								`-mb-px flex shrink-0 items-center gap-1.5 whitespace-nowrap border-b-2 px-3 py-3 text-xs font-medium transition-colors ${
+									isActive
+										? "border-brand text-brand"
+										: "border-transparent text-ink-muted hover:text-ink"
+								}`
+							}
+						>
+							<Icon size={14} />
+							{t(label)}
+						</NavLink>
+					))}
+					<button
+						type="button"
+						onClick={() => setLockedDialogOpen(true)}
+						className="-mb-px flex shrink-0 items-center gap-1.5 whitespace-nowrap border-b-2 border-transparent px-3 py-3 text-xs font-medium text-ink-muted transition-colors hover:text-ink"
+					>
+						<LOCKED_NAV_ITEM.icon size={14} />
+						{t(LOCKED_NAV_ITEM.label)}
+						<Lock size={12} className="text-ink-faint" />
+					</button>
+					{NAV_ITEMS_AFTER_LOCKED.map(({ href, icon: Icon, label, end }) => (
 						<NavLink
 							key={href}
 							to={href}
@@ -124,6 +195,22 @@ export function DrivingSchoolLayout({
 					{children}
 				</main>
 			</div>
+
+			<Dialog open={lockedDialogOpen} onOpenChange={setLockedDialogOpen}>
+				<DialogContent>
+					<DialogHeader>
+						<div className="mb-2 flex size-10 items-center justify-center rounded-full bg-brand-soft text-brand">
+							<Lock size={18} />
+						</div>
+						<DialogTitle>
+							{t("school.dashboard.nav.whatsappBusinessLockedTitle")}
+						</DialogTitle>
+						<DialogDescription>
+							{t("school.dashboard.nav.whatsappBusinessLockedDescription")}
+						</DialogDescription>
+					</DialogHeader>
+				</DialogContent>
+			</Dialog>
 		</div>
 	);
 }

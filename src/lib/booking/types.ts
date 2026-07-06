@@ -49,4 +49,5 @@ export interface Booking {
 		cancellation_policy: "always" | "no_cancel" | "custom";
 		cancellation_cutoff_hours: number;
 	} | null;
+	student?: { full_name: string | null } | null;
 }

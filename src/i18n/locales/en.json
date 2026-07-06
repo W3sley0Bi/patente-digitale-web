@@ -430,6 +430,9 @@
 			"nav": {
 				"overview": "Overview",
 				"guide": "Lessons",
+				"whatsappBusiness": "WhatsApp Business",
+				"whatsappBusinessLockedTitle": "This section is locked",
+				"whatsappBusinessLockedDescription": "Please contact the patentedigitale.it admins for further info.",
 				"students": "Students",
 				"editListing": "Listing",
 				"settings": "Settings"

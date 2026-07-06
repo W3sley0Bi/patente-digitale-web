@@ -407,6 +407,9 @@
 			"nav": {
 				"overview": "نظرة عامة",
 				"guide": "الدروس",
+				"whatsappBusiness": "واتساب بيزنس",
+				"whatsappBusinessLockedTitle": "هذا القسم مغلق",
+				"whatsappBusinessLockedDescription": "يرجى التواصل مع مسؤولي patentedigitale.it لمزيد من المعلومات.",
 				"students": "الطلاب",
 				"editListing": "القائمة",
 				"settings": "الإعدادات"

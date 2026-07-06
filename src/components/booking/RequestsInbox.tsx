@@ -140,6 +140,11 @@ export function RequestsInbox({
 										{b.duration_min}m
 									</span>
 								</div>
+								{b.student?.full_name && (
+									<p className="mt-1 truncate text-xs text-ink-muted">
+										{b.student.full_name}
+									</p>
+								)}
 								<div className="mt-2">
 									<StatusPill status={b.status} />
 								</div>

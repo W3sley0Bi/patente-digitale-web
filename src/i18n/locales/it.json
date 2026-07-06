@@ -433,6 +433,9 @@
 			"nav": {
 				"overview": "Panoramica",
 				"guide": "Guide",
+				"whatsappBusiness": "WhatsApp Business",
+				"whatsappBusinessLockedTitle": "Questa sezione è bloccata",
+				"whatsappBusinessLockedDescription": "Contatta gli amministratori di patentedigitale.it per maggiori informazioni.",
 				"students": "Studenti",
 				"editListing": "Profilo",
 				"settings": "Impostazioni"

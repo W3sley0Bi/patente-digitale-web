@@ -5,7 +5,7 @@ import type { Booking, Instructor, Student } from "./types";
 export async function listSchoolBookings(schoolId: string): Promise<Booking[]> {
 	const { data, error } = await supabase
 		.from("bookings")
-		.select("*")
+		.select("*, student:students ( full_name )")
 		.eq("school_id", schoolId)
 		.order("starts_at", { ascending: true });
 	if (error) throw error;
