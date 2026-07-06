@@ -1,9 +1,12 @@
 import {
 	Check,
 	ChevronRight,
+	Headset,
 	Languages,
 	LayoutDashboard,
 	LogOut,
+	Mail,
+	MessageCircle,
 	User,
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
@@ -34,6 +37,7 @@ export function UserMenu() {
 	const isMobile = useIsMobile();
 	const [open, setOpen] = useState(false);
 	const [langOpen, setLangOpen] = useState(false);
+	const [supportOpen, setSupportOpen] = useState(false);
 	const ref = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
@@ -47,7 +51,10 @@ export function UserMenu() {
 	}, []);
 
 	useEffect(() => {
-		if (!open) setLangOpen(false);
+		if (!open) {
+			setLangOpen(false);
+			setSupportOpen(false);
+		}
 	}, [open]);
 
 	const changeLanguage = (code: string) => {
@@ -166,6 +173,42 @@ export function UserMenu() {
 									))}
 								</div>
 							)}
+							<button
+								type="button"
+								onClick={() => setSupportOpen((o) => !o)}
+								className="flex w-full items-center justify-between gap-3 px-5 py-4 text-base font-medium leading-none text-ink border-b border-line/60 hover:bg-brand-soft/30 hover:text-brand transition-colors"
+							>
+								<span className="flex items-center gap-3">
+									<Headset size={18} className="text-ink-muted" />
+									{t("landing.nav.contact")}
+								</span>
+								<ChevronRight
+									size={16}
+									className={cn(
+										"transition-transform",
+										supportOpen && "rotate-90",
+									)}
+								/>
+							</button>
+							{supportOpen && (
+								<div className="flex flex-col border-b border-line/60 bg-brand-soft/10">
+									<a
+										href="mailto:supporto@patentedigitale.it"
+										onClick={() => setOpen(false)}
+										className="flex items-center gap-3 px-5 py-3 text-sm leading-none text-ink hover:bg-brand-soft/30 hover:text-brand transition-colors"
+									>
+										<Mail size={16} />
+										<span>Email</span>
+									</a>
+									<button
+										type="button"
+										className="flex items-center gap-3 px-5 py-3 text-sm leading-none text-ink hover:bg-brand-soft/30 hover:text-brand transition-colors"
+									>
+										<MessageCircle size={16} />
+										<span>WhatsApp</span>
+									</button>
+								</div>
+							)}
 
 							<button
 								type="button"
@@ -241,6 +284,42 @@ export function UserMenu() {
 										)}
 									</button>
 								))}
+							</div>
+						)}
+						<button
+							type="button"
+							onClick={() => setSupportOpen((o) => !o)}
+							className="flex w-full items-center justify-between gap-3 px-4 py-2.5 text-sm leading-none text-ink hover:bg-brand-soft/30 hover:text-brand transition-colors"
+						>
+							<span className="flex items-center gap-3">
+								<Headset size={15} className="text-ink-muted" />
+								{t("landing.nav.contact")}
+							</span>
+							<ChevronRight
+								size={14}
+								className={cn(
+									"transition-transform",
+									supportOpen && "rotate-90",
+								)}
+							/>
+						</button>
+						{supportOpen && (
+							<div className="flex flex-col bg-brand-soft/10">
+								<a
+									href="mailto:supporto@patentedigitale.it"
+									onClick={() => setOpen(false)}
+									className="flex items-center gap-3 px-4 py-2 text-sm leading-none text-ink hover:bg-brand-soft/30 hover:text-brand transition-colors"
+								>
+									<Mail size={14} />
+									<span>Email</span>
+								</a>
+								<button
+									type="button"
+									className="flex items-center gap-3 px-4 py-2 text-sm leading-none text-ink hover:bg-brand-soft/30 hover:text-brand transition-colors"
+								>
+									<MessageCircle size={14} />
+									<span>WhatsApp</span>
+								</button>
 							</div>
 						)}
 					</div>
