@@ -210,7 +210,21 @@
 			"emailSchoolRequestLabel": "Avvisa la scuola a ogni richiesta",
 			"emailSchoolRequestHint": "La scuola riceve un'email ogni volta che uno studente richiede una guida.",
 			"emailSettingsSaved": "Impostazioni salvate.",
-			"emailSettingsError": "Salvataggio non riuscito. Riprova."
+			"emailSettingsError": "Salvataggio non riuscito. Riprova.",
+			"addStudent": "Aggiungi allievo",
+			"addStudentTitle": "Aggiungi un allievo",
+			"addStudentHint": "L'allievo riceverà le email di notifica delle guide a questo indirizzo. Conferma di avere il suo consenso a essere contattato.",
+			"addStudentName": "Nome e cognome",
+			"addStudentEmail": "Email",
+			"addStudentPhone": "Telefono (facoltativo)",
+			"addStudentLicence": "Patente (facoltativo)",
+			"addStudentSubmit": "Aggiungi",
+			"addStudentEmailExists": "Esiste già un allievo con questa email.",
+			"unclaimedBadge": "Non registrato",
+			"copyClaimLink": "Copia link di registrazione",
+			"claimLinkCopied": "Link copiato",
+			"removeStudent": "Rimuovi allievo",
+			"removeStudentConfirm": "Rimuovere questo allievo dalla tua autoscuola? Le guide passate restano salvate."
 		}
 	},
 	"cerca": {
@@ -1127,5 +1141,11 @@
 				"mockLabel": "Anteprima · pagamento non attivo"
 			}
 		}
+	},
+	"claim": {
+		"working": "Collegamento del tuo profilo…",
+		"success": "Profilo collegato! Ora vedi le tue guide.",
+		"notFound": "Link non valido o già utilizzato.",
+		"activeElsewhere": "Risulti già iscritto a un'altra autoscuola."
 	}
 }

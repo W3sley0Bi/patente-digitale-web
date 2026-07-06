@@ -38,6 +38,7 @@ const SetPassword = lazy(() => import("./routes/SetPassword"));
 const DrivingSchoolSettings = lazy(
 	() => import("./routes/DrivingSchoolSettings"),
 );
+const ClaimStudent = lazy(() => import("./routes/ClaimStudent"));
 const Studenti = lazy(() => import("./routes/Studenti"));
 const Autoscuole = lazy(() => import("./routes/Autoscuole"));
 const NotFound = lazy(() => import("./routes/NotFound"));
@@ -70,6 +71,7 @@ function App() {
 							<Route path="/search" element={<Cerca />} />
 							<Route path="/iscrizione" element={<SearchRedirect />} />
 							<Route path="/partner" element={<Partner />} />
+							<Route path="/claim/:token" element={<ClaimStudent />} />
 							<Route path="/app" element={<AppHomeRedirect />} />
 							<Route path="/app/login" element={<Login />} />
 							<Route path="/app/reset-password" element={<ResetPassword />} />

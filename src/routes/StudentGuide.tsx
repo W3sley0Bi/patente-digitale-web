@@ -6,7 +6,7 @@ import { MyLessons } from "@/components/booking/MyLessons";
 import { AppSchoolFinderPanel } from "@/components/booking/school-finder/AppSchoolFinderPanel";
 import { StudentLayout } from "@/components/student/StudentLayout";
 import { getMyEnrollment } from "@/lib/booking/api";
-import type { Enrollment } from "@/lib/booking/types";
+import type { Student } from "@/lib/booking/types";
 import { supabase } from "@/lib/supabase";
 import { cn } from "@/lib/utils";
 
@@ -19,7 +19,7 @@ type SchoolInfo = {
 
 export default function StudentGuide() {
 	const { t } = useTranslation();
-	const [enrollment, setEnrollment] = useState<Enrollment | null>(null);
+	const [enrollment, setEnrollment] = useState<Student | null>(null);
 	const [school, setSchool] = useState<SchoolInfo | null>(null);
 	const [loading, setLoading] = useState(true);
 	const [refresh, setRefresh] = useState(0);

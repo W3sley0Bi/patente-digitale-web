@@ -1,18 +1,25 @@
-import { describe, expect, it, vi } from "vitest";
-import type { Enrollment } from "../types";
+import { beforeEach, describe, expect, it, vi } from "vitest";
+import type { Student } from "../types";
 
-const mkEnrollment = (over: Partial<Enrollment>): Enrollment => ({
+const mkStudent = (over: Partial<Student>): Student => ({
 	id: "e",
 	school_id: "s",
-	student_id: "u",
+	auth_user_id: "u",
+	full_name: null,
+	email: null,
+	phone: null,
 	status: "pending",
+	source: "self",
 	licence_code: null,
 	created_at: "",
 	decided_at: null,
 	...over,
 });
 
-let queryResult: { data: Enrollment[] | null; error: unknown };
+let queryResult: { data: Student[] | null; error: unknown };
+
+const rpcMock = vi.hoisted(() => vi.fn());
+const invokeMock = vi.hoisted(() => vi.fn());
 
 vi.mock("@/lib/supabase", () => ({
 	supabase: {
@@ -21,15 +28,40 @@ vi.mock("@/lib/supabase", () => ({
 				in: () => Promise.resolve(queryResult),
 			}),
 		}),
+		rpc: (...args: unknown[]) => rpcMock(...args),
+		functions: {
+			invoke: (...args: unknown[]) => invokeMock(...args),
+		},
 	},
 }));
 
-import { getMyEnrollment } from "../api";
+import {
+	addStudentManual,
+	claimStudentRecord,
+	getMyEnrollment,
+	removeStudent,
+	requestEnrollment,
+} from "../api";
+
+beforeEach(() => {
+	rpcMock.mockReset();
+	rpcMock.mockResolvedValue({ data: null, error: null });
+	invokeMock.mockReset();
+	invokeMock.mockResolvedValue({ data: null, error: null });
+});
 
 describe("getMyEnrollment", () => {
-	it("prefers an active enrollment over a stale pending one, regardless of row order", async () => {
-		const pending = mkEnrollment({ id: "p1", school_id: "school-c", status: "pending" });
-		const active = mkEnrollment({ id: "a1", school_id: "school-b", status: "active" });
+	it("prefers an active record over a stale pending one, regardless of row order", async () => {
+		const pending = mkStudent({
+			id: "p1",
+			school_id: "school-c",
+			status: "pending",
+		});
+		const active = mkStudent({
+			id: "a1",
+			school_id: "school-b",
+			status: "active",
+		});
 
 		// Row order is arbitrary (no ORDER BY on the query) — pending listed first.
 		queryResult = { data: [pending, active], error: null };
@@ -40,8 +72,8 @@ describe("getMyEnrollment", () => {
 		expect(await getMyEnrollment()).toEqual(active);
 	});
 
-	it("falls back to a pending enrollment when no active one exists", async () => {
-		const pending = mkEnrollment({ id: "p1", status: "pending" });
+	it("falls back to a pending record when no active one exists", async () => {
+		const pending = mkStudent({ id: "p1", status: "pending" });
 		queryResult = { data: [pending], error: null };
 		expect(await getMyEnrollment()).toEqual(pending);
 	});
@@ -49,5 +81,126 @@ describe("getMyEnrollment", () => {
 	it("returns null when there are no matching rows", async () => {
 		queryResult = { data: [], error: null };
 		expect(await getMyEnrollment()).toBeNull();
+	});
+});
+
+describe("requestEnrollment", () => {
+	it("notifies the school and returns the pending row when a request was created", async () => {
+		const pending = mkStudent({ id: "p1", status: "pending" });
+		queryResult = { data: [pending], error: null };
+
+		const result = await requestEnrollment(
+			"school-1",
+			"B",
+			"333 1234567",
+			"school@example.com",
+		);
+
+		expect(rpcMock).toHaveBeenCalledWith("request_enrollment", {
+			p_school_id: "school-1",
+			p_licence_code: "B",
+			p_phone: "333 1234567",
+		});
+		expect(invokeMock).toHaveBeenCalledWith("notify", {
+			body: {
+				event: "enrollment_requested",
+				to: "school@example.com",
+				body: undefined,
+			},
+		});
+		expect(result).toEqual(pending);
+	});
+
+	it("skips the request email and returns the active row when the RPC claimed a matching record", async () => {
+		const active = mkStudent({ id: "a1", status: "active" });
+		queryResult = { data: [active], error: null };
+
+		const result = await requestEnrollment(
+			"school-1",
+			"B",
+			"333 1234567",
+			"school@example.com",
+		);
+
+		expect(invokeMock).not.toHaveBeenCalled();
+		expect(result).toEqual(active);
+	});
+
+	it("throws the rpc error without notifying", async () => {
+		rpcMock.mockResolvedValue({
+			data: null,
+			error: new Error("student_active_elsewhere"),
+		});
+		await expect(
+			requestEnrollment("school-1", "B", "333", "school@example.com"),
+		).rejects.toThrow("student_active_elsewhere");
+		expect(invokeMock).not.toHaveBeenCalled();
+	});
+});
+
+describe("addStudentManual", () => {
+	it("maps fields to rpc params, defaulting optionals to null", async () => {
+		rpcMock.mockResolvedValue({ data: "new-id", error: null });
+		const id = await addStudentManual("school-1", {
+			full_name: "Mario Rossi",
+			email: "mario@example.com",
+		});
+		expect(id).toBe("new-id");
+		expect(rpcMock).toHaveBeenCalledWith("add_student_manual", {
+			p_school_id: "school-1",
+			p_full_name: "Mario Rossi",
+			p_email: "mario@example.com",
+			p_phone: null,
+			p_licence_code: null,
+		});
+	});
+
+	it("passes phone and licence when provided", async () => {
+		await addStudentManual("school-1", {
+			full_name: "Mario Rossi",
+			email: "mario@example.com",
+			phone: "333 1234567",
+			licence_code: "B",
+		});
+		expect(rpcMock).toHaveBeenCalledWith("add_student_manual", {
+			p_school_id: "school-1",
+			p_full_name: "Mario Rossi",
+			p_email: "mario@example.com",
+			p_phone: "333 1234567",
+			p_licence_code: "B",
+		});
+	});
+
+	it("throws the rpc error", async () => {
+		rpcMock.mockResolvedValue({
+			data: null,
+			error: new Error("student_email_exists"),
+		});
+		await expect(
+			addStudentManual("school-1", {
+				full_name: "Mario Rossi",
+				email: "mario@example.com",
+			}),
+		).rejects.toThrow("student_email_exists");
+	});
+});
+
+describe("claimStudentRecord", () => {
+	it("passes the token", async () => {
+		rpcMock.mockResolvedValue({ data: "student-id", error: null });
+		const id = await claimStudentRecord("tok-1");
+		expect(id).toBe("student-id");
+		expect(rpcMock).toHaveBeenCalledWith("claim_student_record", {
+			p_token: "tok-1",
+		});
+	});
+});
+
+describe("removeStudent", () => {
+	it("passes the student id", async () => {
+		await removeStudent("student-1");
+		expect(rpcMock).toHaveBeenCalledWith("remove_student", {
+			p_student_id: "student-1",
+		});
 	});
 });

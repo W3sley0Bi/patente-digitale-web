@@ -14,7 +14,7 @@ import {
 	listMyBookings,
 } from "@/lib/booking/api";
 import { effectiveStatus } from "@/lib/booking/helpers";
-import type { Booking, Enrollment } from "@/lib/booking/types";
+import type { Booking, Student } from "@/lib/booking/types";
 import { supabase } from "@/lib/supabase";
 
 type SchoolInfo = {
@@ -27,7 +27,7 @@ function EnrollmentStatusCard({
 	school,
 }: {
 	loading: boolean;
-	enrollment: Enrollment | null;
+	enrollment: Student | null;
 	school: SchoolInfo | null;
 }) {
 	const { t } = useTranslation();
@@ -68,7 +68,7 @@ function EnrollmentStatusCard({
  * another school. Arriving with the placeId of the school they're already
  * enrolled at shows nothing: the status card above already says so.
  */
-function DeepLinkBlockedCheck({ enrollment }: { enrollment: Enrollment }) {
+function DeepLinkBlockedCheck({ enrollment }: { enrollment: Student }) {
 	const [searchParams] = useSearchParams();
 	// Only the placeId present when the dashboard mounted counts as a deep link.
 	const deepLinkPlaceIdRef = useRef(searchParams.get("placeId"));
@@ -224,7 +224,7 @@ export default function StudentDashboard() {
 	const { profile } = useProfile();
 	const name = profile?.full_name?.split(" ")[0];
 
-	const [enrollment, setEnrollment] = useState<Enrollment | null>(null);
+	const [enrollment, setEnrollment] = useState<Student | null>(null);
 	const [school, setSchool] = useState<SchoolInfo | null>(null);
 	const [loading, setLoading] = useState(true);
 

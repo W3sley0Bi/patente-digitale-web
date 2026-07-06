@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useSearchParams } from "react-router";
 import { AuthForm } from "@/components/auth/AuthForm";
@@ -47,9 +47,14 @@ export default function Login() {
 		tabParam === "signup" ? "signup-pick" : "login",
 	);
 	const [hashError] = useState<HashError | null>(() => parseHashError());
+	// Auth/profile state can churn (multiple onAuthStateChange emissions while
+	// the confirmation-link hash is processed); redirect at most once per
+	// mount so a re-render never re-fires navigate() into the same claim link.
+	const redirectedRef = useRef(false);
 
 	useEffect(() => {
-		if (!user || loading) return;
+		if (!user || loading || redirectedRef.current) return;
+		redirectedRef.current = true;
 		const next = searchParams.get("next");
 		if (next) {
 			navigate(next, { replace: true });

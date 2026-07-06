@@ -99,13 +99,15 @@ export function EnrollButton({
 
 	// Throws on failure so EnrollDialog can surface the error inline.
 	const handleConfirm = async (licence: string, phone: string) => {
-		await requestEnrollment(
+		const enrolled = await requestEnrollment(
 			school.id,
 			licence,
 			phone,
 			school.email ?? undefined,
 		);
-		setStatus("pending");
+		// The RPC may claim a matching unclaimed roster row, in which case the
+		// student is already active — show the enrolled state, not "pending".
+		setStatus(enrolled?.status === "active" ? "active" : "pending");
 	};
 
 	if (status === "active")
