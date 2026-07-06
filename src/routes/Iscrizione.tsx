@@ -67,12 +67,6 @@ interface DrivingSchoolRow {
 	enrollment_enabled: boolean | null;
 }
 
-interface DrivingLicenceRow {
-	id: string;
-	licence_code: string;
-	price: number | null;
-}
-
 // Mock per-licence content. Real DB doesn't have "what's included" / vehicles yet.
 interface LicenceVariant {
 	key: string;
@@ -372,7 +366,6 @@ export default function Iscrizione() {
 	}, [params.get("hours")]);
 
 	const [school, setSchool] = useState<DrivingSchoolRow | null>(null);
-	const [licences, setLicences] = useState<DrivingLicenceRow[]>([]);
 	const [loading, setLoading] = useState<boolean>(true);
 	const [paywallOpen, setPaywallOpen] = useState(false);
 
@@ -385,7 +378,6 @@ export default function Iscrizione() {
 				if (!placeId) {
 					if (!cancelled) {
 						setSchool(null);
-						setLicences([]);
 					}
 					return;
 				}
@@ -405,25 +397,13 @@ export default function Iscrizione() {
 
 				if (schoolRow) {
 					setSchool(schoolRow as DrivingSchoolRow);
-					const { data: licRows, error: licErr } = await supabase
-						.from("driving_licences")
-						.select("id, licence_code, price")
-						.eq("school_id", (schoolRow as DrivingSchoolRow).id);
-					if (licErr) {
-						console.warn("[iscrizione] driving_licences fetch failed", licErr);
-					}
-					if (!cancelled && Array.isArray(licRows)) {
-						setLicences(licRows as DrivingLicenceRow[]);
-					}
 				} else {
 					setSchool(null);
-					setLicences([]);
 				}
 			} catch (err) {
 				console.warn("[iscrizione] unexpected fetch error", err);
 				if (!cancelled) {
 					setSchool(null);
-					setLicences([]);
 				}
 			} finally {
 				if (!cancelled) setLoading(false);
@@ -502,13 +482,8 @@ export default function Iscrizione() {
 			: [];
 		if (fromSchool.length > 0)
 			return fromSchool.filter((l) => MOCK_LICENCE_INFO[l]);
-		if (licences.length > 0) {
-			return licences
-				.map((l) => l.licence_code)
-				.filter((l) => MOCK_LICENCE_INFO[l]);
-		}
 		return DEFAULT_LICENCE_KEYS;
-	}, [school?.licenses, licences]);
+	}, [school?.licenses]);
 
 	// Selected licence syncs with URL ?licence= param so the auth round-trip preserves it.
 	const selectedLicence =
@@ -544,22 +519,16 @@ export default function Iscrizione() {
 		selectedInfo.variants?.[0] ||
 		null;
 
-	const dbPrice = licences.find(
-		(l) => l.licence_code === selectedLicence,
-	)?.price;
 	const geoPriceStr = geoPrices.find(([k]) => k === selectedLicence)?.[1];
 	const geoPriceNum =
 		geoPriceStr != null
 			? Number(String(geoPriceStr).replace(/[^\d.]/g, ""))
 			: null;
-	const priceIsReal =
-		dbPrice != null || (geoPriceNum != null && Number.isFinite(geoPriceNum));
+	const priceIsReal = geoPriceNum != null && Number.isFinite(geoPriceNum);
 	const basePrice =
-		dbPrice != null
-			? dbPrice
-			: geoPriceNum != null && Number.isFinite(geoPriceNum)
-				? geoPriceNum
-				: (activeVariant?.basePrice ?? selectedInfo.mockPrice);
+		geoPriceNum != null && Number.isFinite(geoPriceNum)
+			? geoPriceNum
+			: (activeVariant?.basePrice ?? selectedInfo.mockPrice);
 
 	const transmissionDelta =
 		transmission === "auto" ? (selectedInfo.transmissionDeltaAuto ?? 0) : 0;

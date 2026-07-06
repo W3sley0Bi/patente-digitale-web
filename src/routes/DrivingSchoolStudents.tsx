@@ -206,7 +206,11 @@ export default function DrivingSchoolStudents() {
 									{/* Avatar */}
 									<span
 										aria-hidden
-										className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-brand-soft text-xs font-bold text-brand-ink"
+										className={`grid h-9 w-9 shrink-0 place-items-center rounded-full text-xs font-bold ${
+											s.is_claimed
+												? "bg-brand-soft text-brand-ink"
+												: "bg-warning-soft text-warning-ink"
+										}`}
 									>
 										{initials(s.full_name)}
 									</span>

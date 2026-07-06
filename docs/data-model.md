@@ -17,6 +17,8 @@ Companion files:
 >
 > Lock + ship as `002_data_model_v1.sql` once reviewed.
 
+> **Update (2026-07-06):** `school_vehicles` and `school_photos` (§3.5, §3.8 below) were dropped in `028_drop_unused_school_vehicles_photos.sql` — never wired to any live query, the vehicles/photos UI in `Iscrizione.tsx` runs on hardcoded mock data. `driving_licences` (§3.4) was also dropped in `029_drop_unused_driving_licences.sql` — only ever read, never written, and always empty; the price-fallback read in `Iscrizione.tsx` was removed too (falls back to geo/mock pricing). `school_completion` (§4, referenced below) was already dropped earlier in `005_drop_unused_school_columns.sql`. The sections below are kept as historical design record only.
+
 ---
 
 ## 1. Design principles
