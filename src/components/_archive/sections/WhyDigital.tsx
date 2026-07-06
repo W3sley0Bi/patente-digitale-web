@@ -1,8 +1,8 @@
 import { useTranslation } from "react-i18next";
 import foglioRosaIcon from "@/assets/foglio-rosa-icon.png";
+import { SectionEyebrow } from "@/components/layout/SectionEyebrow";
+import { Reveal } from "@/components/motion/Reveal";
 import { cn } from "@/lib/utils";
-import { SectionEyebrow } from "../layout/SectionEyebrow";
-import { Reveal } from "../motion/Reveal";
 
 const ROWS = [
 	{

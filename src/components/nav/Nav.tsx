@@ -27,8 +27,12 @@ import { UserMenu } from "./UserMenu";
 
 const NAV_LINKS: { href: string; label: string; icon: LucideIcon }[] = [
 	{ href: "/", label: "landing.nav.home", icon: Home },
-	{ href: "/students", label: "landing.nav.howItWorks", icon: GraduationCap },
-	{ href: "/driving-schools", label: "landing.nav.partners", icon: Car },
+	{ href: "/#come-funziona", label: "landing.nav.howItWorks", icon: Car },
+	{
+		href: "/#esperienza-studenti",
+		label: "landing.nav.students",
+		icon: GraduationCap,
+	},
 	{ href: "/search", label: "landing.nav.findSchool", icon: Search },
 ];
 
@@ -37,7 +41,8 @@ export function Nav() {
 	const { pathname } = useLocation();
 	const isInApp = pathname.startsWith("/app");
 	const { role } = useProfile();
-	const brandVariant = isInApp && role === "autoscuola" ? "autoscuola" : "default";
+	const brandVariant =
+		isInApp && role === "autoscuola" ? "autoscuola" : "default";
 	const [isScrolled, setIsScrolled] = useState(false);
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
 	const [isContactOpen, setIsContactOpen] = useState(false);

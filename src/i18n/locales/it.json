@@ -1,1153 +1,1229 @@
 {
-	"calendar": {
-		"add": {
-			"trigger": "Aggiungi al calendario",
-			"google": "Google",
-			"apple": "Apple / iCloud (.ics)"
-		},
-		"event": {
-			"title": "Guida",
-			"titleWithSchool": "Guida: {{school}}",
-			"instructor": "Istruttore: {{name}}",
-			"bookedVia": "Prenotata su Patentedigitale.it"
-		},
-		"preference": {
-			"title": "Sincronizza le guide col tuo calendario",
-			"description": "Tieni ogni guida confermata sul calendario che usi già.",
-			"subscribeTitle": "Iscriviti una volta",
-			"subscribeHelp": "Iscriviti nella tua app calendario e ogni guida futura resta sincronizzata in automatico, senza aggiungerle una a una.",
-			"subscribeApple": "Apple / iCloud",
-			"subscribeGoogle": "Google Calendar",
-			"secretNote": "Questo è il tuo link privato al calendario. Tienilo per te."
-		}
-	},
-	"booking": {
-		"student": {
-			"greeting": "Ciao, {{name}}",
-			"notEnrolled": "Non sei ancora iscritto a un'autoscuola.",
-			"findSchool": "Trova la tua autoscuola",
-			"pending": "Richiesta inviata a {{school}} — in attesa di conferma.",
-			"enrolledAt": "Iscritto a {{school}}",
-			"schoolFinder": {
-				"title": "Trova un'autoscuola",
-				"closeModal": "Chiudi",
-				"noSelection": "Seleziona un'autoscuola per vederne i dettagli",
-				"showMap": "Mostra mappa",
-				"hideMap": "Nascondi mappa"
-			}
-		},
-		"enroll": {
-			"cta": "Iscriviti a questa autoscuola",
-			"pending": "Richiesta inviata, in attesa di conferma",
-			"active": "Sei iscritto",
-			"blockedElsewhere": "Sei già iscritto a un'altra autoscuola",
-			"blockedDialogTitle": "Sei già iscritto a un'autoscuola",
-			"blockedDialogBody": "Questo account è già iscritto a un'altra autoscuola e non può iscriversi a una nuova. Per cambiare autoscuola, contatta prima la tua autoscuola attuale.",
-			"blockedDialogClose": "Chiudi",
-			"error": "Impossibile inviare la richiesta",
-			"dialogTitle": "Richiedi l'iscrizione",
-			"dialogSubtitle": "Completa questi dati per inviare la richiesta all'autoscuola.",
-			"dialogSchoolLabel": "Ti stai iscrivendo a",
-			"dialogSubmit": "Invia richiesta",
-			"dialogSending": "Invio…",
-			"dialogCancel": "Annulla",
-			"licenceLabel": "Tipo di patente",
-			"licencePlaceholder": "Seleziona la categoria",
-			"licenceRequired": "Seleziona il tipo di patente.",
-			"phoneLabel": "Numero di telefono",
-			"phoneInvalid": "Inserisci un numero di telefono valido."
-		},
-		"book": {
-			"title": "Prenota una guida",
-			"date": "Data",
-			"time": "Ora",
-			"duration": "Durata: {{min}} min",
-			"submit": "Richiedi guida",
-			"success": "Richiesta inviata",
-			"notEnrolled": "Devi essere iscritto per prenotare",
-			"disabled": "Le prenotazioni non sono attive",
-			"error": "Impossibile inviare la richiesta",
-			"pickDay": "Scegli il giorno",
-			"chooseSlot": "Orari disponibili",
-			"noSlots": "Nessun orario disponibile questo giorno",
-			"slotUnavailable": "Orario non più disponibile",
-			"morning": "Mattina",
-			"afternoon": "Pomeriggio",
-			"evening": "Sera",
-			"selectedSummary": "Hai scelto",
-			"prevMonth": "Mese precedente",
-			"nextMonth": "Mese successivo",
-			"preferredInstructor": "Istruttore preferito",
-			"anyInstructor": "Qualsiasi istruttore"
-		},
-		"mine": {
-			"title": "Le mie guide",
-			"empty": "Nessuna guida ancora",
-			"cancel": "Annulla",
-			"cancelReason": "Motivo (facoltativo)",
-			"cancelTitle": "Annullare questa guida?",
-			"cancelBody": "Guida del {{datetime}}. Libera la fascia e non è reversibile.",
-			"cancelConfirm": "Annulla guida",
-			"cancelKeep": "Mantieni la guida",
-			"cancelling": "Annullamento…",
-			"status": {
-				"pending": "In attesa",
-				"confirmed": "Confermata",
-				"declined": "Rifiutata",
-				"cancelled": "Annullata",
-				"completed": "Completata"
-			}
-		},
-		"school": {
-			"requests": "Richieste di guida",
-			"noRequests": "Nessuna richiesta",
-			"assignInstructor": "Assegna istruttore",
-			"confirm": "Conferma",
-			"decline": "Rifiuta",
-			"instructorBusy": "Istruttore già occupato in quella fascia",
-			"enrollments": "Richieste di iscrizione",
-			"approve": "Approva",
-			"reject": "Rifiuta",
-			"activeElsewhere": "Lo studente è già iscritto a un'altra autoscuola",
-			"calendar": "Calendario guide",
-			"legendConfirmed": "Confermate",
-			"legendPending": "In attesa",
-			"expand": "Schermo intero",
-			"collapse": "Riduci",
-			"unassigned": "Da assegnare",
-			"guideSubtitle": "Gestisci richieste, calendario, istruttori e disponibilità in un unico posto.",
-			"manageSection": "Configurazione",
-			"instructors": "Istruttori",
-			"addInstructor": "Aggiungi istruttore",
-			"instructorName": "Nome istruttore",
-			"noInstructors": "Nessun istruttore. Aggiungine uno per confermare le guide.",
-			"newAppointment": "Nuovo appuntamento",
-			"endsAt": "fino alle {{time}}",
-			"student": "Studente",
-			"selectStudent": "Seleziona studente",
-			"instructor": "Istruttore",
-			"create": "Crea appuntamento",
-			"cancel": "Annulla",
-			"noStudents": "Nessuno studente iscritto attivo.",
-			"selectStudentInstructor": "Seleziona studente e istruttore",
-			"instructorUnavailable": "L'istruttore non è disponibile in questa fascia",
-			"outsideHours": "Fuori dagli orari di apertura",
-			"studentNotEnrolled": "Lo studente non è iscritto attivo",
-			"settings": "Impostazioni prenotazioni",
-			"durationLabel": "Durata guida (minuti)",
-			"enabledLabel": "Prenotazioni attive",
-			"cancellationPolicyLabel": "Politica cancellazione studente",
-			"cancellationPolicyHint": "Configura se e quando gli studenti possono cancellare le guide programmate.",
-			"cancellationAlways": "Consenti sempre",
-			"cancellationNoCancel": "Nessuna cancellazione",
-			"cancellationCustom": "Consenti con preavviso",
-			"cancellationCutoffLabel": "Ore prima della guida",
-			"save": "Salva",
-			"availability": "Orari di apertura",
-			"instructorHours": "Orari",
-			"rename": "Rinomina",
-			"delete": "Elimina",
-			"confirmDelete": "Eliminare l'istruttore {{name}}?",
-			"addRange": "Aggiungi fascia",
-			"removeRange": "Rimuovi fascia",
-			"closed": "Chiuso",
-			"weekday": {
-				"1": "Lun",
-				"2": "Mar",
-				"3": "Mer",
-				"4": "Gio",
-				"5": "Ven",
-				"6": "Sab",
-				"7": "Dom"
-			},
-			"scheduleTitle": "Orari istruttori",
-			"scheduleHint": "Sono le fasce in cui gli studenti possono prenotare una guida. Una guida è prenotabile quando un istruttore è libero.",
-			"copyToWeek": "Copia su tutti i giorni",
-			"copyToInstructor": "Copia orari su…",
-			"done": "Fatto",
-			"instructorActive": "Attivo",
-			"color": "Colore",
-			"autoConfirmLabel": "Conferma automatica",
-			"autoConfirmHint": "Le richieste di guida vengono confermate subito e assegnate a un istruttore libero, senza approvazione manuale.",
-			"cancelLesson": "Annulla guida",
-			"statusLabel": "Stato",
-			"statusPending": "In attesa",
-			"statusConfirmed": "Confermata",
-			"edit": "Modifica",
-			"editAppointment": "Modifica appuntamento",
-			"studentBusy": "Lo studente ha già una guida in questa fascia",
-			"studentPrefers": "Lo studente preferisce {{name}}",
-			"pause": "Metti in pausa",
-			"resume": "Riattiva",
-			"weekdayLong": {
-				"1": "Lunedì",
-				"2": "Martedì",
-				"3": "Mercoledì",
-				"4": "Giovedì",
-				"5": "Venerdì",
-				"6": "Sabato",
-				"7": "Domenica"
-			},
-			"moreActions": "Altre azioni",
-			"autoConfirmBacklogWarn": "Hai {{count}} richieste in attesa. Attivando la conferma automatica verranno confermate tutte e assegnate a un istruttore libero. Vuoi procedere? Ricordati di salvare per rendere effettiva la modifica.",
-			"editStudent": "Modifica dati",
-			"emailLocked": "Email di accesso, non modificabile qui",
-			"studentPhone": "Telefono",
-			"studentLicence": "Patente",
-			"selectLicence": "Seleziona patente",
-			"noLicence": "Nessuna patente",
-			"noPhone": "Nessun telefono",
-			"saveStudent": "Salva modifiche",
-			"savingStudent": "Salvataggio…",
-			"updateError": "Salvataggio non riuscito. Riprova.",
-			"studentSaved": "Salvato",
-			"searchStudents": "Cerca studenti",
-			"noMatch": "Nessuno studente corrisponde alla ricerca.",
-			"emailSettings": "Notifiche email",
-			"emailSettingsSubtitle": "Decidi quali email automatiche inviare per le guide.",
-			"emailStudentConfirmLabel": "Invia email di conferma allo studente",
-			"emailStudentConfirmHint": "Lo studente riceve un'email di conferma con l'evento da aggiungere al calendario quando una guida viene confermata.",
-			"emailSchoolRequestLabel": "Avvisa la scuola a ogni richiesta",
-			"emailSchoolRequestHint": "La scuola riceve un'email ogni volta che uno studente richiede una guida.",
-			"emailSettingsSaved": "Impostazioni salvate.",
-			"emailSettingsError": "Salvataggio non riuscito. Riprova.",
-			"addStudent": "Aggiungi allievo",
-			"addStudentTitle": "Aggiungi un allievo",
-			"addStudentHint": "L'allievo riceverà le email di notifica delle guide a questo indirizzo. Conferma di avere il suo consenso a essere contattato.",
-			"addStudentName": "Nome e cognome",
-			"addStudentEmail": "Email",
-			"addStudentPhone": "Telefono (facoltativo)",
-			"addStudentLicence": "Patente (facoltativo)",
-			"addStudentSubmit": "Aggiungi",
-			"addStudentEmailExists": "Esiste già un allievo con questa email.",
-			"unclaimedBadge": "Non registrato",
-			"copyClaimLink": "Copia link di registrazione",
-			"claimLinkCopied": "Link copiato",
-			"removeStudent": "Rimuovi allievo",
-			"removeStudentConfirm": "Rimuovere questo allievo dalla tua autoscuola? Le guide passate restano salvate."
-		}
-	},
-	"cerca": {
-		"title": "Trova la tua autoscuola",
-		"searchPlaceholder": "Cerca per città, autoscuola, CAP o regione...",
-		"resultsCount": "{{count}} autoscuole trovate",
-		"noResults": "Nessuna autoscuola trovata",
-		"loading": "Caricamento autoscuole...",
-		"error": "Impossibile caricare le autoscuole. Riprova.",
-		"mobileMore": "e altri {{count}} risultati — usa la ricerca per affinare",
-		"filters": {
-			"locationBtn": "Usa la mia posizione",
-			"locationError": "Posizione non disponibile",
-			"cityPlaceholder": "Città...",
-			"zipPlaceholder": "CAP...",
-			"regionPlaceholder": "Tutte le regioni",
-			"namePlaceholder": "Cerca per nome autoscuola...",
-			"clearAll": "Rimuovi filtri",
-			"outsideItaly": "Spiacenti, non ci sono autoscuole nella tua area.",
-			"allSchools": "Tutte le autoscuole",
-			"partnerOnly": "Autoscuole verificate",
-			"enrollmentOnly": "Iscrizione online attiva"
-		},
-		"card": {
-			"callLabel": "Chiama",
-			"callNow": "Chiama ora",
-			"closeModal": "Chiudi",
-			"websiteLabel": "Sito web",
-			"openLabel": "Apri",
-			"claimCta": "È la tua? Rivendicala",
-			"enrollBadge": "Iscrizione online"
-		},
-		"ownerCallout": {
-			"label": "Non vedi la tua autoscuola?",
-			"link": "Registrala"
-		},
-		"detail": {
-			"partnerVerified": "Verificata",
-			"enroll": "Scopri l'autoscuola",
-			"licensesTitle": "Patenti disponibili",
-			"pricesTitle": "Listino prezzi",
-			"noPrices": "Prezzi non disponibili online",
-			"claimHint": "Sei il proprietario di questa autoscuola?",
-			"claimCta": "Rivendica questo profilo",
-			"loginToEnroll": "Accedi per iscriverti"
-		}
-	},
-	"student": {
-		"profile": {
-			"completeTitle": "Aggiungi il tuo nome",
-			"completeBody": "La tua autoscuola vede il tuo nome nella lista degli studenti. Aggiungilo così possono riconoscerti.",
-			"save": "Salva",
-			"saving": "Salvataggio…",
-			"title": "Profilo",
-			"heading": "I tuoi dati",
-			"subtitle": "Tienili aggiornati così la tua autoscuola può contattarti.",
-			"phone": "Telefono",
-			"phonePlaceholder": "+39 ...",
-			"email": "Email",
-			"emailLocked": "La tua email di accesso. Contatta il supporto per modificarla.",
-			"licence": "Patente che stai conseguendo",
-			"licenceManaged": "Gestita con la tua autoscuola.",
-			"emailConfirmLabel": "Email di conferma guida",
-			"emailConfirmHint": "Ricevi un’email con i dettagli e il calendario quando una guida viene confermata.",
-			"notEnrolled": "Non ancora iscritto a un’autoscuola.",
-			"saved": "Salvato"
-		},
-		"dashboard": {
-			"title": "Dashboard studente",
-			"desc": "Quiz, autoscuola iscritta e monitoraggio progressi — prossimamente.",
-			"goToGuide": "Prenota e gestisci le guide",
-			"nextLesson": "Prossima guida",
-			"noUpcoming": "Nessuna guida in programma",
-			"pendingCount_one": "{{count}} richiesta in attesa",
-			"pendingCount_other": "{{count}} richieste in attesa",
-			"change": {
-				"confirmed": "La tua guida del {{datetime}} è stata confermata {{when}}.",
-				"declined": "La tua guida del {{datetime}} è stata rifiutata {{when}}.",
-				"cancelled": "La tua guida del {{datetime}} è stata annullata {{when}}."
-			}
-		},
-		"guide": {
-			"title": "Le tue guide"
-		},
-		"quiz": {
-			"title": "Quiz online",
-			"desc": "Quiz ufficiali del Ministero e monitoraggio progressi — prossimamente."
-		},
-		"nav": {
-			"dashboard": "Dashboard",
-			"profile": "Profilo",
-			"guide": "Guide",
-			"settings": "Impostazioni"
-		},
-		"settings": {
-			"heading": "Notifiche email",
-			"subtitle": "Decidi se ricevere le email sulle tue guide.",
-			"saved": "Preferenza salvata.",
-			"error": "Impossibile salvare. Riprova."
-		}
-	},
-	"school": {
-		"claim": {
-			"title": "Rivendica la tua autoscuola",
-			"searchHint": "Cerca la tua autoscuola per iniziare.",
-			"notListed": "La mia autoscuola non è in elenco",
-			"foundSchool": "Abbiamo trovato <strong>{{name}}</strong>. Per la verifica automatica usa un'email <strong>@{{domain}}</strong>.",
-			"noDomainEmail": "Non ho un'email @{{domain}}",
-			"manualReview": "<strong>{{name}}</strong> — la tua richiesta sarà revisionata manualmente, di solito entro ~2 giorni lavorativi.",
-			"manualReviewReturn": "Email confermata! Completa la richiesta per la tua autoscuola.",
-			"manualReviewReturnHint": "Inserisci il nome della tua autoscuola, il tuo nome completo e, se disponibile, la partita IVA. Verificheremo e approveremo entro ~2 giorni lavorativi.",
-			"notFound": "La tua autoscuola non è ancora nel nostro sistema. Invia una richiesta e la aggiungeremo.",
-			"submitted": "Richiesta inviata!",
-			"submittedDesc": "Ti risponderemo entro ~2 giorni lavorativi.",
-			"goToDashboard": "Vai alla tua dashboard",
-			"alreadyClaimed": "<strong>{{name}}</strong> è già stata rivendicata. <a href='/login' class='underline'>Accedi</a> al tuo account o contatta <a href='mailto:supporto@patentedigitale.it' class='underline'>supporto@patentedigitale.it</a>.",
-			"backToSearch": "← Cerca di nuovo",
-			"sessionLost": "Non riusciamo a trovare la tua autoscuola in questa sessione. Cerca di nuovo.",
-			"sessionLostCta": "← Torna alla ricerca"
-		},
-		"pending": {
-			"rejectedTitle": "Richiesta rifiutata",
-			"rejectedDesc": "La tua richiesta di proprietà non è stata approvata.",
-			"rejectedContact": "Contattaci",
-			"rejectedReason": "per capire il motivo.",
-			"pendingTitle": "Richiesta in revisione",
-			"pendingDesc": "Stiamo revisionando la tua richiesta di proprietà. Di solito entro ~2 giorni lavorativi."
-		},
-		"claimForm": {
-			"createAccount": "Prima di tutto, crea il tuo account:",
-			"hasAccount": "Hai già un account?",
-			"login": "Accedi",
-			"fullName": "Il tuo nome completo",
-			"schoolName": "Nome autoscuola",
-			"piva": "P.IVA (opzionale, velocizza la revisione)",
-			"submitting": "Invio in corso...",
-			"submit": "Invia richiesta",
-			"notAuthenticated": "Non autenticato.",
-			"errors": {
-				"websiteInvalid": "Inserisci un URL valido (es. https://www.esempio.it).",
-				"requiredField": "Questo campo è obbligatorio.",
-				"alreadyHavePending": "Hai già una richiesta in revisione.",
-				"alreadyHavePendingCta": "Vai alla dashboard →"
-			},
-			"addressPlaceholder": "Cerca indirizzo...",
-			"noAddressResults": "Nessun indirizzo trovato",
-			"mapHint": "Clicca sulla mappa per posizionare il segnaposto della tua autoscuola",
-			"mapCoords": "Posizione: {{lat}}, {{lng}}"
-		},
-		"search": {
-			"placeholder": "Cerca autoscuola o città..."
-		},
-		"editor": {
-			"fields": {
-				"name": "Nome autoscuola",
-				"address": "Indirizzo",
-				"city": "Città",
-				"zip": "CAP",
-				"region": "Regione",
-				"phone": "Telefono",
-				"mobile": "Cellulare",
-				"email": "Email",
-				"whatsapp_business": "WhatsApp Business",
-				"website": "Sito web",
-				"piva": "Partita IVA",
-				"founded_year": "Anno di fondazione",
-				"description": "Descrizione",
-				"social_instagram": "Instagram",
-				"social_facebook": "Facebook",
-				"social_tiktok": "TikTok",
-				"social_youtube": "YouTube",
-				"whatsapp_businessHint": "Numero con prefisso internazionale (es. +39). Apparirà come bottone WhatsApp Business sulla tua pagina pubblica."
-			},
-			"sections": {
-				"identity": "Identità",
-				"invite": "Invito studenti",
-				"contacts": "Contatti",
-				"address": "Indirizzo",
-				"hours": "Orari",
-				"licenses": "Patenti e prezzi",
-				"social": "Social"
-			},
-			"invite": {
-				"heading": "Invita studenti con QR!",
-				"moreInfo": "Maggiori informazioni",
-				"description": "Condividi questo link o il codice QR con i tuoi studenti: chi lo apre viene portato dritto alla pagina di iscrizione a questa autoscuola.",
-				"copy": "Copia link",
-				"copied": "Copiato!",
-				"downloadQr": "Scarica QR",
-				"generatingPoster": "Creazione…",
-				"posterTagline": "Scansiona per iscriverti online",
-				"qrAlt": "Codice QR per l'iscrizione"
-			},
-			"priceFor": "Prezzo {{licence}} (€)",
-			"licenses": "Patenti erogate",
-			"closed": "Chiuso",
-			"saving": "Salvataggio...",
-			"save": "Salva modifiche",
-			"saved": "Salvato. Le modifiche saranno visibili sulla mappa entro pochi minuti."
-		},
-		"dashboard": {
-			"defaultName": "La tua autoscuola",
-			"subtitle": "Gestisci il tuo profilo su patentedigitale.it",
-			"editListing": "Modifica il profilo",
-			"editListingDesc": "Aggiorna indirizzo, orari, patenti e prezzi",
-			"nav": {
-				"overview": "Panoramica",
-				"guide": "Guide",
-				"whatsappBusiness": "WhatsApp Business",
-				"whatsappBusinessLockedTitle": "Questa sezione è bloccata",
-				"whatsappBusinessLockedDescription": "Contatta gli amministratori di patentedigitale.it per maggiori informazioni.",
-				"students": "Studenti",
-				"editListing": "Profilo",
-				"settings": "Impostazioni"
-			},
-			"studentsTitle": "I tuoi studenti",
-			"studentsCount_one": "{{count}} studente iscritto",
-			"studentsCount_other": "{{count}} studenti iscritti",
-			"noClaim": {
-				"title": "Completa la tua richiesta",
-				"desc": "Non abbiamo trovato una richiesta attiva per il tuo account. Completa il processo di rivendicazione per accedere alla dashboard.",
-				"cta": "Completa la richiesta"
-			},
-			"noClaimRejected": {
-				"cta": "Invia una nuova richiesta"
-			},
-			"refreshStatus": "Aggiorna stato",
-			"rpcError": "Errore durante la verifica automatica: {{message}}. Puoi riprovare dalla pagina di registrazione.",
-			"stats": {
-				"activeStudents": "Studenti attivi",
-				"lessonsThisWeek": "Guide questa settimana",
-				"pendingRequests": "Richieste in sospeso",
-				"activeInstructors": "Istruttori attivi"
-			},
-			"attention": {
-				"title": "Da controllare",
-				"empty": "Tutto in ordine — nessuna richiesta in sospeso.",
-				"viewAll": "Vedi tutte",
-				"type": {
-					"enrollment": "vuole iscriversi",
-					"booking": "ha richiesto una guida"
-				}
-			},
-			"upcoming": {
-				"title": "Prossime guide",
-				"empty": "Nessuna guida in programma."
-			}
-		},
-		"edit": {
-			"backToDashboard": "← Dashboard",
-			"backToProfile": "← Torna al profilo",
-			"title": "Modifica il tuo profilo",
-			"noData": "Nessun dato trovato. Contatta il",
-			"support": "supporto"
-		},
-		"profile": {
-			"title": "Il tuo profilo",
-			"edit": "Modifica profilo"
-		}
-	},
-	"auth": {
-		"login": "Accedi",
-		"signup": "Registrati",
-		"noAccount": "Non hai un account?",
-		"hasAccount": "Hai già un account?",
-		"signupLink": "Registrati",
-		"loginLink": "Accedi",
-		"back": "← Indietro",
-		"magicLinkTitle": "Accedi con un link",
-		"magicLinkDesc": "Ti mandiamo un link via email — nessuna password necessaria.",
-		"magicLinkOption": "Nessuna password? Accedi con un link",
-		"forgotPassword": "Password dimenticata?",
-		"forgotTitle": "Reimposta password",
-		"forgotDesc": "Inserisci la tua email e ti invieremo un link per reimpostare la password.",
-		"forgotSent": "Controlla la tua email per il link di reimpostazione.",
-		"sendResetLink": "Invia link di reset",
-		"newPassword": "Nuova password",
-		"updatePassword": "Aggiorna password",
-		"passwordUpdated": "Password aggiornata. Puoi accedere ora.",
-		"setPasswordTitle": "Imposta una password",
-		"setPasswordDesc": "Imposta una password per accedere con email e password la prossima volta.",
-		"setPasswordSave": "Salva password",
-		"backToDashboard": "← Torna alla dashboard",
-		"whoAreYou": "Chi sei?",
-		"student": {
-			"title": "Sono uno studente",
-			"desc": "Trova un'autoscuola e preparati all'esame"
-		},
-		"school": {
-			"title": "Ho un'autoscuola",
-			"desc": "Rivendica il tuo profilo e gestisci la tua autoscuola"
-		},
-		"form": {
-			"fullName": "Nome completo",
-			"email": "Email",
-			"password": "Password",
-			"loading": "...",
-			"sendMagicLink": "Invia magic link",
-			"createAccount": "Crea account",
-			"login": "Accedi",
-			"magicSent": "Magic link inviato a <strong>{{email}}</strong>. Controlla la tua casella."
-		},
-		"errors": {
-			"otpExpired": "Il link è scaduto. Richiedi un nuovo link.",
-			"accessDenied": "Link non valido o già utilizzato.",
-			"generic": "{{description}}",
-			"rateLimit": "Troppi tentativi. Attendi qualche minuto e riprova.",
-			"emailNotConfirmed": "Email non confermata. Controlla la tua casella e clicca il magic link, oppure usa \"Password dimenticata?\" per impostarne una.",
-			"sessionExpired": "La sessione è scaduta. Richiedi un nuovo link.",
-			"domainMismatch": "Per la verifica automatica devi usare un'email del dominio @{{domain}}.",
-			"fullNameRequired": "Inserisci il tuo nome completo."
-		},
-		"forgotSentTitle": "Email inviata!",
-		"backToLogin": "← Torna al login",
-		"redirecting": "Reindirizzamento in {{seconds}}s...",
-		"requestNewLink": "Richiedi un nuovo link"
-	},
-	"landing": {
-		"nav": {
-			"howItWorks": "Per gli studenti",
-			"autoscuole": "Autoscuole",
-			"partners": "Per le autoscuole",
-			"faq": "FAQ",
-			"contact": "Contatti",
-			"signIn": "Accedi",
-			"findSchool": "Cerca autoscuola",
-			"goToApp": "Vai all'app",
-			"goToWebsite": "Vai al sito",
-			"language": "Lingua",
-			"logout": "Esci",
-			"setPassword": "Imposta password",
-			"home": "Home"
-		},
-		"hero": {
-			"headline": {
-				"line1": "La patente",
-				"line2": "burocrazia",
-				"emphasis": "senza"
-			},
-			"subhead": "Trova la tua autoscuola tra 4000+ scuole in tutta Italia. Iscriviti subito online, senza code.",
-			"searchPlaceholder": "Cerca per città o CAP...",
-			"cta": {
-				"primary": "Trova la tua autoscuola",
-				"secondary": "Come funziona"
-			},
-			"mascotNote": "Per tutti i tipi di patenti, non solo la B",
-			"trust": "Già scelto da oltre 12.000 studenti in 14 regioni. Pagamenti sicuri con PayPal, Apple Pay e Google Pay.",
-			"trust.social": "12.000+ studenti felici",
-			"mascotAlt": "Patentino, la mascotte di Patentedigitale.it",
-			"paypalBadge": "Paga anche in 3 comode rate"
-		},
-		"howItWorks": {
-			"eyebrow": "Per gli studenti",
-			"heading": "Tre mosse. Poi sei in pista.",
-			"supporting": "In meno di 5 minuti hai scelto la scuola, fatto l'iscrizione e iniziato a studiare. Il resto è guidare.",
-			"steps": {
-				"1": {
-					"title": "Trova la tua scuola",
-					"description": "Esplora la mappa, filtra per regione, scegli la più vicina."
-				},
-				"2": {
-					"title": "Iscriviti online",
-					"description": "Compila i dati una volta, paga con PayPal o Apple Pay, salta la fila."
-				},
-				"3": {
-					"title": "Studia e prenota",
-					"description": "Quiz dal tuo telefono, prenoti le guide quando vuoi tu."
-				}
-			}
-		},
-		"comparison": {
-			"eyebrow": "Due strade.",
-			"heading": "Stessa patente, due esperienze diverse.",
-			"modern": {
-				"label": "Con Patentedigitale.it",
-				"duration": "2 mesi",
-				"points": {
-					"1": "Iscrizione e documenti online, da casa.",
-					"2": "Quiz dal telefono, ovunque ti trovi.",
-					"3": "Pagamento online o in segreteria, scegli tu.",
-					"4": "Scadenze ed esami in un'unica timeline."
-				}
-			},
-			"traditional": {
-				"label": "Strada tradizionale",
-				"duration": "6–12 mesi",
-				"points": {
-					"1": "Code in segreteria per ogni documento.",
-					"2": "Libri di testo e fotocopie da portare in classe.",
-					"3": "Pagamenti in contanti o assegno, ricevute cartacee.",
-					"4": "Telefoni e post-it per ricordare le date."
-				}
-			}
-		},
-		"whyDigital": {
-			"eyebrow": "Perché digitale.",
-			"heading": "Tutto quello che ti serve per prendere la patente, in un unico posto.",
-			"rows": {
-				"1": {
-					"title": "Fai tutto online",
-					"body": "Iscriviti alla tua autoscuola completamente online. Compila il modulo, carica i documenti e paga — senza mettere piede in segreteria.",
-					"imageAlt": "giovane che scansiona un documento con il telefono"
-				},
-				"3": {
-					"title": "Quiz Ufficiali",
-					"body": "I quiz ufficiali del Ministero, dal browser o dall'app, con statistiche sui tuoi punti deboli. Ti prepari quando hai 5 minuti tra una lezione e l'altra.",
-					"imageAlt": "studente che studia sul telefono in un caffè"
-				},
-				"4": {
-					"title": "Scadenze, mai più dimenticate.",
-					"body": "Foglio rosa, esami, scadenze patente — tutto in un'unica timeline che ti avvisa via email e WhatsApp.",
-					"imageAlt": "notifica calendario su telefono"
-				}
-			}
-		},
-		"trust": {
-			"eyebrow": "Non solo parole.",
-			"stats": {
-				"1": {
-					"number": "12.300+",
-					"caption": "studenti iscritti",
-					"subCaption": "da gennaio 2024"
-				},
-				"2": {
-					"number": "187",
-					"caption": "autoscuole partner",
-					"subCaption": "in 14 regioni"
-				},
-				"3": {
-					"number": "4,8 / 5",
-					"caption": "rating medio",
-					"subCaption": "su 2.400 recensioni"
-				},
-				"4": {
-					"number": "96%",
-					"caption": "esami superati al primo colpo",
-					"subCaption": "tra gli iscritti del 2024"
-				}
-			},
-			"partners": {
-				"title": "Alcuni dei nostri partner",
-				"strategic": "Ecosistema e Collaborazioni",
-				"autoscuole": "Autoscuole partner in tutta Italia"
-			}
-		},
-		"b2b": {
-			"eyebrow": "Sei un'autoscuola?",
-			"heading": "Accetta iscrizioni e pagamenti online.",
-			"body": "Iscrizioni digitali subito attive per ogni studente. I pagamenti online li attivi quando vuoi, per tutti o solo per chi te lo chiede. Il resto della tua autoscuola non cambia.",
-			"cta": "Rivendica il tuo profilo",
-			"linkSecondary": "Scopri come funziona"
-		},
-		"faq": {
-			"eyebrow": "Domande sincere, risposte chiare.",
-			"heading": "Le cose che ti stai chiedendo.",
-			"subline": "Non hai trovato la tua? <0>Scrivici</0>.",
-			"items": {
-				"1": {
-					"q": "È gratis usare Patentedigitale.it?",
-					"a": "Sì, trovare e contattare un'autoscuola è completamente gratuito. Paghi solo il costo dell'iscrizione direttamente alla scuola scelta."
-				},
-				"2": {
-					"q": "Quali documenti mi servono per iniziare?",
-					"a": "Carta d'identità, codice fiscale, certificato medico (lo carichi dopo aver fatto la visita), una foto tessera digitale. Te li chiediamo uno alla volta, non tutti in una volta."
-				},
-				"4": {
-					"q": "I miei dati sono al sicuro?",
-					"a": "Sì. I tuoi dati sono trattati secondo il GDPR, salvati su server europei, cifrati a riposo e in transito."
-				}
-			}
-		},
-		"testimonials": {
-			"eyebrow": "Voci dalla strada.",
-			"items": {
-				"1": {
-					"quote": "L'ho fatta tutta dal letto, in pigiama, in mezz'ora. Mia madre non ci credeva.",
-					"name": "Sofia, 18 — Milano"
-				},
-				"2": {
-					"quote": "Ho potuto pagare io, ma è stato lui a fare tutto. Per la prima volta non sono dovuta andare in segreteria.",
-					"name": "Cristina, 47 — Bologna"
-				},
-				"3": {
-					"quote": "Ho convertito la mia patente romena senza parlare una parola di italiano. Il supporto in inglese mi ha salvato.",
-					"name": "Andrei, 29 — Roma"
-				}
-			}
-		},
-		"finalCta": {
-			"heading": "Pronto a guidare?",
-			"subhead": "Trova la tua autoscuola in 30 secondi. Senza account, senza email, senza impegno.",
-			"cta": "Trova autoscuola"
-		},
-		"footer": {
-			"brandDescription": "La piattaforma che digitalizza le autoscuole italiane. Studenti, scuole, segreteria — tutto online.",
-			"legal": {
-				"privacy": "Privacy policy",
-				"terms": "Termini di servizio",
-				"cookie": "Cookie policy"
-			}
-		},
-		"placeholders": {
-			"title": "Stiamo costruendo questa pagina",
-			"subtitle": "Torna presto per scoprire tutte le novità di Patentedigitale.it",
-			"backHome": "Torna alla home"
-		},
-		"errors": {
-			"notFound": {
-				"title": "Pagina non trovata",
-				"desc": "La pagina che cerchi non esiste o è stata spostata.",
-				"cta": "Torna alla home",
-				"search": "Cerca un'autoscuola"
-			},
-			"server": {
-				"title": "Qualcosa è andato storto",
-				"desc": "Stiamo sistemando. Riprova tra un attimo.",
-				"reload": "Ricarica pagina",
-				"retry": "Riprova",
-				"details": "Dettagli tecnici",
-				"home": "Vai alla home"
-			}
-		}
-	},
-	"studenti": {
-		"hero": {
-			"eyebrow": "Per gli studenti",
-			"headline_part1": "Prendi la patente ora.",
-			"headline_part2": "Pagala con calma dopo.",
-			"subhead": "Trova la tua autoscuola, iscriviti online. Il primo giorno parti già pronto.",
-			"cta": "Cerca la tua autoscuola",
-			"paypalBadge": "Paga in 3 rate con PayPal",
-			"paypalNote": "Disponibile sulle autoscuole verificate con pagamento online attivo.",
-			"ctaSecondary": "Come funziona",
-			"enrollCallout": "187 autoscuole già con iscrizione online attiva —",
-			"enrollCalloutLink": "cercale subito →"
-		},
-		"flow": {
-			"eyebrow": "Come funziona",
-			"heading": "Da casa: iscrizione e pagamento.\nIn autoscuola: tutto il resto.",
-			"online": {
-				"label": "Online, da te",
-				"items": {
-					"1": "Cerchi e scegli la tua autoscuola.",
-					"2": "Compili il modulo di iscrizione.",
-					"3": "Paghi, anche in 3 rate."
-				}
-			},
-			"inperson": {
-				"label": "In autoscuola",
-				"items": {
-					"1": "Certificato medico.",
-					"2": "Ritiri il libro di teoria.",
-					"3": "Lezioni di teoria e guide.",
-					"4": "Esami."
-				}
-			}
-		},
-		"docs": {
-			"eyebrow": "Bonus",
-			"heading": "Carica i documenti dal telefono.\nAnche con la fotocamera.",
-			"body": "Se vuoi anticipare, puoi caricare i documenti durante l'iscrizione. Foto tessera dalla fotocamera, documento e codice fiscale scannerizzati. Se preferisci portarli in autoscuola il primo giorno, va benissimo lo stesso.",
-			"items": {
-				"1": {
-					"title": "Foto tessera",
-					"body": "Scatta direttamente dalla fotocamera del telefono."
-				},
-				"2": {
-					"title": "Documento d'identità",
-					"body": "Fronte e retro. Anche con foto dal telefono."
-				},
-				"3": {
-					"title": "Codice fiscale",
-					"body": "La tessera sanitaria fotografata."
-				},
-				"4": {
-					"title": "Documenti extra, se servono",
-					"body": "Per minori: documento di un genitore. Per non UE: permesso di soggiorno."
-				}
-			},
-			"note": "Caricare i documenti online è opzionale. Tu decidi se farlo da casa o in autoscuola."
-		},
-		"paypal": {
-			"eyebrow": "Paga come vuoi",
-			"heading": "In un'unica soluzione, o in 3 rate.",
-			"body": "Con PayPal Paga in 3 dividi il costo dell'iscrizione in tre rate mensili, senza interessi e senza costi nascosti.",
-			"rateLabel": "Rata",
-			"caveat": "Disponibile solo sulle autoscuole verificate con pagamento online attivo."
-		},
-		"cta": {
-			"heading": "Pronto a iniziare?",
-			"subhead": "Cerca la tua autoscuola adesso. Nessun account, nessuna email richiesta.",
-			"button": "Cerca autoscuola"
-		},
-		"bundles": {
-			"eyebrow": "Trasparenza",
-			"heading": "Vedi tutto prima di iscriverti.\nPrezzi chiari, niente sorprese.",
-			"body": "Ogni autoscuola configura i propri pacchetti con esattezza. Tu vedi cosa include, quanto costa, e scegli quello che ti serve. Senza dover andare in segreteria a chiedere.",
-			"note": "Esempio illustrativo. I pacchetti e i prezzi variano da scuola a scuola.",
-			"mock": {
-				"url": "patentedigitale.it/cerca/autoscuola-verdi",
-				"schoolName": "Autoscuola Verdi",
-				"location": "Via Roma 12, Milano",
-				"verified": "Verificata",
-				"sectionTitle": "Scegli il tuo pacchetto",
-				"popularBadge": "Popolare",
-				"ctaLabel": "Iscriviti",
-				"paypalNote": "Paga in un'unica soluzione o in 3 rate con PayPal",
-				"tiers": {
-					"essential": {
-						"name": "Essenziale",
-						"price": "800 €",
-						"features": {
-							"1": "Iscrizione e foglio rosa",
-							"2": "Materiali di studio",
-							"3": "6 ore di guida",
-							"4": "1 tentativo esame teoria"
-						}
-					},
-					"complete": {
-						"name": "Completa",
-						"price": "1.200 €",
-						"features": {
-							"1": "Tutto in Essenziale",
-							"2": "12 ore di guida",
-							"3": "2 tentativi esame teoria",
-							"4": "Esame pratico incluso"
-						}
-					},
-					"plus": {
-						"name": "Plus",
-						"price": "1.500 €",
-						"features": {
-							"1": "Tutto in Completa",
-							"2": "18 ore di guida",
-							"3": "Garanzia ripetizione",
-							"4": "Supporto WhatsApp"
-						}
-					}
-				}
-			}
-		}
-	},
-	"autoscuole": {
-		"hero": {
-			"eyebrow": "Per le autoscuole",
-			"headline": "Accetta iscrizioni e pagamenti online.",
-			"subhead": "Iscrizioni digitali subito attive per ogni nuovo studente. I pagamenti online li attivi quando vuoi, per tutti o solo per chi te lo chiede. Il resto del tuo lavoro non cambia.",
-			"cta": "Rivendica la tua autoscuola",
-			"ctaSecondary": "Cerca il tuo profilo",
-			"ctaSecondaryScroll": "Come funziona"
-		},
-		"dashboard": {
-			"eyebrow": "Cosa ottieni",
-			"heading": "Un'unica dashboard per iscrizioni, studenti e pagamenti, quando vuoi.",
-			"subhead": "Le iscrizioni arrivano già complete, ordinate, validate. Quando decidi di accettare anche i pagamenti online, li gestisci dalla stessa schermata.",
-			"mock": {
-				"title": "Autoscuola Verdi",
-				"status": "Profilo verificato",
-				"metricsLabel": "Questo mese",
-				"metric1": {
-					"value": "12",
-					"label": "Iscrizioni"
-				},
-				"metric2": {
-					"value": "47",
-					"label": "Visite al profilo"
-				},
-				"recentLabel": "Iscrizioni recenti",
-				"student1": "Marco R. — Patente B",
-				"student2": "Sara L. — Patente B",
-				"student3": "Luca M. — Patente A2",
-				"time1": "2 ore fa",
-				"time2": "ieri",
-				"time3": "3 giorni fa"
-			}
-		},
-		"benefits": {
-			"primary": {
-				"title": "Iscrizioni online direttamente da te.",
-				"body": "Gli studenti ti scelgono dal sito, compilano l'iscrizione e tu la trovi in dashboard. Niente telefonate perse, niente moduli cartacei da archiviare."
-			},
-			"secondary": {
-				"1": {
-					"title": "Profilo già online",
-					"body": "La tua autoscuola è probabilmente già nel database. Rivendicala e aggiorna i dati."
-				},
-				"2": {
-					"title": "Esporti tutto, quando vuoi",
-					"body": "I tuoi studenti, i tuoi dati. Esportazione in CSV in un click."
-				}
-			}
-		},
-		"claim": {
-			"eyebrow": "Come iniziare",
-			"heading": "Due modi per rivendicare.",
-			"auto": {
-				"label": "Rivendica automatica",
-				"time": "Istantanea",
-				"description": "Se l'email aziendale corrisponde al dominio già nel nostro database, sei dentro al primo accesso. Nessuna verifica manuale."
-			},
-			"manual": {
-				"label": "Rivendica manuale",
-				"time": "~2 giorni lavorativi",
-				"description": "Carichi P.IVA e un documento ufficiale. Verifichiamo entro ~2 giorni lavorativi e ti contattiamo per attivare la dashboard."
-			}
-		},
-		"featureParity": {
-			"eyebrow": "Cosa ottieni",
-			"heading": "Non verificata vs verificata: cosa cambia.",
-			"unverified": "Non verificata",
-			"verified": "Verificata",
-			"features": {
-				"listing": {
-					"label": "Presenza nell'app",
-					"detail": "La tua autoscuola appare nella mappa e nei risultati di ricerca."
-				},
-				"priority": {
-					"label": "Posizionamento prioritario",
-					"detail": "La tua scuola appare prima delle non verificate nei risultati."
-				},
-				"enrolment": {
-					"label": "Iscrizione online",
-					"detail": "Gli studenti si iscrivono direttamente dal profilo, senza telefonarti."
-				},
-				"profile": {
-					"label": "Scheda dettagliata e pagina dedicata",
-					"detail": "Foto, prezzi, patenti, orari — tutto in un profilo completo con URL dedicato."
-				}
-			}
-		},
-		"pricing": {
-			"eyebrow": "Quanto costa",
-			"heading": "Inizia gratis. Paghi solo quando guadagni.",
-			"today": {
-				"label": "Oggi",
-				"value": "0 €",
-				"description": "Rivendica il profilo, ricevi iscrizioni. Nessun costo per essere su Patentedigitale."
-			},
-			"transaction": {
-				"label": "Solo sui pagamenti online",
-				"value": "2%",
-				"description": "Una piccola commissione si applica solo quando uno studente paga online. Se non attivi i pagamenti online, non c'è nessun costo."
-			},
-			"note": "Il modello evolverà. Stiamo definendo i piani futuri insieme ad advisor e autoscuole partner. Ti aggiorneremo prima di qualsiasi cambio."
-		},
-		"cta": {
-			"heading": "Pronto a digitalizzare la tua autoscuola?",
-			"subhead": "Cerca il tuo profilo, rivendicalo, inizia a ricevere iscrizioni online.",
-			"button": "Rivendica la tua autoscuola",
-			"buttonSecondary": "Cerca il tuo profilo"
-		},
-		"payments": {
-			"eyebrow": "Pagamenti online, quando vuoi",
-			"heading": "Attivi i pagamenti online.",
-			"body": "Attivare i pagamenti online è opzionale. Se lo attivi, ogni studente che sceglie di pagare online ti porta un guadagno netto fin dal primo euro. Se non lo attivi, nessun problema: i pagamenti li gestisci come hai sempre fatto.",
-			"pillStudent": "Lo studente paga",
-			"pillStudentValue": "online",
-			"pillSchool": "Tu ricevi",
-			"pillSchoolValue": "l'importo netto, subito"
-		}
-	},
-	"iscrizione": {
-		"defaultSchoolName": "Autoscuola Verdi",
-		"backToSearch": "Torna alla ricerca",
-		"verified": "Verificata",
-		"previewBadge": "Anteprima · in costruzione",
-		"hero": {
-			"eyebrow": "Iscrizione",
-			"subhead": "Questa è una preview della pagina di iscrizione. Stai vedendo i pacchetti tipo che un'autoscuola può offrire su patentedigitale.it. Ancora non puoi completare l'iscrizione da qui.",
-			"caveatTitle": "Stai testando una preview",
-			"caveatBody": "I dati delle patenti, prezzi e veicoli mostrati sono illustrativi. Quando l'iscrizione sarà attiva, vedrai i dati reali configurati dall'autoscuola.",
-			"enrollAnchor": "Vedi patenti"
-		},
-		"bundles": {
-			"eyebrow": "Pacchetti",
-			"heading": "Scegli il pacchetto\nche ti serve.",
-			"body": "Ogni autoscuola configura i propri pacchetti con esattezza. Tu vedi cosa include, quanto costa e scegli quello che ti serve.",
-			"note": "Esempio illustrativo. I pacchetti e i prezzi variano da scuola a scuola.",
-			"sectionTitle": "Scegli il tuo pacchetto",
-			"schoolIdLabel": "ID scuola",
-			"popularBadge": "Popolare",
-			"ctaLabel": "Iscriviti",
-			"paypalNote": "Paga in un'unica soluzione o in 3 rate con PayPal",
-			"tiers": {
-				"essential": {
-					"name": "Essenziale",
-					"price": "800 €",
-					"features": {
-						"1": "Iscrizione e foglio rosa",
-						"2": "Materiali di studio",
-						"3": "6 ore di guida",
-						"4": "1 tentativo esame teoria"
-					}
-				},
-				"complete": {
-					"name": "Completa",
-					"price": "1.200 €",
-					"features": {
-						"1": "Tutto in Essenziale",
-						"2": "12 ore di guida",
-						"3": "2 tentativi esame teoria",
-						"4": "Esame pratico incluso"
-					}
-				},
-				"plus": {
-					"name": "Plus",
-					"price": "1.500 €",
-					"features": {
-						"1": "Tutto in Completa",
-						"2": "18 ore di guida",
-						"3": "Garanzia ripetizione",
-						"4": "Supporto WhatsApp"
-					}
-				}
-			}
-		},
-		"detail": {
-			"about": "Chi siamo",
-			"contacts": "Contatti",
-			"contactsHeading": "Come raggiungerci",
-			"hours": "Orari",
-			"hoursHeading": "Orari di apertura",
-			"licences": "Patenti",
-			"licencesHeading": "Patenti e prezzi",
-			"licenceLabel": "Patente {{code}}",
-			"priceUnavailable": "Su richiesta",
-			"address": "Indirizzo",
-			"openInMaps": "Apri su Google Maps",
-			"foundedSince": "Dal {{year}}",
-			"instructorCount_one": "{{count}} istruttore",
-			"instructorCount_other": "{{count}} istruttori",
-			"enrollCta": "Iscriviti ora",
-			"callCta": "Chiama",
-			"bundlesCaveat": "Esempio · ogni autoscuola configura i suoi pacchetti.",
-			"exampleLabel": "Esempio illustrativo"
-		},
-		"whatsappGate": {
-			"hint": "Accedi o registrati per contattare l'autoscuola su WhatsApp.",
-			"cta": "Accedi o registrati →"
-		},
-		"next": {
-			"eyebrow": "Cosa succede dopo",
-			"heading": "Tre passi e sei iscritto.",
-			"cta": "Cerca un'altra autoscuola",
-			"steps": {
-				"1": {
-					"title": "Scegli il pacchetto",
-					"body": "Confronti Essenziale, Completa e Plus. Vedi cosa include ogni pacchetto e scegli quello che fa per te."
-				},
-				"2": {
-					"title": "Compili il modulo",
-					"body": "Inserisci i tuoi dati anagrafici e carichi i documenti dal telefono. Niente stampe, niente code in segreteria."
-				},
-				"3": {
-					"title": "Paghi (anche in 3 rate)",
-					"body": "Paghi in un'unica soluzione o in 3 rate con PayPal. Zero interessi, zero costi nascosti."
-				}
-			}
-		},
-		"photos": {
-			"eyebrow": "Foto",
-			"heading": "Conosci l'autoscuola."
-		},
-		"picker": {
-			"eyebrow": "Patenti disponibili",
-			"heading": "Scegli la patente che vuoi prendere.",
-			"subhead": "Seleziona una patente per vedere prezzo, cosa include e i veicoli disponibili.",
-			"priceLabel": "Prezzo iscrizione",
-			"priceUnavailable": "Su richiesta",
-			"includesLabel": "Cosa include",
-			"vehiclesLabel": "Veicoli disponibili",
-			"noVehicles": "Veicoli non specificati. Chiedi in autoscuola.",
-			"enrollCta": "Iscriviti a Patente {{code}}",
-			"paypalNote": "Paga in 3 rate con PayPal su autoscuole verificate.",
-			"patenteLabel": "Patente {{code}}",
-			"mockNote": "Dati di esempio. La pagina mostrerà i dati reali quando l'autoscuola li configura.",
-			"variantsLabel": "Pacchetto",
-			"transmissionLabel": "Cambio",
-			"transmissionManual": "Manuale",
-			"transmissionAuto": "Automatico",
-			"extraHoursLabel": "Ore di guida extra",
-			"extraHoursNone": "Solo le 6 obbligatorie",
-			"extraHours5": "+5 ore",
-			"extraHours10": "+10 ore",
-			"photoExpandLabel": "Apri foto",
-			"photoCloseLabel": "Chiudi",
-			"extraHoursHint": "Aggiungi ore di guida (oltre quelle obbligatorie).",
-			"extraHoursUnit": "ore",
-			"extraHoursOne": "ora",
-			"extraHoursPricePer": "per ora",
-			"extraHoursAddPack": "+5 pack (-10%)",
-			"extraHoursDiscountBadge": "−10% sconto pack 5+",
-			"extraHoursDecrement": "Rimuovi un'ora",
-			"extraHoursIncrement": "Aggiungi un'ora"
-		},
-		"paywall": {
-			"closeLabel": "Chiudi",
-			"loading": "Caricamento...",
-			"guest": {
-				"heading": "Crea il tuo account per iscriverti",
-				"body": "Per iscriverti a {{name}} ti serve un account studente. Ti ci vuole un minuto.",
-				"primaryCta": "Crea account studente",
-				"secondaryCta": "Ho già un account"
-			},
-			"autoscuola": {
-				"heading": "Accedi come studente",
-				"body": "Stai usando un account autoscuola. Per iscriverti a un corso ti serve un account studente. Esci e crea un account studente per continuare.",
-				"primaryCta": "Esci e accedi come studente"
-			},
-			"student": {
-				"heading": "Quasi fatto. Anteprima pagamento.",
-				"body": "Il flusso di pagamento è in costruzione. Quando sarà attivo, qui completerai l'iscrizione direttamente con carta o PayPal (anche in 3 rate).",
-				"summary": "Iscrizione a {{name}} · Patente {{code}}",
-				"totalLabel": "Totale",
-				"primaryCta": "Continua (anteprima)",
-				"mockLabel": "Anteprima · pagamento non attivo"
-			}
-		}
-	},
-	"claim": {
-		"working": "Collegamento del tuo profilo…",
-		"success": "Profilo collegato! Ora vedi le tue guide.",
-		"notFound": "Link non valido o già utilizzato.",
-		"activeElsewhere": "Risulti già iscritto a un'altra autoscuola."
-	}
+ "calendar": {
+  "add": {
+   "trigger": "Aggiungi al calendario",
+   "google": "Google",
+   "apple": "Apple / iCloud (.ics)"
+  },
+  "event": {
+   "title": "Guida",
+   "titleWithSchool": "Guida: {{school}}",
+   "instructor": "Istruttore: {{name}}",
+   "bookedVia": "Prenotata su Patentedigitale.it"
+  },
+  "preference": {
+   "title": "Sincronizza le guide col tuo calendario",
+   "description": "Tieni ogni guida confermata sul calendario che usi già.",
+   "subscribeTitle": "Iscriviti una volta",
+   "subscribeHelp": "Iscriviti nella tua app calendario e ogni guida futura resta sincronizzata in automatico, senza aggiungerle una a una.",
+   "subscribeApple": "Apple / iCloud",
+   "subscribeGoogle": "Google Calendar",
+   "secretNote": "Questo è il tuo link privato al calendario. Tienilo per te."
+  }
+ },
+ "booking": {
+  "student": {
+   "greeting": "Ciao, {{name}}",
+   "notEnrolled": "Non sei ancora iscritto a un'autoscuola.",
+   "findSchool": "Trova la tua autoscuola",
+   "pending": "Richiesta inviata a {{school}} — in attesa di conferma.",
+   "enrolledAt": "Iscritto a {{school}}",
+   "schoolFinder": {
+    "title": "Trova un'autoscuola",
+    "closeModal": "Chiudi",
+    "noSelection": "Seleziona un'autoscuola per vederne i dettagli",
+    "showMap": "Mostra mappa",
+    "hideMap": "Nascondi mappa"
+   }
+  },
+  "enroll": {
+   "cta": "Iscriviti a questa autoscuola",
+   "pending": "Richiesta inviata, in attesa di conferma",
+   "active": "Sei iscritto",
+   "blockedElsewhere": "Sei già iscritto a un'altra autoscuola",
+   "blockedDialogTitle": "Sei già iscritto a un'autoscuola",
+   "blockedDialogBody": "Questo account è già iscritto a un'altra autoscuola e non può iscriversi a una nuova. Per cambiare autoscuola, contatta prima la tua autoscuola attuale.",
+   "blockedDialogClose": "Chiudi",
+   "error": "Impossibile inviare la richiesta",
+   "dialogTitle": "Richiedi l'iscrizione",
+   "dialogSubtitle": "Completa questi dati per inviare la richiesta all'autoscuola.",
+   "dialogSchoolLabel": "Ti stai iscrivendo a",
+   "dialogSubmit": "Invia richiesta",
+   "dialogSending": "Invio…",
+   "dialogCancel": "Annulla",
+   "licenceLabel": "Tipo di patente",
+   "licencePlaceholder": "Seleziona la categoria",
+   "licenceRequired": "Seleziona il tipo di patente.",
+   "phoneLabel": "Numero di telefono",
+   "phoneInvalid": "Inserisci un numero di telefono valido."
+  },
+  "book": {
+   "title": "Prenota una guida",
+   "date": "Data",
+   "time": "Ora",
+   "duration": "Durata: {{min}} min",
+   "submit": "Richiedi guida",
+   "success": "Richiesta inviata",
+   "notEnrolled": "Devi essere iscritto per prenotare",
+   "disabled": "Le prenotazioni non sono attive",
+   "error": "Impossibile inviare la richiesta",
+   "pickDay": "Scegli il giorno",
+   "chooseSlot": "Orari disponibili",
+   "noSlots": "Nessun orario disponibile questo giorno",
+   "slotUnavailable": "Orario non più disponibile",
+   "morning": "Mattina",
+   "afternoon": "Pomeriggio",
+   "evening": "Sera",
+   "selectedSummary": "Hai scelto",
+   "prevMonth": "Mese precedente",
+   "nextMonth": "Mese successivo",
+   "preferredInstructor": "Istruttore preferito",
+   "anyInstructor": "Qualsiasi istruttore"
+  },
+  "mine": {
+   "title": "Le mie guide",
+   "empty": "Nessuna guida ancora",
+   "cancel": "Annulla",
+   "cancelReason": "Motivo (facoltativo)",
+   "cancelTitle": "Annullare questa guida?",
+   "cancelBody": "Guida del {{datetime}}. Libera la fascia e non è reversibile.",
+   "cancelConfirm": "Annulla guida",
+   "cancelKeep": "Mantieni la guida",
+   "cancelling": "Annullamento…",
+   "status": {
+    "pending": "In attesa",
+    "confirmed": "Confermata",
+    "declined": "Rifiutata",
+    "cancelled": "Annullata",
+    "completed": "Completata"
+   }
+  },
+  "school": {
+   "requests": "Richieste di guida",
+   "noRequests": "Nessuna richiesta",
+   "assignInstructor": "Assegna istruttore",
+   "confirm": "Conferma",
+   "decline": "Rifiuta",
+   "instructorBusy": "Istruttore già occupato in quella fascia",
+   "enrollments": "Richieste di iscrizione",
+   "approve": "Approva",
+   "reject": "Rifiuta",
+   "activeElsewhere": "Lo studente è già iscritto a un'altra autoscuola",
+   "calendar": "Calendario guide",
+   "legendConfirmed": "Confermate",
+   "legendPending": "In attesa",
+   "expand": "Schermo intero",
+   "collapse": "Riduci",
+   "unassigned": "Da assegnare",
+   "guideSubtitle": "Gestisci richieste, calendario, istruttori e disponibilità in un unico posto.",
+   "manageSection": "Configurazione",
+   "instructors": "Istruttori",
+   "addInstructor": "Aggiungi istruttore",
+   "instructorName": "Nome istruttore",
+   "noInstructors": "Nessun istruttore. Aggiungine uno per confermare le guide.",
+   "newAppointment": "Nuovo appuntamento",
+   "endsAt": "fino alle {{time}}",
+   "student": "Studente",
+   "selectStudent": "Seleziona studente",
+   "instructor": "Istruttore",
+   "create": "Crea appuntamento",
+   "cancel": "Annulla",
+   "noStudents": "Nessuno studente iscritto attivo.",
+   "selectStudentInstructor": "Seleziona studente e istruttore",
+   "instructorUnavailable": "L'istruttore non è disponibile in questa fascia",
+   "outsideHours": "Fuori dagli orari di apertura",
+   "studentNotEnrolled": "Lo studente non è iscritto attivo",
+   "settings": "Impostazioni prenotazioni",
+   "durationLabel": "Durata guida (minuti)",
+   "enabledLabel": "Prenotazioni attive",
+   "cancellationPolicyLabel": "Politica cancellazione studente",
+   "cancellationPolicyHint": "Configura se e quando gli studenti possono cancellare le guide programmate.",
+   "cancellationAlways": "Consenti sempre",
+   "cancellationNoCancel": "Nessuna cancellazione",
+   "cancellationCustom": "Consenti con preavviso",
+   "cancellationCutoffLabel": "Ore prima della guida",
+   "save": "Salva",
+   "availability": "Orari di apertura",
+   "instructorHours": "Orari",
+   "rename": "Rinomina",
+   "delete": "Elimina",
+   "confirmDelete": "Eliminare l'istruttore {{name}}?",
+   "addRange": "Aggiungi fascia",
+   "removeRange": "Rimuovi fascia",
+   "closed": "Chiuso",
+   "weekday": {
+    "1": "Lun",
+    "2": "Mar",
+    "3": "Mer",
+    "4": "Gio",
+    "5": "Ven",
+    "6": "Sab",
+    "7": "Dom"
+   },
+   "scheduleTitle": "Orari istruttori",
+   "scheduleHint": "Sono le fasce in cui gli studenti possono prenotare una guida. Una guida è prenotabile quando un istruttore è libero.",
+   "copyToWeek": "Copia su tutti i giorni",
+   "copyToInstructor": "Copia orari su…",
+   "done": "Fatto",
+   "instructorActive": "Attivo",
+   "color": "Colore",
+   "autoConfirmLabel": "Conferma automatica",
+   "autoConfirmHint": "Le richieste di guida vengono confermate subito e assegnate a un istruttore libero, senza approvazione manuale.",
+   "cancelLesson": "Annulla guida",
+   "statusLabel": "Stato",
+   "statusPending": "In attesa",
+   "statusConfirmed": "Confermata",
+   "edit": "Modifica",
+   "editAppointment": "Modifica appuntamento",
+   "studentBusy": "Lo studente ha già una guida in questa fascia",
+   "studentPrefers": "Lo studente preferisce {{name}}",
+   "pause": "Metti in pausa",
+   "resume": "Riattiva",
+   "weekdayLong": {
+    "1": "Lunedì",
+    "2": "Martedì",
+    "3": "Mercoledì",
+    "4": "Giovedì",
+    "5": "Venerdì",
+    "6": "Sabato",
+    "7": "Domenica"
+   },
+   "moreActions": "Altre azioni",
+   "autoConfirmBacklogWarn": "Hai {{count}} richieste in attesa. Attivando la conferma automatica verranno confermate tutte e assegnate a un istruttore libero. Vuoi procedere? Ricordati di salvare per rendere effettiva la modifica.",
+   "editStudent": "Modifica dati",
+   "emailLocked": "Email di accesso, non modificabile qui",
+   "studentPhone": "Telefono",
+   "studentLicence": "Patente",
+   "selectLicence": "Seleziona patente",
+   "noLicence": "Nessuna patente",
+   "noPhone": "Nessun telefono",
+   "saveStudent": "Salva modifiche",
+   "savingStudent": "Salvataggio…",
+   "updateError": "Salvataggio non riuscito. Riprova.",
+   "studentSaved": "Salvato",
+   "searchStudents": "Cerca studenti",
+   "noMatch": "Nessuno studente corrisponde alla ricerca.",
+   "emailSettings": "Notifiche email",
+   "emailSettingsSubtitle": "Decidi quali email automatiche inviare per le guide.",
+   "emailStudentConfirmLabel": "Invia email di conferma allo studente",
+   "emailStudentConfirmHint": "Lo studente riceve un'email di conferma con l'evento da aggiungere al calendario quando una guida viene confermata.",
+   "emailSchoolRequestLabel": "Avvisa la scuola a ogni richiesta",
+   "emailSchoolRequestHint": "La scuola riceve un'email ogni volta che uno studente richiede una guida.",
+   "emailSettingsSaved": "Impostazioni salvate.",
+   "emailSettingsError": "Salvataggio non riuscito. Riprova.",
+   "addStudent": "Aggiungi allievo",
+   "addStudentTitle": "Aggiungi un allievo",
+   "addStudentHint": "L'allievo riceverà le email di notifica delle guide a questo indirizzo. Conferma di avere il suo consenso a essere contattato.",
+   "addStudentName": "Nome e cognome",
+   "addStudentEmail": "Email",
+   "addStudentPhone": "Telefono (facoltativo)",
+   "addStudentLicence": "Patente (facoltativo)",
+   "addStudentSubmit": "Aggiungi",
+   "addStudentEmailExists": "Esiste già un allievo con questa email.",
+   "unclaimedBadge": "Non registrato",
+   "copyClaimLink": "Copia link di registrazione",
+   "claimLinkCopied": "Link copiato",
+   "removeStudent": "Rimuovi allievo",
+   "removeStudentConfirm": "Rimuovere questo allievo dalla tua autoscuola? Le guide passate restano salvate."
+  }
+ },
+ "cerca": {
+  "title": "Trova la tua autoscuola",
+  "searchPlaceholder": "Cerca per città, autoscuola, CAP o regione...",
+  "resultsCount": "{{count}} autoscuole trovate",
+  "noResults": "Nessuna autoscuola trovata",
+  "loading": "Caricamento autoscuole...",
+  "error": "Impossibile caricare le autoscuole. Riprova.",
+  "mobileMore": "e altri {{count}} risultati — usa la ricerca per affinare",
+  "filters": {
+   "locationBtn": "Usa la mia posizione",
+   "locationError": "Posizione non disponibile",
+   "cityPlaceholder": "Città...",
+   "zipPlaceholder": "CAP...",
+   "regionPlaceholder": "Tutte le regioni",
+   "namePlaceholder": "Cerca per nome autoscuola...",
+   "clearAll": "Rimuovi filtri",
+   "outsideItaly": "Spiacenti, non ci sono autoscuole nella tua area.",
+   "allSchools": "Tutte le autoscuole",
+   "partnerOnly": "Autoscuole verificate",
+   "enrollmentOnly": "Iscrizione online attiva"
+  },
+  "card": {
+   "callLabel": "Chiama",
+   "callNow": "Chiama ora",
+   "closeModal": "Chiudi",
+   "websiteLabel": "Sito web",
+   "openLabel": "Apri",
+   "claimCta": "È la tua? Rivendicala",
+   "enrollBadge": "Iscrizione online"
+  },
+  "ownerCallout": {
+   "label": "Non vedi la tua autoscuola?",
+   "link": "Registrala"
+  },
+  "detail": {
+   "partnerVerified": "Verificata",
+   "enroll": "Scopri l'autoscuola",
+   "licensesTitle": "Patenti disponibili",
+   "pricesTitle": "Listino prezzi",
+   "noPrices": "Prezzi non disponibili online",
+   "claimHint": "Sei il proprietario di questa autoscuola?",
+   "claimCta": "Rivendica questo profilo",
+   "loginToEnroll": "Accedi per iscriverti"
+  }
+ },
+ "student": {
+  "profile": {
+   "completeTitle": "Aggiungi il tuo nome",
+   "completeBody": "La tua autoscuola vede il tuo nome nella lista degli studenti. Aggiungilo così possono riconoscerti.",
+   "save": "Salva",
+   "saving": "Salvataggio…",
+   "title": "Profilo",
+   "heading": "I tuoi dati",
+   "subtitle": "Tienili aggiornati così la tua autoscuola può contattarti.",
+   "phone": "Telefono",
+   "phonePlaceholder": "+39 ...",
+   "email": "Email",
+   "emailLocked": "La tua email di accesso. Contatta il supporto per modificarla.",
+   "licence": "Patente che stai conseguendo",
+   "licenceManaged": "Gestita con la tua autoscuola.",
+   "emailConfirmLabel": "Email di conferma guida",
+   "emailConfirmHint": "Ricevi un’email con i dettagli e il calendario quando una guida viene confermata.",
+   "notEnrolled": "Non ancora iscritto a un’autoscuola.",
+   "saved": "Salvato"
+  },
+  "dashboard": {
+   "title": "Dashboard studente",
+   "desc": "Quiz, autoscuola iscritta e monitoraggio progressi — prossimamente.",
+   "goToGuide": "Prenota e gestisci le guide",
+   "nextLesson": "Prossima guida",
+   "noUpcoming": "Nessuna guida in programma",
+   "pendingCount_one": "{{count}} richiesta in attesa",
+   "pendingCount_other": "{{count}} richieste in attesa",
+   "change": {
+    "confirmed": "La tua guida del {{datetime}} è stata confermata {{when}}.",
+    "declined": "La tua guida del {{datetime}} è stata rifiutata {{when}}.",
+    "cancelled": "La tua guida del {{datetime}} è stata annullata {{when}}."
+   }
+  },
+  "guide": {
+   "title": "Le tue guide"
+  },
+  "quiz": {
+   "title": "Quiz online",
+   "desc": "Quiz ufficiali del Ministero e monitoraggio progressi — prossimamente."
+  },
+  "nav": {
+   "dashboard": "Dashboard",
+   "profile": "Profilo",
+   "guide": "Guide",
+   "settings": "Impostazioni"
+  },
+  "settings": {
+   "heading": "Notifiche email",
+   "subtitle": "Decidi se ricevere le email sulle tue guide.",
+   "saved": "Preferenza salvata.",
+   "error": "Impossibile salvare. Riprova."
+  }
+ },
+ "school": {
+  "claim": {
+   "title": "Rivendica la tua autoscuola",
+   "searchHint": "Cerca la tua autoscuola per iniziare.",
+   "notListed": "La mia autoscuola non è in elenco",
+   "foundSchool": "Abbiamo trovato <strong>{{name}}</strong>. Per la verifica automatica usa un'email <strong>@{{domain}}</strong>.",
+   "noDomainEmail": "Non ho un'email @{{domain}}",
+   "manualReview": "<strong>{{name}}</strong> — la tua richiesta sarà revisionata manualmente, di solito entro ~2 giorni lavorativi.",
+   "manualReviewReturn": "Email confermata! Completa la richiesta per la tua autoscuola.",
+   "manualReviewReturnHint": "Inserisci il nome della tua autoscuola, il tuo nome completo e, se disponibile, la partita IVA. Verificheremo e approveremo entro ~2 giorni lavorativi.",
+   "notFound": "La tua autoscuola non è ancora nel nostro sistema. Invia una richiesta e la aggiungeremo.",
+   "submitted": "Richiesta inviata!",
+   "submittedDesc": "Ti risponderemo entro ~2 giorni lavorativi.",
+   "goToDashboard": "Vai alla tua dashboard",
+   "alreadyClaimed": "<strong>{{name}}</strong> è già stata rivendicata. <a href='/login' class='underline'>Accedi</a> al tuo account o contatta <a href='mailto:supporto@patentedigitale.it' class='underline'>supporto@patentedigitale.it</a>.",
+   "backToSearch": "← Cerca di nuovo",
+   "sessionLost": "Non riusciamo a trovare la tua autoscuola in questa sessione. Cerca di nuovo.",
+   "sessionLostCta": "← Torna alla ricerca"
+  },
+  "pending": {
+   "rejectedTitle": "Richiesta rifiutata",
+   "rejectedDesc": "La tua richiesta di proprietà non è stata approvata.",
+   "rejectedContact": "Contattaci",
+   "rejectedReason": "per capire il motivo.",
+   "pendingTitle": "Richiesta in revisione",
+   "pendingDesc": "Stiamo revisionando la tua richiesta di proprietà. Di solito entro ~2 giorni lavorativi."
+  },
+  "claimForm": {
+   "createAccount": "Prima di tutto, crea il tuo account:",
+   "hasAccount": "Hai già un account?",
+   "login": "Accedi",
+   "fullName": "Il tuo nome completo",
+   "schoolName": "Nome autoscuola",
+   "piva": "P.IVA (opzionale, velocizza la revisione)",
+   "submitting": "Invio in corso...",
+   "submit": "Invia richiesta",
+   "notAuthenticated": "Non autenticato.",
+   "errors": {
+    "websiteInvalid": "Inserisci un URL valido (es. https://www.esempio.it).",
+    "requiredField": "Questo campo è obbligatorio.",
+    "alreadyHavePending": "Hai già una richiesta in revisione.",
+    "alreadyHavePendingCta": "Vai alla dashboard →"
+   },
+   "addressPlaceholder": "Cerca indirizzo...",
+   "noAddressResults": "Nessun indirizzo trovato",
+   "mapHint": "Clicca sulla mappa per posizionare il segnaposto della tua autoscuola",
+   "mapCoords": "Posizione: {{lat}}, {{lng}}"
+  },
+  "search": {
+   "placeholder": "Cerca autoscuola o città..."
+  },
+  "editor": {
+   "fields": {
+    "name": "Nome autoscuola",
+    "address": "Indirizzo",
+    "city": "Città",
+    "zip": "CAP",
+    "region": "Regione",
+    "phone": "Telefono",
+    "mobile": "Cellulare",
+    "email": "Email",
+    "whatsapp_business": "WhatsApp Business",
+    "website": "Sito web",
+    "piva": "Partita IVA",
+    "founded_year": "Anno di fondazione",
+    "description": "Descrizione",
+    "social_instagram": "Instagram",
+    "social_facebook": "Facebook",
+    "social_tiktok": "TikTok",
+    "social_youtube": "YouTube",
+    "whatsapp_businessHint": "Numero con prefisso internazionale (es. +39). Apparirà come bottone WhatsApp Business sulla tua pagina pubblica."
+   },
+   "sections": {
+    "identity": "Identità",
+    "invite": "Invito studenti",
+    "contacts": "Contatti",
+    "address": "Indirizzo",
+    "hours": "Orari",
+    "licenses": "Patenti e prezzi",
+    "social": "Social"
+   },
+   "invite": {
+    "heading": "Invita studenti con QR!",
+    "moreInfo": "Maggiori informazioni",
+    "description": "Condividi questo link o il codice QR con i tuoi studenti: chi lo apre viene portato dritto alla pagina di iscrizione a questa autoscuola.",
+    "copy": "Copia link",
+    "copied": "Copiato!",
+    "downloadQr": "Scarica QR",
+    "generatingPoster": "Creazione…",
+    "posterTagline": "Scansiona per iscriverti online",
+    "qrAlt": "Codice QR per l'iscrizione"
+   },
+   "priceFor": "Prezzo {{licence}} (€)",
+   "licenses": "Patenti erogate",
+   "closed": "Chiuso",
+   "saving": "Salvataggio...",
+   "save": "Salva modifiche",
+   "saved": "Salvato. Le modifiche saranno visibili sulla mappa entro pochi minuti."
+  },
+  "dashboard": {
+   "defaultName": "La tua autoscuola",
+   "subtitle": "Gestisci il tuo profilo su patentedigitale.it",
+   "editListing": "Modifica il profilo",
+   "editListingDesc": "Aggiorna indirizzo, orari, patenti e prezzi",
+   "nav": {
+    "overview": "Panoramica",
+    "guide": "Guide",
+    "whatsappBusiness": "WhatsApp Business",
+    "whatsappBusinessLockedTitle": "Questa sezione è bloccata",
+    "whatsappBusinessLockedDescription": "Contatta gli amministratori di patentedigitale.it per maggiori informazioni.",
+    "students": "Studenti",
+    "editListing": "Profilo",
+    "settings": "Impostazioni"
+   },
+   "studentsTitle": "I tuoi studenti",
+   "studentsCount_one": "{{count}} studente iscritto",
+   "studentsCount_other": "{{count}} studenti iscritti",
+   "noClaim": {
+    "title": "Completa la tua richiesta",
+    "desc": "Non abbiamo trovato una richiesta attiva per il tuo account. Completa il processo di rivendicazione per accedere alla dashboard.",
+    "cta": "Completa la richiesta"
+   },
+   "noClaimRejected": {
+    "cta": "Invia una nuova richiesta"
+   },
+   "refreshStatus": "Aggiorna stato",
+   "rpcError": "Errore durante la verifica automatica: {{message}}. Puoi riprovare dalla pagina di registrazione.",
+   "stats": {
+    "activeStudents": "Studenti attivi",
+    "lessonsThisWeek": "Guide questa settimana",
+    "pendingRequests": "Richieste in sospeso",
+    "activeInstructors": "Istruttori attivi"
+   },
+   "attention": {
+    "title": "Da controllare",
+    "empty": "Tutto in ordine — nessuna richiesta in sospeso.",
+    "viewAll": "Vedi tutte",
+    "type": {
+     "enrollment": "vuole iscriversi",
+     "booking": "ha richiesto una guida"
+    }
+   },
+   "upcoming": {
+    "title": "Prossime guide",
+    "empty": "Nessuna guida in programma."
+   }
+  },
+  "edit": {
+   "backToDashboard": "← Dashboard",
+   "backToProfile": "← Torna al profilo",
+   "title": "Modifica il tuo profilo",
+   "noData": "Nessun dato trovato. Contatta il",
+   "support": "supporto"
+  },
+  "profile": {
+   "title": "Il tuo profilo",
+   "edit": "Modifica profilo"
+  }
+ },
+ "auth": {
+  "login": "Accedi",
+  "signup": "Registrati",
+  "noAccount": "Non hai un account?",
+  "hasAccount": "Hai già un account?",
+  "signupLink": "Registrati",
+  "loginLink": "Accedi",
+  "back": "← Indietro",
+  "magicLinkTitle": "Accedi con un link",
+  "magicLinkDesc": "Ti mandiamo un link via email — nessuna password necessaria.",
+  "magicLinkOption": "Nessuna password? Accedi con un link",
+  "forgotPassword": "Password dimenticata?",
+  "forgotTitle": "Reimposta password",
+  "forgotDesc": "Inserisci la tua email e ti invieremo un link per reimpostare la password.",
+  "forgotSent": "Controlla la tua email per il link di reimpostazione.",
+  "sendResetLink": "Invia link di reset",
+  "newPassword": "Nuova password",
+  "updatePassword": "Aggiorna password",
+  "passwordUpdated": "Password aggiornata. Puoi accedere ora.",
+  "setPasswordTitle": "Imposta una password",
+  "setPasswordDesc": "Imposta una password per accedere con email e password la prossima volta.",
+  "setPasswordSave": "Salva password",
+  "backToDashboard": "← Torna alla dashboard",
+  "whoAreYou": "Chi sei?",
+  "student": {
+   "title": "Sono uno studente",
+   "desc": "Trova un'autoscuola e preparati all'esame"
+  },
+  "school": {
+   "title": "Ho un'autoscuola",
+   "desc": "Rivendica il tuo profilo e gestisci la tua autoscuola"
+  },
+  "form": {
+   "fullName": "Nome completo",
+   "email": "Email",
+   "password": "Password",
+   "loading": "...",
+   "sendMagicLink": "Invia magic link",
+   "createAccount": "Crea account",
+   "login": "Accedi",
+   "magicSent": "Magic link inviato a <strong>{{email}}</strong>. Controlla la tua casella."
+  },
+  "errors": {
+   "otpExpired": "Il link è scaduto. Richiedi un nuovo link.",
+   "accessDenied": "Link non valido o già utilizzato.",
+   "generic": "{{description}}",
+   "rateLimit": "Troppi tentativi. Attendi qualche minuto e riprova.",
+   "emailNotConfirmed": "Email non confermata. Controlla la tua casella e clicca il magic link, oppure usa \"Password dimenticata?\" per impostarne una.",
+   "sessionExpired": "La sessione è scaduta. Richiedi un nuovo link.",
+   "domainMismatch": "Per la verifica automatica devi usare un'email del dominio @{{domain}}.",
+   "fullNameRequired": "Inserisci il tuo nome completo."
+  },
+  "forgotSentTitle": "Email inviata!",
+  "backToLogin": "← Torna al login",
+  "redirecting": "Reindirizzamento in {{seconds}}s...",
+  "requestNewLink": "Richiedi un nuovo link"
+ },
+ "landing": {
+  "nav": {
+   "howItWorks": "Come funziona",
+   "autoscuole": "Autoscuole",
+   "partners": "Per le autoscuole",
+   "faq": "FAQ",
+   "contact": "Contatti",
+   "signIn": "Accedi",
+   "findSchool": "Cerca autoscuola",
+   "goToApp": "Vai all'app",
+   "goToWebsite": "Vai al sito",
+   "language": "Lingua",
+   "logout": "Esci",
+   "setPassword": "Imposta password",
+   "home": "Home",
+   "pricing": "Prezzi",
+   "students": "Per gli studenti"
+  },
+  "hero": {
+   "headline": {
+    "line1": "La patente",
+    "line2": "burocrazia",
+    "emphasis": "senza"
+   },
+   "subhead": "Trova la tua autoscuola tra 4000+ scuole in tutta Italia. Iscriviti subito online, senza code.",
+   "searchPlaceholder": "Cerca per città o CAP...",
+   "cta": {
+    "primary": "Trova la tua autoscuola",
+    "secondary": "Come funziona"
+   },
+   "mascotNote": "Per tutti i tipi di patenti, non solo la B",
+   "trust": "Già scelto da oltre 12.000 studenti in 14 regioni. Pagamenti sicuri con PayPal, Apple Pay e Google Pay.",
+   "trust.social": "12.000+ studenti felici",
+   "mascotAlt": "Patentino, la mascotte di Patentedigitale.it",
+   "paypalBadge": "Paga anche in 3 comode rate"
+  },
+  "howItWorks": {
+   "eyebrow": "Per gli studenti",
+   "heading": "Tre mosse. Poi sei in pista.",
+   "supporting": "In meno di 5 minuti hai scelto la scuola, fatto l'iscrizione e iniziato a studiare. Il resto è guidare.",
+   "steps": {
+    "1": {
+     "title": "Trova la tua scuola",
+     "description": "Esplora la mappa, filtra per regione, scegli la più vicina."
+    },
+    "2": {
+     "title": "Iscriviti online",
+     "description": "Compila i dati una volta, paga con PayPal o Apple Pay, salta la fila."
+    },
+    "3": {
+     "title": "Studia e prenota",
+     "description": "Quiz dal tuo telefono, prenoti le guide quando vuoi tu."
+    }
+   }
+  },
+  "comparison": {
+   "eyebrow": "Due strade.",
+   "heading": "Stessa patente, due esperienze diverse.",
+   "modern": {
+    "label": "Con Patentedigitale.it",
+    "duration": "2 mesi",
+    "points": {
+     "1": "Iscrizione e documenti online, da casa.",
+     "2": "Quiz dal telefono, ovunque ti trovi.",
+     "3": "Pagamento online o in segreteria, scegli tu.",
+     "4": "Scadenze ed esami in un'unica timeline."
+    }
+   },
+   "traditional": {
+    "label": "Strada tradizionale",
+    "duration": "6–12 mesi",
+    "points": {
+     "1": "Code in segreteria per ogni documento.",
+     "2": "Libri di testo e fotocopie da portare in classe.",
+     "3": "Pagamenti in contanti o assegno, ricevute cartacee.",
+     "4": "Telefoni e post-it per ricordare le date."
+    }
+   }
+  },
+  "whyDigital": {
+   "eyebrow": "Perché digitale.",
+   "heading": "Tutto quello che ti serve per prendere la patente, in un unico posto.",
+   "rows": {
+    "1": {
+     "title": "Fai tutto online",
+     "body": "Iscriviti alla tua autoscuola completamente online. Compila il modulo, carica i documenti e paga — senza mettere piede in segreteria.",
+     "imageAlt": "giovane che scansiona un documento con il telefono"
+    },
+    "3": {
+     "title": "Quiz Ufficiali",
+     "body": "I quiz ufficiali del Ministero, dal browser o dall'app, con statistiche sui tuoi punti deboli. Ti prepari quando hai 5 minuti tra una lezione e l'altra.",
+     "imageAlt": "studente che studia sul telefono in un caffè"
+    },
+    "4": {
+     "title": "Scadenze, mai più dimenticate.",
+     "body": "Foglio rosa, esami, scadenze patente — tutto in un'unica timeline che ti avvisa via email e WhatsApp.",
+     "imageAlt": "notifica calendario su telefono"
+    }
+   }
+  },
+  "trust": {
+   "eyebrow": "Non solo parole.",
+   "stats": {
+    "1": {
+     "number": "12.300+",
+     "caption": "studenti iscritti",
+     "subCaption": "da gennaio 2024"
+    },
+    "2": {
+     "number": "187",
+     "caption": "autoscuole partner",
+     "subCaption": "in 14 regioni"
+    },
+    "3": {
+     "number": "4,8 / 5",
+     "caption": "rating medio",
+     "subCaption": "su 2.400 recensioni"
+    },
+    "4": {
+     "number": "96%",
+     "caption": "esami superati al primo colpo",
+     "subCaption": "tra gli iscritti del 2024"
+    }
+   },
+   "partners": {
+    "title": "Alcuni dei nostri partner",
+    "strategic": "Ecosistema e Collaborazioni",
+    "autoscuole": "Autoscuole partner in tutta Italia"
+   }
+  },
+  "b2b": {
+   "eyebrow": "Sei un'autoscuola?",
+   "heading": "Accetta iscrizioni e pagamenti online.",
+   "body": "Iscrizioni digitali subito attive per ogni studente. I pagamenti online li attivi quando vuoi, per tutti o solo per chi te lo chiede. Il resto della tua autoscuola non cambia.",
+   "cta": "Rivendica il tuo profilo",
+   "linkSecondary": "Scopri come funziona"
+  },
+  "faq": {
+   "eyebrow": "Domande sincere, risposte chiare.",
+   "heading": "Le cose che ti stai chiedendo.",
+   "subline": "Non hai trovato la tua? <0>Scrivici</0>.",
+   "items": {
+    "1": {
+     "q": "È gratis usare Patentedigitale.it?",
+     "a": "Sì, trovare e contattare un'autoscuola è completamente gratuito. Paghi solo il costo dell'iscrizione direttamente alla scuola scelta."
+    },
+    "2": {
+     "q": "Quali documenti mi servono per iniziare?",
+     "a": "Carta d'identità, codice fiscale, certificato medico (lo carichi dopo aver fatto la visita), una foto tessera digitale. Te li chiediamo uno alla volta, non tutti in una volta."
+    },
+    "4": {
+     "q": "I miei dati sono al sicuro?",
+     "a": "Sì. I tuoi dati sono trattati secondo il GDPR, salvati su server europei, cifrati a riposo e in transito."
+    }
+   }
+  },
+  "testimonials": {
+   "eyebrow": "Voci dalla strada.",
+   "items": {
+    "1": {
+     "quote": "L'ho fatta tutta dal letto, in pigiama, in mezz'ora. Mia madre non ci credeva.",
+     "name": "Sofia, 18 — Milano"
+    },
+    "2": {
+     "quote": "Ho potuto pagare io, ma è stato lui a fare tutto. Per la prima volta non sono dovuta andare in segreteria.",
+     "name": "Cristina, 47 — Bologna"
+    },
+    "3": {
+     "quote": "Ho convertito la mia patente romena senza parlare una parola di italiano. Il supporto in inglese mi ha salvato.",
+     "name": "Andrei, 29 — Roma"
+    }
+   }
+  },
+  "finalCta": {
+   "heading": "Pronto a guidare?",
+   "subhead": "Trova la tua autoscuola in 30 secondi. Senza account, senza email, senza impegno.",
+   "cta": "Trova autoscuola"
+  },
+  "footer": {
+   "brandDescription": "La piattaforma che digitalizza le autoscuole italiane. Studenti, scuole, segreteria — tutto online.",
+   "legal": {
+    "privacy": "Privacy policy",
+    "terms": "Termini di servizio",
+    "cookie": "Cookie policy"
+   }
+  },
+  "placeholders": {
+   "title": "Stiamo costruendo questa pagina",
+   "subtitle": "Torna presto per scoprire tutte le novità di Patentedigitale.it",
+   "backHome": "Torna alla home"
+  },
+  "errors": {
+   "notFound": {
+    "title": "Pagina non trovata",
+    "desc": "La pagina che cerchi non esiste o è stata spostata.",
+    "cta": "Torna alla home",
+    "search": "Cerca un'autoscuola"
+   },
+   "server": {
+    "title": "Qualcosa è andato storto",
+    "desc": "Stiamo sistemando. Riprova tra un attimo.",
+    "reload": "Ricarica pagina",
+    "retry": "Riprova",
+    "details": "Dettagli tecnici",
+    "home": "Vai alla home"
+   }
+  }
+ },
+ "studenti": {
+  "hero": {
+   "eyebrow": "Per gli studenti",
+   "headline_part1": "Prendi la patente ora.",
+   "headline_part2": "Pagala con calma dopo.",
+   "subhead": "Trova la tua autoscuola, iscriviti online. Il primo giorno parti già pronto.",
+   "cta": "Cerca la tua autoscuola",
+   "paypalBadge": "Paga in 3 rate con PayPal",
+   "paypalNote": "Disponibile sulle autoscuole verificate con pagamento online attivo.",
+   "ctaSecondary": "Come funziona",
+   "enrollCallout": "187 autoscuole già con iscrizione online attiva —",
+   "enrollCalloutLink": "cercale subito →"
+  },
+  "flow": {
+   "eyebrow": "Come funziona",
+   "heading": "Da casa: iscrizione e pagamento.\nIn autoscuola: tutto il resto.",
+   "online": {
+    "label": "Online, da te",
+    "items": {
+     "1": "Cerchi e scegli la tua autoscuola.",
+     "2": "Compili il modulo di iscrizione.",
+     "3": "Paghi, anche in 3 rate."
+    }
+   },
+   "inperson": {
+    "label": "In autoscuola",
+    "items": {
+     "1": "Certificato medico.",
+     "2": "Ritiri il libro di teoria.",
+     "3": "Lezioni di teoria e guide.",
+     "4": "Esami."
+    }
+   }
+  },
+  "docs": {
+   "eyebrow": "Bonus",
+   "heading": "Carica i documenti dal telefono.\nAnche con la fotocamera.",
+   "body": "Se vuoi anticipare, puoi caricare i documenti durante l'iscrizione. Foto tessera dalla fotocamera, documento e codice fiscale scannerizzati. Se preferisci portarli in autoscuola il primo giorno, va benissimo lo stesso.",
+   "items": {
+    "1": {
+     "title": "Foto tessera",
+     "body": "Scatta direttamente dalla fotocamera del telefono."
+    },
+    "2": {
+     "title": "Documento d'identità",
+     "body": "Fronte e retro. Anche con foto dal telefono."
+    },
+    "3": {
+     "title": "Codice fiscale",
+     "body": "La tessera sanitaria fotografata."
+    },
+    "4": {
+     "title": "Documenti extra, se servono",
+     "body": "Per minori: documento di un genitore. Per non UE: permesso di soggiorno."
+    }
+   },
+   "note": "Caricare i documenti online è opzionale. Tu decidi se farlo da casa o in autoscuola."
+  },
+  "paypal": {
+   "eyebrow": "Paga come vuoi",
+   "heading": "In un'unica soluzione, o in 3 rate.",
+   "body": "Con PayPal Paga in 3 dividi il costo dell'iscrizione in tre rate mensili, senza interessi e senza costi nascosti.",
+   "rateLabel": "Rata",
+   "caveat": "Disponibile solo sulle autoscuole verificate con pagamento online attivo."
+  },
+  "cta": {
+   "heading": "Pronto a iniziare?",
+   "subhead": "Cerca la tua autoscuola adesso. Nessun account, nessuna email richiesta.",
+   "button": "Cerca autoscuola"
+  },
+  "bundles": {
+   "eyebrow": "Trasparenza",
+   "heading": "Vedi tutto prima di iscriverti.\nPrezzi chiari, niente sorprese.",
+   "body": "Ogni autoscuola configura i propri pacchetti con esattezza. Tu vedi cosa include, quanto costa, e scegli quello che ti serve. Senza dover andare in segreteria a chiedere.",
+   "note": "Esempio illustrativo. I pacchetti e i prezzi variano da scuola a scuola.",
+   "mock": {
+    "url": "patentedigitale.it/cerca/autoscuola-verdi",
+    "schoolName": "Autoscuola Verdi",
+    "location": "Via Roma 12, Milano",
+    "verified": "Verificata",
+    "sectionTitle": "Scegli il tuo pacchetto",
+    "popularBadge": "Popolare",
+    "ctaLabel": "Iscriviti",
+    "paypalNote": "Paga in un'unica soluzione o in 3 rate con PayPal",
+    "tiers": {
+     "essential": {
+      "name": "Essenziale",
+      "price": "800 €",
+      "features": {
+       "1": "Iscrizione e foglio rosa",
+       "2": "Materiali di studio",
+       "3": "6 ore di guida",
+       "4": "1 tentativo esame teoria"
+      }
+     },
+     "complete": {
+      "name": "Completa",
+      "price": "1.200 €",
+      "features": {
+       "1": "Tutto in Essenziale",
+       "2": "12 ore di guida",
+       "3": "2 tentativi esame teoria",
+       "4": "Esame pratico incluso"
+      }
+     },
+     "plus": {
+      "name": "Plus",
+      "price": "1.500 €",
+      "features": {
+       "1": "Tutto in Completa",
+       "2": "18 ore di guida",
+       "3": "Garanzia ripetizione",
+       "4": "Supporto WhatsApp"
+      }
+     }
+    }
+   }
+  }
+ },
+ "autoscuole": {
+  "hero": {
+   "eyebrow": "Per le autoscuole",
+   "headline": "Un'unica dashboard per iscrizioni, studenti e guide.",
+   "subhead": "Le iscrizioni arrivano già complete e ordinate. Gestisci istruttori, calendario guide e studenti da un'unica app, senza cambiare le tue abitudini.",
+   "cta": "Rivendica la tua autoscuola",
+   "ctaSecondary": "Cerca il tuo profilo",
+   "ctaSecondaryScroll": "Come funziona"
+  },
+  "dashboard": {
+   "eyebrow": "Cosa ottieni",
+   "heading": "Un'unica dashboard per iscrizioni, studenti e guide.",
+   "subhead": "Le iscrizioni arrivano già complete, ordinate, validate. Gestisci istruttori, calendario e studenti dalla stessa schermata.",
+   "mock": {
+    "title": "Autoscuola Verdi",
+    "status": "Profilo verificato",
+    "metricsLabel": "Questo mese",
+    "metric1": {
+     "value": "12",
+     "label": "Iscrizioni"
+    },
+    "metric2": {
+     "value": "47",
+     "label": "Visite al profilo"
+    },
+    "recentLabel": "Iscrizioni recenti",
+    "student1": "Marco R. — Patente B",
+    "student2": "Sara L. — Patente B",
+    "student3": "Luca M. — Patente A2",
+    "time1": "2 ore fa",
+    "time2": "ieri",
+    "time3": "3 giorni fa"
+   }
+  },
+  "benefits": {
+   "primary": {
+    "title": "Iscrizioni online direttamente da te.",
+    "body": "Gli studenti ti scelgono dal sito, compilano l'iscrizione e tu la trovi in dashboard. Niente telefonate perse, niente moduli cartacei da archiviare."
+   },
+   "secondary": {
+    "1": {
+     "title": "Profilo già online",
+     "body": "La tua autoscuola è probabilmente già nel database. Rivendicala e aggiorna i dati."
+    },
+    "2": {
+     "title": "Esporti tutto, quando vuoi",
+     "body": "I tuoi studenti, i tuoi dati. Esportazione in CSV in un click."
+    }
+   }
+  },
+  "claim": {
+   "eyebrow": "Come iniziare",
+   "heading": "Due modi per rivendicare.",
+   "auto": {
+    "label": "Rivendica automatica",
+    "time": "Istantanea",
+    "description": "Se l'email aziendale corrisponde al dominio già nel nostro database, sei dentro al primo accesso. Nessuna verifica manuale."
+   },
+   "manual": {
+    "label": "Rivendica manuale",
+    "time": "~2 giorni lavorativi",
+    "description": "Carichi P.IVA e un documento ufficiale. Verifichiamo entro ~2 giorni lavorativi e ti contattiamo per attivare la dashboard."
+   }
+  },
+  "featureParity": {
+   "eyebrow": "Cosa ottieni",
+   "heading": "Non verificata vs verificata: cosa cambia.",
+   "unverified": "Non verificata",
+   "verified": "Verificata",
+   "features": {
+    "listing": {
+     "label": "Presenza nell'app",
+     "detail": "La tua autoscuola appare nella mappa e nei risultati di ricerca."
+    },
+    "priority": {
+     "label": "Posizionamento prioritario",
+     "detail": "La tua scuola appare prima delle non verificate nei risultati."
+    },
+    "enrolment": {
+     "label": "Iscrizione online",
+     "detail": "Gli studenti si iscrivono direttamente dal profilo, senza telefonarti."
+    },
+    "profile": {
+     "label": "Scheda dettagliata e pagina dedicata",
+     "detail": "Foto, prezzi, patenti, orari — tutto in un profilo completo con URL dedicato."
+    }
+   }
+  },
+  "pricing": {
+   "eyebrow": "Quanto costa",
+   "heading": "Inizia gratis. Paghi solo quando guadagni.",
+   "today": {
+    "label": "Oggi",
+    "value": "0 €",
+    "description": "Rivendica il profilo, ricevi iscrizioni. Nessun costo per essere su Patentedigitale."
+   },
+   "transaction": {
+    "label": "Solo sui pagamenti online",
+    "value": "2%",
+    "description": "Una piccola commissione si applica solo quando uno studente paga online. Se non attivi i pagamenti online, non c'è nessun costo."
+   },
+   "note": "Il modello evolverà. Stiamo definendo i piani futuri insieme ad advisor e autoscuole partner. Ti aggiorneremo prima di qualsiasi cambio."
+  },
+  "cta": {
+   "heading": "Pronto a digitalizzare la tua autoscuola?",
+   "subhead": "Cerca il tuo profilo, rivendicalo, inizia a ricevere iscrizioni online.",
+   "button": "Rivendica la tua autoscuola",
+   "buttonSecondary": "Cerca il tuo profilo"
+  },
+  "payments": {
+   "eyebrow": "Pagamenti online, quando vuoi",
+   "heading": "Attivi i pagamenti online.",
+   "body": "Attivare i pagamenti online è opzionale. Se lo attivi, ogni studente che sceglie di pagare online ti porta un guadagno netto fin dal primo euro. Se non lo attivi, nessun problema: i pagamenti li gestisci come hai sempre fatto.",
+   "pillStudent": "Lo studente paga",
+   "pillStudentValue": "online",
+   "pillSchool": "Tu ricevi",
+   "pillSchoolValue": "l'importo netto, subito"
+  },
+  "roster": {
+   "eyebrow": "Anche i tuoi studenti",
+   "heading": "Ogni studente, con contatti, patente e stato d'iscrizione a colpo d'occhio.",
+   "subhead": "Studenti rivendicati e non, filtrabili in tempo reale. Aggiungi un nuovo studente, invita chi manca con un link, o esporta tutto quando vuoi.",
+   "mock": {
+    "title": "Studenti",
+    "subtitle": "18 studenti attivi",
+    "inviteBadge": "Link di invito",
+    "searchPlaceholder": "Cerca per nome, email o telefono",
+    "unclaimedBadge": "Non rivendicato",
+    "student1": {
+     "initials": "MR",
+     "name": "Marco Rossi",
+     "contact": "marco.rossi@email.it",
+     "licence": "B"
+    },
+    "student2": {
+     "initials": "SL",
+     "name": "Sara Longhi",
+     "contact": "sara.longhi@email.it",
+     "licence": "B"
+    },
+    "student3": {
+     "initials": "LM",
+     "name": "Luca Moretti",
+     "contact": "+39 333 123 4567",
+     "licence": "A2"
+    },
+    "student4": {
+     "initials": "GB",
+     "name": "Giulia Bianchi",
+     "contact": "giulia.b@email.it",
+     "licence": "B"
+    }
+   }
+  },
+  "calendar": {
+   "eyebrow": "Le guide, organizzate",
+   "heading": "Calendario guide con istruttori, colori e conferme automatiche.",
+   "subhead": "Ogni istruttore ha il suo colore. Le richieste in sospeso restano tratteggiate finché non le confermi — o lasci che si confermino da sole.",
+   "mock": {
+    "title": "Calendario guide",
+    "weekLabel": "Questa settimana",
+    "day1": "Lun",
+    "day2": "Mar",
+    "day3": "Mer",
+    "day4": "Gio",
+    "day5": "Ven",
+    "instructor1": "Andrea",
+    "instructor2": "Cristina",
+    "legendPending": "In attesa di conferma"
+   }
+  },
+  "whatsapp": {
+   "heading": "WhatsApp Business, in arrivo",
+   "badge": "Prossimamente",
+   "body": "Richieste di guida e promemoria direttamente su WhatsApp, senza cambiare app. Stiamo testando questa funzione con le prime autoscuole partner."
+  },
+  "student": {
+   "eyebrow": "L'esperienza dei tuoi studenti",
+   "heading": "I tuoi studenti seguono le guide da un'app pensata per loro.",
+   "subhead": "Stato dell'iscrizione, prossima guida e calendario sincronizzato con Google o Apple Calendar. Meno messaggi da rispondere, meno telefonate per un orario.",
+   "mock": {
+    "greeting": "Ciao, Marco",
+    "enrolledAt": "Iscritto a Autoscuola Verdi",
+    "nextLessonLabel": "Prossima guida",
+    "nextLessonValue": "Giovedì, 17:30",
+    "cta": "Vai al calendario",
+    "syncTitle": "Calendario sincronizzato",
+    "syncBody": "Ogni guida confermata si aggiorna da sola nel calendario del telefono.",
+    "syncGoogle": "Google Calendar",
+    "syncApple": "Apple Calendar"
+   }
+  }
+ },
+ "iscrizione": {
+  "defaultSchoolName": "Autoscuola Verdi",
+  "backToSearch": "Torna alla ricerca",
+  "verified": "Verificata",
+  "previewBadge": "Anteprima · in costruzione",
+  "hero": {
+   "eyebrow": "Iscrizione",
+   "subhead": "Questa è una preview della pagina di iscrizione. Stai vedendo i pacchetti tipo che un'autoscuola può offrire su patentedigitale.it. Ancora non puoi completare l'iscrizione da qui.",
+   "caveatTitle": "Stai testando una preview",
+   "caveatBody": "I dati delle patenti, prezzi e veicoli mostrati sono illustrativi. Quando l'iscrizione sarà attiva, vedrai i dati reali configurati dall'autoscuola.",
+   "enrollAnchor": "Vedi patenti"
+  },
+  "bundles": {
+   "eyebrow": "Pacchetti",
+   "heading": "Scegli il pacchetto\nche ti serve.",
+   "body": "Ogni autoscuola configura i propri pacchetti con esattezza. Tu vedi cosa include, quanto costa e scegli quello che ti serve.",
+   "note": "Esempio illustrativo. I pacchetti e i prezzi variano da scuola a scuola.",
+   "sectionTitle": "Scegli il tuo pacchetto",
+   "schoolIdLabel": "ID scuola",
+   "popularBadge": "Popolare",
+   "ctaLabel": "Iscriviti",
+   "paypalNote": "Paga in un'unica soluzione o in 3 rate con PayPal",
+   "tiers": {
+    "essential": {
+     "name": "Essenziale",
+     "price": "800 €",
+     "features": {
+      "1": "Iscrizione e foglio rosa",
+      "2": "Materiali di studio",
+      "3": "6 ore di guida",
+      "4": "1 tentativo esame teoria"
+     }
+    },
+    "complete": {
+     "name": "Completa",
+     "price": "1.200 €",
+     "features": {
+      "1": "Tutto in Essenziale",
+      "2": "12 ore di guida",
+      "3": "2 tentativi esame teoria",
+      "4": "Esame pratico incluso"
+     }
+    },
+    "plus": {
+     "name": "Plus",
+     "price": "1.500 €",
+     "features": {
+      "1": "Tutto in Completa",
+      "2": "18 ore di guida",
+      "3": "Garanzia ripetizione",
+      "4": "Supporto WhatsApp"
+     }
+    }
+   }
+  },
+  "detail": {
+   "about": "Chi siamo",
+   "contacts": "Contatti",
+   "contactsHeading": "Come raggiungerci",
+   "hours": "Orari",
+   "hoursHeading": "Orari di apertura",
+   "licences": "Patenti",
+   "licencesHeading": "Patenti e prezzi",
+   "licenceLabel": "Patente {{code}}",
+   "priceUnavailable": "Su richiesta",
+   "address": "Indirizzo",
+   "openInMaps": "Apri su Google Maps",
+   "foundedSince": "Dal {{year}}",
+   "instructorCount_one": "{{count}} istruttore",
+   "instructorCount_other": "{{count}} istruttori",
+   "enrollCta": "Iscriviti ora",
+   "callCta": "Chiama",
+   "bundlesCaveat": "Esempio · ogni autoscuola configura i suoi pacchetti.",
+   "exampleLabel": "Esempio illustrativo"
+  },
+  "whatsappGate": {
+   "hint": "Accedi o registrati per contattare l'autoscuola su WhatsApp.",
+   "cta": "Accedi o registrati →"
+  },
+  "next": {
+   "eyebrow": "Cosa succede dopo",
+   "heading": "Tre passi e sei iscritto.",
+   "cta": "Cerca un'altra autoscuola",
+   "steps": {
+    "1": {
+     "title": "Scegli il pacchetto",
+     "body": "Confronti Essenziale, Completa e Plus. Vedi cosa include ogni pacchetto e scegli quello che fa per te."
+    },
+    "2": {
+     "title": "Compili il modulo",
+     "body": "Inserisci i tuoi dati anagrafici e carichi i documenti dal telefono. Niente stampe, niente code in segreteria."
+    },
+    "3": {
+     "title": "Paghi (anche in 3 rate)",
+     "body": "Paghi in un'unica soluzione o in 3 rate con PayPal. Zero interessi, zero costi nascosti."
+    }
+   }
+  },
+  "photos": {
+   "eyebrow": "Foto",
+   "heading": "Conosci l'autoscuola."
+  },
+  "picker": {
+   "eyebrow": "Patenti disponibili",
+   "heading": "Scegli la patente che vuoi prendere.",
+   "subhead": "Seleziona una patente per vedere prezzo, cosa include e i veicoli disponibili.",
+   "priceLabel": "Prezzo iscrizione",
+   "priceUnavailable": "Su richiesta",
+   "includesLabel": "Cosa include",
+   "vehiclesLabel": "Veicoli disponibili",
+   "noVehicles": "Veicoli non specificati. Chiedi in autoscuola.",
+   "enrollCta": "Iscriviti a Patente {{code}}",
+   "paypalNote": "Paga in 3 rate con PayPal su autoscuole verificate.",
+   "patenteLabel": "Patente {{code}}",
+   "mockNote": "Dati di esempio. La pagina mostrerà i dati reali quando l'autoscuola li configura.",
+   "variantsLabel": "Pacchetto",
+   "transmissionLabel": "Cambio",
+   "transmissionManual": "Manuale",
+   "transmissionAuto": "Automatico",
+   "extraHoursLabel": "Ore di guida extra",
+   "extraHoursNone": "Solo le 6 obbligatorie",
+   "extraHours5": "+5 ore",
+   "extraHours10": "+10 ore",
+   "photoExpandLabel": "Apri foto",
+   "photoCloseLabel": "Chiudi",
+   "extraHoursHint": "Aggiungi ore di guida (oltre quelle obbligatorie).",
+   "extraHoursUnit": "ore",
+   "extraHoursOne": "ora",
+   "extraHoursPricePer": "per ora",
+   "extraHoursAddPack": "+5 pack (-10%)",
+   "extraHoursDiscountBadge": "−10% sconto pack 5+",
+   "extraHoursDecrement": "Rimuovi un'ora",
+   "extraHoursIncrement": "Aggiungi un'ora"
+  },
+  "paywall": {
+   "closeLabel": "Chiudi",
+   "loading": "Caricamento...",
+   "guest": {
+    "heading": "Crea il tuo account per iscriverti",
+    "body": "Per iscriverti a {{name}} ti serve un account studente. Ti ci vuole un minuto.",
+    "primaryCta": "Crea account studente",
+    "secondaryCta": "Ho già un account"
+   },
+   "autoscuola": {
+    "heading": "Accedi come studente",
+    "body": "Stai usando un account autoscuola. Per iscriverti a un corso ti serve un account studente. Esci e crea un account studente per continuare.",
+    "primaryCta": "Esci e accedi come studente"
+   },
+   "student": {
+    "heading": "Quasi fatto. Anteprima pagamento.",
+    "body": "Il flusso di pagamento è in costruzione. Quando sarà attivo, qui completerai l'iscrizione direttamente con carta o PayPal (anche in 3 rate).",
+    "summary": "Iscrizione a {{name}} · Patente {{code}}",
+    "totalLabel": "Totale",
+    "primaryCta": "Continua (anteprima)",
+    "mockLabel": "Anteprima · pagamento non attivo"
+   }
+  }
+ },
+ "claim": {
+  "working": "Collegamento del tuo profilo…",
+  "success": "Profilo collegato! Ora vedi le tue guide.",
+  "notFound": "Link non valido o già utilizzato.",
+  "activeElsewhere": "Risulti già iscritto a un'altra autoscuola."
+ }
 }

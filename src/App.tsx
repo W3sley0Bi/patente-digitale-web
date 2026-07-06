@@ -14,7 +14,6 @@ import { ScrollToHash } from "./hooks/useScrollToHash";
 import Landing from "./routes/Landing";
 
 const Cerca = lazy(() => import("./routes/Cerca"));
-const Partner = lazy(() => import("./routes/Partner"));
 const Login = lazy(() => import("./routes/Login"));
 const QuizOnline = lazy(() => import("./routes/QuizOnline"));
 const ResetPassword = lazy(() => import("./routes/ResetPassword"));
@@ -39,8 +38,6 @@ const DrivingSchoolSettings = lazy(
 	() => import("./routes/DrivingSchoolSettings"),
 );
 const ClaimStudent = lazy(() => import("./routes/ClaimStudent"));
-const Studenti = lazy(() => import("./routes/Studenti"));
-const Autoscuole = lazy(() => import("./routes/Autoscuole"));
 const NotFound = lazy(() => import("./routes/NotFound"));
 const ServerError = lazy(() => import("./routes/ServerError"));
 
@@ -65,12 +62,15 @@ function App() {
 					<Suspense fallback={<LoadingFallback />}>
 						<Routes>
 							<Route path="/" element={<Landing />} />
-							<Route path="/students" element={<Studenti />} />
-							<Route path="/driving-schools" element={<Autoscuole />} />
+							<Route path="/students" element={<Navigate to="/" replace />} />
+							<Route
+								path="/driving-schools"
+								element={<Navigate to="/" replace />}
+							/>
 							<Route path="/cerca" element={<SearchRedirect />} />
 							<Route path="/search" element={<Cerca />} />
 							<Route path="/iscrizione" element={<SearchRedirect />} />
-							<Route path="/partner" element={<Partner />} />
+							<Route path="/partner" element={<Navigate to="/" replace />} />
 							<Route path="/claim/:token" element={<ClaimStudent />} />
 							<Route path="/app" element={<AppHomeRedirect />} />
 							<Route path="/app/login" element={<Login />} />

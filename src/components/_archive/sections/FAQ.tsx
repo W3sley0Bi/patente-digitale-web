@@ -1,12 +1,12 @@
 import { Trans, useTranslation } from "react-i18next";
+import { SectionEyebrow } from "@/components/layout/SectionEyebrow";
+import { Reveal } from "@/components/motion/Reveal";
 import {
 	Accordion,
 	AccordionContent,
 	AccordionItem,
 	AccordionTrigger,
 } from "@/components/ui/accordion";
-import { SectionEyebrow } from "../layout/SectionEyebrow";
-import { Reveal } from "../motion/Reveal";
 
 const FAQ_ITEMS = [1, 2, 4];
 

@@ -4,7 +4,7 @@ import metaLogo from "@/assets/partners/meta.png";
 // Import partner logos to ensure they are bundled correctly
 import politoLogo from "@/assets/partners/polito.png";
 import unitoLogo from "@/assets/partners/unito.png";
-import { Reveal } from "../motion/Reveal";
+import { Reveal } from "@/components/motion/Reveal";
 
 const LogoGoogle = () => (
 	<svg

@@ -100,10 +100,9 @@ export function Footer() {
 						</h4>
 						<ul className="flex flex-col gap-4">
 							{[
-								{ id: "how-it-works", label: "howItWorks" },
-								{ id: "faq", label: "faq" },
-								{ id: "partner", label: "partners" },
-								{ href: "/cerca", label: "findSchool" },
+								{ id: "come-funziona", label: "howItWorks" },
+								{ id: "esperienza-studenti", label: "students" },
+								{ href: "/search", label: "findSchool" },
 							].map((item) => (
 								<li key={item.label}>
 									<Link
