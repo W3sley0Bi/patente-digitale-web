@@ -62,8 +62,8 @@ const BOOKING_EVENTS = new Set<Event>([
 const APP_BASE_URL = (
 	Deno.env.get("APP_BASE_URL") ?? "https://patentedigitale.it"
 ).replace(/\/+$/, "");
-const SCHOOL_CALENDAR_URL = `${APP_BASE_URL}/driving-school/dashboard/guide`;
-const STUDENT_GUIDE_URL = `${APP_BASE_URL}/student/dashboard/guide`;
+const SCHOOL_CALENDAR_URL = `${APP_BASE_URL}/app/driving-school/drive-bookings`;
+const STUDENT_GUIDE_URL = `${APP_BASE_URL}/app/student/drive-bookings`;
 
 const CORS = {
 	"Access-Control-Allow-Origin": "*",

@@ -90,6 +90,19 @@ export default function Login() {
 		);
 	};
 
+	// Once a session exists, the app-wide Nav flips to its authenticated state
+	// immediately (it reads AuthContext directly), while the redirect above
+	// waits on the profile fetch. Render a spinner instead of the full login
+	// page in that gap so users never see an authenticated navbar stacked on
+	// top of the login form.
+	if (user) {
+		return (
+			<div className="min-h-screen bg-bg flex items-center justify-center">
+				<div className="h-8 w-8 animate-pulse rounded-full bg-brand/20" />
+			</div>
+		);
+	}
+
 	const heading =
 		view === "login"
 			? t("auth.login")
