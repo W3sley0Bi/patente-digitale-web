@@ -41,12 +41,39 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
 	// Single onAuthStateChange subscription for the whole app.
 	// It fires immediately with the current session AND handles URL hash exchange.
+	// On mobile, the tab can be backgrounded (e.g. user taps a magic link from
+	// the mail app) mid-exchange, so this callback can be delayed indefinitely.
+	// getSession() below acts as a fallback that re-resolves once the tab is
+	// foregrounded again, instead of leaving authLoading stuck forever.
 	useEffect(() => {
+		let resolved = false;
 		const { data: listener } = supabase.auth.onAuthStateChange((_event, s) => {
+			resolved = true;
 			setSession(s);
 			setAuthLoading(false);
 		});
-		return () => listener.subscription.unsubscribe();
+
+		const resolveFromSession = () => {
+			if (resolved) return;
+			void supabase.auth.getSession().then(({ data }) => {
+				if (resolved) return;
+				resolved = true;
+				setSession(data.session);
+				setAuthLoading(false);
+			});
+		};
+
+		const onVisible = () => {
+			if (document.visibilityState === "visible") resolveFromSession();
+		};
+		document.addEventListener("visibilitychange", onVisible);
+		const timeoutId = window.setTimeout(resolveFromSession, 5000);
+
+		return () => {
+			listener.subscription.unsubscribe();
+			document.removeEventListener("visibilitychange", onVisible);
+			window.clearTimeout(timeoutId);
+		};
 	}, []);
 
 	const user = session?.user ?? null;
@@ -56,14 +83,24 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 	const fetchProfile = useCallback(async (userId: string) => {
 		setProfileLoading(true);
 		setProfileError(null);
-		const { data, error } = await supabase
-			.from("profiles")
-			.select("*")
-			.eq("id", userId)
-			.single();
-		if (error) setProfileError(error.message);
-		setProfile((data as Profile) ?? null);
-		setProfileLoading(false);
+		// Backgrounded/throttled mobile tabs can stall this request indefinitely
+		// (e.g. after returning from a magic-link tap) — cap it so the UI
+		// never gets stuck showing a spinner forever.
+		const timeout = new Promise<never>((_, reject) =>
+			setTimeout(() => reject(new Error("Profile fetch timed out")), 10000),
+		);
+		try {
+			const { data, error } = await Promise.race([
+				supabase.from("profiles").select("*").eq("id", userId).single(),
+				timeout,
+			]);
+			if (error) setProfileError(error.message);
+			setProfile((data as Profile) ?? null);
+		} catch (err) {
+			setProfileError(err instanceof Error ? err.message : "Unknown error");
+		} finally {
+			setProfileLoading(false);
+		}
 	}, []);
 
 	useEffect(() => {
