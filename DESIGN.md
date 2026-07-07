@@ -232,3 +232,4 @@ Subagents must NOT introduce new color, spacing, radius, or shadow tokens withou
 - Numerals: Italian thousand separator (`1.250` not `1,250`). Currency: `1.250 €` (space, then symbol, Italian convention).
 - No emojis in marketing copy. (Mascot is the personality; emojis dilute it.)
 - Loading states: subtle "skeleton" pulse using `--color-bg-sunken`, never spinning circles for content.
+
