@@ -46,14 +46,14 @@ function MockChrome({
 					<span className="h-2.5 w-2.5 rounded-full bg-line-strong" />
 					<span className="h-2.5 w-2.5 rounded-full bg-line-strong" />
 				</div>
-				<div className="ml-3 flex-1 flex items-center gap-2 rounded-md bg-bg border border-line px-3 py-1 truncate">
+				<div className="ml-3 flex-1 min-w-0 flex items-center gap-2 rounded-md bg-bg border border-line px-3 py-1">
 					<img
 						src={managerIcon}
 						alt=""
 						aria-hidden="true"
 						className="h-4 w-4 rounded-sm object-cover shrink-0"
 					/>
-					<span className="font-sans text-xs text-ink-faint truncate">
+					<span className="font-sans min-w-0 text-xs text-ink-faint truncate">
 						{url}
 					</span>
 				</div>
@@ -452,7 +452,7 @@ export default function Landing() {
 			<Nav />
 			<main>
 				{/* HERO — dark, badge-led */}
-				<section className="relative flex items-center min-h-[100dvh] pt-[14dvh] pb-[10dvh] bg-ink overflow-hidden">
+				<section className="relative flex items-center min-h-[100svh] pt-[14svh] pb-[10svh] bg-ink overflow-hidden">
 					<div
 						className="absolute inset-0 opacity-[0.04]"
 						style={{
@@ -463,8 +463,8 @@ export default function Landing() {
 					/>
 
 					<div className="relative mx-auto w-full max-w-(--container-wide) px-4 lg:px-8">
-						<div className="grid items-center gap-12 lg:grid-cols-12">
-							<Reveal className="lg:col-span-7">
+						<div className="grid min-w-0 items-center gap-12 lg:grid-cols-12">
+							<Reveal className="min-w-0 lg:col-span-7">
 								<SectionEyebrow className="text-accent">
 									{t("autoscuole.hero.eyebrow")}
 								</SectionEyebrow>
@@ -475,13 +475,13 @@ export default function Landing() {
 									{t("autoscuole.hero.subhead")}
 								</p>
 								<div className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center">
-									<Link to="/app/signup/driving-school">
+									<Link to="/app/signup/driving-school" className="w-full sm:w-auto">
 										<Button
 											size="lg"
-											className="h-14 px-8 rounded-pill bg-brand text-white hover:bg-brand-hover font-bold gap-2 shadow-cta"
+											className="h-14 w-full whitespace-normal px-6 text-center rounded-pill bg-brand text-white hover:bg-brand-hover font-bold gap-2 shadow-cta sm:w-auto sm:whitespace-nowrap sm:px-8"
 										>
 											{t("autoscuole.hero.cta")}
-											<ArrowRight className="h-4 w-4" />
+											<ArrowRight className="h-4 w-4 shrink-0" />
 										</Button>
 									</Link>
 									<Link
@@ -536,8 +536,8 @@ export default function Landing() {
 					className="scroll-mt-20 py-24 md:py-32 bg-bg"
 				>
 					<div className="mx-auto max-w-(--container-wide) px-4 lg:px-8">
-						<div className="grid items-center gap-12 lg:grid-cols-12 lg:gap-16">
-							<Reveal className="lg:col-span-5">
+						<div className="grid min-w-0 items-center gap-12 lg:grid-cols-12 lg:gap-16">
+							<Reveal className="min-w-0 lg:col-span-5">
 								<div className="flex flex-col gap-2 mb-6 w-fit">
 									<div className="inline-flex items-center gap-3 rounded-2xl border border-line bg-bg-raised pl-2 pr-4 py-2 shadow-sm">
 										<img
@@ -565,7 +565,7 @@ export default function Landing() {
 									{t("autoscuole.dashboard.subhead")}
 								</p>
 							</Reveal>
-							<Reveal delay={0.15} className="lg:col-span-7">
+							<Reveal delay={0.15} className="min-w-0 lg:col-span-7">
 								<MockupTest name="landing-dashboard-mock">
 									<DashboardMock />
 								</MockupTest>
@@ -577,13 +577,13 @@ export default function Landing() {
 				{/* STUDENT ROSTER MOCKUP */}
 				<section className="py-24 md:py-32 bg-bg-sunken/30">
 					<div className="mx-auto max-w-(--container-wide) px-4 lg:px-8">
-						<div className="grid items-center gap-12 lg:grid-cols-12 lg:gap-16">
-							<Reveal delay={0.15} className="lg:col-span-7 order-2 lg:order-1">
+						<div className="grid min-w-0 items-center gap-12 lg:grid-cols-12 lg:gap-16">
+							<Reveal delay={0.15} className="min-w-0 lg:col-span-7 order-2 lg:order-1">
 								<MockupTest name="landing-roster-mock">
 									<RosterMock />
 								</MockupTest>
 							</Reveal>
-							<Reveal className="lg:col-span-5 order-1 lg:order-2">
+							<Reveal className="min-w-0 lg:col-span-5 order-1 lg:order-2">
 								<SectionEyebrow>
 									{t("autoscuole.roster.eyebrow")}
 								</SectionEyebrow>
@@ -601,8 +601,8 @@ export default function Landing() {
 				{/* CALENDAR MOCKUP */}
 				<section className="py-24 md:py-32 bg-bg">
 					<div className="mx-auto max-w-(--container-wide) px-4 lg:px-8">
-						<div className="grid items-center gap-12 lg:grid-cols-12 lg:gap-16">
-							<Reveal className="lg:col-span-5">
+						<div className="grid min-w-0 items-center gap-12 lg:grid-cols-12 lg:gap-16">
+							<Reveal className="min-w-0 lg:col-span-5">
 								<SectionEyebrow>
 									{t("autoscuole.calendar.eyebrow")}
 								</SectionEyebrow>
@@ -613,7 +613,7 @@ export default function Landing() {
 									{t("autoscuole.calendar.subhead")}
 								</p>
 							</Reveal>
-							<Reveal delay={0.15} className="lg:col-span-7">
+							<Reveal delay={0.15} className="min-w-0 lg:col-span-7">
 								<MockupTest name="landing-calendar-mock">
 									<CalendarMock />
 								</MockupTest>
@@ -628,13 +628,13 @@ export default function Landing() {
 					className="scroll-mt-20 py-24 md:py-32 bg-bg-sunken/30"
 				>
 					<div className="mx-auto max-w-(--container-wide) px-4 lg:px-8">
-						<div className="grid items-center gap-12 lg:grid-cols-12 lg:gap-16">
-							<Reveal delay={0.15} className="lg:col-span-5 order-2 lg:order-1">
+						<div className="grid min-w-0 items-center gap-12 lg:grid-cols-12 lg:gap-16">
+							<Reveal delay={0.15} className="min-w-0 lg:col-span-5 order-2 lg:order-1">
 								<MockupTest name="landing-student-mock">
 									<StudentMock />
 								</MockupTest>
 							</Reveal>
-							<Reveal className="lg:col-span-7 order-1 lg:order-2">
+							<Reveal className="min-w-0 lg:col-span-7 order-1 lg:order-2">
 								<SectionEyebrow>
 									{t("autoscuole.student.eyebrow")}
 								</SectionEyebrow>
@@ -739,13 +739,13 @@ export default function Landing() {
 							</Reveal>
 							<Reveal delay={0.1}>
 								<div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-									<Link to="/app/signup/driving-school">
+									<Link to="/app/signup/driving-school" className="w-full sm:w-auto">
 										<Button
 											size="lg"
-											className="h-14 px-10 rounded-pill bg-white text-brand hover:bg-white/90 font-bold text-base gap-2 shadow-lg"
+											className="h-14 w-full whitespace-normal px-6 text-center rounded-pill bg-white text-brand hover:bg-white/90 font-bold text-base gap-2 shadow-lg sm:w-auto sm:whitespace-nowrap sm:px-10"
 										>
 											{t("autoscuole.cta.button")}
-											<ArrowRight className="h-4 w-4" />
+											<ArrowRight className="h-4 w-4 shrink-0" />
 										</Button>
 									</Link>
 								</div>
