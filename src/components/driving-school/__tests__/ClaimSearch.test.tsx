@@ -84,7 +84,7 @@ describe("ClaimSearch", () => {
 			website: "https://www.romacentro.it",
 			address: null,
 			phone: null,
-			region: null,
+			region: "Lazio",
 			zip: null,
 			lat: 41.9,
 			lng: 12.5,

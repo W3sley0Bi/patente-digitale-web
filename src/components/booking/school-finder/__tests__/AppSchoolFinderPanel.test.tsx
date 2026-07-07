@@ -6,23 +6,16 @@ vi.mock("react-i18next", () => ({
 }));
 
 const mockUseCerca = {
-	city: "",
+	query: "",
 	region: "",
-	zip: "",
-	name: "",
-	verifiedOnly: false,
-	enrollmentOnly: false,
+	coords: null,
 	results: [],
-	cityOptions: [],
 	selected: null,
 	loading: false,
 	error: null,
-	setCity: vi.fn(),
+	setQuery: vi.fn(),
+	setPlace: vi.fn(),
 	setRegion: vi.fn(),
-	setZip: vi.fn(),
-	setName: vi.fn(),
-	setVerifiedOnly: vi.fn(),
-	setEnrollmentOnly: vi.fn(),
 	setSelected: vi.fn(),
 	clearFilters: vi.fn(),
 };
@@ -50,7 +43,7 @@ describe("AppSchoolFinderPanel", () => {
 	it("renders the filter bar and results list", () => {
 		render(<AppSchoolFinderPanel />);
 		expect(
-			screen.getByPlaceholderText("cerca.filters.namePlaceholder"),
+			screen.getByPlaceholderText("cerca.searchPlaceholder"),
 		).toBeInTheDocument();
 		expect(screen.getByText("cerca.noResults")).toBeInTheDocument();
 	});
@@ -58,6 +51,13 @@ describe("AppSchoolFinderPanel", () => {
 	it("renders the map", () => {
 		render(<AppSchoolFinderPanel />);
 		expect(screen.getByTestId("school-map")).toBeInTheDocument();
+	});
+
+	it("never shows the verified-only toggle — the search is always scoped to verified schools", () => {
+		render(<AppSchoolFinderPanel />);
+		expect(
+			screen.queryByText("cerca.filters.partnerOnly"),
+		).not.toBeInTheDocument();
 	});
 
 	it("never links to marketing search or the owner claim flow", () => {

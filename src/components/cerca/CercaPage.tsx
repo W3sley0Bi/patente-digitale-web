@@ -13,29 +13,26 @@ export function CercaPage() {
 	const { t } = useTranslation();
 	const [isFiltersVisible, setIsFiltersVisible] = useState(true);
 	const {
-		city,
+		query,
 		region,
-		zip,
-		name,
 		verifiedOnly,
-		enrollmentOnly,
+		coords,
 		results,
-		cityOptions,
 		selected,
 		deepLinkPlaceId,
 		loading,
 		error,
-		setCity,
+		setQuery,
+		setPlace,
 		setRegion,
-		setZip,
-		setName,
 		setVerifiedOnly,
-		setEnrollmentOnly,
 		setSelected,
 		clearFilters,
 	} = useCerca();
 
-	const filterKey = [city, region, zip, name].filter(Boolean).join("|");
+	const filterKey = [query, region, coords?.lat, coords?.lng]
+		.filter(Boolean)
+		.join("|");
 
 	const resultsCountLabel =
 		!loading && !error
@@ -67,19 +64,13 @@ export function CercaPage() {
 
 				<div className={isFiltersVisible ? "block" : "hidden md:block"}>
 					<FilterBar
-						city={city}
+						query={query}
 						region={region}
-						zip={zip}
-						name={name}
 						verifiedOnly={verifiedOnly}
-						enrollmentOnly={enrollmentOnly}
-						cityOptions={cityOptions}
-						onCityChange={setCity}
+						onQueryChange={setQuery}
+						onPlaceSelect={setPlace}
 						onRegionChange={setRegion}
-						onZipChange={setZip}
-						onNameChange={setName}
 						onVerifiedOnlyChange={setVerifiedOnly}
-						onEnrollmentOnlyChange={setEnrollmentOnly}
 						onClear={clearFilters}
 					/>
 				</div>
@@ -110,6 +101,7 @@ export function CercaPage() {
 							filterKey={filterKey}
 							selected={selected}
 							onSelect={setSelected}
+							center={coords}
 						/>
 					)}
 					<SchoolDetailPanel
@@ -129,6 +121,7 @@ export function CercaPage() {
 							filterKey={filterKey}
 							selected={selected}
 							onSelect={setSelected}
+							center={coords}
 						/>
 					)}
 				</div>

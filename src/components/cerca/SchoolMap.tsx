@@ -43,6 +43,31 @@ function FitBounds({
 	return null;
 }
 
+// A radius search's bounding box gets pulled toward wherever results cluster
+// most densely, not toward the searched point (e.g. searching a small town
+// next to a big city centers the map on the city). Center on the pin instead.
+function CenterOnPlace({
+	center,
+}: {
+	center: { lat: number; lng: number } | null;
+}) {
+	const map = useMap();
+	const lastCenter = useRef<string | null>(null);
+
+	useEffect(() => {
+		if (!center) {
+			lastCenter.current = null;
+			return;
+		}
+		const key = `${center.lat},${center.lng}`;
+		if (lastCenter.current === key) return;
+		lastCenter.current = key;
+		map.setView([center.lat, center.lng], 11, { animate: true });
+	}, [center, map]);
+
+	return null;
+}
+
 // Leaflet measures its container on mount. If the container is display:none
 // at that point (e.g. behind a hidden-by-default mobile toggle), the map
 // initializes at 0x0 and stays blank even after the container becomes
@@ -136,6 +161,7 @@ interface SchoolMapProps {
 	filterKey: string;
 	selected: NormalizedSchool | null;
 	onSelect: (school: NormalizedSchool) => void;
+	center?: { lat: number; lng: number } | null;
 }
 
 export function SchoolMap({
@@ -143,6 +169,7 @@ export function SchoolMap({
 	filterKey,
 	selected,
 	onSelect,
+	center = null,
 }: SchoolMapProps) {
 	const sortedSchools = [...schools].sort((a, b) => {
 		const aV = a.partner === true ? 1 : 0;
@@ -222,7 +249,11 @@ export function SchoolMap({
 				/>
 				<ZoomControl position="topright" />
 				<InvalidateOnResize containerRef={containerRef} />
-				<FitBounds schools={schools} filterKey={filterKey} />
+				{center ? (
+					<CenterOnPlace center={center} />
+				) : (
+					<FitBounds schools={schools} filterKey={filterKey} />
+				)}
 				<PanToSelected selected={selected} />
 				{sortedSchools.map((school) => (
 					<SchoolMarker

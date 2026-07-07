@@ -17,30 +17,27 @@ import { AppSchoolDetailPanel } from "./AppSchoolDetailPanel";
 export function AppSchoolFinderPanel() {
 	const { t } = useTranslation();
 	const [isMapVisible, setIsMapVisible] = useState(false);
+	// Students can only ever enroll in verified/partner schools, so the
+	// search is always scoped to them — no toggle, nothing to opt out of.
 	const {
-		city,
+		query,
 		region,
-		zip,
-		name,
-		verifiedOnly,
-		enrollmentOnly,
+		coords,
 		results,
-		cityOptions,
 		selected,
 		deepLinkPlaceId,
 		loading,
 		error,
-		setCity,
+		setQuery,
+		setPlace,
 		setRegion,
-		setZip,
-		setName,
-		setVerifiedOnly,
-		setEnrollmentOnly,
 		setSelected,
 		clearFilters,
-	} = useCerca();
+	} = useCerca({ forceVerifiedOnly: true });
 
-	const filterKey = [city, region, zip, name].filter(Boolean).join("|");
+	const filterKey = [query, region, coords?.lat, coords?.lng]
+		.filter(Boolean)
+		.join("|");
 
 	return (
 		<div className="mt-6 rounded-2xl border border-line bg-bg-raised p-4 md:p-6">
@@ -50,19 +47,11 @@ export function AppSchoolFinderPanel() {
 
 			<div className="mt-3">
 				<FilterBar
-					city={city}
+					query={query}
 					region={region}
-					zip={zip}
-					name={name}
-					verifiedOnly={verifiedOnly}
-					enrollmentOnly={enrollmentOnly}
-					cityOptions={cityOptions}
-					onCityChange={setCity}
+					onQueryChange={setQuery}
+					onPlaceSelect={setPlace}
 					onRegionChange={setRegion}
-					onZipChange={setZip}
-					onNameChange={setName}
-					onVerifiedOnlyChange={setVerifiedOnly}
-					onEnrollmentOnlyChange={setEnrollmentOnly}
 					onClear={clearFilters}
 				/>
 			</div>
@@ -103,6 +92,7 @@ export function AppSchoolFinderPanel() {
 							filterKey={filterKey}
 							selected={selected}
 							onSelect={setSelected}
+							center={coords}
 						/>
 					)}
 				</div>

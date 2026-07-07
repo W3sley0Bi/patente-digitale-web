@@ -59,16 +59,31 @@ describe("useCerca", () => {
 		expect(result.current.results).toHaveLength(2);
 	});
 
-	it("filters by city name", async () => {
+	it("filters by free-text query against name and city", async () => {
 		const { result } = renderHook(() => useCerca(), { wrapper });
 		await waitFor(() => expect(result.current.loading).toBe(false));
-		act(() => result.current.setCity("Milano"));
+		act(() => result.current.setQuery("milano"));
 		await waitFor(() =>
 			expect(result.current.results.some((s) => s.city === "Milano")).toBe(
 				true,
 			),
 		);
 		expect(result.current.results.every((s) => s.city !== "Roma")).toBe(true);
+	});
+
+	it("filters by radius once a place is selected", async () => {
+		const { result } = renderHook(() => useCerca(), { wrapper });
+		await waitFor(() => expect(result.current.loading).toBe(false));
+		// Coordinates near Roma — well within 30km, but far from Milano.
+		act(() =>
+			result.current.setPlace({ label: "Roma", lat: 41.9, lng: 12.5 }),
+		);
+		await waitFor(() =>
+			expect(result.current.results.some((s) => s.city === "Roma")).toBe(true),
+		);
+		expect(result.current.results.every((s) => s.city !== "Milano")).toBe(
+			true,
+		);
 	});
 
 	it("setSelected updates selected", async () => {
@@ -86,6 +101,66 @@ describe("useCerca", () => {
 		);
 		const { result } = renderHook(() => useCerca(), { wrapper });
 		await waitFor(() => expect(result.current.error).toBeTruthy());
+	});
+});
+
+describe("useCerca forceVerifiedOnly", () => {
+	const MOCK_MIXED_GEOJSON = {
+		type: "FeatureCollection",
+		features: [
+			{
+				type: "Feature",
+				geometry: { type: "Point", coordinates: [12.49, 41.89] },
+				properties: {
+					_placeId: "place-verified",
+					name: "Autoscuola Verificata",
+					city: "Roma",
+					zip: "00100",
+					region: "",
+					address: "",
+					phone: "",
+					website: "",
+					partner: true,
+				},
+			},
+			{
+				type: "Feature",
+				geometry: { type: "Point", coordinates: [12.5, 41.9] },
+				properties: {
+					_placeId: "place-unverified",
+					name: "Autoscuola Non Verificata",
+					city: "Roma",
+					zip: "00101",
+					region: "",
+					address: "",
+					phone: "",
+					website: "",
+				},
+			},
+		],
+	};
+
+	beforeEach(() => {
+		vi.stubGlobal(
+			"fetch",
+			vi.fn().mockResolvedValue({
+				ok: true,
+				json: async () => MOCK_MIXED_GEOJSON,
+			} as Response),
+		);
+	});
+
+	it("only ever returns verified/partner schools, and clearFilters can't undo it", async () => {
+		const { result } = renderHook(() => useCerca({ forceVerifiedOnly: true }), {
+			wrapper,
+		});
+		await waitFor(() => expect(result.current.loading).toBe(false));
+		expect(result.current.results).toHaveLength(1);
+		expect(result.current.results[0]._placeId).toBe("place-verified");
+
+		act(() => result.current.clearFilters());
+		expect(result.current.results).toHaveLength(1);
+		expect(result.current.results[0]._placeId).toBe("place-verified");
 	});
 });
 

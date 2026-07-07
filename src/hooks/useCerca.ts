@@ -1,24 +1,29 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useSearchParams } from "react-router";
-import {
-	type NormalizedSchool,
-	normalizeSchool,
-	type SchoolsGeoJSON,
-} from "@/lib/geojson";
-import { getRegionForCoords } from "@/lib/italyGeo";
-import { mergeDelta } from "@/lib/mergeDelta";
-import { supabase } from "@/lib/supabase";
+import type { NormalizedSchool } from "@/lib/geojson";
+import { haversineKm } from "@/lib/geo";
+import { loadAllSchools } from "@/lib/loadSchools";
+
+const DEFAULT_RADIUS_KM = 30;
+
+export interface PlaceSelection {
+	label: string;
+	lat: number;
+	lng: number;
+}
+
+interface UseCercaOptions {
+	/** Student-facing search: only verified/partner schools can be enrolled in, so hide the rest. */
+	forceVerifiedOnly?: boolean;
+}
 
 interface UseCercaReturn {
-	city: string;
+	query: string;
 	region: string;
-	zip: string;
-	name: string;
 	license: string;
 	verifiedOnly: boolean;
-	enrollmentOnly: boolean;
+	coords: { lat: number; lng: number } | null;
 	results: NormalizedSchool[];
-	cityOptions: string[];
 	selected: NormalizedSchool | null;
 	/**
 	 * The ?placeId= captured from the URL on mount (an invite link / QR deep
@@ -29,39 +34,35 @@ interface UseCercaReturn {
 	deepLinkPlaceId: string | null;
 	loading: boolean;
 	error: string | null;
-	setCity: (v: string) => void;
+	setQuery: (v: string) => void;
+	setPlace: (place: PlaceSelection) => void;
 	setRegion: (v: string) => void;
-	setZip: (v: string) => void;
-	setName: (v: string) => void;
 	setLicense: (v: string) => void;
 	setVerifiedOnly: (v: boolean) => void;
-	setEnrollmentOnly: (v: boolean) => void;
 	setSelected: (school: NormalizedSchool | null) => void;
 	clearFilters: () => void;
 }
 
-export function useCerca(): UseCercaReturn {
+export function useCerca(options: UseCercaOptions = {}): UseCercaReturn {
+	const { forceVerifiedOnly = false } = options;
 	const [searchParams, setSearchParams] = useSearchParams();
+
+	const initialLat = searchParams.get("lat");
+	const initialLng = searchParams.get("lng");
 
 	// Primary state for instant feedback
 	const [filters, setFilters] = useState({
-		city: searchParams.get("city") ?? "",
+		query: searchParams.get("q") ?? "",
 		region: searchParams.get("region") ?? "",
-		zip: searchParams.get("zip") ?? "",
-		name: searchParams.get("q") ?? "",
 		license: searchParams.get("license") ?? "",
-		verifiedOnly: searchParams.get("verified") === "1",
-		enrollmentOnly: searchParams.get("enrollment") === "1",
+		verifiedOnly: forceVerifiedOnly || searchParams.get("verified") === "1",
+		coords:
+			initialLat && initialLng
+				? { lat: Number(initialLat), lng: Number(initialLng) }
+				: null,
 	});
 
-	const { city, region, zip, name, license, verifiedOnly, enrollmentOnly } =
-		filters;
-
-	/*
-  const selectedLicenses = useMemo(() => 
-    license ? license.split(",").filter(Boolean) : []
-  , [license]);
-  */
+	const { query, region, license, verifiedOnly, coords } = filters;
 
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
@@ -80,27 +81,9 @@ export function useCerca(): UseCercaReturn {
 	const autoSelectAttemptedRef = useRef(false);
 
 	useEffect(() => {
-		Promise.all([
-			fetch("/data/autoscuole.geojson").then((res) => {
-				if (!res.ok) throw new Error(`Failed to load schools: ${res.status}`);
-				return res.json() as Promise<SchoolsGeoJSON>;
-			}),
-			supabase
-				.from("driving_schools")
-				.select("*")
-				.eq("status", "accepted")
-				.then(({ data }) => data ?? []),
-		])
-			.then(([geojson, delta]) => {
-				const normalized = geojson.features.map((f) => {
-					const s = normalizeSchool(f);
-					return {
-						...s,
-						region:
-							s.region || getRegionForCoords(s.latlng[0], s.latlng[1]) || "",
-					};
-				});
-				allSchoolsRef.current = mergeDelta(normalized, delta);
+		loadAllSchools()
+			.then((schools) => {
+				allSchoolsRef.current = schools;
 				setLoading(false);
 				setLoadTick((t) => t + 1);
 			})
@@ -137,17 +120,19 @@ export function useCerca(): UseCercaReturn {
 			setSearchParams(
 				(p) => {
 					const n = new URLSearchParams(p);
-					filters.city ? n.set("city", filters.city) : n.delete("city");
+					filters.query ? n.set("q", filters.query) : n.delete("q");
 					filters.region ? n.set("region", filters.region) : n.delete("region");
-					filters.zip ? n.set("zip", filters.zip) : n.delete("zip");
-					filters.name ? n.set("q", filters.name) : n.delete("q");
 					filters.license
 						? n.set("license", filters.license)
 						: n.delete("license");
 					filters.verifiedOnly ? n.set("verified", "1") : n.delete("verified");
-					filters.enrollmentOnly
-						? n.set("enrollment", "1")
-						: n.delete("enrollment");
+					if (filters.coords) {
+						n.set("lat", filters.coords.lat.toFixed(5));
+						n.set("lng", filters.coords.lng.toFixed(5));
+					} else {
+						n.delete("lat");
+						n.delete("lng");
+					}
 					// Keep the selected school shareable/restorable via the URL.
 					// While the initial deep link hasn't been consumed yet (data
 					// still loading), leave its placeId in place instead of
@@ -174,80 +159,53 @@ export function useCerca(): UseCercaReturn {
 			schools = schools.filter((s) => s.region === region);
 		}
 
-		if (city) {
-			const lower = city.toLowerCase();
-			schools = schools.filter((s) => s.city.toLowerCase() === lower);
+		if (coords) {
+			// A pinned place (from geocode suggestion or "locate me") — radius
+			// search by real distance instead of exact-string city matching.
+			schools = schools
+				.map((s) => ({ s, distanceKm: haversineKm([coords.lat, coords.lng], s.latlng) }))
+				.filter(({ distanceKm }) => distanceKm <= DEFAULT_RADIUS_KM)
+				.sort((a, b) => a.distanceKm - b.distanceKm)
+				.map(({ s }) => s);
+		} else if (query.trim()) {
+			const lower = query.toLowerCase();
+			schools = schools.filter(
+				(s) =>
+					s.name.toLowerCase().includes(lower) ||
+					s.city.toLowerCase().includes(lower),
+			);
 		}
-
-		if (zip) {
-			schools = schools.filter((s) => s.zip.startsWith(zip));
-		}
-
-		if (name) {
-			const lower = name.toLowerCase();
-			schools = schools.filter((s) => s.name.toLowerCase().includes(lower));
-		}
-
-		/*
-    if (selectedLicenses.length > 0) {
-      schools = schools.filter((s) => 
-        s.licenses && selectedLicenses.every(l => s.licenses?.includes(l))
-      );
-    }
-    */
 
 		if (verifiedOnly) {
 			schools = schools.filter((s) => s.partner === true);
 		}
 
-		if (enrollmentOnly) {
-			schools = schools.filter((s) => s.enrollment_enabled === true);
-		}
-
+		// Distance search already sorts by proximity; otherwise surface
+		// verified/enrollment-enabled schools first.
+		if (coords) return schools;
 		return [...schools].sort((a, b) => {
 			const aScore = (b.enrollment_enabled ? 2 : 0) + (b.partner ? 1 : 0);
 			const bScore = (a.enrollment_enabled ? 2 : 0) + (a.partner ? 1 : 0);
 			return aScore - bScore;
 		});
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [
-		city,
-		region,
-		zip,
-		name,
-		license,
-		verifiedOnly,
-		enrollmentOnly,
-		loadTick,
-	]);
+	}, [query, region, coords, verifiedOnly, loadTick]);
 
-	// City options for autocomplete — filtered by selected region and zip
-	const cityOptions = useMemo(() => {
-		let source = allSchoolsRef.current;
-		if (region) source = source.filter((s) => s.region === region);
-		if (zip) source = source.filter((s) => s.zip.startsWith(zip));
-		if (name) {
-			const lower = name.toLowerCase();
-			source = source.filter((s) => s.name.toLowerCase().includes(lower));
-		}
-		return [...new Set(source.map((s) => s.city).filter(Boolean))].sort();
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [region, zip, name, loadTick]);
+	const setQuery = useCallback((v: string) => {
+		// Typing invalidates a previously pinned place — fall back to free-text
+		// name/city matching until the user picks a new suggestion.
+		setFilters((f) => ({ ...f, query: v, coords: null }));
+	}, []);
 
-	const setCity = useCallback((v: string) => {
-		setFilters((f) => ({ ...f, city: v }));
+	const setPlace = useCallback((place: PlaceSelection) => {
+		setFilters((f) => ({
+			...f,
+			query: place.label,
+			coords: { lat: place.lat, lng: place.lng },
+		}));
 	}, []);
 
 	const setRegion = useCallback((v: string) => {
-		setFilters((f) => ({ ...f, region: v, city: "" }));
-	}, []);
-
-	const setZip = useCallback((v: string) => {
-		setFilters((f) => ({ ...f, zip: v }));
-	}, []);
-
-	const setName = useCallback((v: string) => {
-		setFilters((f) => ({ ...f, name: v }));
+		setFilters((f) => ({ ...f, region: v }));
 	}, []);
 
 	const setLicense = useCallback((v: string) => {
@@ -266,43 +224,32 @@ export function useCerca(): UseCercaReturn {
 		setFilters((f) => ({ ...f, verifiedOnly: v }));
 	}, []);
 
-	const setEnrollmentOnly = useCallback((v: boolean) => {
-		setFilters((f) => ({ ...f, enrollmentOnly: v }));
-	}, []);
-
 	const clearFilters = useCallback(() => {
 		setFilters({
-			city: "",
+			query: "",
 			region: "",
-			zip: "",
-			name: "",
 			license: "",
-			verifiedOnly: false,
-			enrollmentOnly: false,
+			verifiedOnly: forceVerifiedOnly,
+			coords: null,
 		});
-	}, []);
+	}, [forceVerifiedOnly]);
 
 	return {
-		city,
+		query,
 		region,
-		zip,
-		name,
 		license,
 		verifiedOnly,
-		enrollmentOnly,
+		coords,
 		results,
-		cityOptions,
 		selected,
 		deepLinkPlaceId,
 		loading,
 		error,
-		setCity,
+		setQuery,
+		setPlace,
 		setRegion,
-		setZip,
-		setName,
 		setLicense,
 		setVerifiedOnly,
-		setEnrollmentOnly,
 		setSelected,
 		clearFilters,
 	};

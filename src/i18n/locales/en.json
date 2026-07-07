@@ -245,8 +245,7 @@
    "clearAll": "Clear filters",
    "outsideItaly": "Sorry, there are no driving schools in your area.",
    "allSchools": "All schools",
-   "partnerOnly": "Verified schools",
-   "enrollmentOnly": "Online enrolment active"
+   "partnerOnly": "Verified schools"
   },
   "card": {
    "callLabel": "Call",
