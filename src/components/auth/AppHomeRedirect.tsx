@@ -13,6 +13,7 @@ export function AppHomeRedirect() {
 	if (role === "autoscuola")
 		return <Navigate to="/app/driving-school" replace />;
 	if (role === "student") return <Navigate to="/app/student" replace />;
+	if (role === "admin") return <Navigate to="/admin" replace />;
 
 	// Role not yet provisioned — same fallback as ProtectedRoute.
 	return <Navigate to="/app/login" replace />;

@@ -4,7 +4,7 @@ import { useProfile } from "@/hooks/useProfile";
 
 interface ProtectedRouteProps {
 	children: React.ReactNode;
-	requiredRole?: "student" | "autoscuola";
+	requiredRole?: "student" | "autoscuola" | "admin";
 	requireApproved?: boolean;
 }
 

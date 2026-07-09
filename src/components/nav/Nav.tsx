@@ -39,7 +39,7 @@ const NAV_LINKS: { href: string; label: string; icon: LucideIcon }[] = [
 export function Nav() {
 	const { t } = useTranslation();
 	const { pathname } = useLocation();
-	const isInApp = pathname.startsWith("/app");
+	const isInApp = pathname.startsWith("/app") || pathname.startsWith("/admin");
 	const { role } = useProfile();
 	const brandVariant =
 		isInApp && role === "autoscuola" ? "autoscuola" : "default";

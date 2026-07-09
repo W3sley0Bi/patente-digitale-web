@@ -38,6 +38,7 @@ const DrivingSchoolSettings = lazy(
 	() => import("./routes/DrivingSchoolSettings"),
 );
 const ClaimStudent = lazy(() => import("./routes/ClaimStudent"));
+const AdminDashboard = lazy(() => import("./routes/AdminDashboard"));
 const NotFound = lazy(() => import("./routes/NotFound"));
 const ServerError = lazy(() => import("./routes/ServerError"));
 
@@ -176,6 +177,14 @@ function App() {
 								element={
 									<ProtectedRoute>
 										<SetPassword />
+									</ProtectedRoute>
+								}
+							/>
+							<Route
+								path="/admin"
+								element={
+									<ProtectedRoute requiredRole="admin">
+										<AdminDashboard />
 									</ProtectedRoute>
 								}
 							/>
