@@ -21,7 +21,7 @@ type Step =
 
 // localStorage so it survives new-tab email link opens
 const MANUAL_SCHOOL_KEY = "claim_manual_school";
-const BASE_URL = `${window.location.origin}/signup/driving-school`;
+const BASE_URL = `${window.location.origin}/app/signup/driving-school`;
 
 function extractDomain(website: string): string {
 	try {
